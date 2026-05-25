@@ -1,14 +1,13 @@
-
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mashiro</title>
 <style>
   @font-face {
-    font-family: 'Meddon Custom';
-    src: url('Meddon-Regular.ttf') format('truetype');
+    font-family: "Meddon Custom";
+    src: url("Meddon-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -16,51 +15,72 @@
 
   :root {
     --bg: #f4f3f0;
+    --surface: #fbfaf7;
+    --surface-soft: #efeee9;
+    --surface-muted: #ebeae6;
+    --surface-inset: #e7e6e1;
     --fg: #333331;
     --fg-strong: #20201e;
     --muted: #686866;
     --soft: #999995;
     --border: #dad9d5;
     --border-soft: #e5e4e0;
-    --surface: #fbfaf7;
-    --surface-soft: #efeee9;
-    --project-bg: #ebeae6;
-    --project-ink: #20201e;
-    --toggle-bg: rgba(244, 243, 240, 0.78);
-    --card-title-gap: 6px;
-    --card-block-gap: 12px;
-    --motion-quick: 160ms;
+    --border-strong: #aaa9a2;
+    --control-bg: rgba(244, 243, 240, 0.78);
+    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--fg-strong) 14%, transparent);
     --motion-base: 180ms;
     --motion-slow: 280ms;
     --ease-standard: cubic-bezier(.2, .8, .2, 1);
-    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--fg-strong) 14%, transparent);
+    --font-serif: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif CN", serif;
+    --font-signature: "Meddon Custom", cursive;
+    --card-title-size: 18px;
+    --card-title-line: 1.25;
+    --card-subtitle-size: 13px;
+    --card-subtitle-line: 1.55;
+    --card-title-gap: 6px;
+    --card-block-gap: 12px;
   }
 
   html[data-theme="dark"] {
     --bg: #181817;
+    --surface: #20201e;
+    --surface-soft: #242421;
+    --surface-muted: #292824;
+    --surface-inset: #141413;
     --fg: #e5e3de;
     --fg-strong: #f4f2ec;
     --muted: #bbb7ad;
     --soft: #8f8b83;
     --border: #383733;
     --border-soft: #292824;
-    --surface: #20201e;
-    --surface-soft: #242421;
-    --project-bg: #292824;
-    --project-ink: #f4f2ec;
-    --toggle-bg: rgba(24, 24, 23, 0.78);
+    --border-strong: #5c5952;
+    --control-bg: rgba(24, 24, 23, 0.78);
   }
 
   * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-serif);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    transition: background var(--motion-slow) var(--ease-standard), color var(--motion-slow) var(--ease-standard);
   }
 
   @media (prefers-reduced-motion: reduce) {
     * {
       transition-duration: 0ms !important;
       animation-duration: 0ms !important;
+      scroll-behavior: auto !important;
     }
   }
 
@@ -142,54 +162,47 @@
     box-shadow: var(--focus-ring);
   }
 
-  body {
-    background:
-      radial-gradient(circle at 12% 0%, rgba(0, 0, 0, 0.025), transparent 34%),
-      linear-gradient(180deg, #fbfaf7 0%, var(--bg) 44%, var(--bg) 100%);
-    color: var(--fg);
-    font-family: Georgia, 'Times New Roman', 'Noto Serif SC', 'Source Han Serif CN', serif;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-    transition: background var(--motion-slow) var(--ease-standard), color var(--motion-slow) var(--ease-standard);
+  a {
+    color: var(--fg-strong);
+    text-decoration: underline;
+    text-decoration-color: var(--soft);
+    text-underline-offset: 3px;
+    transition: color var(--motion-base) var(--ease-standard), text-decoration-color var(--motion-base) var(--ease-standard);
   }
 
-  html[data-theme="dark"] body {
-    background:
-      radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.035), transparent 34%),
-      var(--bg);
+  a:hover {
+    text-decoration-color: var(--fg-strong);
   }
 
-  .page {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 80px 40px 60px;
-    position: relative;
+  button {
+    font: inherit;
   }
 
   .theme-toggle {
     position: fixed;
     top: 24px;
     right: 24px;
-    z-index: 10;
+    z-index: 20;
     width: 38px;
     height: 38px;
-    appearance: none;
+    padding: 0;
     border: 1px solid var(--border);
-    background: var(--toggle-bg);
-    color: var(--muted);
-    backdrop-filter: blur(10px);
     border-radius: 999px;
+    background: var(--control-bg);
+    color: var(--muted);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: color var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard), background var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
+    appearance: none;
+    backdrop-filter: blur(10px);
+    transition: transform var(--motion-base) var(--ease-standard), color var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard), background var(--motion-base) var(--ease-standard);
   }
 
   .theme-toggle:hover {
-    color: var(--fg-strong);
-    border-color: var(--fg-strong);
     transform: translateY(-1px);
+    color: var(--fg-strong);
+    border-color: var(--border-strong);
   }
 
   .theme-toggle svg {
@@ -198,10 +211,7 @@
     display: block;
   }
 
-  .theme-toggle .icon-sun {
-    display: none;
-  }
-
+  .theme-toggle .icon-sun,
   html[data-theme="dark"] .theme-toggle .icon-moon {
     display: none;
   }
@@ -210,175 +220,204 @@
     display: block;
   }
 
-  .lead {
-    margin-bottom: 64px;
-    position: relative;
+  .page {
+    width: min(960px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 74px 0 56px;
   }
 
-  .lead-name {
-    font-family: 'Meddon Custom', cursive;
-    font-weight: 400;
-    font-size: clamp(78px, 13vw, 132px);
-    letter-spacing: 0;
-    color: var(--fg-strong);
-    line-height: 1.05;
+  .signature {
+    margin: 0 0 64px;
+    padding-right: 72px;
+  }
+
+  .signature-mark {
     display: block;
     margin-left: -10px;
-    text-wrap: balance;
+    color: var(--fg-strong);
+    font-family: var(--font-signature);
+    font-size: 124px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .section {
+    padding: 0 0 68px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-head {
+    max-width: 760px;
+    margin-bottom: 34px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   .section-label {
-    width: max-content;
+    margin: 0;
+    color: var(--soft);
     display: inline-flex;
     align-items: center;
     gap: 10px;
     font-size: 12px;
     line-height: 1.25;
+    letter-spacing: 0;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--soft);
-    margin-bottom: 30px;
-    font-weight: 400;
   }
 
   .section-label::after {
-    content: '';
+    content: "";
     width: 32px;
     height: 1.5px;
     background: var(--fg-strong);
-    opacity: 0.72;
+    opacity: .72;
     transform: translateY(1px);
   }
 
+  .section-title {
+    margin: 0;
+    max-width: 760px;
+    color: var(--fg-strong);
+    font-size: 44px;
+    line-height: 1.08;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .project-list {
+    display: grid;
+    gap: 20px;
+  }
+
   .project {
-    padding: 28px 0;
-    border-bottom: 1px solid var(--border-soft);
+    display: grid;
+    grid-template-columns: minmax(220px, .62fr) minmax(0, 1fr);
+    gap: 22px;
+    align-items: stretch;
+    padding: 18px 0;
+    border-top: 1px solid var(--border-soft);
   }
 
-  .project:last-of-type {
-    border-bottom: none;
+  .project:first-child {
+    border-top-color: var(--border);
   }
 
-  .project-image {
-    width: 100%;
+  .project-preview {
+    min-height: 180px;
     aspect-ratio: 16 / 10;
-    background: var(--project-bg);
+    border: 1px solid var(--border);
     border-radius: 4px;
-    margin-bottom: 16px;
+    background: var(--surface-muted);
     position: relative;
     overflow: hidden;
   }
 
-  .project-image::before {
-    content: '';
+  .project-preview::before {
+    content: "";
     position: absolute;
     inset: 18px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-soft);
     border-radius: 4px;
   }
 
-  .project-image::after {
-    content: '';
+  .project-preview::after {
+    content: "";
     position: absolute;
     left: 18px;
     bottom: 18px;
     width: 72px;
-    height: 2px;
-    background: var(--project-ink);
-    opacity: 0.55;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--fg-strong);
+    opacity: .38;
+  }
+
+  .project-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6px 0;
   }
 
   .project-title {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.25;
-    margin-bottom: var(--card-title-gap);
+    margin: 0 0 var(--card-title-gap);
     color: var(--fg-strong);
-  }
-
-  .project-title-en {
-    font-size: 13px;
-    color: var(--soft);
-    font-style: normal;
+    font-size: var(--card-title-size);
+    line-height: var(--card-title-line);
+    font-weight: 400;
   }
 
   .project-meta {
-    font-size: 13px;
+    margin: 0;
     color: var(--muted);
-    line-height: 1.55;
+    font-size: var(--card-subtitle-size);
+    line-height: var(--card-subtitle-line);
   }
 
-  a {
+  .project-link {
+    width: max-content;
+    margin-top: var(--card-block-gap);
+    font-size: 13px;
+  }
+
+  .footer {
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    color: var(--soft);
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+
+  .footer a {
+    color: var(--muted);
+    text-decoration-color: transparent;
+  }
+
+  .footer a:hover {
     color: var(--fg-strong);
-    text-decoration: underline;
-    text-underline-offset: 3px;
     text-decoration-color: var(--soft);
   }
 
-  a:hover {
-    text-decoration-color: var(--fg-strong);
-  }
-
-  .github-link {
+  .footer-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
 
-  .project-section {
-    margin-bottom: 64px;
-  }
-
-  .more-link {
-    margin-top: 20px;
-    font-size: 13px;
-    color: var(--soft);
-  }
-
-  .github-link svg {
+  .footer-link svg {
     width: 15px;
     height: 15px;
-    flex: 0 0 auto;
-  }
-
-  footer {
-    margin-top: 72px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px 12px;
-    flex-wrap: wrap;
-    font-size: 12px;
-    color: var(--soft);
-    letter-spacing: 0.04em;
-  }
-
-  footer a {
-    color: var(--muted);
-    text-decoration-color: transparent;
-  }
-
-  footer a:hover {
-    color: var(--fg-strong);
-    text-decoration-color: var(--soft);
   }
 
   .footer-divider {
     color: var(--soft);
-    opacity: 0.72;
+    opacity: .72;
+  }
+
+  @media (max-width: 760px) {
+    .signature-mark {
+      font-size: 104px;
+    }
+
+    .project {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .project-copy {
+      padding: 0;
+    }
   }
 
   @media (max-width: 640px) {
-    .page {
-      padding: 56px 24px 40px;
-    }
-
     .theme-toggle {
       top: 16px;
       right: 16px;
@@ -386,17 +425,35 @@
       height: 36px;
     }
 
-    .lead {
-      margin-bottom: 44px;
+    .page {
+      width: calc(100% - 44px);
+      padding: 56px 0 40px;
     }
 
-    .lead-name {
-      font-size: clamp(58px, 18vw, 82px);
+    .signature {
+      margin-bottom: 48px;
+      padding-right: 44px;
+    }
+
+    .signature-mark {
       margin-left: -4px;
+      font-size: 76px;
       line-height: 1.12;
     }
 
-    footer {
+    .section {
+      padding-bottom: 54px;
+    }
+
+    .section-title {
+      font-size: 34px;
+    }
+
+    .project-preview {
+      min-height: 0;
+    }
+
+    .footer {
       justify-content: flex-start;
       line-height: 1.9;
     }
@@ -404,7 +461,7 @@
 </style>
 </head>
 <body>
-<button class="theme-toggle" type="button" aria-label="切换暗黑模式" id="themeToggle">
+<button class="theme-toggle" type="button" aria-label="Switch to dark mode" id="themeToggle">
   <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none">
     <path d="M20.3 15.1A7.6 7.6 0 0 1 8.9 3.7 8.9 8.9 0 1 0 20.3 15.1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
   </svg>
@@ -415,50 +472,51 @@
 </button>
 
 <div class="page">
+  <header class="signature">
+    <h1 class="signature-mark">Mashiro</h1>
+  </header>
 
-  <div class="lead">
-    <span class="lead-name">Mashiro</span>
-  </div>
+  <main>
+    <section class="section" aria-labelledby="works-title">
+      <div class="section-head">
+        <p class="section-label">Selected works</p>
+        <h2 class="section-title" id="works-title">A small index of quiet digital projects.</h2>
+      </div>
 
-  <section class="project-section">
-    <h2 class="section-label">精选作品 / selected works</h2>
+      <div class="project-list">
+        <article class="project">
+          <div class="project-preview" aria-label="Sked project preview"></div>
+          <div class="project-copy">
+            <h3 class="project-title">Sked</h3>
+            <p class="project-meta">Brand direction, app introduction page, interface composition · 2026</p>
+            <a class="project-link" href="sked-app.html">Open project</a>
+          </div>
+        </article>
 
-    <div class="project">
-      <div class="project-image" aria-label="Sked 项目预览占位"></div>
-      <p class="project-title">
-        Sked
-        <span class="project-title-en">/ sked</span>
-      </p>
-      <p class="project-meta">品牌设计 · 网页构建 · 2024</p>
-    </div>
+        <article class="project">
+          <div class="project-preview" aria-label="Design system preview"></div>
+          <div class="project-copy">
+            <h3 class="project-title">Design System</h3>
+            <p class="project-meta">Soft monochrome tokens, component specimens, responsive rules · 2026</p>
+            <a class="project-link" href="mashiro-design-preview.html">Open system</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
 
-    <div class="project">
-      <div class="project-image" aria-label="LibreWrite 项目预览占位"></div>
-      <p class="project-title">
-        LibreWrite
-        <span class="project-title-en">/ libre write</span>
-      </p>
-      <p class="project-meta">品牌设计 · 产品设计 · 2024</p>
-    </div>
-
-    <p class="more-link">
-      <a href="#">查看更多 / view all</a>
-    </p>
-  </section>
-
-  <footer>
-    <span>© 2025 Mashiro</span>
+  <footer class="footer">
+    <span>© 2026 Mashiro</span>
     <span class="footer-divider">·</span>
     <a href="mailto:hello@mashiro.me">hello@mashiro.me</a>
     <span class="footer-divider">·</span>
-    <a class="github-link" href="#" aria-label="GitHub">
+    <a class="footer-link" href="#" aria-label="GitHub">
       <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
         <path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.1.79-.25.79-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.57-.29-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.11-.12-.3-.52-1.49.11-3.08 0 0 .98-.31 3.2 1.19A11.1 11.1 0 0 1 12 5.94c.99 0 1.98.13 2.91.4 2.22-1.5 3.2-1.19 3.2-1.19.63 1.59.23 2.78.11 3.08.75.81 1.2 1.84 1.2 3.11 0 4.46-2.7 5.44-5.28 5.73.42.36.78 1.07.78 2.16v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/>
       </svg>
       GitHub
     </a>
   </footer>
-
 </div>
 
 <script>
@@ -467,13 +525,12 @@
 
   function applyTheme(theme) {
     root.setAttribute('data-theme', theme);
-    toggle.setAttribute('aria-label', theme === 'dark' ? '切换到浅色模式' : '切换到暗黑模式');
+    toggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     localStorage.setItem('mashiro-theme', theme);
   }
 
   const savedTheme = localStorage.getItem('mashiro-theme');
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
   applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
 
   toggle.addEventListener('click', () => {

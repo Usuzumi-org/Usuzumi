@@ -1,60 +1,78 @@
-
 <!doctype html>
 <html lang="zh-CN" data-language="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sked — App Introduction</title>
+<title>Sked - App Introduction</title>
 <style>
   :root {
     --bg: #f4f3f0;
+    --surface: #fbfaf7;
+    --surface-soft: #efeee9;
+    --surface-muted: #ebeae6;
+    --surface-inset: #e7e6e1;
     --fg: #333331;
     --fg-strong: #20201e;
     --muted: #686866;
     --soft: #999995;
     --border: #dad9d5;
     --border-soft: #e5e4e0;
-    --surface: #fbfaf7;
-    --surface-soft: #efeee9;
-    --surface-muted: #ebeae6;
-    --ink: #20201e;
+    --border-strong: #aaa9a2;
     --action-bg: #2f2f2c;
     --action-fg: #f7f6f1;
-    --toggle-bg: rgba(244, 243, 240, 0.78);
-    --card-title-gap: 6px;
-    --card-block-gap: 12px;
-    --motion-quick: 160ms;
+    --success-bg: #e4e8df;
+    --success-fg: #52604b;
+    --control-bg: rgba(244, 243, 240, 0.78);
+    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--fg-strong) 14%, transparent);
     --motion-base: 180ms;
     --motion-slow: 280ms;
     --ease-standard: cubic-bezier(.2, .8, .2, 1);
-    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--fg-strong) 14%, transparent);
+    --font-serif: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif CN", serif;
+    --card-title-size: 18px;
+    --card-title-line: 1.25;
+    --card-subtitle-size: 13px;
+    --card-subtitle-line: 1.55;
+    --card-title-gap: 6px;
+    --card-block-gap: 12px;
   }
 
   html[data-theme="dark"] {
     --bg: #181817;
+    --surface: #20201e;
+    --surface-soft: #242421;
+    --surface-muted: #292824;
+    --surface-inset: #141413;
     --fg: #e5e3de;
     --fg-strong: #f4f2ec;
     --muted: #bbb7ad;
     --soft: #8f8b83;
     --border: #383733;
     --border-soft: #292824;
-    --surface: #20201e;
-    --surface-soft: #242421;
-    --surface-muted: #292824;
-    --ink: #f4f2ec;
+    --border-strong: #5c5952;
     --action-bg: #f4f2ec;
     --action-fg: #181817;
-    --toggle-bg: rgba(24, 24, 23, 0.78);
+    --success-bg: #263024;
+    --success-fg: #c6d1bd;
+    --control-bg: rgba(24, 24, 23, 0.78);
   }
 
   * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
   }
 
   html {
     scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-serif);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    transition: background var(--motion-slow) var(--ease-standard), color var(--motion-slow) var(--ease-standard);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -143,96 +161,20 @@
     box-shadow: var(--focus-ring);
   }
 
-  body {
-    min-height: 100vh;
-    background:
-      radial-gradient(circle at 12% 0%, rgba(0, 0, 0, 0.025), transparent 34%),
-      linear-gradient(180deg, #fbfaf7 0%, var(--bg) 44%, var(--bg) 100%);
-    color: var(--fg);
-    font-family: Georgia, 'Times New Roman', 'Noto Serif SC', 'Source Han Serif CN', serif;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-    transition: background var(--motion-slow) var(--ease-standard), color var(--motion-slow) var(--ease-standard);
-  }
-
-  html[data-theme="dark"] body {
-    background:
-      radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.035), transparent 34%),
-      var(--bg);
-  }
-
   a {
     color: var(--fg-strong);
     text-decoration: underline;
-    text-underline-offset: 3px;
     text-decoration-color: var(--soft);
+    text-underline-offset: 3px;
+    transition: color var(--motion-base) var(--ease-standard), text-decoration-color var(--motion-base) var(--ease-standard);
   }
 
   a:hover {
     text-decoration-color: var(--fg-strong);
   }
 
-  .page {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 52px 40px 60px;
-    position: relative;
-  }
-
-  .floating-controls {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-    z-index: 10;
-    display: flex;
-    gap: 8px;
-  }
-
-  .icon-toggle {
-    width: 38px;
-    height: 38px;
-    appearance: none;
-    border: 1px solid var(--border);
-    background: var(--toggle-bg);
-    color: var(--muted);
-    backdrop-filter: blur(10px);
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: color var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard), background var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard);
-  }
-
-  .icon-toggle:hover {
-    color: var(--fg-strong);
-    border-color: var(--fg-strong);
-    transform: translateY(-1px);
-  }
-
-  .icon-toggle svg {
-    width: 17px;
-    height: 17px;
-    display: block;
-  }
-
-  .language-toggle {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .theme-toggle .icon-sun {
-    display: none;
-  }
-
-  html[data-theme="dark"] .theme-toggle .icon-moon {
-    display: none;
-  }
-
-  html[data-theme="dark"] .theme-toggle .icon-sun {
-    display: block;
+  button {
+    font: inherit;
   }
 
   [data-lang="en"] {
@@ -247,35 +189,91 @@
     display: inline;
   }
 
-  html[data-language="en"] p[data-lang="en"],
-  html[data-language="en"] span[data-lang="en"],
-  html[data-language="en"] h2[data-lang="en"],
-  html[data-language="en"] h3[data-lang="en"] {
+  .floating-controls {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 20;
+    display: flex;
+    gap: 8px;
+  }
+
+  .icon-button {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--control-bg);
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    appearance: none;
+    backdrop-filter: blur(10px);
+    transition: transform var(--motion-base) var(--ease-standard), color var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard), background var(--motion-base) var(--ease-standard);
+  }
+
+  .icon-button:hover {
+    transform: translateY(-1px);
+    color: var(--fg-strong);
+    border-color: var(--border-strong);
+  }
+
+  .icon-button svg {
+    width: 17px;
+    height: 17px;
     display: block;
   }
 
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 66px;
-    font-size: 13px;
-    color: var(--muted);
+  .language-toggle {
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
   }
 
-  .brand-mark {
+  .theme-toggle .icon-sun,
+  html[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
+  }
+
+  html[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+  }
+
+  .page {
+    width: min(1120px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 52px 0 60px;
+  }
+
+  .topbar {
+    min-height: 38px;
+    margin-bottom: 58px;
+    padding-right: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .brand-link {
     color: var(--fg-strong);
     text-decoration: none;
-    letter-spacing: 0.12em;
+    letter-spacing: 0;
     text-transform: uppercase;
   }
 
   .nav {
     display: flex;
-    gap: 22px;
+    align-items: center;
+    justify-content: flex-end;
     flex-wrap: wrap;
-    padding-right: 104px;
+    gap: 20px 24px;
   }
 
   .nav a {
@@ -288,131 +286,103 @@
   }
 
   .hero {
+    min-height: min(720px, calc(100vh - 110px));
+    padding-bottom: 68px;
+    border-bottom: 1px solid var(--border);
     display: grid;
-    grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+    grid-template-columns: minmax(0, .92fr) minmax(360px, 1.08fr);
     gap: clamp(42px, 7vw, 92px);
     align-items: center;
-    padding-bottom: 76px;
-    border-bottom: 1px solid var(--border);
   }
 
-  h1 {
-    font-size: clamp(84px, 13vw, 150px);
-    line-height: 0.86;
-    font-weight: 400;
-    letter-spacing: -0.055em;
+  .product-name {
+    margin: 0 0 26px;
     color: var(--fg-strong);
-    margin-bottom: 26px;
+    font-size: 132px;
+    font-weight: 400;
+    line-height: .86;
+    letter-spacing: 0;
   }
 
   .hero-copy {
     max-width: 520px;
+    margin: 0 0 28px;
+    color: var(--fg);
     font-size: 20px;
     line-height: 1.65;
-    color: var(--fg);
-    margin-bottom: 28px;
   }
 
   .download-actions {
-    max-width: 520px;
+    width: min(520px, 100%);
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
-    padding-top: 18px;
-    border-top: 1px solid var(--border);
   }
 
   .button {
     min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 10px 13px 11px;
     border: 1px solid color-mix(in srgb, var(--border) 86%, var(--fg-strong));
     border-radius: 7px;
-    color: var(--fg-strong);
     background: color-mix(in srgb, var(--surface) 72%, transparent);
-    text-decoration: none;
+    color: var(--fg-strong);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
     font-size: 13px;
     line-height: 1;
+    letter-spacing: 0;
+    text-decoration: none;
     white-space: nowrap;
-    letter-spacing: 0.005em;
-    transition: background var(--motion-base) var(--ease-standard), color var(--motion-base) var(--ease-standard), transform var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard);
+    transition: transform var(--motion-base) var(--ease-standard), background var(--motion-base) var(--ease-standard), border-color var(--motion-base) var(--ease-standard), color var(--motion-base) var(--ease-standard);
   }
 
   .button:hover {
+    transform: translateY(-1px);
     border-color: color-mix(in srgb, var(--fg-strong) 38%, var(--border));
     background: var(--surface);
     color: var(--fg-strong);
-    transform: translateY(-1px);
   }
 
-  .button-main {
+  .button-primary {
     border-color: var(--action-bg);
     background: var(--action-bg);
     color: var(--action-fg);
   }
 
-  .button-main:hover {
+  .button-primary:hover {
     border-color: var(--action-bg);
     background: color-mix(in srgb, var(--action-bg) 92%, var(--surface));
     color: var(--action-fg);
   }
 
-  .button-content {
-    display: inline-grid;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    align-items: center;
-    justify-content: center;
-    column-gap: 7px;
-    height: 18px;
-  }
-
   .button svg {
     width: 14px;
     height: 14px;
-    flex: 0 0 auto;
     display: block;
-    opacity: 0.86;
-    transform: translateY(0.2px);
+    flex: 0 0 auto;
   }
 
-  .button[aria-label="Google Play"] svg {
+  .button-google svg {
     width: 13px;
     height: 13px;
-    transform: translateY(0.1px);
   }
 
-  .button[aria-label="GitHub"] svg {
-    width: 14px;
-    height: 14px;
-    transform: translateY(-0.1px);
-  }
-
-  .button[aria-label="直接下载"] svg {
-    width: 14px;
-    height: 14px;
-    transform: translateY(0);
-  }
-
-  html[data-language="en"] .button[aria-label="直接下载"] svg {
-    transform: translateY(-0.1px);
-  }
-
-  .app-frame {
-    background: var(--surface);
+  .app-preview {
     border: 1px solid var(--border);
     border-radius: 10px;
+    background: var(--surface);
     padding: 18px;
-    box-shadow: none;
   }
 
   .app-window {
     min-height: 560px;
-    background: var(--bg);
     border: 1px solid var(--border-soft);
     border-radius: 4px;
+    background: var(--bg);
     overflow: hidden;
     display: grid;
     grid-template-rows: auto 1fr;
@@ -420,69 +390,78 @@
 
   .window-bar {
     height: 42px;
+    padding: 0 14px;
     border-bottom: 1px solid var(--border-soft);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 14px;
     color: var(--soft);
     font-size: 12px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
   }
 
-  .dots {
+  .window-dots {
     display: flex;
     gap: 6px;
   }
 
-  .dot {
+  .window-dots span {
     width: 7px;
     height: 7px;
     border-radius: 999px;
     background: var(--border);
   }
 
-  .app-content {
+  .mock-content {
     padding: 22px;
     display: grid;
     gap: 18px;
   }
 
-  .today-card {
+  .today-card,
+  .metric-card {
     border: 1px solid var(--border);
-    background: var(--surface);
     border-radius: 4px;
+    background: var(--surface);
+  }
+
+  .today-card {
     padding: 20px;
   }
 
-  .today-top {
+  .today-head {
+    margin-bottom: 18px;
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
-    margin-bottom: 18px;
   }
 
-  .mini-label {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  .micro-label {
+    margin: 0;
     color: var(--soft);
+    font-size: 11px;
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-transform: uppercase;
   }
 
-  .today-date {
+  .mock-date {
+    margin: 4px 0 0;
+    color: var(--fg-strong);
     font-size: 30px;
     line-height: 1.1;
-    color: var(--fg-strong);
-    margin-top: 4px;
   }
 
   .status-pill {
-    align-self: start;
+    padding: 4px 8px;
     border: 1px solid var(--border);
     border-radius: 999px;
-    color: var(--muted);
-    padding: 4px 8px;
+    color: var(--success-fg);
+    background: var(--success-bg);
     font-size: 12px;
+    line-height: 1.4;
+    white-space: nowrap;
   }
 
   .timeline {
@@ -491,55 +470,59 @@
   }
 
   .task {
-    display: grid;
-    grid-template-columns: 52px 1fr;
-    gap: 14px;
     padding-top: 12px;
     border-top: 1px solid var(--border-soft);
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 14px;
   }
 
-  .time {
+  .task-time {
     color: var(--soft);
     font-size: 13px;
+    line-height: 1.45;
   }
 
   .task-title {
+    margin: 0 0 var(--card-title-gap);
     color: var(--fg-strong);
     font-size: 15px;
     line-height: 1.3;
-    margin-bottom: var(--card-title-gap);
+    font-weight: 400;
   }
 
   .task-note {
+    margin: 0;
     color: var(--muted);
     font-size: 13px;
     line-height: 1.45;
   }
 
-  .split-cards {
+  .metric-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
   }
 
-  .mini-card {
-    border: 1px solid var(--border-soft);
-    background: var(--surface-soft);
-    border-radius: 4px;
-    padding: 16px;
+  .metric-card {
     min-height: 112px;
+    padding: 16px;
+    background: var(--surface-soft);
+    border-color: var(--border-soft);
   }
 
-  .mini-number {
-    font-size: 30px;
-    color: var(--fg-strong);
-    line-height: 1;
+  .metric-value {
     margin: var(--card-block-gap) 0 var(--card-title-gap);
+    color: var(--fg-strong);
+    font-size: 30px;
+    line-height: 1;
   }
 
-  .mini-text {
+  .metric-text {
+    margin: 0;
     color: var(--muted);
     font-size: 13px;
+    line-height: 1.55;
   }
 
   .section {
@@ -548,91 +531,90 @@
   }
 
   .section:last-of-type {
-    border-bottom: none;
+    border-bottom: 0;
   }
 
   .section-head {
+    max-width: 780px;
+    margin-bottom: 34px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    max-width: 780px;
-    margin-bottom: 34px;
   }
 
   .section-label {
+    margin: 0;
+    color: var(--soft);
     display: inline-flex;
     align-items: center;
     gap: 10px;
     font-size: 12px;
     line-height: 1.25;
+    letter-spacing: 0;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--soft);
-    font-weight: 400;
   }
 
   .section-label::after {
-    content: '';
+    content: "";
     width: 32px;
     height: 1.5px;
     background: var(--fg-strong);
-    opacity: 0.72;
+    opacity: .72;
     transform: translateY(1px);
   }
 
-  h2 {
-    font-size: clamp(32px, 4vw, 52px);
+  .section-title {
+    margin: 0;
+    max-width: 780px;
+    color: var(--fg-strong);
+    font-size: 44px;
     line-height: 1.08;
     font-weight: 400;
     letter-spacing: 0;
-    color: var(--fg-strong);
-    max-width: 780px;
   }
 
-  .body-large {
+  .section-intro {
+    margin: 14px 0 0;
+    max-width: 700px;
     color: var(--fg);
     font-size: 18px;
     line-height: 1.65;
-    max-width: 700px;
-    margin-top: 14px;
   }
 
-  .feature-grid {
+  .feature-grid,
+  .screen-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
   }
 
   .feature {
-    border-top: 1px solid var(--border);
     padding-top: 18px;
+    border-top: 1px solid var(--border);
   }
 
-  .feature h3 {
-    font-size: 20px;
-    font-weight: 400;
+  .feature-title,
+  .screen-title {
+    margin: 0 0 var(--card-title-gap);
     color: var(--fg-strong);
-    line-height: 1.25;
-    margin-bottom: var(--card-title-gap);
+    font-size: var(--card-title-size);
+    line-height: var(--card-title-line);
+    font-weight: 400;
   }
 
-  .feature p {
+  .feature-text,
+  .screen-text {
+    margin: 0;
     color: var(--muted);
-    font-size: 14px;
-    line-height: 1.55;
+    font-size: var(--card-subtitle-size);
+    line-height: var(--card-subtitle-line);
   }
 
-  .screens {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-  }
-
-  .screen {
+  .screen-card {
     border: 1px solid var(--border);
-    background: var(--surface);
     border-radius: 4px;
+    background: var(--surface);
     padding: 14px;
   }
 
@@ -647,7 +629,7 @@
 
   .screen-art::before,
   .screen-art::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 16px;
     right: 16px;
@@ -663,74 +645,85 @@
     top: 62%;
   }
 
-  .screen-name {
-    margin: var(--card-block-gap) 0 var(--card-title-gap);
-    font-size: 15px;
-    line-height: 1.25;
-    color: var(--fg-strong);
+  .screen-mark {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 64px;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--fg-strong);
+    opacity: .32;
   }
 
-  .screen-desc {
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--muted);
+  .screen-title {
+    margin-top: var(--card-block-gap);
   }
 
-  footer {
+  .footer {
     padding-top: 24px;
     border-top: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px 12px;
     flex-wrap: wrap;
-    font-size: 12px;
+    gap: 10px 12px;
     color: var(--soft);
-    letter-spacing: 0.04em;
+    font-size: 12px;
+    letter-spacing: 0;
   }
 
-  footer a {
+  .footer a {
     color: var(--muted);
     text-decoration-color: transparent;
   }
 
-  footer a:hover {
+  .footer a:hover {
     color: var(--fg-strong);
     text-decoration-color: var(--soft);
   }
 
-  .github-link {
+  .footer-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
 
-  .github-link svg {
+  .footer-link svg {
     width: 15px;
     height: 15px;
-    flex: 0 0 auto;
   }
 
   .footer-divider {
     color: var(--soft);
-    opacity: 0.72;
+    opacity: .72;
   }
 
   @media (max-width: 920px) {
+    .page {
+      width: min(100% - 48px, 760px);
+    }
+
     .hero {
+      min-height: auto;
       grid-template-columns: 1fr;
       gap: 46px;
     }
 
+    .product-name {
+      font-size: 112px;
+    }
+
     .feature-grid,
-    .screens {
+    .screen-grid {
       grid-template-columns: 1fr;
     }
   }
 
   @media (max-width: 640px) {
     .page {
-      padding: 56px 24px 40px;
+      width: calc(100% - 44px);
+      padding: 56px 0 40px;
     }
 
     .floating-controls {
@@ -738,45 +731,41 @@
       right: 16px;
     }
 
-    .icon-toggle {
+    .icon-button {
       width: 36px;
       height: 36px;
     }
 
     .topbar {
+      margin-bottom: 54px;
+      padding-right: 0;
       align-items: flex-start;
       flex-direction: column;
       gap: 16px;
-      margin-bottom: 54px;
     }
 
     .nav {
-      padding-right: 0;
+      justify-content: flex-start;
     }
 
-    .hero {
-      padding-bottom: 54px;
-    }
-
-    h1 {
-      font-size: clamp(70px, 24vw, 96px);
+    .product-name {
+      font-size: 82px;
     }
 
     .hero-copy {
       font-size: 18px;
     }
 
-    .download-actions {
+    .download-actions,
+    .metric-grid {
       grid-template-columns: 1fr;
-      max-width: 360px;
     }
 
     .button {
       width: 100%;
-      justify-content: center;
     }
 
-    .app-frame {
+    .app-preview {
       padding: 10px;
     }
 
@@ -784,15 +773,24 @@
       min-height: 500px;
     }
 
-    .split-cards {
-      grid-template-columns: 1fr;
+    .mock-content {
+      padding: 16px;
+    }
+
+    .task {
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 12px;
     }
 
     .section {
       padding: 54px 0;
     }
 
-    footer {
+    .section-title {
+      font-size: 34px;
+    }
+
+    .footer {
       justify-content: flex-start;
       line-height: 1.9;
     }
@@ -800,10 +798,9 @@
 </style>
 </head>
 <body>
-<div class="floating-controls" aria-label="页面设置">
-  <button class="icon-toggle language-toggle" type="button" aria-label="切换语言" id="languageToggle">EN</button>
-
-  <button class="icon-toggle theme-toggle" type="button" aria-label="切换暗黑模式" id="themeToggle">
+<div class="floating-controls" aria-label="Page settings">
+  <button class="icon-button language-toggle" type="button" aria-label="Switch to English" id="languageToggle">EN</button>
+  <button class="icon-button theme-toggle" type="button" aria-label="Switch theme" id="themeToggle">
     <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none">
       <path d="M20.3 15.1A7.6 7.6 0 0 1 8.9 3.7 8.9 8.9 0 1 0 20.3 15.1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
     </svg>
@@ -816,8 +813,8 @@
 
 <div class="page">
   <header class="topbar">
-    <a class="brand-mark" href="index.html">Mashiro</a>
-    <nav class="nav" aria-label="页面导航">
+    <a class="brand-link" href="mashiro-homepage.html">Mashiro</a>
+    <nav class="nav" aria-label="Page navigation">
       <a href="#features">
         <span data-lang="zh">功能</span>
         <span data-lang="en">Features</span>
@@ -831,78 +828,71 @@
 
   <main>
     <section class="hero">
-      <div>
-        <h1>sked</h1>
+      <div class="hero-copy-block">
+        <h1 class="product-name">sked</h1>
         <p class="hero-copy">
-          <span data-lang="zh">Sked 是一个轻量日程与任务规划 App，用更少的控件、更清晰的节奏，帮你把今天真正重要的事排出来。</span>
+          <span data-lang="zh">Sked 是一个轻量的日程与任务规划 App，用更少的控件、更清晰的节奏，帮你把今天真正重要的事排出来。</span>
           <span data-lang="en">Sked is a lightweight scheduling and task-planning app that helps you arrange what truly matters today with fewer controls and a calmer rhythm.</span>
         </p>
-
-        <div class="download-actions" aria-label="下载方式">
-          <a class="button button-main" href="#" aria-label="Google Play">
-            <span class="button-content">
-              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-                <path d="M3.7 2.4c-.4.2-.7.7-.7 1.4v16.4c0 .7.3 1.2.7 1.4l9.6-9.6L3.7 2.4Zm10.5 8.7 2.5-2.5L5.4 2.2l8.8 8.9Zm2.5 4.3-2.5-2.5-8.8 8.9 11.3-6.4Zm1.1-.6 2.3-1.3c1.2-.7 1.2-1.7 0-2.4l-2.3-1.3-2.8 2.8 2.8 2.2Z"/>
-              </svg>
-              Google Play
-            </span>
+        <div class="download-actions" aria-label="Download options">
+          <a class="button button-primary button-google" href="#" aria-label="Google Play">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+              <path d="M3.7 2.4c-.4.2-.7.7-.7 1.4v16.4c0 .7.3 1.2.7 1.4l9.6-9.6L3.7 2.4Zm10.5 8.7 2.5-2.5L5.4 2.2l8.8 8.9Zm2.5 4.3-2.5-2.5-8.8 8.9 11.3-6.4Zm1.1-.6 2.3-1.3c1.2-.7 1.2-1.7 0-2.4l-2.3-1.3-2.8 2.8 2.8 2.2Z"/>
+            </svg>
+            Google Play
           </a>
           <a class="button" href="#" aria-label="GitHub">
-            <span class="button-content">
-              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-                <path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.1.79-.25.79-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.57-.29-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.11-.12-.3-.52-1.49.11-3.08 0 0 .98-.31 3.2 1.19A11.1 11.1 0 0 1 12 5.94c.99 0 1.98.13 2.91.4 2.22-1.5 3.2-1.19 3.2-1.19.63 1.59.23 2.78.11 3.08.75.81 1.2 1.84 1.2 3.11 0 4.46-2.7 5.44-5.28 5.73.42.36.78 1.07.78 2.16v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/>
-              </svg>
-              GitHub
-            </span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+              <path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.1.79-.25.79-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.57-.29-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.11-.12-.3-.52-1.49.11-3.08 0 0 .98-.31 3.2 1.19A11.1 11.1 0 0 1 12 5.94c.99 0 1.98.13 2.91.4 2.22-1.5 3.2-1.19 3.2-1.19.63 1.59.23 2.78.11 3.08.75.81 1.2 1.84 1.2 3.11 0 4.46-2.7 5.44-5.28 5.73.42.36.78 1.07.78 2.16v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/>
+            </svg>
+            GitHub
           </a>
-          <a class="button" href="#" aria-label="直接下载">
-            <span class="button-content">
-              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
-                <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 20h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span data-lang="zh">直接下载</span>
-              <span data-lang="en">Direct Download</span>
-            </span>
+          <a class="button" href="#" aria-label="Direct download">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+              <path d="M12 3v11m0 0 4-4m-4 4-4-4M5 20h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span data-lang="zh">直接下载</span>
+            <span data-lang="en">Direct Download</span>
           </a>
         </div>
       </div>
 
-      <div class="app-frame" aria-label="Sked app interface mockup">
+      <div class="app-preview" aria-label="Sked app interface mockup">
         <div class="app-window">
           <div class="window-bar">
-            <div class="dots" aria-hidden="true">
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
+            <div class="window-dots" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
             <span>SKED</span>
           </div>
-          <div class="app-content">
+          <div class="mock-content">
             <div class="today-card">
-              <div class="today-top">
+              <div class="today-head">
                 <div>
-                  <p class="mini-label">Today</p>
-                  <p class="today-date">Tue 18</p>
+                  <p class="micro-label">Today</p>
+                  <p class="mock-date">Tue 18</p>
                 </div>
                 <span class="status-pill">4 blocks</span>
               </div>
               <div class="timeline">
                 <div class="task">
-                  <span class="time">09:30</span>
+                  <span class="task-time">09:30</span>
                   <div>
                     <p class="task-title">Project review</p>
                     <p class="task-note">Release checklist</p>
                   </div>
                 </div>
                 <div class="task">
-                  <span class="time">11:00</span>
+                  <span class="task-time">11:00</span>
                   <div>
                     <p class="task-title">Deep work</p>
                     <p class="task-note">Planning notes</p>
                   </div>
                 </div>
                 <div class="task">
-                  <span class="time">15:20</span>
+                  <span class="task-time">15:20</span>
                   <div>
                     <p class="task-title">Inbox zero</p>
                     <p class="task-note">12 unread messages</p>
@@ -910,20 +900,19 @@
                 </div>
               </div>
             </div>
-
-            <div class="split-cards">
-              <div class="mini-card">
-                <p class="mini-label">Focus</p>
-                <p class="mini-number">72%</p>
-                <p class="mini-text">
+            <div class="metric-grid">
+              <div class="metric-card">
+                <p class="micro-label">Focus</p>
+                <p class="metric-value">72%</p>
+                <p class="metric-text">
                   <span data-lang="zh">今日计划完成度</span>
                   <span data-lang="en">planned work completed</span>
                 </p>
               </div>
-              <div class="mini-card">
-                <p class="mini-label">Next</p>
-                <p class="mini-number">25m</p>
-                <p class="mini-text">
+              <div class="metric-card">
+                <p class="micro-label">Next</p>
+                <p class="metric-value">25m</p>
+                <p class="metric-text">
                   <span data-lang="zh">下一段专注开始</span>
                   <span data-lang="en">until next focus block</span>
                 </p>
@@ -940,45 +929,43 @@
           <span data-lang="zh">功能</span>
           <span data-lang="en">Features</span>
         </p>
-        <div>
-          <h2>
-            <span data-lang="zh">不是再做一个日历，而是减少安排本身的摩擦。</span>
-            <span data-lang="en">Not another calendar — less friction around planning itself.</span>
-          </h2>
-          <p class="body-large">
-            <span data-lang="zh">Sked 的重点不是把所有事情塞进格子里，而是帮你看清时间、精力和优先级之间的关系。</span>
-            <span data-lang="en">Sked is not about fitting everything into boxes. It helps you see the relationship between time, energy, and priority.</span>
-          </p>
-        </div>
+        <h2 class="section-title">
+          <span data-lang="zh">不是再做一个日历，而是减少安排本身的摩擦。</span>
+          <span data-lang="en">Not another calendar, but less friction around planning itself.</span>
+        </h2>
+        <p class="section-intro">
+          <span data-lang="zh">Sked 的重点不是把所有事情塞进格子里，而是帮你看清时间、精力和优先级之间的关系。</span>
+          <span data-lang="en">Sked is not about fitting everything into boxes. It helps you see the relationship between time, energy, and priority.</span>
+        </p>
       </div>
 
       <div class="feature-grid">
         <article class="feature">
-          <h3>
-            <span data-lang="zh">日程块</span>
+          <h3 class="feature-title">
+            <span data-lang="zh">时间块</span>
             <span data-lang="en">Time blocks</span>
           </h3>
-          <p>
+          <p class="feature-text">
             <span data-lang="zh">用时间块组织一天，把会议、专注、零碎任务分开，不让清单吞掉日历。</span>
             <span data-lang="en">Organize the day with time blocks, separating meetings, focus work, and small tasks.</span>
           </p>
         </article>
         <article class="feature">
-          <h3>
+          <h3 class="feature-title">
             <span data-lang="zh">轻量复盘</span>
             <span data-lang="en">Lightweight review</span>
           </h3>
-          <p>
+          <p class="feature-text">
             <span data-lang="zh">每天结束时记录完成度、延期原因和明天最重要的一件事。</span>
             <span data-lang="en">At the end of the day, record progress, delays, and the one thing that matters tomorrow.</span>
           </p>
         </article>
         <article class="feature">
-          <h3>
+          <h3 class="feature-title">
             <span data-lang="zh">安静提醒</span>
             <span data-lang="en">Quiet alerts</span>
           </h3>
-          <p>
+          <p class="feature-text">
             <span data-lang="zh">提醒只在必要时出现，用低干扰的方式提示下一段安排。</span>
             <span data-lang="en">Notifications appear only when needed, quietly guiding you to the next block.</span>
           </p>
@@ -992,49 +979,47 @@
           <span data-lang="zh">界面</span>
           <span data-lang="en">Screens</span>
         </p>
-        <div>
-          <h2>
-            <span data-lang="zh">三个核心界面，覆盖从计划到复盘的完整流程。</span>
-            <span data-lang="en">Three core screens cover the full flow from planning to review.</span>
-          </h2>
-        </div>
+        <h2 class="section-title">
+          <span data-lang="zh">三个核心界面，覆盖从计划到复盘的完整流程。</span>
+          <span data-lang="en">Three core screens cover the full flow from planning to review.</span>
+        </h2>
       </div>
 
-      <div class="screens">
-        <article class="screen">
-          <div class="screen-art" aria-label="Today screen placeholder"></div>
-          <p class="screen-name">Today</p>
-          <p class="screen-desc">
+      <div class="screen-grid">
+        <article class="screen-card">
+          <div class="screen-art" aria-label="Today screen placeholder"><span class="screen-mark"></span></div>
+          <h3 class="screen-title">Today</h3>
+          <p class="screen-text">
             <span data-lang="zh">当天时间块、任务与下一步行动。</span>
-            <span data-lang="en">Today’s blocks, tasks, and next action.</span>
+            <span data-lang="en">Today's blocks, tasks, and next action.</span>
           </p>
         </article>
-        <article class="screen">
-          <div class="screen-art" aria-label="Plan screen placeholder"></div>
-          <p class="screen-name">Plan</p>
-          <p class="screen-desc">
-            <span data-lang="zh">快速拖拽任务到可用时间段。</span>
-            <span data-lang="en">Quickly drag tasks into available time slots.</span>
+        <article class="screen-card">
+          <div class="screen-art" aria-label="Plan screen placeholder"><span class="screen-mark"></span></div>
+          <h3 class="screen-title">Plan</h3>
+          <p class="screen-text">
+            <span data-lang="zh">快速把任务放进可用时间段。</span>
+            <span data-lang="en">Quickly place tasks into available time slots.</span>
           </p>
         </article>
-        <article class="screen">
-          <div class="screen-art" aria-label="Review screen placeholder"></div>
-          <p class="screen-name">Review</p>
-          <p class="screen-desc">
+        <article class="screen-card">
+          <div class="screen-art" aria-label="Review screen placeholder"><span class="screen-mark"></span></div>
+          <h3 class="screen-title">Review</h3>
+          <p class="screen-text">
             <span data-lang="zh">查看完成度与明日优先级。</span>
-            <span data-lang="en">Review progress and tomorrow’s priority.</span>
+            <span data-lang="en">Review progress and tomorrow's priority.</span>
           </p>
         </article>
       </div>
     </section>
   </main>
 
-  <footer>
-    <span>© 2025 Mashiro</span>
+  <footer class="footer">
+    <span>© 2026 Mashiro</span>
     <span class="footer-divider">·</span>
     <a href="mailto:hello@mashiro.me">hello@mashiro.me</a>
     <span class="footer-divider">·</span>
-    <a class="github-link" href="#" aria-label="GitHub">
+    <a class="footer-link" href="#" aria-label="GitHub">
       <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
         <path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.1.79-.25.79-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.57-.29-5.27-1.28-5.27-5.73 0-1.27.45-2.3 1.2-3.11-.12-.3-.52-1.49.11-3.08 0 0 .98-.31 3.2 1.19A11.1 11.1 0 0 1 12 5.94c.99 0 1.98.13 2.91.4 2.22-1.5 3.2-1.19 3.2-1.19.63 1.59.23 2.78.11 3.08.75.81 1.2 1.84 1.2 3.11 0 4.46-2.7 5.44-5.28 5.73.42.36.78 1.07.78 2.16v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/>
       </svg>
@@ -1050,7 +1035,7 @@
 
   function applyTheme(theme) {
     root.setAttribute('data-theme', theme);
-    themeToggle.setAttribute('aria-label', theme === 'dark' ? '切换到浅色模式' : '切换到暗黑模式');
+    themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     localStorage.setItem('sked-theme', theme);
   }
 

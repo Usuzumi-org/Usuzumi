@@ -1,0 +1,231 @@
+.msh-app,
+.msh-app *,
+.msh-app *::before,
+.msh-app *::after,
+.msh-scope,
+.msh-scope *,
+.msh-scope *::before,
+.msh-scope *::after {
+  box-sizing: border-box;
+}
+
+html.msh-root,
+.msh-app {
+  scroll-behavior: smooth;
+}
+
+.msh-app,
+.msh-scope {
+  background: var(--msh-bg);
+  color: var(--msh-fg);
+  font-family: var(--msh-font-serif);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.msh-app {
+  margin: 0;
+  min-height: 100vh;
+  transition: background var(--msh-motion-slow) var(--msh-ease-standard), color var(--msh-motion-slow) var(--msh-ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msh-app,
+  .msh-app *,
+  .msh-app *::before,
+  .msh-app *::after,
+  .msh-scope,
+  .msh-scope *,
+  .msh-scope *::before,
+  .msh-scope *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@supports (-moz-appearance: none) {
+  html.msh-root,
+  body.msh-app,
+  .msh-scroll,
+  .msh-table-wrap,
+  .msh-catalog-body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--msh-border) transparent;
+  }
+}
+
+html.msh-root::-webkit-scrollbar,
+body.msh-app::-webkit-scrollbar,
+.msh-scroll::-webkit-scrollbar,
+.msh-table-wrap::-webkit-scrollbar,
+.msh-catalog-body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html.msh-root::-webkit-scrollbar-button,
+body.msh-app::-webkit-scrollbar-button,
+.msh-scroll::-webkit-scrollbar-button,
+html.msh-root::-webkit-scrollbar-button:single-button,
+html.msh-root::-webkit-scrollbar-button:double-button,
+html.msh-root::-webkit-scrollbar-button:start:decrement,
+html.msh-root::-webkit-scrollbar-button:start:increment,
+html.msh-root::-webkit-scrollbar-button:end:decrement,
+html.msh-root::-webkit-scrollbar-button:end:increment,
+html.msh-root::-webkit-scrollbar-button:vertical:decrement,
+html.msh-root::-webkit-scrollbar-button:vertical:increment,
+html.msh-root::-webkit-scrollbar-button:vertical:start:decrement,
+html.msh-root::-webkit-scrollbar-button:vertical:start:increment,
+html.msh-root::-webkit-scrollbar-button:vertical:end:decrement,
+html.msh-root::-webkit-scrollbar-button:vertical:end:increment,
+html.msh-root::-webkit-scrollbar-button:horizontal:decrement,
+html.msh-root::-webkit-scrollbar-button:horizontal:increment,
+html.msh-root::-webkit-scrollbar-button:horizontal:start:decrement,
+html.msh-root::-webkit-scrollbar-button:horizontal:start:increment,
+html.msh-root::-webkit-scrollbar-button:horizontal:end:decrement,
+html.msh-root::-webkit-scrollbar-button:horizontal:end:increment,
+body.msh-app::-webkit-scrollbar-button:single-button,
+body.msh-app::-webkit-scrollbar-button:double-button,
+body.msh-app::-webkit-scrollbar-button:start:decrement,
+body.msh-app::-webkit-scrollbar-button:start:increment,
+body.msh-app::-webkit-scrollbar-button:end:decrement,
+body.msh-app::-webkit-scrollbar-button:end:increment,
+body.msh-app::-webkit-scrollbar-button:vertical:decrement,
+body.msh-app::-webkit-scrollbar-button:vertical:increment,
+body.msh-app::-webkit-scrollbar-button:vertical:start:decrement,
+body.msh-app::-webkit-scrollbar-button:vertical:start:increment,
+body.msh-app::-webkit-scrollbar-button:vertical:end:decrement,
+body.msh-app::-webkit-scrollbar-button:vertical:end:increment,
+body.msh-app::-webkit-scrollbar-button:horizontal:decrement,
+body.msh-app::-webkit-scrollbar-button:horizontal:increment,
+body.msh-app::-webkit-scrollbar-button:horizontal:start:decrement,
+body.msh-app::-webkit-scrollbar-button:horizontal:start:increment,
+body.msh-app::-webkit-scrollbar-button:horizontal:end:decrement,
+body.msh-app::-webkit-scrollbar-button:horizontal:end:increment,
+.msh-scroll::-webkit-scrollbar-button:single-button,
+.msh-scroll::-webkit-scrollbar-button:double-button,
+.msh-scroll::-webkit-scrollbar-button:start:decrement,
+.msh-scroll::-webkit-scrollbar-button:start:increment,
+.msh-scroll::-webkit-scrollbar-button:end:decrement,
+.msh-scroll::-webkit-scrollbar-button:end:increment,
+.msh-scroll::-webkit-scrollbar-button:vertical:decrement,
+.msh-scroll::-webkit-scrollbar-button:vertical:increment,
+.msh-scroll::-webkit-scrollbar-button:vertical:start:decrement,
+.msh-scroll::-webkit-scrollbar-button:vertical:start:increment,
+.msh-scroll::-webkit-scrollbar-button:vertical:end:decrement,
+.msh-scroll::-webkit-scrollbar-button:vertical:end:increment,
+.msh-scroll::-webkit-scrollbar-button:horizontal:decrement,
+.msh-scroll::-webkit-scrollbar-button:horizontal:increment,
+.msh-scroll::-webkit-scrollbar-button:horizontal:start:decrement,
+.msh-scroll::-webkit-scrollbar-button:horizontal:start:increment,
+.msh-scroll::-webkit-scrollbar-button:horizontal:end:decrement,
+.msh-scroll::-webkit-scrollbar-button:horizontal:end:increment,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:single-button,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:double-button,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:start:decrement,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:start:increment,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:end:decrement,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:end:increment,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:vertical:decrement,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:vertical:increment,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:vertical:start:decrement,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:vertical:start:increment,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:vertical:end:decrement,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:vertical:end:increment,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:horizontal:decrement,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:horizontal:increment,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:horizontal:start:decrement,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:horizontal:start:increment,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:horizontal:end:decrement,
+:where(.msh-table-wrap, .msh-catalog-body)::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent !important;
+  -webkit-appearance: none;
+}
+
+html.msh-root::-webkit-scrollbar-track,
+body.msh-app::-webkit-scrollbar-track,
+.msh-scroll::-webkit-scrollbar-track,
+.msh-table-wrap::-webkit-scrollbar-track,
+.msh-catalog-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.msh-root::-webkit-scrollbar-thumb,
+body.msh-app::-webkit-scrollbar-thumb,
+.msh-scroll::-webkit-scrollbar-thumb,
+.msh-table-wrap::-webkit-scrollbar-thumb,
+.msh-catalog-body::-webkit-scrollbar-thumb {
+  background: var(--msh-border);
+  border-radius: var(--msh-radius-micro);
+}
+
+html.msh-root::-webkit-scrollbar-thumb:hover,
+body.msh-app::-webkit-scrollbar-thumb:hover,
+.msh-scroll::-webkit-scrollbar-thumb:hover,
+.msh-table-wrap::-webkit-scrollbar-thumb:hover,
+.msh-catalog-body::-webkit-scrollbar-thumb:hover {
+  background: var(--msh-soft);
+}
+
+.msh-app ::selection,
+.msh-scope ::selection {
+  background: color-mix(in srgb, var(--msh-fg-strong) 18%, transparent);
+  color: var(--msh-fg-strong);
+}
+
+.msh-app :focus,
+.msh-scope :focus {
+  outline: none;
+}
+
+.msh-app :focus-visible,
+.msh-scope :focus-visible {
+  outline: none;
+  box-shadow: var(--msh-focus-ring);
+}
+
+.msh-app a,
+.msh-scope a {
+  color: var(--msh-fg-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--msh-soft);
+  text-underline-offset: 3px;
+  transition: color var(--msh-motion-base) var(--msh-ease-standard), text-decoration-color var(--msh-motion-base) var(--msh-ease-standard);
+}
+
+.msh-app a:hover,
+.msh-scope a:hover {
+  text-decoration-color: var(--msh-fg-strong);
+}
+
+.msh-app button,
+.msh-scope button,
+.msh-app input,
+.msh-scope input,
+.msh-app textarea,
+.msh-scope textarea,
+.msh-app select,
+.msh-scope select {
+  font: inherit;
+}
+
+.msh-app input,
+.msh-scope input,
+.msh-app textarea,
+.msh-scope textarea {
+  caret-color: var(--msh-fg-strong);
+}
+
+.msh-app ::placeholder,
+.msh-scope ::placeholder {
+  color: var(--msh-soft);
+  opacity: 1;
+}

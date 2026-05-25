@@ -1,0 +1,500 @@
+.msh-button {
+  min-height: 44px;
+  padding: 10px 13px 11px;
+  border: 1px solid color-mix(in srgb, var(--msh-border) 86%, var(--msh-fg-strong));
+  border-radius: var(--msh-radius-standard);
+  background: color-mix(in srgb, var(--msh-surface) 72%, transparent);
+  color: var(--msh-fg-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  transition: transform var(--msh-motion-base) var(--msh-ease-standard), background var(--msh-motion-base) var(--msh-ease-standard), border-color var(--msh-motion-base) var(--msh-ease-standard), color var(--msh-motion-base) var(--msh-ease-standard);
+}
+
+.msh-button:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--msh-fg-strong) 38%, var(--msh-border));
+  background: var(--msh-surface);
+  color: var(--msh-fg-strong);
+}
+
+.msh-button-primary {
+  border-color: var(--msh-action-bg);
+  background: var(--msh-action-bg);
+  color: var(--msh-action-fg);
+}
+
+.msh-button-primary:hover {
+  border-color: var(--msh-action-bg);
+  background: color-mix(in srgb, var(--msh-action-bg) 92%, var(--msh-surface));
+  color: var(--msh-action-fg);
+}
+
+.msh-button-ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--msh-muted);
+}
+
+.msh-button-danger {
+  border-color: color-mix(in srgb, var(--msh-danger) 35%, var(--msh-border));
+  background: var(--msh-danger-bg);
+  color: var(--msh-danger);
+}
+
+.msh-button svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.msh-text-link {
+  color: var(--msh-fg-strong);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.msh-text-link::after {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+  opacity: .55;
+  transition: width var(--msh-motion-base) var(--msh-ease-standard), opacity var(--msh-motion-base) var(--msh-ease-standard);
+}
+
+.msh-text-link:hover::after {
+  width: 26px;
+  opacity: .9;
+}
+
+.msh-icon-button {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-pill);
+  background: var(--msh-control-bg);
+  color: var(--msh-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  appearance: none;
+  backdrop-filter: blur(10px);
+  transition: transform var(--msh-motion-base) var(--msh-ease-standard), color var(--msh-motion-base) var(--msh-ease-standard), border-color var(--msh-motion-base) var(--msh-ease-standard), background var(--msh-motion-base) var(--msh-ease-standard);
+}
+
+.msh-icon-button:hover {
+  transform: translateY(-1px);
+  color: var(--msh-fg-strong);
+  border-color: var(--msh-border-strong);
+}
+
+.msh-icon-button svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+
+.msh-theme-toggle .msh-icon-sun,
+.msh-theme-toggle.is-dark .msh-icon-moon {
+  display: none;
+}
+
+.msh-theme-toggle.is-dark .msh-icon-sun {
+  display: block;
+}
+
+.msh-floating-controls {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+}
+
+.msh-card {
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-micro);
+  background: var(--msh-surface);
+  padding: 18px;
+}
+
+.msh-card-muted {
+  border-color: var(--msh-border-soft);
+  background: var(--msh-surface-soft);
+}
+
+.msh-preview-block {
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-micro);
+  background: var(--msh-surface-muted);
+  position: relative;
+  overflow: hidden;
+}
+
+.msh-preview-block::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid var(--msh-border-soft);
+  border-radius: var(--msh-radius-micro);
+}
+
+.msh-preview-block::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  width: 72px;
+  height: 4px;
+  border-radius: var(--msh-radius-micro);
+  background: var(--msh-fg-strong);
+  opacity: .38;
+}
+
+.msh-field {
+  display: grid;
+  gap: 7px;
+}
+
+.msh-label {
+  color: var(--msh-fg-strong);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.msh-input,
+.msh-textarea,
+.msh-select-trigger {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-standard);
+  background: var(--msh-surface);
+  color: var(--msh-fg);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.msh-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.msh-help {
+  margin: 0;
+  color: var(--msh-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.msh-select {
+  position: relative;
+}
+
+.msh-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.msh-select-menu {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  display: none;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-standard);
+  background: var(--msh-surface);
+  box-shadow: var(--msh-shadow-popover);
+}
+
+.msh-select.is-open .msh-select-menu {
+  display: grid;
+}
+
+.msh-select-option {
+  min-height: 34px;
+  padding: 7px 9px;
+  border-radius: var(--msh-radius-micro);
+  color: var(--msh-fg);
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.msh-select-option:hover {
+  background: var(--msh-surface-soft);
+  color: var(--msh-fg-strong);
+}
+
+.msh-select-option.is-selected {
+  background: var(--msh-fg-strong);
+  color: var(--msh-action-fg);
+}
+
+.msh-select-option.is-active:not(.is-selected) {
+  background: var(--msh-surface-soft);
+  color: var(--msh-fg-strong);
+}
+
+.msh-check-row {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--msh-fg);
+  font-size: 14px;
+}
+
+.msh-check-row input {
+  accent-color: var(--msh-action-bg);
+}
+
+.msh-switch {
+  width: 36px;
+  height: 20px;
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-pill);
+  background: var(--msh-surface-soft);
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  transition: background-color var(--msh-motion-base) var(--msh-ease-standard), border-color var(--msh-motion-base) var(--msh-ease-standard);
+}
+
+.msh-switch::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--msh-radius-pill);
+  background: var(--msh-surface);
+  transition: transform var(--msh-motion-base) var(--msh-ease-standard);
+}
+
+.msh-switch.is-on {
+  border-color: var(--msh-action-bg);
+  background: var(--msh-action-bg);
+}
+
+.msh-switch.is-on::after {
+  transform: translateX(16px);
+}
+
+.msh-badge {
+  min-height: 26px;
+  padding: 4px 8px;
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-pill);
+  color: var(--msh-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.msh-badge-success {
+  border-color: color-mix(in srgb, var(--msh-success) 30%, var(--msh-border));
+  background: var(--msh-success-bg);
+  color: var(--msh-success);
+}
+
+.msh-badge-warning {
+  border-color: color-mix(in srgb, var(--msh-warning) 30%, var(--msh-border));
+  background: var(--msh-warning-bg);
+  color: var(--msh-warning);
+}
+
+.msh-badge-danger {
+  border-color: color-mix(in srgb, var(--msh-danger) 30%, var(--msh-border));
+  background: var(--msh-danger-bg);
+  color: var(--msh-danger);
+}
+
+.msh-alert {
+  padding: 16px 18px;
+  border: 1px solid var(--msh-border);
+  border-left-width: 8px;
+  border-radius: var(--msh-radius-micro);
+  background: var(--msh-surface);
+}
+
+.msh-alert-info {
+  border-left-color: var(--msh-info);
+  background: color-mix(in srgb, var(--msh-info-bg) 55%, var(--msh-surface));
+}
+
+.msh-alert-danger {
+  border-left-color: var(--msh-danger);
+  background: color-mix(in srgb, var(--msh-danger-bg) 55%, var(--msh-surface));
+}
+
+.msh-tabs {
+  border-bottom: 1px solid var(--msh-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.msh-tab {
+  padding: 0 0 10px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: var(--msh-muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.msh-tab.is-active {
+  border-bottom-color: var(--msh-fg-strong);
+  color: var(--msh-fg-strong);
+}
+
+.msh-segmented {
+  padding: 3px;
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-medium);
+  background: var(--msh-surface-soft);
+  display: inline-flex;
+  gap: 3px;
+}
+
+.msh-segment {
+  min-height: 32px;
+  padding: 7px 11px;
+  border: 0;
+  border-radius: var(--msh-radius-standard);
+  background: transparent;
+  color: var(--msh-muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.msh-segment.is-active {
+  background: var(--msh-surface);
+  color: var(--msh-fg-strong);
+}
+
+.msh-table-wrap {
+  overflow-x: auto;
+}
+
+.msh-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.msh-table th,
+.msh-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--msh-border-soft);
+  text-align: left;
+}
+
+.msh-table th {
+  color: var(--msh-soft);
+  font-weight: 400;
+}
+
+.msh-popover,
+.msh-modal {
+  border: 1px solid var(--msh-border);
+  border-radius: var(--msh-radius-medium);
+  background: var(--msh-surface);
+  box-shadow: var(--msh-shadow-popover);
+}
+
+.msh-popover {
+  width: min(280px, 100%);
+  padding: 14px;
+}
+
+.msh-modal {
+  width: min(440px, 100%);
+  padding: 20px;
+}
+
+.msh-progress {
+  height: 8px;
+  border-radius: var(--msh-radius-micro);
+  background: var(--msh-surface-soft);
+  overflow: hidden;
+}
+
+.msh-progress-bar {
+  display: block;
+  width: var(--msh-progress-value, 64%);
+  height: 100%;
+  border-radius: var(--msh-radius-micro);
+  background: var(--msh-fg-strong);
+}
+
+.msh-progress-circular {
+  color: var(--msh-fg-strong);
+  display: inline-flex;
+}
+
+.msh-progress-circular .ring-track {
+  fill: none;
+  stroke: var(--msh-surface-soft);
+}
+
+.msh-progress-circular .ring-fill {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+
+@media (max-width: 640px) {
+  .msh-floating-controls {
+    top: 16px;
+    right: 16px;
+  }
+
+  .msh-icon-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .msh-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msh-button:hover,
+  .msh-icon-button:hover {
+    transform: none;
+  }
+}

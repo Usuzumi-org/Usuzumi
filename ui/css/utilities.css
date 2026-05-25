@@ -1,0 +1,77 @@
+.msh-hidden {
+  display: none !important;
+}
+
+.msh-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.msh-flex {
+  display: flex;
+}
+
+.msh-wrap {
+  flex-wrap: wrap;
+}
+
+.msh-center {
+  display: grid;
+  place-items: center;
+}
+
+.msh-gap-2 {
+  gap: 8px;
+}
+
+.msh-gap-3 {
+  gap: 12px;
+}
+
+.msh-gap-4 {
+  gap: 16px;
+}
+
+.msh-gap-5 {
+  gap: 20px;
+}
+
+.msh-mt-block {
+  margin-top: var(--msh-card-block-gap);
+}
+
+.msh-no-border {
+  border: 0 !important;
+}
+
+.msh-surface {
+  background: var(--msh-surface);
+}
+
+.msh-surface-soft {
+  background: var(--msh-surface-soft);
+}
+
+.msh-surface-muted {
+  background: var(--msh-surface-muted);
+}
+
+html[data-msh-lang="en"] .msh-app [data-lang="zh"],
+html[data-language="en"] .msh-app [data-lang="zh"],
+.msh-app[data-msh-lang="en"] [data-lang="zh"],
+.msh-scope[data-msh-lang="en"] [data-lang="zh"],
+.msh-scope[data-language="en"] [data-lang="zh"],
+html[data-msh-lang="zh"] .msh-app [data-lang="en"],
+html[data-language="zh"] .msh-app [data-lang="en"],
+.msh-app[data-msh-lang="zh"] [data-lang="en"],
+.msh-scope[data-msh-lang="zh"] [data-lang="en"],
+.msh-scope[data-language="zh"] [data-lang="en"] {
+  display: none !important;
+}

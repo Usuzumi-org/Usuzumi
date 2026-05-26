@@ -65,16 +65,25 @@
     <section class="msh-section">
       <div class="msh-section-head">
         <p class="msh-section-label">02 / Typography</p>
-        <h2 class="msh-section-title">Serif hierarchy, fixed title rhythm, and one reserved signature face.</h2>
+        <h2 class="msh-section-title">Typography sets the reading rhythm.</h2>
+        <p class="msh-body-large">Display faces are shown as specimens, while body roles stay close to the layout they are meant to serve.</p>
       </div>
-      <div class="msh-grid msh-grid-2">
-        <article class="msh-card">
-          <p class="msh-signature">Mashiro</p>
-          <div class="msh-title-pair msh-mt-block"><h3>Signature</h3><p>Meddon Custom is reserved for identity marks only.</p></div>
+      <div class="msh-type-list">
+        <article class="msh-type-row">
+          <div class="msh-title-pair"><h3>Signature</h3><p>Meddon Custom is reserved for identity marks and open hero space.</p></div>
+          <p class="msh-type-sample msh-type-sample-signature">Mashiro</p>
         </article>
-        <article class="msh-card">
-          <h3 class="msh-hero-title">quiet</h3>
-          <p class="msh-body-large msh-mt-block">Hero titles are large, left-aligned, and restrained.</p>
+        <article class="msh-type-row">
+          <div class="msh-title-pair"><h3>Hero title</h3><p>Use for product names, offers, and first-viewport statements.</p></div>
+          <p class="msh-type-sample msh-type-sample-hero">quiet</p>
+        </article>
+        <article class="msh-type-row">
+          <div class="msh-title-pair"><h3>Page title</h3><p>Use for documentation pages, catalogs, and major page headings.</p></div>
+          <p class="msh-type-sample msh-type-sample-page">System catalog</p>
+        </article>
+        <article class="msh-type-row">
+          <div class="msh-title-pair"><h3>Body text</h3><p>Reading copy keeps a long line calm and evenly spaced.</p></div>
+          <p class="msh-type-sample msh-type-sample-body">Soft monochrome interfaces rely on spacing, tone, and type rhythm before decoration.</p>
         </article>
       </div>
     </section>
@@ -89,9 +98,14 @@
         <button class="msh-button" type="button">Default</button>
         <button class="msh-button msh-button-ghost" type="button">Ghost</button>
         <button class="msh-button msh-button-danger" type="button">Danger</button>
+        <button class="msh-button" type="button" disabled>Disabled</button>
+        <button class="msh-button is-loading" type="button" aria-busy="true">Saving</button>
         <a class="msh-text-link" href="DESIGN.md#components">Text link</a>
         <button class="msh-icon-button" type="button" aria-label="Icon action">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button class="msh-icon-button" type="button" aria-label="Disabled icon action" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
       </div>
     </section>
@@ -130,6 +144,11 @@
             <input class="msh-input" placeholder="Untitled project">
             <span class="msh-help">A visible label is always required.</span>
           </label>
+          <label class="msh-field is-invalid">
+            <span class="msh-label">Email</span>
+            <input class="msh-input" value="name" aria-invalid="true">
+            <span class="msh-help">Enter a complete email address.</span>
+          </label>
           <div class="msh-field">
             <span class="msh-label">Density</span>
             <div class="msh-select" data-msh-select>
@@ -141,14 +160,24 @@
               </div>
             </div>
           </div>
+          <label class="msh-field">
+            <span class="msh-label">Read-only token</span>
+            <input class="msh-input" value="--msh-surface" readonly>
+          </label>
         </article>
         <article class="msh-card msh-grid">
           <label class="msh-check-row"><input type="checkbox" checked> Enable quiet notifications</label>
+          <label class="msh-check-row"><input type="checkbox" disabled> Disabled checkbox</label>
           <label class="msh-check-row"><input type="radio" name="mode" checked> Balanced mode</label>
           <div class="msh-check-row"><span class="msh-switch is-on" aria-hidden="true"></span><span>Sync enabled</span></div>
+          <div class="msh-check-row"><span class="msh-switch is-disabled" aria-disabled="true"></span><span>Disabled switch</span></div>
           <label class="msh-field">
             <span class="msh-label">Notes</span>
             <textarea class="msh-textarea" placeholder="Short context"></textarea>
+          </label>
+          <label class="msh-field">
+            <span class="msh-label">Disabled field</span>
+            <input class="msh-input" value="Unavailable" disabled>
           </label>
         </article>
       </div>
@@ -165,10 +194,10 @@
             <a class="msh-brand-link" href="mashiro-design-preview.html">Mashiro</a>
             <nav class="msh-nav" aria-label="Catalog navigation"><a href="DESIGN.md#adoption-modes">Overview</a><a href="DESIGN.md#components">Components</a><a href="DESIGN.md#do">Guidelines</a></nav>
           </div>
-          <div class="msh-tabs"><button class="msh-tab is-active" type="button">Foundation</button><button class="msh-tab" type="button">Components</button><button class="msh-tab" type="button">Patterns</button></div>
+          <div class="msh-tabs"><button class="msh-tab is-active" type="button" aria-selected="true">Foundation</button><button class="msh-tab" type="button" aria-selected="false">Components</button><button class="msh-tab" type="button" aria-selected="false">Patterns</button><button class="msh-tab" type="button" disabled>Disabled</button></div>
         </article>
         <article class="msh-card">
-          <div class="msh-segmented"><button class="msh-segment is-active" type="button">Today</button><button class="msh-segment" type="button">Plan</button><button class="msh-segment" type="button">Review</button></div>
+          <div class="msh-segmented"><button class="msh-segment is-active" type="button" aria-pressed="true">Today</button><button class="msh-segment" type="button" aria-pressed="false">Plan</button><button class="msh-segment" type="button" aria-pressed="false">Review</button><button class="msh-segment" type="button" disabled>Archive</button></div>
         </article>
       </div>
     </section>
@@ -182,6 +211,9 @@
         <article class="msh-card"><span class="msh-badge msh-badge-success">Synced</span><span class="msh-badge msh-badge-warning msh-mt-block">Pending</span><span class="msh-badge msh-badge-danger msh-mt-block">Failed</span></article>
         <article class="msh-alert msh-alert-info"><div class="msh-title-pair"><h3>Information</h3><p>Alerts use a quiet color bar and readable copy.</p></div></article>
         <article class="msh-alert msh-alert-danger"><div class="msh-title-pair"><h3>Validation</h3><p>Danger feedback uses the same muted family everywhere.</p></div></article>
+      </div>
+      <div class="msh-empty-state msh-mt-block">
+        <div class="msh-title-pair"><h3>Empty state</h3><p>Empty panels explain the state in text before offering an action.</p></div>
       </div>
     </section>
 

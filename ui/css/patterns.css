@@ -436,8 +436,53 @@
   --token-color: #e5e7e8;
 }
 
-.msh-specimen-card {
-  min-height: 100%;
+.msh-type-list {
+  border-top: 1px solid var(--msh-border);
+  display: grid;
+}
+
+.msh-type-row {
+  min-width: 0;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--msh-border-soft);
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.msh-type-row:last-child {
+  border-bottom-color: var(--msh-border);
+}
+
+.msh-type-sample {
+  margin: 0;
+  min-width: 0;
+  color: var(--msh-fg-strong);
+  overflow-wrap: anywhere;
+}
+
+.msh-type-sample-signature {
+  font-family: var(--msh-font-signature);
+  font-size: 88px;
+  line-height: 1.05;
+}
+
+.msh-type-sample-hero {
+  font-size: 96px;
+  line-height: .88;
+}
+
+.msh-type-sample-page {
+  font-size: 48px;
+  line-height: 1.05;
+}
+
+.msh-type-sample-body {
+  max-width: 680px;
+  color: var(--msh-fg);
+  font-size: 18px;
+  line-height: 1.65;
 }
 
 .msh-spacing-sample {
@@ -555,5 +600,23 @@
 
   .msh-home-hero {
     padding: 72px 0 44px;
+  }
+
+  .msh-type-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 24px 0;
+  }
+
+  .msh-type-sample-signature {
+    font-size: 58px;
+  }
+
+  .msh-type-sample-hero {
+    font-size: 64px;
+  }
+
+  .msh-type-sample-page {
+    font-size: 36px;
   }
 }

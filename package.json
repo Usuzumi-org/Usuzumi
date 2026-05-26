@@ -1,0 +1,20 @@
+{
+  "name": "mashiro-ui",
+  "version": "0.1.0",
+  "description": "A zero-build web design system for quiet editorial interfaces and small product pages.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate.mjs"
+  },
+  "files": [
+    "ui/",
+    "example/",
+    "mashiro-design-preview.html",
+    "DESIGN.md",
+    "README.md",
+    "README.en.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ]
+}

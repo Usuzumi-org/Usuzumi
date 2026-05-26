@@ -68,6 +68,20 @@ All public component classes use the `msh-` prefix. Do not rely on internal file
 - `.msh-page`, `.msh-section`, `.msh-section-head`, `.msh-grid`, `.msh-hero-split`
 - `.msh-home-hero`, `.msh-home-summary`, `.msh-project-list`, `.msh-project-row`, `.msh-project-preview`
 - `.msh-app-preview`, `.msh-download-actions`, `.msh-feature-list`, `.msh-feature-item`, `.msh-screen-grid`, `.msh-screen-card`
+- `.msh-type-list`, `.msh-type-row`, `.msh-type-sample`
+
+### State Contract
+
+Every interactive component must define the states it exposes. Use native attributes where possible:
+
+- Disabled: use `disabled` on buttons and form controls, or `aria-disabled="true"` when an element cannot use the native attribute.
+- Busy: use `.is-loading` with `aria-busy="true"` for command buttons that are processing.
+- Active/current: use `.is-active`, `aria-current`, `aria-selected`, or the native checked state depending on the component.
+- Invalid: use `.is-invalid` on the field wrapper or control, plus `aria-invalid="true"` on the input-like element.
+- Read-only: use `readonly` for text controls and keep the value readable.
+- Empty: use `.msh-empty-state` for empty panels, lists, and tables.
+
+Do not introduce a visual state without also defining the matching semantic attribute when one exists.
 
 ## Visual Principles
 
@@ -149,6 +163,8 @@ Allowed transitions are limited to `transform`, `color`, `background`, `border-c
 
 Letter spacing is 0 by default. Section labels may be uppercase, but they should remain quiet and compact.
 
+Use display-size classes only in their intended page context. `.msh-signature` belongs in open identity areas such as a homepage hero, and `.msh-hero-title` belongs in product or offer heroes. In design catalogs, use `.msh-type-list`, `.msh-type-row`, and `.msh-type-sample` so type roles can be inspected in a quiet specimen list without oversized card containers.
+
 ## Components
 
 ### Buttons
@@ -156,10 +172,12 @@ Letter spacing is 0 by default. Section labels may be uppercase, but they should
 Buttons are tactile but calm. Use one primary button per decision area. Rectangular buttons use 7px radius and 13px labels. Icon-label spacing is 7px.
 
 ```html
-<a class="msh-button msh-button-primary" href="#">Primary</a>
+<a class="msh-button msh-button-primary" href="download.html">Primary</a>
 <button class="msh-button" type="button">Default</button>
 <button class="msh-button msh-button-ghost" type="button">Ghost</button>
 <button class="msh-button msh-button-danger" type="button">Danger</button>
+<button class="msh-button" type="button" disabled>Disabled</button>
+<button class="msh-button is-loading" type="button" aria-busy="true">Saving</button>
 ```
 
 Use `.msh-text-link` for low-pressure navigation such as opening a project, viewing a page, or moving to documentation. Do not turn every page link into a rectangular button. Buttons are for explicit actions: download, submit, confirm, save, delete, or start.
@@ -191,6 +209,18 @@ Fields must have real labels. Placeholders are hints, not labels.
 ```
 
 Custom selects use `.msh-select` plus `data-msh-select`. Options keep a 4px vertical gap, so selected and hovered states never touch.
+
+Validation belongs to the field, not just the message:
+
+```html
+<label class="msh-field is-invalid">
+  <span class="msh-label">Email</span>
+  <input class="msh-input" aria-invalid="true" value="name">
+  <span class="msh-help">Enter a complete email address.</span>
+</label>
+```
+
+Use `disabled` and `readonly` attributes for non-editable controls. Disabled controls reduce contrast and remove pointer affordance; read-only controls remain readable.
 
 ### Navigation
 
@@ -245,7 +275,7 @@ The script toggles `data-language` and `data-msh-lang`. Content can be marked wi
 </div>
 ```
 
-The script supports click to open, click outside to close, Escape to close, ArrowUp/ArrowDown/Home/End navigation, Enter/Space selection, and option selection.
+The script supports click to open, click outside to close, Escape to close, ArrowUp/ArrowDown/Home/End navigation, Enter/Space selection, and option selection. It also assigns stable runtime ids, `aria-controls`, `aria-activedescendant`, and `aria-selected` state for the custom select pattern.
 
 ## Page Patterns
 
@@ -267,7 +297,7 @@ Use this structure for project rows:
         <p>Short role, scope, or outcome.</p>
       </div>
     </div>
-    <a class="msh-text-link msh-project-action" href="#">View page</a>
+    <a class="msh-text-link msh-project-action" href="project.html">View page</a>
   </article>
 </div>
 ```

@@ -43,20 +43,10 @@
   color: var(--msh-soft);
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   font-size: 12px;
   line-height: 1.25;
   letter-spacing: 0;
   text-transform: uppercase;
-}
-
-.msh-section-label::after {
-  content: "";
-  width: 32px;
-  height: 1.5px;
-  background: var(--msh-fg-strong);
-  opacity: .72;
-  transform: translateY(1px);
 }
 
 .msh-body-large {

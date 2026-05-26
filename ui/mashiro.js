@@ -1,4 +1,6 @@
 (function () {
+  let selectCounter = 0;
+
   const storage = {
     get(key) {
       try {
@@ -84,11 +86,28 @@
       option.setAttribute('tabindex', '-1');
     });
     const trigger = select.querySelector('[data-msh-select-trigger]');
-    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    if (trigger) {
+      const selected = select.querySelector('[data-msh-select-option].is-selected');
+      trigger.setAttribute('aria-expanded', 'false');
+      if (selected && selected.id) {
+        trigger.setAttribute('aria-activedescendant', selected.id);
+      } else {
+        trigger.removeAttribute('aria-activedescendant');
+      }
+    }
+  }
+
+  function ensureId(element, prefix) {
+    if (!element.id) {
+      selectCounter += 1;
+      element.id = `${prefix}-${selectCounter}`;
+    }
+    return element.id;
   }
 
   function focusSelectOption(select, index) {
     const options = [...select.querySelectorAll('[data-msh-select-option]')];
+    const trigger = select.querySelector('[data-msh-select-trigger]');
     if (!options.length) return;
     const nextIndex = (index + options.length) % options.length;
     options.forEach((option, optionIndex) => {
@@ -96,6 +115,9 @@
       option.classList.toggle('is-active', isActive);
       option.setAttribute('tabindex', isActive ? '0' : '-1');
     });
+    if (trigger && options[nextIndex].id) {
+      trigger.setAttribute('aria-activedescendant', options[nextIndex].id);
+    }
     options[nextIndex].focus();
   }
 
@@ -128,13 +150,24 @@
     document.querySelectorAll('[data-msh-select]').forEach((select) => {
       const trigger = select.querySelector('[data-msh-select-trigger]');
       const options = [...select.querySelectorAll('[data-msh-select-option]')];
+      const menu = select.querySelector('[role="listbox"]');
       if (!trigger || !options.length) return;
 
+      const selectId = ensureId(select, 'msh-select');
+      const menuId = menu ? ensureId(menu, `${selectId}-menu`) : '';
       trigger.setAttribute('aria-haspopup', 'listbox');
       trigger.setAttribute('aria-expanded', 'false');
-      options.forEach((option) => option.setAttribute('tabindex', '-1'));
+      if (menuId) trigger.setAttribute('aria-controls', menuId);
+      options.forEach((option, index) => {
+        ensureId(option, `${selectId}-option-${index + 1}`);
+        option.setAttribute('tabindex', '-1');
+        option.setAttribute('aria-selected', option.classList.contains('is-selected') ? 'true' : 'false');
+      });
+      const selected = options.find((option) => option.classList.contains('is-selected'));
+      if (selected) trigger.setAttribute('aria-activedescendant', selected.id);
 
       trigger.addEventListener('click', () => {
+        if (trigger.disabled || trigger.getAttribute('aria-disabled') === 'true') return;
         if (select.classList.contains('is-open')) {
           closeSelect(select);
         } else {
@@ -144,6 +177,7 @@
       });
 
       trigger.addEventListener('keydown', (event) => {
+        if (trigger.disabled || trigger.getAttribute('aria-disabled') === 'true') return;
         if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) {
           event.preventDefault();
           const selectedIndex = options.findIndex((option) => option.classList.contains('is-selected'));

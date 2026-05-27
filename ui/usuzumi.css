@@ -477,6 +477,7 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
 /* ui/css/components.css */
 .uzu-button {
   min-height: 40px;
+  min-width: 96px;
   padding: 8px 12px 9px;
   border: 1px solid color-mix(in srgb, var(--uzu-border) 86%, var(--uzu-fg-strong));
   border-radius: var(--uzu-radius-standard);

@@ -49,7 +49,9 @@
   },
   "scripts": {
     "build:css": "node scripts/build-css.mjs",
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs && node scripts/consumer-smoke.mjs",
+    "validate:source": "node scripts/validate.mjs",
+    "validate:consumer": "node scripts/consumer-smoke.mjs"
   },
   "publishConfig": {
     "access": "public"

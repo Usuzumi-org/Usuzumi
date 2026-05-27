@@ -64,9 +64,9 @@ Use `uzu-scope` when adopting Usuzumi inside an existing page:
 ## Included
 
 - Design tokens for color, typography, spacing, borders, radius, motion, and dark mode.
-- Layout and component primitives for pages, sections, grids, buttons, cards, forms, tabs, badges, alerts, tables, overlays, progress, skeletons, toasts, dialogs, disclosures, and tooltips.
+- Layout and component primitives for pages, sections, grids, buttons, cards, forms, tabs, badges, alerts, callouts, tables, overlays, progress, skeletons, toasts, dialogs, disclosures, and tooltips.
 - Page patterns for personal homepages, app introduction pages, design catalogs, project lists, mockups, and feature sections.
-- Small JavaScript helpers for theme toggles, language toggles, custom selects, switches, disclosures, dialogs, and toast dismissal.
+- Small JavaScript helpers for theme toggles, language toggles, custom selects, tabs, segmented controls, switches, disclosures, dialogs, and toast dismissal.
 
 ## Runtime
 
@@ -79,6 +79,8 @@ window.Usuzumi.init(container);
 Custom events:
 
 - `uzu-select-change`: `{ value, label, option, select }`
+- `uzu-tabs-change`: `{ value, tab, tabs, index, panel }`
+- `uzu-segmented-change`: `{ value, segment, segmented, index }`
 - `uzu-switch-change`: `{ checked, switch }`
 - `uzu-disclosure-change`: `{ open, disclosure }`
 - `uzu-toast-close`: `{ toast }`
@@ -100,6 +102,8 @@ The examples can be opened directly in a browser. No build step or development s
 npm run build:css
 npm run validate
 ```
+
+`npm run validate` checks source guardrails, then packs the library and installs it into a temporary consumer project to verify package exports, CSS files, type declarations, CDN-style `ui/*` paths, and browser runtime behavior.
 
 The runtime library has no dependencies. See [DESIGN.md](DESIGN.md) for the full design specification.
 

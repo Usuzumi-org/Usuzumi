@@ -11,6 +11,21 @@ declare global {
     select: HTMLElement;
   }
 
+  interface UsuzumiTabsChangeDetail {
+    value: string;
+    tab: HTMLElement;
+    tabs: HTMLElement;
+    index: number;
+    panel: HTMLElement | null;
+  }
+
+  interface UsuzumiSegmentedChangeDetail {
+    value: string;
+    segment: HTMLElement;
+    segmented: HTMLElement;
+    index: number;
+  }
+
   interface UsuzumiSwitchChangeDetail {
     checked: boolean;
     switch: HTMLElement;
@@ -46,6 +61,8 @@ declare global {
 
   interface HTMLElementEventMap {
     "uzu-select-change": CustomEvent<UsuzumiSelectChangeDetail>;
+    "uzu-tabs-change": CustomEvent<UsuzumiTabsChangeDetail>;
+    "uzu-segmented-change": CustomEvent<UsuzumiSegmentedChangeDetail>;
     "uzu-switch-change": CustomEvent<UsuzumiSwitchChangeDetail>;
     "uzu-disclosure-change": CustomEvent<UsuzumiDisclosureChangeDetail>;
     "uzu-toast-close": CustomEvent<UsuzumiToastCloseDetail>;

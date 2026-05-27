@@ -21,6 +21,7 @@
   .uzu-disclosure,
   .uzu-skeleton,
   .uzu-alert,
+  .uzu-callout,
   .uzu-app-preview,
   .uzu-preview-block,
   .uzu-empty-state,
@@ -54,12 +55,14 @@
   }
 
   /* Selected and active states. */
-  .uzu-tab.is-active {
+  .uzu-tab.is-active,
+  .uzu-tab[aria-selected="true"] {
     color: Highlight;
     border-bottom-color: Highlight;
   }
 
   .uzu-segment.is-active,
+  .uzu-segment[aria-pressed="true"],
   .uzu-select-option.is-selected {
     background: Highlight;
     color: HighlightText;
@@ -73,6 +76,30 @@
 
   .uzu-progress-bar {
     background: Highlight;
+  }
+
+  .uzu-activity,
+  .uzu-process-step {
+    color: CanvasText;
+  }
+
+  .uzu-process-step.is-active {
+    color: Highlight;
+  }
+
+  .uzu-activity-dot {
+    background: CanvasText;
+  }
+
+  .uzu-process-step::before {
+    border: 1px solid CanvasText;
+    background: Canvas;
+  }
+
+  .uzu-process-step.is-complete::before,
+  .uzu-process-step.is-active::before {
+    background: Highlight;
+    border-color: Highlight;
   }
 
   .uzu-progress-circular .ring-track {

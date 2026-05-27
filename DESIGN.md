@@ -18,19 +18,21 @@ Use the single entry files in normal pages:
 
 Package consumers can import the stylesheet as `usuzumi/usuzumi.css` and the behavior script as `usuzumi/usuzumi.js`.
 
+Maintenance validation includes a consumer smoke test: `npm run validate` packs the library, installs it into a temporary external project, verifies package exports and type/CSS/runtime files from `node_modules/usuzumi`, and opens a browser page that loads `node_modules/usuzumi/ui/usuzumi.css` plus `node_modules/usuzumi/ui/usuzumi.js`.
+
 The published `ui/usuzumi.css` file is generated from the maintainable source files. Edit source files in `ui/css/`, then run `npm run build:css`.
 
 - `ui/css/tokens.css`: design tokens and dark mode tokens.
 - `ui/css/fonts.css`: optional Meddon signature font face.
 - `ui/css/base.css`: root behavior, focus, selection, scrollbar, forms, links.
 - `ui/css/typography.css`: signature, titles, section labels, title pairs.
-- `ui/css/components.css`: buttons, cards, fields, select, tabs, feedback, tables, overlays, progress, skeletons, toasts, dialogs, disclosures, and tooltips.
+- `ui/css/components.css`: buttons, cards, fields, select, tabs, feedback, callouts, tables, overlays, progress, skeletons, toasts, dialogs, disclosures, and tooltips.
 - `ui/css/layout.css`: page containers, sections, top bars, grids, hero split, footer.
 - `ui/css/patterns.css`: homepage, app intro, catalog, mockups, token specimens.
 - `ui/css/utilities.css`: small utilities and language visibility helpers.
 - `ui/css/forced-colors.css`: high-contrast mode visibility rules.
 - `ui/usuzumi-signature.css`: optional signature font entry for `.uzu-signature` and signature specimens.
-- `ui/usuzumi.js`: theme toggles, language toggles, custom selects, switches, disclosures, dialogs, and toast dismissal.
+- `ui/usuzumi.js`: theme toggles, language toggles, custom selects, tabs, segmented controls, switches, disclosures, dialogs, and toast dismissal.
 - `ui/usuzumi.d.ts`: TypeScript declarations for the browser API and custom events.
 
 ## Adoption Modes
@@ -69,8 +71,9 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 - `.uzu-card`, `.uzu-card-muted`, `.uzu-title-pair`
 - `.uzu-field`, `.uzu-label`, `.uzu-input`, `.uzu-textarea`, `.uzu-select`
 - `.uzu-tabs`, `.uzu-tab`, `.uzu-segmented`, `.uzu-segment`
-- `.uzu-badge`, `.uzu-alert`, `.uzu-toast`, `.uzu-table`, `.uzu-popover`, `.uzu-modal`, `.uzu-dialog-overlay`
-- `.uzu-progress`, `.uzu-progress-bar`, `.uzu-progress-circular`, `.uzu-skeleton`
+- `.uzu-badge`, `.uzu-alert`, `.uzu-callout`, `.uzu-callout-title`, `.uzu-toast`, `.uzu-table`, `.uzu-popover`, `.uzu-modal`, `.uzu-dialog-overlay`
+- `.uzu-progress`, `.uzu-progress-bar`, `.uzu-progress-indeterminate`, `.uzu-progress-circular`, `.uzu-skeleton`
+- `.uzu-activity`, `.uzu-activity-dot`, `.uzu-process`, `.uzu-process-step`
 - `.uzu-disclosure`, `.uzu-disclosure-trigger`, `.uzu-disclosure-panel`, `.uzu-tooltip`
 - `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-hero-split`
 - `.uzu-home-hero`, `.uzu-home-summary`, `.uzu-project-list`, `.uzu-project-row`, `.uzu-project-preview`
@@ -156,7 +159,9 @@ Never use visible 0px, 1px, 2px, or 3px corner radius for cards, controls, previ
 - Slow: `280ms`
 - Easing: `cubic-bezier(.2, .8, .2, 1)`
 
-Allowed transitions are limited to `transform`, `color`, `background`, `border-color`, `opacity`, `text-decoration-color`, and occasional overlay `box-shadow`. Hover translation must not exceed `translateY(-1px)`.
+Allowed transitions are limited to `transform`, `color`, `background`, `border-color`, `opacity`, `text-decoration-color`, and occasional overlay `box-shadow`. Hover translation must not exceed `translateY(-1px)`, and passive surfaces such as cards, rows, specimens, and empty states should not gain decorative hover motion.
+
+Use animation for process states: loading, syncing, indeterminate progress, skeleton content, and the active step in a task flow. Keep repeated animation localized to `.is-loading`, `.uzu-skeleton`, `.uzu-progress-indeterminate`, `.uzu-activity`, and `.uzu-process-step.is-active`. Avoid whole-page entrance animation, bounce, parallax, repeated decorative motion, or layout-shifting size transitions.
 
 ## Typography
 
@@ -235,9 +240,32 @@ Use `disabled` and `readonly` attributes for non-editable controls. Disabled con
 
 Top navigation uses `.uzu-topbar` and `.uzu-nav`. Use `.uzu-tabs` for peer sections and `.uzu-segmented` for compact mode switches.
 
+Tabs and segmented controls are static visual primitives by default. Add `data-uzu-tabs` or `data-uzu-segmented` when the runtime should manage the active state, keyboard arrow navigation, ARIA state, and change events.
+
+```html
+<div class="uzu-tabs" data-uzu-tabs>
+  <button class="uzu-tab is-active" type="button" data-uzu-tab-value="overview" aria-selected="true">Overview</button>
+  <button class="uzu-tab" type="button" data-uzu-tab-value="details" aria-selected="false">Details</button>
+</div>
+
+<div class="uzu-segmented" data-uzu-segmented>
+  <button class="uzu-segment is-active" type="button" data-uzu-segment-value="today" aria-pressed="true">Today</button>
+  <button class="uzu-segment" type="button" data-uzu-segment-value="plan" aria-pressed="false">Plan</button>
+</div>
+```
+
 ### Feedback
 
-Badges, alerts, toasts, and validation use the muted semantic families. Do not use bright red or color alone to communicate state. Toasts use `.uzu-toast-stack` and `.uzu-toast`; close buttons use `data-uzu-toast-close`.
+Badges, alerts, callouts, toasts, and validation use the muted semantic families. Do not use bright red or color alone to communicate state. Toasts use `.uzu-toast-stack` and `.uzu-toast`; close buttons use `data-uzu-toast-close`.
+
+Use `.uzu-callout` for editorial notes, constraints, and secondary context that belongs in the reading flow. Callouts are not alerts: they should not announce urgent errors, destructive states, or time-sensitive feedback. Use `.uzu-callout-note`, `.uzu-callout-info`, or `.uzu-callout-warning` to adjust the tone while keeping the message text-led.
+
+```html
+<aside class="uzu-callout uzu-callout-note">
+  <h3 class="uzu-callout-title">Context note</h3>
+  <p>Use callouts for guidance that supports the surrounding content.</p>
+</aside>
+```
 
 ### Disclosure And Loading
 
@@ -264,7 +292,21 @@ Tooltips use `data-uzu-tooltip` for short supplemental labels. Do not put essent
 
 ### Progress
 
-Linear progress uses `.uzu-progress` and `.uzu-progress-bar`. Circular progress uses `.uzu-progress-circular` with SVG rings.
+Linear progress uses `.uzu-progress` and `.uzu-progress-bar`. Use `.uzu-progress-indeterminate` on the track, or `.is-indeterminate` on the bar, when work is ongoing but the percentage is unknown. Circular progress uses `.uzu-progress-circular` with SVG rings.
+
+Use `.uzu-activity` with three `.uzu-activity-dot` children for compact activity status, and `.uzu-process` with `.uzu-process-step` for short multi-step flows. Mark completed steps with `.is-complete`; mark the current step with `.is-active` and `aria-current="step"`.
+
+```html
+<div class="uzu-progress uzu-progress-indeterminate" role="progressbar" aria-label="Syncing changes">
+  <span class="uzu-progress-bar"></span>
+</div>
+
+<ol class="uzu-process" aria-label="Publish progress">
+  <li class="uzu-process-step is-complete">Validate tokens</li>
+  <li class="uzu-process-step is-active" aria-current="step">Build CSS bundle</li>
+  <li class="uzu-process-step">Package release</li>
+</ol>
+```
 
 ### Switches
 
@@ -319,9 +361,24 @@ The script toggles `data-language` and `data-uzu-lang`. Content can be marked wi
 
 The script supports click to open, click outside to close, Escape to close, ArrowUp/ArrowDown/Home/End navigation, Enter/Space selection, and option selection. It also assigns stable runtime ids, `aria-controls`, `aria-activedescendant`, and `aria-selected` state for the custom select pattern. Selected values are exposed through `data-uzu-select-value`, an optional generated hidden input, `change`, and `uzu-select-change`.
 
+### Tabs And Segmented Controls
+
+```html
+<div class="uzu-tabs" data-uzu-tabs>
+  <button class="uzu-tab is-active" type="button" data-uzu-tab-value="foundation" aria-selected="true">Foundation</button>
+  <button class="uzu-tab" type="button" data-uzu-tab-value="components" aria-selected="false">Components</button>
+</div>
+```
+
+The script keeps `.is-active`, `aria-selected`, and roving `tabindex` synchronized for tabs. It supports click, ArrowLeft/ArrowRight/ArrowUp/ArrowDown, Home, and End. If a tab has `data-uzu-tab-target` or `aria-controls`, the matching panel is shown and sibling tab panels are hidden.
+
+Segmented controls use `data-uzu-segmented` and `.uzu-segment`. The script keeps `.is-active` and `aria-pressed` synchronized, supports the same arrow-key navigation, and emits `uzu-segmented-change`.
+
 ### Custom Events
 
 - `uzu-select-change`: `{ value, label, option, select }`
+- `uzu-tabs-change`: `{ value, tab, tabs, index, panel }`
+- `uzu-segmented-change`: `{ value, segment, segmented, index }`
 - `uzu-switch-change`: `{ checked, switch }`
 - `uzu-disclosure-change`: `{ open, disclosure }`
 - `uzu-toast-close`: `{ toast }`

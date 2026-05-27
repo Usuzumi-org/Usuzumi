@@ -213,10 +213,10 @@
             <a class="uzu-brand-link" href="preview.html">Usuzumi</a>
             <nav class="uzu-nav" aria-label="Catalog navigation"><a href="../DESIGN.md#adoption-modes">Overview</a><a href="../DESIGN.md#components">Components</a><a href="../DESIGN.md#do">Guidelines</a></nav>
           </div>
-          <div class="uzu-tabs"><button class="uzu-tab is-active" type="button" aria-selected="true">Foundation</button><button class="uzu-tab" type="button" aria-selected="false">Components</button><button class="uzu-tab" type="button" aria-selected="false">Patterns</button><button class="uzu-tab" type="button" disabled>Disabled</button></div>
+          <div class="uzu-tabs" data-uzu-tabs><button class="uzu-tab is-active" type="button" data-uzu-tab-value="foundation" aria-selected="true">Foundation</button><button class="uzu-tab" type="button" data-uzu-tab-value="components" aria-selected="false">Components</button><button class="uzu-tab" type="button" data-uzu-tab-value="patterns" aria-selected="false">Patterns</button><button class="uzu-tab" type="button" disabled>Disabled</button></div>
         </article>
         <article class="uzu-card">
-          <div class="uzu-segmented"><button class="uzu-segment is-active" type="button" aria-pressed="true">Today</button><button class="uzu-segment" type="button" aria-pressed="false">Plan</button><button class="uzu-segment" type="button" aria-pressed="false">Review</button><button class="uzu-segment" type="button" disabled>Archive</button></div>
+          <div class="uzu-segmented" data-uzu-segmented><button class="uzu-segment is-active" type="button" data-uzu-segment-value="today" aria-pressed="true">Today</button><button class="uzu-segment" type="button" data-uzu-segment-value="plan" aria-pressed="false">Plan</button><button class="uzu-segment" type="button" data-uzu-segment-value="review" aria-pressed="false">Review</button><button class="uzu-segment" type="button" disabled>Archive</button></div>
         </article>
       </div>
     </section>
@@ -230,6 +230,20 @@
         <article class="uzu-card"><span class="uzu-badge uzu-badge-success">Synced</span><span class="uzu-badge uzu-badge-warning uzu-mt-block">Pending</span><span class="uzu-badge uzu-badge-danger uzu-mt-block">Failed</span></article>
         <article class="uzu-alert uzu-alert-info"><div class="uzu-title-pair"><h3>Information</h3><p>Alerts use a quiet color bar and readable copy.</p></div></article>
         <article class="uzu-alert uzu-alert-danger"><div class="uzu-title-pair"><h3>Validation</h3><p>Danger feedback uses the same muted family everywhere.</p></div></article>
+      </div>
+      <div class="uzu-grid uzu-grid-3 uzu-mt-block">
+        <aside class="uzu-callout uzu-callout-note">
+          <h3 class="uzu-callout-title">Context note</h3>
+          <p>Callouts hold editorial notes, constraints, and secondary context without claiming alert priority.</p>
+        </aside>
+        <aside class="uzu-callout uzu-callout-info">
+          <h3 class="uzu-callout-title">System aside</h3>
+          <p>Use the neutral variant when the message belongs to the reading flow rather than an error state.</p>
+        </aside>
+        <aside class="uzu-callout uzu-callout-warning uzu-callout-compact">
+          <h3 class="uzu-callout-title">Timing risk</h3>
+          <p>Compact callouts fit inside dense documentation or settings surfaces.</p>
+        </aside>
       </div>
       <div class="uzu-empty-state uzu-mt-block">
         <div class="uzu-title-pair"><h3>Empty state</h3><p>Empty panels explain the state in text before offering an action.</p></div>
@@ -345,10 +359,25 @@
     <section class="uzu-section">
       <div class="uzu-section-head">
         <p class="uzu-section-label">13 / Motion</p>
-        <h2 class="uzu-section-title">Motion confirms interaction without performing for attention.</h2>
+        <h2 class="uzu-section-title">Motion shows work in progress without performing for attention.</h2>
       </div>
-      <div class="uzu-card">
-        <div class="uzu-title-pair"><h3>Hover and focus</h3><p>Buttons translate by one pixel, links shift underline color, and reduced motion removes non-essential transitions.</p></div>
+      <div class="uzu-grid uzu-grid-2">
+        <article class="uzu-card uzu-grid">
+          <div class="uzu-title-pair"><h3>Processing</h3><p>Indeterminate progress and activity dots show active work when duration is unknown.</p></div>
+          <div class="uzu-progress uzu-progress-indeterminate" role="progressbar" aria-label="Syncing changes"><span class="uzu-progress-bar"></span></div>
+          <span class="uzu-activity" role="status" aria-label="Syncing">
+            <span class="uzu-activity-dot" aria-hidden="true"></span>
+            <span class="uzu-activity-dot" aria-hidden="true"></span>
+            <span class="uzu-activity-dot" aria-hidden="true"></span>
+          </span>
+        </article>
+        <article class="uzu-card">
+          <ol class="uzu-process" aria-label="Publish progress">
+            <li class="uzu-process-step is-complete">Validate tokens</li>
+            <li class="uzu-process-step is-active" aria-current="step">Build CSS bundle</li>
+            <li class="uzu-process-step">Package release</li>
+          </ol>
+        </article>
       </div>
     </section>
 

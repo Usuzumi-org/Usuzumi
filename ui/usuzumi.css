@@ -970,6 +970,55 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   background: color-mix(in srgb, var(--uzu-danger-bg) 55%, var(--uzu-surface));
 }
 
+.uzu-callout {
+  padding: 16px 18px;
+  border: 1px solid var(--uzu-border);
+  border-radius: var(--uzu-radius-micro);
+  background: color-mix(in srgb, var(--uzu-surface-soft) 56%, var(--uzu-surface));
+  color: var(--uzu-fg);
+  display: grid;
+  gap: 8px;
+}
+
+.uzu-callout-title {
+  margin: 0;
+  color: var(--uzu-fg-strong);
+  font-size: 15px;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+.uzu-callout > :last-child {
+  margin-bottom: 0;
+}
+
+.uzu-callout p {
+  margin: 0;
+  color: var(--uzu-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.uzu-callout-compact {
+  padding: 12px 14px;
+  gap: 6px;
+}
+
+.uzu-callout-note {
+  border-color: color-mix(in srgb, var(--uzu-info) 24%, var(--uzu-border));
+  background: color-mix(in srgb, var(--uzu-info-bg) 42%, var(--uzu-surface));
+}
+
+.uzu-callout-info {
+  border-color: color-mix(in srgb, var(--uzu-fg-strong) 16%, var(--uzu-border));
+  background: color-mix(in srgb, var(--uzu-surface-muted) 68%, var(--uzu-surface));
+}
+
+.uzu-callout-warning {
+  border-color: color-mix(in srgb, var(--uzu-warning) 30%, var(--uzu-border));
+  background: color-mix(in srgb, var(--uzu-warning-bg) 50%, var(--uzu-surface));
+}
+
 .uzu-tabs {
   border-bottom: 1px solid var(--uzu-border);
   display: flex;
@@ -985,13 +1034,15 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   color: var(--uzu-muted);
   font-size: 13px;
   cursor: pointer;
+  transition: color var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard);
 }
 
 .uzu-tab:hover {
   color: var(--uzu-fg-strong);
 }
 
-.uzu-tab.is-active {
+.uzu-tab.is-active,
+.uzu-tab[aria-selected="true"] {
   border-bottom-color: var(--uzu-fg-strong);
   color: var(--uzu-fg-strong);
 }
@@ -1014,13 +1065,15 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   color: var(--uzu-muted);
   font-size: 13px;
   cursor: pointer;
+  transition: background var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard);
 }
 
 .uzu-segment:hover {
   color: var(--uzu-fg-strong);
 }
 
-.uzu-segment.is-active {
+.uzu-segment.is-active,
+.uzu-segment[aria-pressed="true"] {
   background: var(--uzu-surface);
   color: var(--uzu-fg-strong);
 }
@@ -1267,6 +1320,86 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   stroke-linecap: round;
 }
 
+.uzu-progress-indeterminate .uzu-progress-bar,
+.uzu-progress-bar.is-indeterminate {
+  width: 38%;
+  transform: translateX(-120%);
+  animation: uzu-progress-indeterminate 1400ms var(--uzu-ease-standard) infinite;
+}
+
+.uzu-activity {
+  min-height: 24px;
+  color: var(--uzu-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.uzu-activity-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--uzu-radius-pill);
+  background: currentColor;
+  opacity: .28;
+  animation: uzu-activity-dot 1200ms var(--uzu-ease-standard) infinite;
+}
+
+.uzu-activity-dot:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+.uzu-activity-dot:nth-child(3) {
+  animation-delay: 320ms;
+}
+
+.uzu-process {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.uzu-process-step {
+  min-height: 28px;
+  color: var(--uzu-muted);
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.uzu-process-step::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--uzu-border-strong);
+  border-radius: var(--uzu-radius-pill);
+  background: var(--uzu-surface);
+  justify-self: center;
+}
+
+.uzu-process-step.is-complete {
+  color: var(--uzu-fg);
+}
+
+.uzu-process-step.is-complete::before {
+  background: var(--uzu-fg-strong);
+  border-color: var(--uzu-fg-strong);
+}
+
+.uzu-process-step.is-active {
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-process-step.is-active::before {
+  background: var(--uzu-fg-strong);
+  border-color: var(--uzu-fg-strong);
+  animation: uzu-process-pulse 1400ms var(--uzu-ease-standard) infinite;
+}
+
 @keyframes uzu-spin {
   to {
     transform: rotate(360deg);
@@ -1276,6 +1409,43 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
 @keyframes uzu-skeleton {
   to {
     background-position: -220% 0, 0 0;
+  }
+}
+
+@keyframes uzu-progress-indeterminate {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(280%);
+  }
+}
+
+@keyframes uzu-activity-dot {
+  0%,
+  80%,
+  100% {
+    opacity: .28;
+    transform: translateY(0);
+  }
+
+  40% {
+    opacity: .86;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes uzu-process-pulse {
+  0%,
+  100% {
+    opacity: .42;
+    transform: scale(.82);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -1316,8 +1486,17 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   }
 
   .uzu-button.is-loading::before,
-  .uzu-skeleton {
+  .uzu-skeleton,
+  .uzu-progress-indeterminate .uzu-progress-bar,
+  .uzu-progress-bar.is-indeterminate,
+  .uzu-activity-dot,
+  .uzu-process-step.is-active::before {
     animation: none;
+  }
+
+  .uzu-progress-indeterminate .uzu-progress-bar,
+  .uzu-progress-bar.is-indeterminate {
+    transform: none;
   }
 }
 
@@ -2209,6 +2388,7 @@ html[data-language="zh"] .uzu-app [data-lang="en"],
   .uzu-disclosure,
   .uzu-skeleton,
   .uzu-alert,
+  .uzu-callout,
   .uzu-app-preview,
   .uzu-preview-block,
   .uzu-empty-state,
@@ -2242,12 +2422,14 @@ html[data-language="zh"] .uzu-app [data-lang="en"],
   }
 
   /* Selected and active states. */
-  .uzu-tab.is-active {
+  .uzu-tab.is-active,
+  .uzu-tab[aria-selected="true"] {
     color: Highlight;
     border-bottom-color: Highlight;
   }
 
   .uzu-segment.is-active,
+  .uzu-segment[aria-pressed="true"],
   .uzu-select-option.is-selected {
     background: Highlight;
     color: HighlightText;
@@ -2261,6 +2443,30 @@ html[data-language="zh"] .uzu-app [data-lang="en"],
 
   .uzu-progress-bar {
     background: Highlight;
+  }
+
+  .uzu-activity,
+  .uzu-process-step {
+    color: CanvasText;
+  }
+
+  .uzu-process-step.is-active {
+    color: Highlight;
+  }
+
+  .uzu-activity-dot {
+    background: CanvasText;
+  }
+
+  .uzu-process-step::before {
+    border: 1px solid CanvasText;
+    background: Canvas;
+  }
+
+  .uzu-process-step.is-complete::before,
+  .uzu-process-step.is-active::before {
+    background: Highlight;
+    border-color: Highlight;
   }
 
   .uzu-progress-circular .ring-track {

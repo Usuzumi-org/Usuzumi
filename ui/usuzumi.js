@@ -4,6 +4,10 @@
   let selectCounter = 0;
   let activeDialog = null;
   let activeDialogTrigger = null;
+  const selectCloseTimers = new WeakMap();
+  const disclosureCloseTimers = new WeakMap();
+  const dialogCloseTimers = new WeakMap();
+  const toastCloseTimers = new WeakMap();
 
   const storage = {
     get(key) {
@@ -182,7 +186,9 @@
   }
 
   function closeSelect(select) {
+    if (select.classList.contains('is-closing') || !select.classList.contains('is-open')) return;
     select.classList.remove('is-open');
+    select.classList.add('is-closing');
     queryAll(select, '[data-uzu-select-option]').forEach((option) => {
       option.classList.remove('is-active');
       option.setAttribute('tabindex', '-1');
@@ -197,6 +203,13 @@
         trigger.removeAttribute('aria-activedescendant');
       }
     }
+    const menu = select.querySelector('[role="listbox"]');
+    const finish = () => {
+      select.classList.remove('is-closing');
+      selectCloseTimers.delete(select);
+    };
+    const timer = scheduleAfterAnimation([menu].filter(Boolean), finish);
+    if (timer) selectCloseTimers.set(select, timer);
   }
 
   function ensureId(element, prefix) {
@@ -226,6 +239,12 @@
   function openSelect(select, focusIndex) {
     const trigger = select.querySelector('[data-uzu-select-trigger]');
     const options = queryAll(select, '[data-uzu-select-option]');
+    const existingTimer = selectCloseTimers.get(select);
+    if (existingTimer) {
+      window.clearTimeout(existingTimer);
+      selectCloseTimers.delete(select);
+    }
+    select.classList.remove('is-closing');
     select.classList.add('is-open');
     if (trigger) trigger.setAttribute('aria-expanded', 'true');
     const selectedIndex = options.findIndex((option) => option.classList.contains('is-selected'));
@@ -438,6 +457,65 @@
     return enabled[(currentIndex + direction + enabled.length) % enabled.length];
   }
 
+  function parseTimeValue(value) {
+    const item = String(value || '').trim();
+    if (!item || item === '0s') return 0;
+    return item.endsWith('ms') ? Number.parseFloat(item) : Number.parseFloat(item) * 1000;
+  }
+
+  function getAnimationDuration(element) {
+    if (!element) return 0;
+    const style = window.getComputedStyle(element);
+    const durations = style.animationDuration.split(',').map(parseTimeValue);
+    const delays = style.animationDelay.split(',').map(parseTimeValue);
+    return Math.max(0, ...durations.map((duration, index) => duration + (delays[index] || 0)));
+  }
+
+  function scheduleAfterAnimation(elements, callback) {
+    const duration = Math.max(0, ...elements.map(getAnimationDuration));
+    if (!duration) {
+      callback();
+      return null;
+    }
+    return window.setTimeout(callback, duration + 30);
+  }
+
+  function setControlIndicator(root, control, prefix) {
+    if (!control || !root.isConnected || control.offsetWidth <= 0 || control.offsetHeight <= 0) {
+      root.dataset[prefix === 'tabs' ? 'uzuTabsIndicator' : 'uzuSegmentedIndicator'] = 'false';
+      return;
+    }
+    const cssPrefix = prefix === 'tabs' ? 'uzu-tabs' : 'uzu-segmented';
+    root.style.setProperty(`--${cssPrefix}-indicator-x`, `${control.offsetLeft}px`);
+    root.style.setProperty(`--${cssPrefix}-indicator-width`, `${control.offsetWidth}px`);
+    root.style.setProperty(`--${cssPrefix}-indicator-opacity`, '1');
+    if (prefix === 'tabs') {
+      root.style.setProperty('--uzu-tabs-indicator-y', `${control.offsetTop + control.offsetHeight - 1}px`);
+      root.dataset.uzuTabsIndicator = 'true';
+    } else {
+      root.style.setProperty('--uzu-segmented-indicator-y', `${control.offsetTop}px`);
+      root.style.setProperty('--uzu-segmented-indicator-height', `${control.offsetHeight}px`);
+      root.dataset.uzuSegmentedIndicator = 'true';
+    }
+  }
+
+  function refreshStateIndicators(root = document) {
+    queryAll(root, '[data-uzu-tabs]').forEach((tabsRoot) => {
+      const activeTab = getScopedControls(tabsRoot, '.uzu-tab', '[data-uzu-tabs]')
+        .find((tab) => tab.classList.contains('is-active') || tab.getAttribute('aria-selected') === 'true');
+      if (activeTab) setControlIndicator(tabsRoot, activeTab, 'tabs');
+    });
+    queryAll(root, '[data-uzu-segmented]').forEach((segmented) => {
+      const activeSegment = getScopedControls(segmented, '.uzu-segment', '[data-uzu-segmented]')
+        .find((segment) => segment.classList.contains('is-active') || segment.getAttribute('aria-pressed') === 'true');
+      if (activeSegment) setControlIndicator(segmented, activeSegment, 'segmented');
+    });
+  }
+
+  function queueIndicatorRefresh(root = document) {
+    window.requestAnimationFrame(() => refreshStateIndicators(root));
+  }
+
   function syncTabsState(tabsRoot, activeTab, emit = true) {
     const tabs = getScopedControls(tabsRoot, '.uzu-tab', '[data-uzu-tabs]');
     const enabled = getEnabledControls(tabs);
@@ -459,6 +537,7 @@
       if (isActive) panel = tabPanel;
     });
     tabsRoot.dataset.uzuTabsValue = value;
+    setControlIndicator(tabsRoot, nextTab, 'tabs');
 
     if (emit && value !== previousValue) {
       tabsRoot.dispatchEvent(new CustomEvent('uzu-tabs-change', {
@@ -529,6 +608,7 @@
       segment.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     });
     segmented.dataset.uzuSegmentedValue = value;
+    setControlIndicator(segmented, nextSegment, 'segmented');
 
     if (emit && value !== previousValue) {
       segmented.dispatchEvent(new CustomEvent('uzu-segmented-change', {
@@ -622,9 +702,32 @@
   function setDisclosureState(disclosure, open, emit = true) {
     const trigger = disclosure.querySelector('[data-uzu-disclosure-trigger]');
     const panel = disclosure.querySelector('[data-uzu-disclosure-panel]');
-    disclosure.classList.toggle('is-open', open);
+    const existingTimer = disclosureCloseTimers.get(disclosure);
+    if (existingTimer) {
+      window.clearTimeout(existingTimer);
+      disclosureCloseTimers.delete(disclosure);
+    }
     if (trigger) trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (panel) panel.hidden = !open;
+    if (open) {
+      disclosure.classList.remove('is-closing');
+      disclosure.classList.add('is-open');
+      if (panel) panel.hidden = false;
+    } else {
+      if (disclosure.classList.contains('is-open')) {
+        disclosure.classList.remove('is-open');
+        disclosure.classList.add('is-closing');
+        const finish = () => {
+          disclosure.classList.remove('is-closing');
+          if (panel) panel.hidden = true;
+          disclosureCloseTimers.delete(disclosure);
+        };
+        const timer = scheduleAfterAnimation([panel].filter(Boolean), finish);
+        if (timer) disclosureCloseTimers.set(disclosure, timer);
+      } else {
+        disclosure.classList.remove('is-closing');
+        if (panel) panel.hidden = true;
+      }
+    }
     if (emit) {
       disclosure.dispatchEvent(new CustomEvent('uzu-disclosure-change', {
         bubbles: true,
@@ -662,24 +765,34 @@
       .filter((element) => element.offsetParent !== null || element === document.activeElement);
   }
 
-  function emitDialogEvent(dialog, name) {
+  function emitDialogEvent(dialog, name, trigger = activeDialogTrigger) {
     dialog.dispatchEvent(new CustomEvent(name, {
       bubbles: true,
       detail: {
         dialog,
         overlay: dialog.closest('[data-uzu-dialog-overlay]'),
-        trigger: activeDialogTrigger
+        trigger
       }
     }));
   }
 
   function openDialog(dialog, trigger = null) {
     if (!dialog) return;
+    const existingTimer = dialogCloseTimers.get(dialog);
+    if (existingTimer) {
+      window.clearTimeout(existingTimer);
+      dialogCloseTimers.delete(dialog);
+    }
     activeDialog = dialog;
     activeDialogTrigger = trigger;
     const overlay = dialog.closest('[data-uzu-dialog-overlay]');
     if (overlay) overlay.hidden = false;
     dialog.hidden = false;
+    if (overlay) {
+      overlay.classList.remove('is-closing');
+      overlay.classList.add('is-open');
+    }
+    dialog.classList.remove('is-closing');
     dialog.classList.add('is-open');
     dialog.setAttribute('role', dialog.getAttribute('role') || 'dialog');
     dialog.setAttribute('aria-modal', 'true');
@@ -690,15 +803,32 @@
   }
 
   function closeDialog(dialog) {
-    if (!dialog) return;
+    if (!dialog || dialog.classList.contains('is-closing') || dialog.hidden) return;
     const overlay = dialog.closest('[data-uzu-dialog-overlay]');
     dialog.classList.remove('is-open');
-    dialog.hidden = true;
-    if (overlay) overlay.hidden = true;
-    emitDialogEvent(dialog, 'uzu-dialog-close');
-    if (activeDialogTrigger && typeof activeDialogTrigger.focus === 'function') activeDialogTrigger.focus();
-    if (activeDialog === dialog) activeDialog = null;
-    activeDialogTrigger = null;
+    dialog.classList.add('is-closing');
+    if (overlay) {
+      overlay.classList.remove('is-open');
+      overlay.classList.add('is-closing');
+    }
+    const trigger = activeDialogTrigger;
+    const finish = () => {
+      dialog.classList.remove('is-closing');
+      dialog.hidden = true;
+      if (overlay) {
+        overlay.classList.remove('is-closing');
+        overlay.hidden = true;
+      }
+      emitDialogEvent(dialog, 'uzu-dialog-close', trigger);
+      if (activeDialog === dialog) {
+        if (trigger && typeof trigger.focus === 'function') trigger.focus();
+        activeDialog = null;
+        activeDialogTrigger = null;
+      }
+      dialogCloseTimers.delete(dialog);
+    };
+    const timer = scheduleAfterAnimation([dialog, overlay].filter(Boolean), finish);
+    if (timer) dialogCloseTimers.set(dialog, timer);
   }
 
   function initDialogs(root = document) {
@@ -725,12 +855,17 @@
   }
 
   function closeToast(toast) {
+    if (!toast || toast.classList.contains('is-dismissed')) return;
     toast.classList.add('is-dismissed');
     toast.dispatchEvent(new CustomEvent('uzu-toast-close', {
       bubbles: true,
       detail: { toast }
     }));
-    window.setTimeout(() => toast.remove(), 180);
+    const timer = scheduleAfterAnimation([toast], () => {
+      toast.remove();
+      toastCloseTimers.delete(toast);
+    });
+    if (timer) toastCloseTimers.set(toast, timer);
   }
 
   function initToasts(root = document) {
@@ -778,6 +913,7 @@
     document.addEventListener('click', handleDocumentClick);
     document.addEventListener('keydown', handleDocumentKeydown);
     document.addEventListener('keydown', trapDialogFocus);
+    window.addEventListener('resize', () => queueIndicatorRefresh());
     document.documentElement.dataset.uzuGlobalListeners = 'true';
   }
 
@@ -787,6 +923,7 @@
     for (const fn of [initThemeToggles, initLanguageToggles, initSelects, initTabs, initSegmented, initSwitches, initDisclosures, initDialogs, initToasts]) {
       try { fn(root); } catch (error) { console.error('[usuzumi]', error); }
     }
+    queueIndicatorRefresh(root);
   }
 
   window.Usuzumi = {

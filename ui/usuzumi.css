@@ -493,11 +493,10 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   white-space: nowrap;
   cursor: pointer;
   appearance: none;
-  transition: transform var(--uzu-motion-base) var(--uzu-ease-standard), background var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard);
+  transition: background var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard);
 }
 
 .uzu-button:hover {
-  transform: translateY(-1px);
   border-color: color-mix(in srgb, var(--uzu-fg-strong) 38%, var(--uzu-border));
   background: var(--uzu-surface);
   color: var(--uzu-fg-strong);
@@ -601,11 +600,10 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   cursor: pointer;
   appearance: none;
   backdrop-filter: blur(10px);
-  transition: transform var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), background var(--uzu-motion-base) var(--uzu-ease-standard);
+  transition: color var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), background var(--uzu-motion-base) var(--uzu-ease-standard);
 }
 
 .uzu-icon-button:hover {
-  transform: translateY(-1px);
   color: var(--uzu-fg-strong);
   border-color: var(--uzu-border-strong);
 }
@@ -808,7 +806,7 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
 .uzu-select-menu {
   position: absolute;
   z-index: 30;
-  top: calc(100% + 6px);
+  top: calc(100% + 2px);
   left: 0;
   right: 0;
   display: none;
@@ -818,10 +816,21 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   border-radius: var(--uzu-radius-standard);
   background: var(--uzu-surface);
   box-shadow: var(--uzu-shadow-popover);
+  transform-origin: top center;
+}
+
+.uzu-select.is-open .uzu-select-menu,
+.uzu-select.is-closing .uzu-select-menu {
+  display: grid;
 }
 
 .uzu-select.is-open .uzu-select-menu {
-  display: grid;
+  animation: uzu-menu-in var(--uzu-motion-quick) var(--uzu-ease-standard);
+}
+
+.uzu-select.is-closing .uzu-select-menu {
+  pointer-events: none;
+  animation: uzu-menu-out var(--uzu-motion-quick) var(--uzu-ease-standard) forwards;
 }
 
 .uzu-select-option {
@@ -1021,9 +1030,25 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
 
 .uzu-tabs {
   border-bottom: 1px solid var(--uzu-border);
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 22px;
+}
+
+.uzu-tabs[data-uzu-tabs-indicator="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--uzu-tabs-indicator-y, calc(100% - 1px));
+  width: var(--uzu-tabs-indicator-width, 0px);
+  height: 1px;
+  border-radius: var(--uzu-radius-pill);
+  background: var(--uzu-fg-strong);
+  pointer-events: none;
+  opacity: var(--uzu-tabs-indicator-opacity, 0);
+  transform: translateX(var(--uzu-tabs-indicator-x, 0px));
+  transition: transform var(--uzu-motion-slow) var(--uzu-ease-standard), width var(--uzu-motion-slow) var(--uzu-ease-standard), opacity var(--uzu-motion-base) var(--uzu-ease-standard);
 }
 
 .uzu-tab {
@@ -1047,13 +1072,35 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   color: var(--uzu-fg-strong);
 }
 
+.uzu-tabs[data-uzu-tabs-indicator="true"] .uzu-tab.is-active,
+.uzu-tabs[data-uzu-tabs-indicator="true"] .uzu-tab[aria-selected="true"] {
+  border-bottom-color: transparent;
+}
+
 .uzu-segmented {
   padding: 3px;
   border: 1px solid var(--uzu-border);
   border-radius: var(--uzu-radius-medium);
   background: var(--uzu-surface-soft);
+  position: relative;
   display: inline-flex;
   gap: 3px;
+}
+
+.uzu-segmented[data-uzu-segmented-indicator="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  width: var(--uzu-segmented-indicator-width, 0px);
+  height: var(--uzu-segmented-indicator-height, 0px);
+  border-radius: var(--uzu-radius-standard);
+  background: var(--uzu-surface);
+  pointer-events: none;
+  opacity: var(--uzu-segmented-indicator-opacity, 0);
+  transform: translate(var(--uzu-segmented-indicator-x, 0px), var(--uzu-segmented-indicator-y, 0px));
+  transition: transform var(--uzu-motion-slow) var(--uzu-ease-standard), width var(--uzu-motion-slow) var(--uzu-ease-standard), height var(--uzu-motion-slow) var(--uzu-ease-standard), opacity var(--uzu-motion-base) var(--uzu-ease-standard);
 }
 
 .uzu-segment {
@@ -1063,6 +1110,8 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   border-radius: var(--uzu-radius-standard);
   background: transparent;
   color: var(--uzu-muted);
+  position: relative;
+  z-index: 1;
   font-size: 13px;
   cursor: pointer;
   transition: background var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard);
@@ -1076,6 +1125,11 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
 .uzu-segment[aria-pressed="true"] {
   background: var(--uzu-surface);
   color: var(--uzu-fg-strong);
+}
+
+.uzu-segmented[data-uzu-segmented-indicator="true"] .uzu-segment.is-active,
+.uzu-segmented[data-uzu-segmented-indicator="true"] .uzu-segment[aria-pressed="true"] {
+  background: transparent;
 }
 
 .uzu-table-wrap {
@@ -1138,8 +1192,8 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   white-space: normal;
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, 4px);
-  transition: opacity var(--uzu-motion-base) var(--uzu-ease-standard), transform var(--uzu-motion-base) var(--uzu-ease-standard);
+  transform: translateX(-50%);
+  transition: opacity var(--uzu-motion-base) var(--uzu-ease-standard);
 }
 
 .uzu-tooltip:hover::after,
@@ -1147,7 +1201,6 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
 [data-uzu-tooltip]:hover::after,
 [data-uzu-tooltip]:focus-visible::after {
   opacity: 1;
-  transform: translate(-50%, 0);
 }
 
 .uzu-dialog-overlay {
@@ -1166,9 +1219,25 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   display: none;
 }
 
+.uzu-dialog-overlay.is-open {
+  animation: uzu-dialog-overlay-in var(--uzu-motion-base) var(--uzu-ease-standard);
+}
+
+.uzu-dialog-overlay.is-closing {
+  animation: uzu-dialog-overlay-out var(--uzu-motion-base) var(--uzu-ease-standard) forwards;
+}
+
 .uzu-modal {
   width: min(440px, 100%);
   padding: 20px;
+}
+
+.uzu-modal[data-uzu-dialog].is-open {
+  animation: uzu-dialog-surface-in var(--uzu-motion-quick) var(--uzu-ease-standard);
+}
+
+.uzu-modal[data-uzu-dialog].is-closing {
+  animation: uzu-dialog-surface-out var(--uzu-motion-quick) var(--uzu-ease-standard) forwards;
 }
 
 .uzu-modal:focus {
@@ -1207,6 +1276,16 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 12px;
+}
+
+.uzu-toast[data-uzu-toast] {
+  animation: uzu-toast-in var(--uzu-motion-base) var(--uzu-ease-standard);
+}
+
+.uzu-toast[data-uzu-toast].is-dismissed {
+  display: grid;
+  pointer-events: none;
+  animation: uzu-toast-out var(--uzu-motion-base) var(--uzu-ease-standard) forwards;
 }
 
 .uzu-toast-content {
@@ -1260,6 +1339,16 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   color: var(--uzu-muted);
   font-size: 14px;
   line-height: 1.65;
+  transform-origin: top center;
+}
+
+.uzu-disclosure.is-open .uzu-disclosure-panel {
+  animation: uzu-disclosure-in var(--uzu-motion-base) var(--uzu-ease-standard);
+}
+
+.uzu-disclosure.is-closing .uzu-disclosure-panel {
+  pointer-events: none;
+  animation: uzu-disclosure-out var(--uzu-motion-base) var(--uzu-ease-standard) forwards;
 }
 
 .uzu-skeleton {
@@ -1449,6 +1538,110 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
   }
 }
 
+@keyframes uzu-menu-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes uzu-menu-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes uzu-disclosure-in {
+  from {
+    opacity: 0;
+    transform: scaleY(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes uzu-disclosure-out {
+  from {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scaleY(.98);
+  }
+}
+
+@keyframes uzu-dialog-overlay-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes uzu-dialog-overlay-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes uzu-dialog-surface-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes uzu-dialog-surface-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes uzu-toast-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes uzu-toast-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 640px) {
   .uzu-floating-controls {
     top: 16px;
@@ -1480,23 +1673,33 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .uzu-button:hover,
-  .uzu-icon-button:hover {
-    transform: none;
-  }
-
   .uzu-button.is-loading::before,
   .uzu-skeleton,
   .uzu-progress-indeterminate .uzu-progress-bar,
   .uzu-progress-bar.is-indeterminate,
   .uzu-activity-dot,
-  .uzu-process-step.is-active::before {
+  .uzu-process-step.is-active::before,
+  .uzu-select.is-open .uzu-select-menu,
+  .uzu-select.is-closing .uzu-select-menu,
+  .uzu-disclosure.is-open .uzu-disclosure-panel,
+  .uzu-disclosure.is-closing .uzu-disclosure-panel,
+  .uzu-dialog-overlay.is-open,
+  .uzu-dialog-overlay.is-closing,
+  .uzu-modal[data-uzu-dialog].is-open,
+  .uzu-modal[data-uzu-dialog].is-closing,
+  .uzu-toast[data-uzu-toast],
+  .uzu-toast[data-uzu-toast].is-dismissed {
     animation: none;
   }
 
   .uzu-progress-indeterminate .uzu-progress-bar,
   .uzu-progress-bar.is-indeterminate {
     transform: none;
+  }
+
+  .uzu-tabs[data-uzu-tabs-indicator="true"]::after,
+  .uzu-segmented[data-uzu-segmented-indicator="true"]::before {
+    transition: none;
   }
 }
 
@@ -2428,10 +2631,24 @@ html[data-language="zh"] .uzu-app [data-lang="en"],
     border-bottom-color: Highlight;
   }
 
+  .uzu-tabs[data-uzu-tabs-indicator="true"]::after {
+    background: Highlight;
+  }
+
   .uzu-segment.is-active,
   .uzu-segment[aria-pressed="true"],
   .uzu-select-option.is-selected {
     background: Highlight;
+    color: HighlightText;
+  }
+
+  .uzu-segmented[data-uzu-segmented-indicator="true"]::before {
+    background: Highlight;
+  }
+
+  .uzu-segmented[data-uzu-segmented-indicator="true"] .uzu-segment.is-active,
+  .uzu-segmented[data-uzu-segmented-indicator="true"] .uzu-segment[aria-pressed="true"] {
+    background: transparent;
     color: HighlightText;
   }
 

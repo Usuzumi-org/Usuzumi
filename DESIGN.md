@@ -159,9 +159,9 @@ Never use visible 0px, 1px, 2px, or 3px corner radius for cards, controls, previ
 - Slow: `280ms`
 - Easing: `cubic-bezier(.2, .8, .2, 1)`
 
-Allowed transitions are limited to `transform`, `color`, `background`, `border-color`, `opacity`, `text-decoration-color`, and occasional overlay `box-shadow`. Hover translation must not exceed `translateY(-1px)`, and passive surfaces such as cards, rows, specimens, and empty states should not gain decorative hover motion.
+Allowed transitions are limited to `transform`, `color`, `background`, `border-color`, `opacity`, `text-decoration-color`, and occasional overlay `box-shadow`. Hover and focus states may change color, border, background, opacity, or an internal indicator, but they must not move the whole control. Passive surfaces such as cards, rows, specimens, and empty states should not gain decorative hover motion.
 
-Use animation for process states: loading, syncing, indeterminate progress, skeleton content, and the active step in a task flow. Keep repeated animation localized to `.is-loading`, `.uzu-skeleton`, `.uzu-progress-indeterminate`, `.uzu-activity`, and `.uzu-process-step.is-active`. Avoid whole-page entrance animation, bounce, parallax, repeated decorative motion, or layout-shifting size transitions.
+Use animation for process states and state transitions: loading, syncing, indeterminate progress, skeleton content, active task steps, tab and segmented indicators, select menus, disclosures, dialogs, and toast dismissal. Popup surfaces such as menus, dialogs, tooltips, and toasts should fade without translating, scaling, or changing their visual geometry after they appear. Keep repeated animation localized to `.is-loading`, `.uzu-skeleton`, `.uzu-progress-indeterminate`, `.uzu-activity`, and `.uzu-process-step.is-active`. Avoid whole-page entrance animation, bounce, parallax, repeated decorative motion, or layout-shifting size transitions.
 
 ## Typography
 
@@ -240,7 +240,7 @@ Use `disabled` and `readonly` attributes for non-editable controls. Disabled con
 
 Top navigation uses `.uzu-topbar` and `.uzu-nav`. Use `.uzu-tabs` for peer sections and `.uzu-segmented` for compact mode switches.
 
-Tabs and segmented controls are static visual primitives by default. Add `data-uzu-tabs` or `data-uzu-segmented` when the runtime should manage the active state, keyboard arrow navigation, ARIA state, and change events.
+Tabs and segmented controls are static visual primitives by default. Add `data-uzu-tabs` or `data-uzu-segmented` when the runtime should manage the active state, keyboard arrow navigation, ARIA state, animated active indicators, and change events.
 
 ```html
 <div class="uzu-tabs" data-uzu-tabs>
@@ -269,7 +269,7 @@ Use `.uzu-callout` for editorial notes, constraints, and secondary context that 
 
 ### Disclosure And Loading
 
-Use disclosures for optional details, compact settings, and short documentation blocks.
+Use disclosures for optional details, compact settings, and short documentation blocks. Runtime-managed disclosures keep the panel visible during close animation before applying `hidden`.
 
 ```html
 <article class="uzu-disclosure" data-uzu-disclosure>
@@ -286,7 +286,7 @@ Tables use `.uzu-table-wrap` and `.uzu-table`. Horizontal scrolling is acceptabl
 
 ### Overlays
 
-Use `.uzu-popover` and `.uzu-modal` for overlay surfaces. Overlay shadows are allowed, but standard cards should remain flat. Dialog behavior uses `data-uzu-dialog-target`, `data-uzu-dialog-overlay`, `data-uzu-dialog`, and `data-uzu-dialog-close`. The runtime handles Escape, backdrop clicks, focus return, and a small focus trap.
+Use `.uzu-popover` and `.uzu-modal` for overlay surfaces. Overlay shadows are allowed, but standard cards should remain flat. Dialog behavior uses `data-uzu-dialog-target`, `data-uzu-dialog-overlay`, `data-uzu-dialog`, and `data-uzu-dialog-close`. The runtime handles Escape, backdrop clicks, focus return, a small focus trap, and open/close animation timing.
 
 Tooltips use `data-uzu-tooltip` for short supplemental labels. Do not put essential instructions only in tooltips.
 
@@ -359,7 +359,7 @@ The script toggles `data-language` and `data-uzu-lang`. Content can be marked wi
 </div>
 ```
 
-The script supports click to open, click outside to close, Escape to close, ArrowUp/ArrowDown/Home/End navigation, Enter/Space selection, and option selection. It also assigns stable runtime ids, `aria-controls`, `aria-activedescendant`, and `aria-selected` state for the custom select pattern. Selected values are exposed through `data-uzu-select-value`, an optional generated hidden input, `change`, and `uzu-select-change`.
+The script supports click to open, click outside to close, Escape to close, ArrowUp/ArrowDown/Home/End navigation, Enter/Space selection, and option selection. It also assigns stable runtime ids, `aria-controls`, `aria-activedescendant`, and `aria-selected` state for the custom select pattern, and keeps the menu mounted during close animation. Selected values are exposed through `data-uzu-select-value`, an optional generated hidden input, `change`, and `uzu-select-change`.
 
 ### Tabs And Segmented Controls
 
@@ -370,9 +370,9 @@ The script supports click to open, click outside to close, Escape to close, Arro
 </div>
 ```
 
-The script keeps `.is-active`, `aria-selected`, and roving `tabindex` synchronized for tabs. It supports click, ArrowLeft/ArrowRight/ArrowUp/ArrowDown, Home, and End. If a tab has `data-uzu-tab-target` or `aria-controls`, the matching panel is shown and sibling tab panels are hidden.
+The script keeps `.is-active`, `aria-selected`, roving `tabindex`, and the animated underline indicator synchronized for tabs. It supports click, ArrowLeft/ArrowRight/ArrowUp/ArrowDown, Home, and End. If a tab has `data-uzu-tab-target` or `aria-controls`, the matching panel is shown and sibling tab panels are hidden.
 
-Segmented controls use `data-uzu-segmented` and `.uzu-segment`. The script keeps `.is-active` and `aria-pressed` synchronized, supports the same arrow-key navigation, and emits `uzu-segmented-change`.
+Segmented controls use `data-uzu-segmented` and `.uzu-segment`. The script keeps `.is-active`, `aria-pressed`, and the animated selected backing synchronized, supports the same arrow-key navigation, and emits `uzu-segmented-change`.
 
 ### Custom Events
 

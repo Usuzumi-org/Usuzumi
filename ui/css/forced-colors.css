@@ -61,10 +61,24 @@
     border-bottom-color: Highlight;
   }
 
+  .uzu-tabs[data-uzu-tabs-indicator="true"]::after {
+    background: Highlight;
+  }
+
   .uzu-segment.is-active,
   .uzu-segment[aria-pressed="true"],
   .uzu-select-option.is-selected {
     background: Highlight;
+    color: HighlightText;
+  }
+
+  .uzu-segmented[data-uzu-segmented-indicator="true"]::before {
+    background: Highlight;
+  }
+
+  .uzu-segmented[data-uzu-segmented-indicator="true"] .uzu-segment.is-active,
+  .uzu-segmented[data-uzu-segmented-indicator="true"] .uzu-segment[aria-pressed="true"] {
+    background: transparent;
     color: HighlightText;
   }
 

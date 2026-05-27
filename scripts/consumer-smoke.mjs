@@ -11,6 +11,7 @@ const npmCli = process.env.npm_execpath || '';
 const tempRoot = path.join(root, '.tmp', 'consumer-smoke');
 const packDir = path.join(tempRoot, 'pack');
 const appDir = path.join(tempRoot, 'app');
+const npmCacheDir = path.join(tempRoot, 'npm-cache');
 
 function assertInsideRoot(target) {
   const relative = path.relative(root, target);
@@ -29,10 +30,19 @@ function run(command, args, options = {}) {
 }
 
 function runNpm(args, options = {}) {
+  const npmOptions = {
+    ...options,
+    env: {
+      ...process.env,
+      npm_config_cache: npmCacheDir,
+      npm_config_update_notifier: 'false',
+      ...(options.env || {})
+    }
+  };
   if (npmCli && existsSync(npmCli)) {
-    return run(process.execPath, [npmCli, ...args], options);
+    return run(process.execPath, [npmCli, ...args], npmOptions);
   }
-  return run(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, options);
+  return run(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, npmOptions);
 }
 
 function getBrowserCandidates() {
@@ -427,6 +437,8 @@ async function browserSmoke() {
 </head>
 <body class="uzu-app">
   <main class="uzu-page">
+    <button class="uzu-button" type="button">Hover target</button>
+    <button class="uzu-icon-button" type="button" data-uzu-tooltip="Tooltip text" aria-label="Tooltip target">?</button>
     <div class="uzu-tabs" data-uzu-tabs>
       <button class="uzu-tab is-active" type="button" data-uzu-tab-value="one" aria-selected="true">One</button>
       <button class="uzu-tab" type="button" data-uzu-tab-value="two" aria-selected="false">Two</button>
@@ -435,6 +447,17 @@ async function browserSmoke() {
       <button class="uzu-segment is-active" type="button" data-uzu-segment-value="alpha" aria-pressed="true">Alpha</button>
       <button class="uzu-segment" type="button" data-uzu-segment-value="beta" aria-pressed="false">Beta</button>
     </div>
+    <div class="uzu-select" data-uzu-select data-uzu-select-name="density">
+      <button class="uzu-select-trigger" type="button" data-uzu-select-trigger aria-expanded="false">Balanced</button>
+      <div class="uzu-select-menu" role="listbox">
+        <div class="uzu-select-option is-selected" data-uzu-select-option data-value="balanced" role="option" aria-selected="true">Balanced</div>
+        <div class="uzu-select-option" data-uzu-select-option data-value="compact" role="option" aria-selected="false">Compact</div>
+      </div>
+    </div>
+    <section class="uzu-disclosure" data-uzu-disclosure>
+      <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="false">Details</button>
+      <div class="uzu-disclosure-panel" data-uzu-disclosure-panel hidden>Disclosure content</div>
+    </section>
     <aside class="uzu-callout uzu-callout-note">
       <h3 class="uzu-callout-title">Consumer page</h3>
       <p>Loaded from node_modules.</p>
@@ -452,6 +475,24 @@ async function browserSmoke() {
       <li class="uzu-process-step is-active" aria-current="step">Build CSS bundle</li>
       <li class="uzu-process-step">Package release</li>
     </ol>
+    <article class="uzu-toast" data-uzu-toast>
+      <div class="uzu-toast-content">Saved</div>
+      <button class="uzu-icon-button uzu-toast-close" type="button" data-uzu-toast-close aria-label="Dismiss toast">x</button>
+    </article>
+    <button class="uzu-button" type="button" data-uzu-dialog-target="#consumer-dialog">Open dialog</button>
+    <button class="uzu-button" type="button" data-uzu-dialog-target="#consumer-dialog-two">Open second dialog</button>
+    <div class="uzu-dialog-overlay" data-uzu-dialog-overlay hidden>
+      <section class="uzu-modal" id="consumer-dialog" data-uzu-dialog hidden tabindex="-1" aria-labelledby="consumer-dialog-title">
+        <h2 id="consumer-dialog-title">Consumer dialog</h2>
+        <button class="uzu-button" type="button" data-uzu-dialog-close>Close</button>
+      </section>
+    </div>
+    <div class="uzu-dialog-overlay" data-uzu-dialog-overlay hidden>
+      <section class="uzu-modal" id="consumer-dialog-two" data-uzu-dialog hidden tabindex="-1" aria-labelledby="consumer-dialog-two-title">
+        <h2 id="consumer-dialog-two-title">Second dialog</h2>
+        <button class="uzu-button" type="button" data-uzu-dialog-close>Close</button>
+      </section>
+    </div>
   </main>
 </body>
 </html>
@@ -460,7 +501,7 @@ async function browserSmoke() {
   const { spawn } = await import('node:child_process');
   const { pathToFileURL } = await import('node:url');
   const profile = path.join(appDir, 'browser-profile');
-  const port = 9241;
+  const activePortFile = path.join(profile, 'DevToolsActivePort');
   const targetUrl = pathToFileURL(htmlPath).href;
 
   rmSync(profile, { recursive: true, force: true });
@@ -468,7 +509,8 @@ async function browserSmoke() {
 
   const child = spawn(browser, [
     '--headless=new',
-    `--remote-debugging-port=${port}`,
+    '--remote-debugging-port=0',
+    '--remote-allow-origins=*',
     `--user-data-dir=${profile}`,
     '--disable-gpu',
     '--no-first-run',
@@ -477,8 +519,18 @@ async function browserSmoke() {
   ], { stdio: 'ignore', windowsHide: true });
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const readBrowserPort = () => {
+    if (!existsSync(activePortFile)) return 0;
+    const [portText] = readFileSync(activePortFile, 'utf8').split(/\r?\n/);
+    return Number.parseInt(portText, 10) || 0;
+  };
   const waitForBrowser = async () => {
     for (let index = 0; index < 60; index += 1) {
+      const port = readBrowserPort();
+      if (!port) {
+        await delay(100);
+        continue;
+      }
       try {
         return await requestJson(port, '/json/version');
       } catch (_) {
@@ -488,37 +540,118 @@ async function browserSmoke() {
     throw new Error('Browser did not expose a DevTools endpoint');
   };
   try {
-    await waitForBrowser();
+    const browserInfo = await waitForBrowser();
+    const port = Number.parseInt(new URL(browserInfo.webSocketDebuggerUrl).port, 10) || readBrowserPort();
     const target = await requestJson(port, `/json/new?${encodeURIComponent(targetUrl)}`, 'PUT');
     const cdp = await connectCdp(target.webSocketDebuggerUrl);
     await cdp.send('Runtime.enable');
     await cdp.send('Page.enable');
     await delay(800);
 
-    const expression = `(() => {
+    const expression = `(async () => {
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
       const events = [];
       const tabs = document.querySelector('[data-uzu-tabs]');
       const segmented = document.querySelector('[data-uzu-segmented]');
+      const select = document.querySelector('[data-uzu-select]');
+      const selectTrigger = document.querySelector('[data-uzu-select-trigger]');
+      const selectMenu = document.querySelector('.uzu-select-menu');
+      const disclosure = document.querySelector('[data-uzu-disclosure]');
+      const disclosureTrigger = document.querySelector('[data-uzu-disclosure-trigger]');
+      const disclosurePanel = document.querySelector('[data-uzu-disclosure-panel]');
       tabs.addEventListener('uzu-tabs-change', (event) => events.push(event.detail.value));
       segmented.addEventListener('uzu-segmented-change', (event) => events.push(event.detail.value));
       const click = (element) => element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
       click([...tabs.querySelectorAll('.uzu-tab')].find((tab) => tab.textContent.trim() === 'Two'));
       click([...segmented.querySelectorAll('.uzu-segment')].find((segment) => segment.textContent.trim() === 'Beta'));
+      click(selectTrigger);
+      const selectOpenAnimation = getComputedStyle(selectMenu).animationName;
+      click(selectTrigger);
+      const selectCloseAnimation = getComputedStyle(selectMenu).animationName;
+      const selectClosing = select.classList.contains('is-closing');
+      const selectExpandedAfterClose = selectTrigger.getAttribute('aria-expanded');
+      click(disclosureTrigger);
+      const disclosureOpenAnimation = getComputedStyle(disclosurePanel).animationName;
+      click(disclosureTrigger);
+      const disclosureCloseAnimation = getComputedStyle(disclosurePanel).animationName;
+      const disclosureClosing = disclosure.classList.contains('is-closing');
+      const disclosureHiddenWhileClosing = disclosurePanel.hidden;
+      const dialogTrigger = document.querySelector('[data-uzu-dialog-target]');
+      const secondDialogTrigger = document.querySelector('[data-uzu-dialog-target="#consumer-dialog-two"]');
+      const dialog = document.querySelector('[data-uzu-dialog]');
+      const secondDialog = document.querySelector('#consumer-dialog-two');
+      const overlay = document.querySelector('[data-uzu-dialog-overlay]');
+      const dialogCloseEvents = [];
+      dialog.addEventListener('uzu-dialog-close', (event) => {
+        dialogCloseEvents.push(event.detail.trigger === dialogTrigger ? 'first-trigger' : 'wrong-trigger');
+      });
+      click(dialogTrigger);
       const style = getComputedStyle(document.querySelector('.uzu-callout'));
+      const buttonTransform = getComputedStyle(document.querySelector('.uzu-button')).transform;
+      const tabsIndicator = getComputedStyle(tabs, '::after');
+      const segmentedIndicator = getComputedStyle(segmented, '::before');
       const progressBar = getComputedStyle(document.querySelector('.uzu-progress-indeterminate .uzu-progress-bar'));
       const activityDot = getComputedStyle(document.querySelector('.uzu-activity-dot'));
       const processStep = getComputedStyle(document.querySelector('.uzu-process-step.is-active'), '::before');
+      const selectOpenTransform = getComputedStyle(selectMenu).transform;
+      const dialogOpenAnimation = getComputedStyle(dialog).animationName;
+      const dialogOpenTransform = getComputedStyle(dialog).transform;
+      const toast = document.querySelector('[data-uzu-toast]');
+      const toastOpenTransform = getComputedStyle(toast).transform;
+      const tooltipTransform = getComputedStyle(document.querySelector('[data-uzu-tooltip]'), '::after').transform;
+      click(dialog.querySelector('[data-uzu-dialog-close]'));
+      const dialogCloseAnimation = getComputedStyle(dialog).animationName;
+      const dialogCloseTransform = getComputedStyle(dialog).transform;
+      const dialogClosing = dialog.classList.contains('is-closing');
+      const dialogHiddenWhileClosing = dialog.hidden;
+      const overlayClosing = overlay.classList.contains('is-closing');
+      click(toast.querySelector('[data-uzu-toast-close]'));
+      const toastCloseTransform = getComputedStyle(toast).transform;
+      click(secondDialogTrigger);
+      const closeEventsBeforeAnimationEnd = dialogCloseEvents.length;
+      await wait(260);
       return {
         hasApi: Boolean(window.Usuzumi && window.Usuzumi.init),
         rootClass: document.documentElement.classList.contains('uzu-root'),
         tabValue: tabs.dataset.uzuTabsValue,
         tabSelected: tabs.querySelector('[data-uzu-tab-value="two"]').getAttribute('aria-selected'),
+        tabsIndicator: tabs.dataset.uzuTabsIndicator,
+        tabsIndicatorWidth: Number.parseFloat(tabsIndicator.width),
+        tabsIndicatorTransform: tabsIndicator.transform,
         segmentValue: segmented.dataset.uzuSegmentedValue,
         segmentPressed: segmented.querySelector('[data-uzu-segment-value="beta"]').getAttribute('aria-pressed'),
+        segmentedIndicator: segmented.dataset.uzuSegmentedIndicator,
+        segmentedIndicatorWidth: Number.parseFloat(segmentedIndicator.width),
+        segmentedIndicatorTransform: segmentedIndicator.transform,
+        selectOpenAnimation,
+        selectCloseAnimation,
+        selectOpenTransform,
+        selectClosing,
+        selectExpandedAfterClose,
+        disclosureOpenAnimation,
+        disclosureCloseAnimation,
+        disclosureClosing,
+        disclosureHiddenWhileClosing,
+        buttonTransform,
         calloutBorderStyle: style.borderTopStyle,
         progressAnimation: progressBar.animationName,
         activityAnimation: activityDot.animationName,
         processAnimation: processStep.animationName,
+        dialogOpenAnimation,
+        dialogCloseAnimation,
+        dialogOpenTransform,
+        dialogCloseTransform,
+        toastOpenTransform,
+        toastCloseTransform,
+        tooltipTransform,
+        dialogClosing,
+        dialogHiddenWhileClosing,
+        secondDialogOpen: secondDialog.classList.contains('is-open'),
+        focusedSecondDialog: document.activeElement === secondDialog.querySelector('[data-uzu-dialog-close]'),
+        overlayClosing,
+        firstDialogHiddenAfterClose: dialog.hidden,
+        closeEventsBeforeAnimationEnd,
+        closeEventTriggerAfterAnimation: dialogCloseEvents.join(','),
         events
       };
     })()`;
@@ -529,11 +662,29 @@ async function browserSmoke() {
     if (!value.hasApi) throw new Error('Browser consumer page did not expose window.Usuzumi');
     if (!value.rootClass) throw new Error('Browser consumer page did not keep uzu-root');
     if (value.tabValue !== 'two' || value.tabSelected !== 'true') throw new Error('Browser consumer tabs did not respond');
+    if (value.tabsIndicator !== 'true' || value.tabsIndicatorWidth <= 0) throw new Error('Browser consumer tabs did not expose animated indicator metrics');
+    if (value.tabsIndicatorTransform === 'none') throw new Error('Browser consumer tabs indicator did not move');
     if (value.segmentValue !== 'beta' || value.segmentPressed !== 'true') throw new Error('Browser consumer segmented control did not respond');
+    if (value.segmentedIndicator !== 'true' || value.segmentedIndicatorWidth <= 0) throw new Error('Browser consumer segmented control did not expose animated indicator metrics');
+    if (value.segmentedIndicatorTransform === 'none') throw new Error('Browser consumer segmented indicator did not move');
+    if (value.selectOpenAnimation !== 'uzu-menu-in' || value.selectCloseAnimation !== 'uzu-menu-out') throw new Error('Browser consumer select did not animate open and close');
+    if (value.selectOpenTransform !== 'none') throw new Error('Browser consumer select menu should not shift or scale while opening');
+    if (!value.selectClosing || value.selectExpandedAfterClose !== 'false') throw new Error('Browser consumer select did not keep a closing state with collapsed ARIA');
+    if (value.disclosureOpenAnimation !== 'uzu-disclosure-in' || value.disclosureCloseAnimation !== 'uzu-disclosure-out') throw new Error('Browser consumer disclosure did not animate open and close');
+    if (!value.disclosureClosing || value.disclosureHiddenWhileClosing) throw new Error('Browser consumer disclosure did not stay visible while closing');
+    if (value.buttonTransform !== 'none') throw new Error('Browser consumer button hover/base transform should not move the button');
     if (value.calloutBorderStyle === 'none') throw new Error('Browser consumer CSS did not style callouts');
     if (value.progressAnimation !== 'uzu-progress-indeterminate') throw new Error('Browser consumer CSS did not animate indeterminate progress');
     if (value.activityAnimation !== 'uzu-activity-dot') throw new Error('Browser consumer CSS did not animate activity dots');
     if (value.processAnimation !== 'uzu-process-pulse') throw new Error('Browser consumer CSS did not animate active process steps');
+    if (value.dialogOpenAnimation !== 'uzu-dialog-surface-in') throw new Error('Browser consumer dialog did not animate on open');
+    if (value.dialogCloseAnimation !== 'uzu-dialog-surface-out') throw new Error('Browser consumer dialog did not animate on close');
+    if (value.dialogOpenTransform !== 'none' || value.dialogCloseTransform !== 'none') throw new Error('Browser consumer dialog should not shift or scale while opening or closing');
+    if (value.toastOpenTransform !== 'none' || value.toastCloseTransform !== 'none') throw new Error('Browser consumer toast should not shift or scale while opening or closing');
+    if (!value.tooltipTransform.startsWith('matrix(1, 0, 0, 1,') || !value.tooltipTransform.endsWith(', 0)')) throw new Error('Browser consumer tooltip should only keep its static centering transform');
+    if (!value.dialogClosing || value.dialogHiddenWhileClosing || !value.overlayClosing) throw new Error('Browser consumer dialog did not stay visible while closing');
+    if (!value.secondDialogOpen || !value.focusedSecondDialog) throw new Error('Browser consumer second dialog did not remain active while first dialog closed');
+    if (value.closeEventsBeforeAnimationEnd !== 0 || value.closeEventTriggerAfterAnimation !== 'first-trigger') throw new Error('Browser consumer dialog close event used the wrong trigger during overlapping dialog animation');
     if (JSON.stringify(value.events) !== JSON.stringify(['two', 'beta'])) throw new Error('Browser consumer events did not fire');
 
     await cdp.send('Emulation.setEmulatedMedia', {
@@ -567,6 +718,7 @@ assertInsideRoot(tempRoot);
 rmSync(tempRoot, { recursive: true, force: true });
 mkdirSync(packDir, { recursive: true });
 mkdirSync(appDir, { recursive: true });
+mkdirSync(npmCacheDir, { recursive: true });
 
 try {
   const packOutput = runNpm(['pack', '--pack-destination', packDir, '--json']);

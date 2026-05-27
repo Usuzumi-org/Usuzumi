@@ -1,6 +1,6 @@
 ﻿# Usuzumi Design System
 
-Usuzumi is a professional, zero-build web design system by Mashiro0619 for quiet editorial interfaces, personal sites, app introduction pages, documentation pages, and small product tools. It is built around a soft monochrome paper atmosphere: warm gray surfaces, charcoal ink, serif typography, low-contrast borders, restrained motion, and a small set of reusable HTML/CSS/JS primitives.
+Usuzumi is a professional, zero-build web design system for quiet editorial interfaces, personal sites, app introduction pages, documentation pages, and small product tools. It is built around a soft monochrome paper atmosphere: warm gray surfaces, charcoal ink, serif typography, low-contrast borders, restrained motion, and a small set of reusable HTML/CSS/JS primitives.
 
 The system has two goals:
 

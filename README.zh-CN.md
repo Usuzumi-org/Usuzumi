@@ -156,7 +156,8 @@ window.Usuzumi.init(container);
 
 ## 示例
 
-- [官网与组件展示](https://github.com/Mashiro0619/Usuzumi/blob/main/example/index.html)
+- [官网首页](https://github.com/Mashiro0619/Usuzumi/blob/main/example/index.html)
+- [组件目录](https://github.com/Mashiro0619/Usuzumi/blob/main/example/components.html)
 - [个人主页示例](https://github.com/Mashiro0619/Usuzumi/blob/main/example/example-1.html)
 - [应用介绍页示例](https://github.com/Mashiro0619/Usuzumi/blob/main/example/example-2.html)
 
@@ -171,7 +172,7 @@ npm run build:css
 npm run validate
 ```
 
-`npm run validate` 会先检查源码约束，然后将库打包并安装到临时外部项目中，验证 package exports、CSS 文件、类型声明、CDN 风格的 `ui/*` 路径、浏览器运行时行为和官网布局 smoke check。
+`npm run validate` 会先检查源码约束，然后将库打包并安装到临时外部项目中，验证 package exports、CSS 文件、类型声明、CDN 风格的 `ui/*` 路径、浏览器运行时行为和组件目录布局 smoke check。
 
 运行时库没有依赖。完整设计规范见 [DESIGN.md](DESIGN.md)。
 

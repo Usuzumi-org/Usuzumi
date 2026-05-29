@@ -301,6 +301,58 @@
   color: var(--uzu-fg-strong);
 }
 
+.uzu-doc-nav {
+  display: grid;
+  gap: 22px;
+}
+
+.uzu-doc-nav-section {
+  display: grid;
+  gap: 4px;
+}
+
+.uzu-doc-nav-title {
+  margin: 0 0 4px;
+  color: var(--uzu-subtle);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.uzu-doc-nav a {
+  min-height: 36px;
+  padding: 7px 10px;
+  color: var(--uzu-fg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.uzu-doc-nav a:hover,
+.uzu-doc-nav a:focus-visible {
+  background: var(--uzu-surface-soft);
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-doc-nav a[aria-current="page"] {
+  background: var(--uzu-surface-soft);
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-doc-nav-en {
+  color: var(--uzu-soft);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.uzu-doc-nav-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--uzu-radius-pill);
+  background: var(--uzu-accent, var(--uzu-success));
+  flex: 0 0 auto;
+}
+
 .uzu-theme-toggle .uzu-icon-sun,
 .uzu-theme-toggle.is-dark .uzu-icon-moon {
   display: none;

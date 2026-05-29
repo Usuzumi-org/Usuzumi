@@ -72,6 +72,25 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.uzu-doc-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+}
+
+.uzu-doc-sidebar {
+  max-height: calc(100vh - 72px);
+  position: sticky;
+  top: 32px;
+  overflow: auto;
+  padding-right: 12px;
+}
+
+.uzu-doc-main {
+  min-width: 0;
+}
+
 .uzu-hero-split {
   min-height: min(720px, calc(100vh - 110px));
   padding-bottom: 68px;
@@ -126,9 +145,17 @@
   }
 
   .uzu-hero-split,
+  .uzu-doc-layout,
   .uzu-grid-2,
   .uzu-grid-3 {
     grid-template-columns: 1fr;
+  }
+
+  .uzu-doc-sidebar {
+    max-height: none;
+    position: static;
+    overflow: visible;
+    padding-right: 0;
   }
 
   .uzu-hero-split {

@@ -7,7 +7,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputDir = path.join(root, '.tmp', 'visual-regression');
-const siteUrl = pathToFileURL(path.join(root, 'example', 'index.html')).href;
+const componentsUrl = pathToFileURL(path.join(root, 'example', 'components.html')).href;
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -317,7 +317,7 @@ async function waitForBrowser(profile) {
   throw new Error('Browser did not expose a DevTools endpoint');
 }
 
-async function openSite(cdp, viewport) {
+async function openComponents(cdp, viewport) {
   await cdp.send('Runtime.enable');
   await cdp.send('Page.enable');
   await cdp.send('Emulation.setDeviceMetricsOverride', {
@@ -326,7 +326,7 @@ async function openSite(cdp, viewport) {
     deviceScaleFactor: 1,
     mobile: viewport.mobile
   });
-  await cdp.send('Page.navigate', { url: siteUrl });
+  await cdp.send('Page.navigate', { url: componentsUrl });
   await delay(900);
 }
 
@@ -484,7 +484,7 @@ const visualExpression = `(async () => {
 
 const browser = findBrowserExecutable();
 if (!browser) {
-  console.log('Site visual regression skipped: no Chromium/Chrome/Edge executable found.');
+  console.log('Component visual regression skipped: no Chromium/Chrome/Edge executable found.');
   process.exit(0);
 }
 
@@ -513,15 +513,15 @@ try {
     { name: 'desktop', width: 1280, height: 900, mobile: false },
     { name: 'mobile', width: 390, height: 844, mobile: true }
   ]) {
-    const target = await requestJson(port, `/json/new?${encodeURIComponent(siteUrl)}`, 'PUT');
+    const target = await requestJson(port, `/json/new?${encodeURIComponent(componentsUrl)}`, 'PUT');
     const cdp = await connectCdp(target.webSocketDebuggerUrl);
-    await openSite(cdp, viewport);
+    await openComponents(cdp, viewport);
     await capture(cdp, `${viewport.name}.png`);
     const metrics = await evaluate(cdp, visualExpression);
     checkMetrics(metrics, viewport.name);
     cdp.close();
   }
-  console.log(`Site visual regression passed. Screenshots: ${path.relative(root, outputDir).replaceAll(path.sep, '/')}`);
+  console.log(`Component visual regression passed. Screenshots: ${path.relative(root, outputDir).replaceAll(path.sep, '/')}`);
 } finally {
   child.kill();
   await delay(250);

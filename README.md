@@ -156,7 +156,8 @@ Type declarations are included.
 
 ## Examples
 
-- [Homepage and component showcase](https://github.com/Mashiro0619/Usuzumi/blob/main/example/index.html)
+- [Homepage](https://github.com/Mashiro0619/Usuzumi/blob/main/example/index.html)
+- [Component catalog](https://github.com/Mashiro0619/Usuzumi/blob/main/example/components.html)
 - [Personal homepage example](https://github.com/Mashiro0619/Usuzumi/blob/main/example/example-1.html)
 - [App introduction example](https://github.com/Mashiro0619/Usuzumi/blob/main/example/example-2.html)
 
@@ -171,7 +172,7 @@ npm run build:css
 npm run validate
 ```
 
-`npm run validate` checks source guardrails, then packs the library and installs it into a temporary consumer project to verify package exports, CSS files, type declarations, CDN-style `ui/*` paths, browser runtime behavior, and site layout smoke checks.
+`npm run validate` checks source guardrails, then packs the library and installs it into a temporary consumer project to verify package exports, CSS files, type declarations, CDN-style `ui/*` paths, browser runtime behavior, and component catalog layout smoke checks.
 
 The runtime library has no dependencies. See [DESIGN.md](DESIGN.md) for the full design specification.
 

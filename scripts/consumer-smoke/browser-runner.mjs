@@ -73,8 +73,13 @@ export async function browserSmoke(appDir) {
   rmSync(profile, { recursive: true, force: true });
   mkdirSync(profile, { recursive: true });
 
-  const child = spawn(browser, [
+  const launchArgs = [
     '--headless=new',
+    ...(process.platform === 'linux' ? [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage'
+    ] : []),
     '--remote-debugging-port=0',
     '--remote-allow-origins=*',
     `--user-data-dir=${profile}`,
@@ -82,16 +87,34 @@ export async function browserSmoke(appDir) {
     '--no-first-run',
     '--no-default-browser-check',
     'about:blank'
-  ], { stdio: 'ignore', windowsHide: true });
+  ];
+  const child = spawn(browser, launchArgs, { stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true });
+  const stderrChunks = [];
+  let childExit = null;
+  child.stderr.on('data', (chunk) => {
+    stderrChunks.push(Buffer.from(chunk));
+    if (stderrChunks.length > 20) stderrChunks.shift();
+  });
+  child.on('exit', (code, signal) => {
+    childExit = { code, signal };
+  });
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const browserDiagnostics = () => {
+    const lines = [`Browser executable: ${browser}`, `Browser args: ${launchArgs.join(' ')}`];
+    if (childExit) lines.push(`Browser exit: code=${childExit.code ?? 'null'} signal=${childExit.signal ?? 'null'}`);
+    const stderr = Buffer.concat(stderrChunks).toString('utf8').trim();
+    if (stderr) lines.push(`Browser stderr:\n${stderr.slice(-4000)}`);
+    return lines.join('\n');
+  };
   const readBrowserPort = () => {
     if (!existsSync(activePortFile)) return 0;
     const [portText] = readFileSync(activePortFile, 'utf8').split(/\r?\n/);
     return Number.parseInt(portText, 10) || 0;
   };
   const waitForBrowser = async () => {
-    for (let index = 0; index < 60; index += 1) {
+    for (let index = 0; index < 150; index += 1) {
+      if (childExit) break;
       const port = readBrowserPort();
       if (!port) {
         await delay(100);
@@ -103,7 +126,7 @@ export async function browserSmoke(appDir) {
         await delay(100);
       }
     }
-    throw new Error('Browser did not expose a DevTools endpoint');
+    throw new Error(`Browser did not expose a DevTools endpoint.\n${browserDiagnostics()}`);
   };
   try {
     const browserInfo = await waitForBrowser();

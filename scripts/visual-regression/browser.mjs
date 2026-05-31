@@ -8,6 +8,24 @@ export function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export function createBrowserLaunchArgs(profile) {
+  return [
+    '--headless=new',
+    ...(process.platform === 'linux' ? [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage'
+    ] : []),
+    '--remote-debugging-port=0',
+    '--remote-allow-origins=*',
+    `--user-data-dir=${profile}`,
+    '--disable-gpu',
+    '--no-first-run',
+    '--no-default-browser-check',
+    'about:blank'
+  ];
+}
+
 export function getBrowserCandidates() {
   const candidates = [
     process.env.CHROME_PATH,
@@ -277,7 +295,7 @@ export async function connectCdp(wsUrl, retries = 20) {
   throw lastError;
 }
 
-export async function waitForBrowser(profile) {
+export async function waitForBrowser(profile, diagnostics = () => '') {
   const activePortFile = path.join(profile, 'DevToolsActivePort');
   const readBrowserPort = () => {
     if (!existsSync(activePortFile)) return 0;
@@ -285,7 +303,9 @@ export async function waitForBrowser(profile) {
     return Number.parseInt(portText, 10) || 0;
   };
 
-  for (let index = 0; index < 60; index += 1) {
+  for (let index = 0; index < 150; index += 1) {
+    const detail = diagnostics();
+    if (detail.includes('Browser exit:')) break;
     const port = readBrowserPort();
     if (!port) {
       await delay(100);
@@ -298,7 +318,8 @@ export async function waitForBrowser(profile) {
       await delay(100);
     }
   }
-  throw new Error('Browser did not expose a DevTools endpoint');
+  const detail = diagnostics();
+  throw new Error(`Browser did not expose a DevTools endpoint.${detail ? `\n${detail}` : ''}`);
 }
 
 export async function openPage(cdp, viewport, url) {

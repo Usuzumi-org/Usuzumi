@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { checkEditorIntegrationMetrics, checkMetrics } from './visual-regression/assertions.mjs';
-import { connectCdp, delay, evaluate, findBrowserExecutable, openPage, requestJson, waitForBrowser } from './visual-regression/browser.mjs';
+import { connectCdp, createBrowserLaunchArgs, delay, evaluate, findBrowserExecutable, openPage, requestJson, waitForBrowser } from './visual-regression/browser.mjs';
 import { editorIntegrationExpression, visualExpression } from './visual-regression/expressions.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -51,19 +51,28 @@ mkdirSync(outputDir, { recursive: true });
 const profile = path.join(outputDir, 'browser-profile');
 mkdirSync(profile, { recursive: true });
 
-const child = spawn(browser, [
-  '--headless=new',
-  '--remote-debugging-port=0',
-  '--remote-allow-origins=*',
-  `--user-data-dir=${profile}`,
-  '--disable-gpu',
-  '--no-first-run',
-  '--no-default-browser-check',
-  'about:blank'
-], { stdio: 'ignore', windowsHide: true });
+const launchArgs = createBrowserLaunchArgs(profile);
+const child = spawn(browser, launchArgs, { stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true });
+const stderrChunks = [];
+let childExit = null;
+child.stderr.on('data', (chunk) => {
+  stderrChunks.push(Buffer.from(chunk));
+  if (stderrChunks.length > 20) stderrChunks.shift();
+});
+child.on('exit', (code, signal) => {
+  childExit = { code, signal };
+});
+
+function browserDiagnostics() {
+  const lines = [`Browser executable: ${browser}`, `Browser args: ${launchArgs.join(' ')}`];
+  if (childExit) lines.push(`Browser exit: code=${childExit.code ?? 'null'} signal=${childExit.signal ?? 'null'}`);
+  const stderr = Buffer.concat(stderrChunks).toString('utf8').trim();
+  if (stderr) lines.push(`Browser stderr:\n${stderr.slice(-4000)}`);
+  return lines.join('\n');
+}
 
 try {
-  const port = await waitForBrowser(profile);
+  const port = await waitForBrowser(profile, browserDiagnostics);
   for (const viewport of [
     { name: 'desktop', width: 1280, height: 900, mobile: false },
     { name: 'mobile', width: 390, height: 844, mobile: true }

@@ -256,14 +256,12 @@ window.Usuzumi.destroy(container);
 - JSON Viewer / Diff Viewer：JSON 树渲染和统一 diff 风格行展示。
 - 编辑器表面：富文本、代码、Markdown、纯文本、行内编辑外壳和工具栏按钮。它们是外壳和轻量辅助；富文本推荐接 Tiptap，Markdown 渲染推荐接 markdown-it，完整代码编辑推荐接 CodeMirror 6。
 
-## 示例
+## 站点与示例
 
-- [官网首页](https://github.com/Mashiro0619/Usuzumi/blob/main/example/index.html)
-- [组件目录](https://github.com/Mashiro0619/Usuzumi/blob/main/example/components.html)
-- [个人主页示例](https://github.com/Mashiro0619/Usuzumi/blob/main/example/example-1.html)
-- [应用介绍页示例](https://github.com/Mashiro0619/Usuzumi/blob/main/example/example-2.html)
+- [文档站仓库](https://github.com/Usuzumi-org/Usuzumi-site)
+- [UI 库仓库](https://github.com/Usuzumi-org/Usuzumi)
 
-示例文件可以直接在浏览器中打开，不需要构建步骤或开发服务器。
+官网、组件目录、编辑器接入演示和较大的示例页放在独立站点仓库里，避免文档专用依赖进入 UI 库本体。
 
 ## 维护
 

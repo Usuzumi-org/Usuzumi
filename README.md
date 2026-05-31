@@ -258,14 +258,12 @@ The native library now includes lightweight versions of the larger component fam
 - JSON viewer and diff viewer: parsed JSON trees and readable unified-diff style rows.
 - Editor surfaces: rich-text, code, Markdown, plain-text, inline editor shells, and toolbar buttons. These are shells and light helpers; pair rich text with Tiptap, Markdown rendering with markdown-it, and full code editing with CodeMirror 6 when the project needs editor-engine behavior.
 
-## Examples
+## Site And Examples
 
-- [Homepage](https://github.com/Mashiro0619/Usuzumi/blob/main/example/index.html)
-- [Components page](https://github.com/Mashiro0619/Usuzumi/blob/main/example/components.html)
-- [Personal homepage example](https://github.com/Mashiro0619/Usuzumi/blob/main/example/example-1.html)
-- [App introduction example](https://github.com/Mashiro0619/Usuzumi/blob/main/example/example-2.html)
+- [Documentation site](https://github.com/Usuzumi-org/Usuzumi-site)
+- [UI library repository](https://github.com/Usuzumi-org/Usuzumi)
 
-The examples can be opened directly in a browser. No build step or development server is required.
+The homepage, component catalog, editor integration demos, and larger examples live in the site repository so documentation-only dependencies do not become library dependencies.
 
 ## Maintenance
 

@@ -627,8 +627,8 @@ Use this structure for a compact intro:
       <h1 class="uzu-signature">Usuzumi</h1>
       <p class="uzu-body-large">A quiet interface kit for small sites and product pages.</p>
       <div class="uzu-download-actions">
-        <a class="uzu-button uzu-button-primary" href="components.html">Components</a>
-        <a class="uzu-button" href="https://github.com/Mashiro0619/Usuzumi">GitHub</a>
+        <a class="uzu-button uzu-button-primary" href="https://github.com/Usuzumi-org/Usuzumi-site">Components</a>
+        <a class="uzu-button" href="https://github.com/Usuzumi-org/Usuzumi">GitHub</a>
       </div>
     </div>
   </section>
@@ -665,7 +665,7 @@ Action hierarchy:
 - Text link: navigation to another page, project, document, or external reference.
 - Icon button: compact tool action with an accessible label.
 
-Example pages in `example/` are canonical usage examples for the UI library. If a new template needs local CSS to fix spacing, hierarchy, title/subtitle rhythm, or responsive behavior, first consider whether the missing rule belongs in `ui/css/patterns.css`, `ui/css/layout.css`, or `ui/css/components.css`.
+The documentation site and large examples live in `Usuzumi-org/Usuzumi-site`. Keep site-only layout, prose, and demo code in that repository. Promote a rule into `ui/css/` only when it is a reusable library primitive.
 
 ## Accessibility
 

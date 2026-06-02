@@ -27,6 +27,37 @@
   min-width: 0;
   max-width: 100%;
   position: relative;
+  --uzu-code-token-comment: #59636e;
+  --uzu-code-token-string: #116329;
+  --uzu-code-token-keyword: #cf222e;
+  --uzu-code-token-tag: #8250df;
+  --uzu-code-token-selector: #8250df;
+  --uzu-code-token-property: #0550ae;
+  --uzu-code-token-number: #953800;
+  --uzu-code-token-attr: #0969da;
+  --uzu-code-token-variable: #0550ae;
+  --uzu-code-token-operator: #bf3989;
+  --uzu-code-token-punctuation: #57606a;
+  --uzu-code-token-invalid: #cf222e;
+}
+
+:root[data-theme="dark"] .uzu-code-block,
+.uzu-app[data-theme="dark"] .uzu-code-block,
+.uzu-scope[data-theme="dark"] .uzu-code-block,
+[data-uzu-theme="dark"] .uzu-code-block,
+[data-theme="dark"] .uzu-code-block {
+  --uzu-code-token-comment: #8b949e;
+  --uzu-code-token-string: #7ee787;
+  --uzu-code-token-keyword: #ff7b72;
+  --uzu-code-token-tag: #d2a8ff;
+  --uzu-code-token-selector: #d2a8ff;
+  --uzu-code-token-property: #79c0ff;
+  --uzu-code-token-number: #ffa657;
+  --uzu-code-token-attr: #a5d6ff;
+  --uzu-code-token-variable: #79c0ff;
+  --uzu-code-token-operator: #ff7bdb;
+  --uzu-code-token-punctuation: #c9d1d9;
+  --uzu-code-token-invalid: #ff7b72;
 }
 
 .uzu-code-block pre,
@@ -57,6 +88,68 @@ pre.uzu-code-block-body {
 .uzu-code-block code .line {
   min-height: 0;
   display: inline;
+}
+
+.uzu-code-token {
+  color: inherit;
+}
+
+.uzu-code-token-comment {
+  color: var(--uzu-code-token-comment);
+  font-style: italic;
+}
+
+.uzu-code-token-string {
+  color: var(--uzu-code-token-string);
+}
+
+.uzu-code-token-keyword {
+  color: var(--uzu-code-token-keyword);
+  font-weight: 650;
+}
+
+.uzu-code-token-tag {
+  color: var(--uzu-code-token-tag);
+  font-weight: 650;
+}
+
+.uzu-code-token-selector {
+  color: var(--uzu-code-token-selector);
+  font-weight: 650;
+}
+
+.uzu-code-token-property {
+  color: var(--uzu-code-token-property);
+  font-weight: 650;
+}
+
+.uzu-code-token-number {
+  color: var(--uzu-code-token-number);
+}
+
+.uzu-code-token-attr {
+  color: var(--uzu-code-token-attr);
+  font-weight: 600;
+}
+
+.uzu-code-token-variable {
+  color: var(--uzu-code-token-variable);
+  font-weight: 650;
+}
+
+.uzu-code-token-operator {
+  color: var(--uzu-code-token-operator);
+}
+
+.uzu-code-token-punctuation {
+  color: var(--uzu-code-token-punctuation);
+}
+
+.uzu-code-token-invalid {
+  color: var(--uzu-code-token-invalid);
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-thickness: 1px;
 }
 
 .uzu-code-block-copy {

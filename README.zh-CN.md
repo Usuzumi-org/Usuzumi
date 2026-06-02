@@ -168,6 +168,11 @@ Usuzumi 通过 CSS 自定义属性提供样式接口。项目应优先在 `:root
 | `--uzu-sheet-width` | `520px` | 板式面板宽度 | 局部 sheet |
 | `--uzu-spinner-size` | `18px` | spinner 尺寸 | 局部 spinner |
 | `--uzu-spinner-stroke` | `2px` | spinner 线宽 | 局部 spinner |
+| `--uzu-reference-layout-gap` | `36px` | 参考页侧栏和正文间距 | 局部参考页 |
+| `--uzu-reference-sidebar-top` | `32px` | 参考页 sticky 侧栏顶部距离 | 局部参考页 |
+| `--uzu-reference-card-padding` | `14px 16px` | 参考页说明卡片和接口卡片内边距 | 局部参考页 |
+| `--uzu-reference-example-padding` | `18px` | 组件示例区域内边距 | 局部参考页 |
+| `--uzu-reference-table-min-width` | `720px` | 接口表格最小宽度 | 局部参考页 |
 
 Tabs 指示条、Segmented 指示条、Disclosure 实测高度等由脚本写入的变量属于内部状态，项目代码可以读取它们，但不把它们当作配置入口。项目反复需要某个新尺寸时，应在库里新增组件变量并更新文档。
 
@@ -176,9 +181,15 @@ Tabs 指示条、Segmented 指示条、Disclosure 实测高度等由脚本写入
 ## 包含内容
 
 - 颜色、字体、间距、边框、圆角、动效和暗色模式等设计 token。
-- 页面、章节、网格、Stack/Flex 布局、侧边栏、按钮、工具栏、面包屑、分页、卡片、指标、列表、头像、表单、输入组合、搜索框、密码输入、文件上传、滑块、步进器、标签页、选择器、组合框、菜单、菜单栏、命令菜单、数据网格、树形视图、分栏、可调整面板、JSON / Diff 查看器、编辑器表面、徽章、标签、分割线、代码、代码块、快捷键提示、Alert 预设、callout、表格、浮层、进度、spinner、骨架屏、toast、dialog、alert dialog、drawer、sheet、disclosure、accordion、hover card、panel navigation、文档布局和 tooltip 等布局与组件原语。
+- 页面、章节、二/三/四列网格、Stack/Flex 布局、侧边栏、按钮、工具栏、面包屑、分页、卡片、指标、列表、头像、表单、输入组合、搜索框、密码输入、文件上传、滑块、步进器、标签页、选择器、组合框、菜单、菜单栏、命令菜单、数据网格、树形视图、分栏、可调整面板、JSON / Diff 查看器、编辑器表面、徽章、标签、分割线、代码、代码块、快捷键提示、Alert 预设、callout、表格、浮层、进度、spinner、骨架屏、toast、dialog、alert dialog、drawer、sheet、disclosure、accordion、hover card、panel navigation、参考页布局和 tooltip 等布局与组件原语。
 - 个人主页、应用介绍页、设计目录、项目列表、产品 mockup 和功能区块等页面模式。
 - 主题切换、语言切换、自定义 select、组合框过滤、数据网格排序/选择、树形导航、分栏/可调整面板、JSON / Diff 渲染、编辑器表面、标签页、分段控件、分页、switch、搜索清空、密码显示切换、stepper、下拉/右键菜单、菜单栏、命令过滤、标签选择/关闭、disclosure、accordion、hover card、dialog、toast 关闭、步骤导航、面板导航、代码复制和有限 Markdown 渲染等交互脚本。
+
+## 参考页布局
+
+`.uzu-reference-layout` 用于组件目录、API 参考和较长的文档页：左侧是 sticky 侧栏，右侧是正文内容。这是公开的库样式，不是站点专属外壳。它通常和 `.uzu-panel-nav`、`.uzu-reference-panel`、`.uzu-reference-tutorial`、`.uzu-reference-interface`、`.uzu-reference-table`、`.uzu-reference-demo` 一起使用，分别承载侧栏导航、可切换段落、教程正文、接口说明、接口表格和 preview/code 示例。
+
+`.uzu-grid-4` 是 `.uzu-grid` 的四列形态，窄屏会收成单列。`.uzu-break-anywhere` 用于表格或卡片里的长 CSS 变量、包名、URL，避免撑破容器。
 
 ## 交互脚本
 

@@ -104,6 +104,10 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.uzu-grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .uzu-stack {
   --uzu-stack-gap: var(--uzu-space-4);
   display: flex;
@@ -261,7 +265,8 @@
 
   .uzu-hero-split,
   .uzu-grid-2,
-  .uzu-grid-3 {
+  .uzu-grid-3,
+  .uzu-grid-4 {
     grid-template-columns: 1fr;
   }
 

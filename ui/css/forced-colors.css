@@ -158,10 +158,12 @@
     border-color: Highlight;
   }
 
+  .uzu-progress-circular-track,
   .uzu-progress-circular .ring-track {
     stroke: CanvasText;
   }
 
+  .uzu-progress-circular-fill,
   .uzu-progress-circular .ring-fill {
     stroke: Highlight;
   }

@@ -48,11 +48,13 @@
   display: inline-flex;
 }
 
+.uzu-progress-circular-track,
 .uzu-progress-circular .ring-track {
   fill: none;
   stroke: var(--uzu-surface-soft);
 }
 
+.uzu-progress-circular-fill,
 .uzu-progress-circular .ring-fill {
   fill: none;
   stroke: currentColor;

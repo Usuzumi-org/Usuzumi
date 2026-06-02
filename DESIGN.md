@@ -88,15 +88,17 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 - `.uzu-menu`, `.uzu-menu-trigger`, `.uzu-menu-content`, `.uzu-menu-item`, `.uzu-menubar`, `.uzu-menubar-item`, `.uzu-command`, `.uzu-command-input`, `.uzu-command-list`, `.uzu-command-item`
 - `.uzu-tabs`, `.uzu-tab`, `.uzu-segmented`, `.uzu-segment`
 - `.uzu-badge`, `.uzu-tag`, `.uzu-tag-close`, `.uzu-separator`, `.uzu-separator-vertical`, `.uzu-code`, `.uzu-kbd`, `.uzu-alert`, `.uzu-alert-info`, `.uzu-alert-success`, `.uzu-alert-warning`, `.uzu-alert-danger`, `.uzu-callout`, `.uzu-callout-title`, `.uzu-toast`, `.uzu-table`, `.uzu-popover`, `.uzu-modal`, `.uzu-alert-dialog`, `.uzu-dialog-overlay`, `.uzu-drawer`, `.uzu-sheet`
-- `.uzu-progress`, `.uzu-progress-bar`, `.uzu-progress-indeterminate`, `.uzu-progress-circular`, `.uzu-spinner`, `.uzu-skeleton`
+- `.uzu-progress`, `.uzu-progress-bar`, `.uzu-progress-indeterminate`, `.uzu-progress-circular`, `.uzu-progress-circular-track`, `.uzu-progress-circular-fill`, `.uzu-spinner`, `.uzu-skeleton`
 - `.uzu-activity`, `.uzu-activity-dot`, `.uzu-process`, `.uzu-process-step`, `.uzu-step-nav`, `.uzu-step-nav-item`, `.uzu-step-nav-button`
 - `.uzu-disclosure`, `.uzu-disclosure-trigger`, `.uzu-disclosure-panel`, `.uzu-accordion`, `.uzu-hover-card`, `.uzu-hover-card-content`, `.uzu-tooltip`
-- `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-stack`, `.uzu-flex`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
+- `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-grid-2`, `.uzu-grid-3`, `.uzu-grid-4`, `.uzu-stack`, `.uzu-flex`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
 - `.uzu-section-centered`, `.uzu-panel`
 - `.uzu-panel-nav`, `.uzu-panel-nav-section`, `.uzu-panel-nav-title`, `.uzu-panel-nav-button`, `.uzu-panel-nav-meta`
 - `.uzu-code-block`, `.uzu-code-block-body`, `.uzu-code-block-copy`, `.uzu-prose`
+- `.uzu-reference-layout`, `.uzu-reference-sidebar`, `.uzu-reference-main`, `.uzu-reference-topbar`, `.uzu-reference-brand`, `.uzu-reference-panel`, `.uzu-reference-tutorial`, `.uzu-reference-interface`, `.uzu-reference-table`, `.uzu-reference-demo`, `.uzu-reference-example`, `.uzu-reference-code`
 - `.uzu-download-actions`, `.uzu-app-hero-copy`, `.uzu-product-meta`, `.uzu-feature-list`, `.uzu-feature-item`, `.uzu-feature-index`, `.uzu-screen-grid`, `.uzu-screen-card`, `.uzu-screen-art`, `.uzu-screen-mark`
 - `.uzu-type-list`, `.uzu-type-list-plain`, `.uzu-type-row`, `.uzu-type-sample`
+- `.uzu-break-anywhere`
 
 ### CSS Custom Property API
 
@@ -485,7 +487,7 @@ Tooltips use `data-uzu-tooltip` for short supplemental labels. During initializa
 
 ### Progress
 
-Linear progress uses `.uzu-progress` and `.uzu-progress-bar`. Use `.uzu-progress-indeterminate` on the track, or `.is-indeterminate` on the bar, when work is ongoing but the percentage is unknown. Circular progress uses `.uzu-progress-circular` with SVG rings.
+Linear progress uses `.uzu-progress` and `.uzu-progress-bar`. Use `.uzu-progress-indeterminate` on the track, or `.is-indeterminate` on the bar, when work is ongoing but the percentage is unknown. Circular progress uses `.uzu-progress-circular` on the SVG and `.uzu-progress-circular-track` / `.uzu-progress-circular-fill` on the rings.
 
 Use `.uzu-activity` with three `.uzu-activity-dot` children for compact activity status, and `.uzu-process` with `.uzu-process-step` for short multi-step flows. Mark completed steps with `.is-complete`; mark the current step with `.is-active` and `aria-current="step"`.
 
@@ -652,6 +654,37 @@ Use `.uzu-title-pair` for title and subtitle pairs inside feature items, cards, 
 Use the catalog page to show the complete system surface: colors, typography, buttons, cards, forms, navigation, feedback, data, overlays, layout, spacing, radius, elevation, motion, focus, accessibility, system defaults, controls, and progress.
 
 The catalog page should demonstrate generic system primitives only. It must not include specific product names or project-branded language except for the design-system identity itself.
+
+### Reference Page
+
+Use `.uzu-reference-layout` for component catalogs, API references, and long documentation pages that need persistent navigation plus one main reading column. It is a public pattern because a reference page repeats the same concerns across projects: a constrained sidebar, switchable panels, tutorial prose, interface tables, and live examples.
+
+```html
+<main class="uzu-page">
+  <div class="uzu-reference-layout">
+    <aside class="uzu-reference-sidebar">
+      <nav class="uzu-panel-nav" data-uzu-panel-nav>
+        <button class="uzu-panel-nav-button" data-uzu-panel-target="#button">Button</button>
+      </nav>
+    </aside>
+    <section class="uzu-reference-main">
+      <article class="uzu-reference-panel" id="button">
+        <header class="uzu-section-head">
+          <h1 class="uzu-section-title">Button</h1>
+        </header>
+        <div class="uzu-reference-tutorial">
+          <section class="uzu-reference-section">
+            <h3>Structure</h3>
+            <p class="uzu-text">Use the button class on a button or link with a clear command label.</p>
+          </section>
+        </div>
+      </article>
+    </section>
+  </div>
+</main>
+```
+
+Reference pages can tune `--uzu-reference-layout-gap`, `--uzu-reference-sidebar-top`, `--uzu-reference-card-padding`, `--uzu-reference-example-padding`, and `--uzu-reference-table-min-width` on the page wrapper. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
 
 ### Choosing The Right Surface
 

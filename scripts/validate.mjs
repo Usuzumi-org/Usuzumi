@@ -8,6 +8,9 @@ const ignoredDirs = new Set(['.git', 'node_modules', 'dist', 'build', 'coverage'
 const ignoredFiles = new Set(['AGENTS.md', 'REVIEW.md']);
 const textExtensions = new Set(['.css', '.html', '.js', '.md', '.json']);
 const issues = [];
+const forbiddenRootDependencyPattern = /^(?:@tiptap\/|@codemirror\/|codemirror$|markdown-it$|shiki$)/i;
+const forbiddenUiEditorPattern = /@tiptap|@codemirror|\bCodeMirror\b|\bEditorView\b|\bMarkdownIt\b|markdown-it|\bshiki\b|createHighlighterCore/i;
+const publicDocs = ['DESIGN.md', 'README.md', 'README.zh-CN.md'];
 
 function toPosix(filePath) {
   return path.relative(root, filePath).replaceAll(path.sep, '/');
@@ -48,6 +51,35 @@ function splitReference(value) {
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function dataAttributeToDatasetKey(attribute) {
+  return attribute
+    .replace(/^data-/, '')
+    .replace(/-([a-z0-9])/g, (_, character) => character.toUpperCase());
+}
+
+function cssContainsClass(cssText, className) {
+  return new RegExp(`\\.${escapeRegExp(className)}(?:[^_a-zA-Z0-9-]|$)`).test(cssText);
+}
+
+function collectDocumentedItems(pattern) {
+  return publicDocs.flatMap((fileName) => {
+    const filePath = path.join(root, fileName);
+    if (!existsSync(filePath)) return [];
+    return [...readText(filePath).matchAll(pattern)].map((match) => ({
+      filePath,
+      value: match[0]
+    }));
+  });
+}
+
+function uniqueDocumentedItems(items) {
+  const byValue = new Map();
+  items.forEach((item) => {
+    if (!byValue.has(item.value)) byValue.set(item.value, item);
+  });
+  return [...byValue.values()];
 }
 
 function decodeHash(value) {
@@ -154,6 +186,69 @@ function validateTextFiles() {
   }
 }
 
+function validateRootPackageDependencies() {
+  const filePath = path.join(root, 'package.json');
+  const packageJson = JSON.parse(readText(filePath));
+  const dependencyBuckets = ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'];
+  for (const bucket of dependencyBuckets) {
+    for (const name of Object.keys(packageJson[bucket] || {})) {
+      if (forbiddenRootDependencyPattern.test(name)) {
+        report(filePath, `root UI package must not depend on external editor/highlighter package: ${name}`);
+      }
+    }
+  }
+}
+
+function validatePublicUiSources() {
+  const uiDir = path.join(root, 'ui');
+  for (const filePath of walk(uiDir)) {
+    const extension = path.extname(filePath);
+    if (!textExtensions.has(extension)) continue;
+    const text = readText(filePath);
+    if (forbiddenUiEditorPattern.test(text)) {
+      report(filePath, 'ui/ must expose editor shells only, not bundled external editor/highlighter engines');
+    }
+    if (/\.(?:uzu-home|uzu-project|uzu-app-preview|uzu-app-window|uzu-window-|uzu-mock|uzu-today|uzu-timeline|uzu-task|uzu-metric|uzu-doc|uzu-guide)-/i.test(text)) {
+      report(filePath, 'ui/ must not contain site-only page shell selectors');
+    }
+  }
+}
+
+function validateDocumentedPublicApi() {
+  const cssPath = path.join(root, 'ui', 'usuzumi.css');
+  const jsPath = path.join(root, 'ui', 'usuzumi.js');
+  const typesPath = path.join(root, 'ui', 'usuzumi.d.ts');
+  const cssText = readText(cssPath);
+  const sourceSurface = [
+    cssText,
+    readText(jsPath),
+    existsSync(typesPath) ? readText(typesPath) : ''
+  ].join('\n');
+
+  const documentedClasses = uniqueDocumentedItems(collectDocumentedItems(/\.uzu-[A-Za-z0-9_-]+/g));
+  documentedClasses.forEach(({ filePath, value }) => {
+    const className = value.slice(1);
+    if (!cssContainsClass(cssText, className)) {
+      report(filePath, `documented public class is not defined in ui/usuzumi.css: ${value}`);
+    }
+  });
+
+  const documentedVariables = uniqueDocumentedItems(collectDocumentedItems(/--uzu-[A-Za-z0-9_-]+/g));
+  documentedVariables.forEach(({ filePath, value }) => {
+    if (!cssText.includes(value)) {
+      report(filePath, `documented CSS variable is not present in ui/usuzumi.css: ${value}`);
+    }
+  });
+
+  const documentedDataAttributes = uniqueDocumentedItems(collectDocumentedItems(/\bdata-uzu-[A-Za-z0-9_-]+\b/g));
+  documentedDataAttributes.forEach(({ filePath, value }) => {
+    const datasetKey = dataAttributeToDatasetKey(value);
+    if (!sourceSurface.includes(value) && !sourceSurface.includes(datasetKey)) {
+      report(filePath, `documented data attribute is not handled by the public library: ${value}`);
+    }
+  });
+}
+
 function validateJavaScript() {
   const scriptFiles = walk(root).filter((filePath) => {
     const extension = path.extname(filePath);
@@ -177,6 +272,9 @@ function validateJavaScript() {
 }
 
 validateJavaScript();
+validateRootPackageDependencies();
+validatePublicUiSources();
+validateDocumentedPublicApi();
 validateTextFiles();
 
 if (issues.length) {

@@ -22,6 +22,11 @@
   flex-wrap: wrap;
 }
 
+.uzu-break-anywhere {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .uzu-center {
   display: grid;
   place-items: center;

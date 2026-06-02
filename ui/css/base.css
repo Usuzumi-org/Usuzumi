@@ -44,25 +44,23 @@ body.uzu-app {
   }
 }
 
-@supports (-moz-appearance: none) {
-  html.uzu-root,
-  body.uzu-app,
-  .uzu-scroll,
-  .uzu-scroll-area,
-  .uzu-command-list,
-  .uzu-combobox-list,
-  .uzu-table-wrap,
-  .uzu-data-grid-wrap,
-  .uzu-json-viewer,
-  .uzu-diff-viewer,
-  .uzu-code-editor,
-  .uzu-plain-editor,
-  .uzu-markdown-source,
-  .uzu-markdown-preview,
-  .uzu-editor-surface {
-    scrollbar-width: thin;
-    scrollbar-color: var(--uzu-border) transparent;
-  }
+html.uzu-root,
+body.uzu-app,
+.uzu-scroll,
+.uzu-scroll-area,
+.uzu-command-list,
+.uzu-combobox-list,
+.uzu-table-wrap,
+.uzu-data-grid-wrap,
+.uzu-json-viewer,
+.uzu-diff-viewer,
+.uzu-code-editor,
+.uzu-plain-editor,
+.uzu-markdown-source,
+.uzu-markdown-preview,
+.uzu-editor-surface {
+  scrollbar-width: thin;
+  scrollbar-color: var(--uzu-border) transparent;
 }
 
 html.uzu-root::-webkit-scrollbar,

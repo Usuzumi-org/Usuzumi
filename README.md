@@ -168,15 +168,26 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | `--uzu-sheet-width` | `520px` | sheet width | local sheet |
 | `--uzu-spinner-size` | `18px` | spinner size | local spinner |
 | `--uzu-spinner-stroke` | `2px` | spinner stroke width | local spinner |
+| `--uzu-reference-layout-gap` | `36px` | reference sidebar/content gap | local reference page |
+| `--uzu-reference-sidebar-top` | `32px` | sticky sidebar top offset | local reference page |
+| `--uzu-reference-card-padding` | `14px 16px` | reference note/interface card padding | local reference page |
+| `--uzu-reference-example-padding` | `18px` | component example padding | local reference page |
+| `--uzu-reference-table-min-width` | `720px` | interface table minimum width | local reference page |
 
 Script-written variables for tab indicators, segmented indicators, and measured disclosure height are internal state and should not be set by application code. If a repeated project need is not covered by the variable API, add a component variable to the library instead of depending on example-page CSS.
 
 ## Included
 
 - Design tokens for color, typography, spacing, borders, radius, motion, and dark mode.
-- Layout and component primitives for pages, sections, grids, stack/flex layouts, sidebars, buttons, toolbars, breadcrumbs, pagination, cards, stats, lists, avatars, forms, input groups, search, password fields, file upload, sliders, steppers, tabs, selects, comboboxes, menus, menubars, command menus, data grids, tree views, split panes, resizable panels, JSON/diff viewers, editor surfaces, badges, tags, separators, code, code blocks, keyboard hints, alert presets, callouts, tables, overlays, progress, spinners, skeletons, toasts, dialogs, alert dialogs, drawers, sheets, disclosures, accordions, hover cards, panel navigation, document layouts, and tooltips.
+- Layout and component primitives for pages, sections, two-, three-, and four-column grids, stack/flex layouts, sidebars, buttons, toolbars, breadcrumbs, pagination, cards, stats, lists, avatars, forms, input groups, search, password fields, file upload, sliders, steppers, tabs, selects, comboboxes, menus, menubars, command menus, data grids, tree views, split panes, resizable panels, JSON/diff viewers, editor surfaces, badges, tags, separators, code, code blocks, keyboard hints, alert presets, callouts, tables, overlays, progress, spinners, skeletons, toasts, dialogs, alert dialogs, drawers, sheets, disclosures, accordions, hover cards, panel navigation, reference layouts, and tooltips.
 - Page patterns for personal homepages, app introduction pages, component pages, project lists, mockups, and feature sections.
 - JavaScript helpers for theme toggles, language toggles, custom selects, combobox filtering, data grid sorting/selection, tree navigation, split/resizable panels, JSON/diff rendering, editor surfaces, tabs, segmented controls, pagination, switches, search clearing, password visibility, steppers, dropdown and context menus, menubars, command filtering, tag selection and closing, disclosures, accordions, hover cards, dialogs, toast dismissal, step navigation, panel navigation, code copying, and a limited Markdown renderer.
+
+## Reference Pages
+
+Use `.uzu-reference-layout` for component catalogs, API references, and long documentation pages that need a sticky sidebar and one main reading column. The pattern is public library CSS, not a site-only shell. It pairs with existing navigation and content primitives: `.uzu-panel-nav` for the sidebar, `.uzu-reference-panel` for switchable sections, `.uzu-reference-tutorial` for prose, `.uzu-reference-interface` and `.uzu-reference-table` for API details, and `.uzu-reference-demo` for preview/code examples.
+
+`.uzu-grid-4` extends `.uzu-grid` to four equal columns and collapses to one column on narrow screens. `.uzu-break-anywhere` is a small utility for long tokens such as CSS variables, package names, and URLs inside constrained tables or cards.
 
 ## Scripts
 

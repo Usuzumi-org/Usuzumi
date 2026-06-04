@@ -125,6 +125,13 @@
       activeDialog = null;
       activeDialogTrigger = null;
     }
+    for (let index = dialogStack.length - 1; index >= 0; index -= 1) {
+      const dialog = dialogStack[index];
+      if (rootContains(root, dialog)) {
+        dialogStack.splice(index, 1);
+        dialogTriggers.delete(dialog);
+      }
+    }
     const dialogNodes = new Set(queryAll(root, '[data-uzu-dialog-overlay], [data-uzu-dialog]'));
     queryAll(root, '[data-uzu-dialog]').forEach((dialog) => {
       const overlay = dialog.closest('[data-uzu-dialog-overlay]');
@@ -162,7 +169,7 @@
   function init(root = document) {
     syncRootClass();
     initGlobalListeners();
-    for (const fn of [initThemeToggles, initLanguageToggles, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initSearches, initPasswords, initSteppers, initSliders, initMenus, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initTrees, initDisclosures, initAccordions, initHoverCards, initTags, initSplitPanes, initResizables, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initMarkdown, initCodeCopy]) {
+    for (const fn of [initThemeToggles, initLanguageToggles, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initForms, initSearches, initPasswords, initSteppers, initSliders, initMenus, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initTrees, initDisclosures, initAccordions, initHoverCards, initTags, initSplitPanes, initResizables, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initMarkdown, initCodeHighlight, initCodeCopy]) {
       try { fn(root); } catch (error) { console.error('[usuzumi]', error); }
     }
     initAutoInit(root);
@@ -177,16 +184,25 @@
     setPasswordVisible,
     setStepperValue,
     setComboboxValue,
+    setDataGridRowSelected,
+    refreshDataGrid,
     setTagSelected,
     setSplitPaneSize,
     setResizableSize,
     setTreeItemExpanded,
+    validateForm,
     renderJson,
     openMenu,
     closeMenu,
     setPaginationPage: syncPaginationState,
     setStepNavStep: syncStepNavState,
     renderMarkdown,
+    highlightCode,
+    highlightCodeBlock,
+    highlightCodeBlocks,
+    initCodeHighlight,
+    listCodeLanguages,
+    hasCodeLanguage,
     initCodeCopy,
     openDialog,
     closeDialog,

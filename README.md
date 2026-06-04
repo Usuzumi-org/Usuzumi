@@ -206,13 +206,15 @@ window.Usuzumi.destroy(container);
 Optional document helpers:
 
 - Add `data-uzu-panel-nav` to a `.uzu-panel-nav` container and `data-uzu-panel-target="#panel-id"` to its buttons to switch `.uzu-panel` sections. Use `data-uzu-panel-hash="true"` to sync the URL hash.
-- Use `.uzu-code-block` with `.uzu-code-block-body` and a `[data-uzu-code-copy]` button for copyable snippets. External highlighters may replace the existing `code` contents with token spans while keeping `data-uzu-code-source` for copy text. Set `--uzu-code-block-bg` and `--uzu-code-block-fg` on `.uzu-code-block` or `.uzu-code-block-body` when the highlighter theme needs its own colors.
+- Use `.uzu-code-block` with `.uzu-code-block-body` and a `[data-uzu-code-copy]` button for copyable snippets. Add `data-uzu-code-language="javascript"` to the `code` or `pre` element, or use a `language-js` class. `Usuzumi.init()` highlights the snippet, stores the plain source in `data-uzu-code-source`, and keeps copy buttons reading from that source. Use `window.Usuzumi.listCodeLanguages()` or `window.Usuzumi.hasCodeLanguage("ts")` when an integration needs to inspect the bundled language set. Set `--uzu-code-block-bg`, `--uzu-code-block-fg`, and `--uzu-code-token-*` variables on `.uzu-code-block` or `.uzu-code-block-body` to tune the block and token colors.
 - Add `data-uzu-markdown` to a `.uzu-prose` container to render a small Markdown subset: headings, paragraphs, unordered lists, links, inline code, and fenced code blocks. This is not a full Markdown engine.
 - Add `data-uzu-search`, `data-uzu-password`, or `data-uzu-stepper` when search clear buttons, password visibility toggles, or numeric steppers need built-in behavior.
+- Add `data-uzu-form` to a form when Usuzumi should synchronize invalid field state, reveal `.uzu-form-error` messages, and emit validation events. Initial load preserves any existing `.is-invalid` or `aria-invalid="true"` state without validating empty required fields; add `data-uzu-form-validate-on-init="true"` when the first render should validate immediately.
 - Add `data-uzu-menu`, `data-uzu-context-menu`, `data-uzu-menubar`, or `data-uzu-command` for lightweight menu behavior.
 - Add `data-uzu-accordion`, `data-uzu-hover-card`, `data-uzu-tag`, or `data-uzu-step-nav` when those components need runtime state sync.
-- Add `data-uzu-combobox`, `data-uzu-data-grid`, `data-uzu-tree`, `data-uzu-split-pane`, or `data-uzu-resizable` for searchable choices, light data tables, hierarchical lists, and adjustable panels.
+- Add `data-uzu-combobox`, `data-uzu-data-grid`, `data-uzu-tree`, `data-uzu-split-pane`, or `data-uzu-resizable` for searchable choices, light data tables, hierarchical lists, and adjustable panels. Data grids can use `data-uzu-grid-sort`, `data-uzu-grid-selection`, `data-uzu-grid-select-all`, `data-uzu-grid-empty`, and `data-uzu-grid-align` for sorting, multi-select, empty rows, and column alignment.
 - Add `data-uzu-json-viewer`, `data-uzu-diff-viewer`, `data-uzu-rich-editor`, `data-uzu-markdown-editor`, or `data-uzu-inline-editor` for readable data previews and editor shells.
+- Dialogs, drawers, and sheets use the same `data-uzu-dialog-*` behavior. A dialog opened from inside another active dialog stays nested, keeps the parent mounted, returns focus to the nested trigger on close, and releases scroll locking after the parent closes.
 - Add `data-uzu-auto-init` to a container when components will be inserted later and should initialize without calling `window.Usuzumi.init(container)` manually.
 
 Editor shells are UI and event bridges, not bundled editor engines. `data-uzu-rich-editor` emits toolbar command and surface change events; mount Tiptap inside `.uzu-editor-mount` when you need a document model, history, shortcuts, paste rules, or collaboration. `data-uzu-markdown-editor` emits source changes; use markdown-it for Markdown rendering and sanitization strategy. `textarea.uzu-code-editor` can stay a native textarea for short snippets, while CodeMirror 6 is the recommended engine inside `.uzu-editor-mount` for full code editing.
@@ -226,6 +228,8 @@ Custom events:
 - `uzu-switch-change`: `{ checked, switch }`
 - `uzu-password-toggle`: `{ visible, password, input, toggle }`
 - `uzu-stepper-change`: `{ value, number, stepper, input }`
+- `uzu-field-validate`: `{ field, control, valid, invalid }`
+- `uzu-form-validate`: `{ form, valid, invalid }`
 - `uzu-menu-open` / `uzu-menu-close`: `{ menu, trigger, content }`
 - `uzu-menu-select`: `{ menu, trigger, content, item, value }`
 - `uzu-menubar-change`: `{ value, item, menubar, index }`
@@ -236,6 +240,7 @@ Custom events:
 - `uzu-combobox-change`: `{ value, label, option, combobox, input }`
 - `uzu-data-grid-sort`: `{ grid, table, header, columnIndex, direction }`
 - `uzu-data-grid-select`: `{ grid, table, row, selected, value }`
+- `uzu-data-grid-select-all`: `{ grid, table, selected, rows }`
 - `uzu-tree-toggle`: `{ tree, item, expanded, value }`
 - `uzu-tree-select`: `{ tree, item, value }`
 - `uzu-split-resize`: `{ splitPane, size }`
@@ -263,8 +268,8 @@ Type declarations are included.
 The native library now includes lightweight versions of the larger component families:
 
 - Combobox: local filtering, keyboard selection, ARIA sync, and optional hidden form value.
-- Data grid: sortable columns, row selection, and row keyboard navigation on real table markup.
-- Tree view: hierarchical focus, selection, and expand/collapse behavior.
+- Data grid: sortable columns, single or multi-row selection, select-all controls, empty rows, alignment helpers, and row keyboard navigation on real table markup.
+- Tree view: hierarchical focus, selection, expand/collapse behavior, and ARIA level/position metadata.
 - Split pane and resizable panel: pointer and keyboard resizing, with optional local persistence keys.
 - JSON viewer and diff viewer: parsed JSON trees and readable unified-diff style rows.
 - Editor surfaces: rich-text, code, Markdown, plain-text, inline editor shells, and toolbar buttons. These are shells and light helpers; pair rich text with Tiptap, Markdown rendering with markdown-it, and full code editing with CodeMirror 6 when the project needs editor-engine behavior.

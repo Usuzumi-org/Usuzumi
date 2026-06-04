@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { transformSync } from 'esbuild';
+import { buildSync, transformSync } from 'esbuild';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const cssFiles = [
@@ -48,6 +48,7 @@ const jsFiles = [
   'ui/js/toasts.js',
   'ui/js/panel-navigation.js',
   'ui/js/tooltips.js',
+  'ui/js/code-highlight.js',
   'ui/js/markdown.js',
   'ui/js/code-copy.js',
   'ui/js/boot.js'
@@ -83,11 +84,27 @@ function minifyJs(text) {
   }).code.trim();
 }
 
+function bundleHighlightEngine() {
+  const result = buildSync({
+    entryPoints: [path.join(root, 'scripts/code-highlight-engine.entry.js')],
+    bundle: true,
+    format: 'iife',
+    globalName: 'UsuzumiHighlightEngine',
+    legalComments: 'none',
+    target: 'es2020',
+    write: false
+  });
+  return result.outputFiles[0].text.trim();
+}
+
 const cssSource = cssFiles.map((file) => `/* ${file} */\n${readText(file)}`).join('\n\n');
 const layeredCss = wrapLayer(cssSource);
 const bundledCss = `${cssBanner}\n\n${layeredCss}\n`;
 const bundledMinCss = `${minCssBanner}\n${minifyCss(layeredCss)}\n`;
-const jsSource = jsFiles.map((file) => `/* ${file} */\n${readText(file)}`).join('\n\n');
+const jsSource = [
+  `/* highlight.js engine */\n${bundleHighlightEngine()}`,
+  ...jsFiles.map((file) => `/* ${file} */\n${readText(file)}`)
+].join('\n\n');
 const bundledJs = `${jsBanner}\n(function () {\n${jsSource}\n})();\n`;
 const bundledMinJs = `${minJsBanner}\n${minifyJs(bundledJs)}\n`;
 

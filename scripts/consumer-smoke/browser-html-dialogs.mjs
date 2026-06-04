@@ -3,7 +3,14 @@ export const consumerDialogsHtml = `    <button class="uzu-button" type="button"
     <div class="uzu-dialog-overlay" data-uzu-dialog-overlay hidden>
       <section class="uzu-modal" id="consumer-dialog" data-uzu-dialog hidden tabindex="-1" aria-labelledby="consumer-dialog-title">
         <h2 id="consumer-dialog-title">Consumer dialog</h2>
+        <button class="uzu-button" id="consumer-nested-dialog-trigger" type="button" data-uzu-dialog-target="#consumer-dialog-nested">Open nested dialog</button>
         <button class="uzu-button" type="button" data-uzu-dialog-close>Close</button>
+        <div class="uzu-dialog-overlay" data-uzu-dialog-overlay hidden>
+          <section class="uzu-modal" id="consumer-dialog-nested" data-uzu-dialog hidden tabindex="-1" aria-labelledby="consumer-dialog-nested-title">
+            <h3 id="consumer-dialog-nested-title">Nested dialog</h3>
+            <button class="uzu-button" type="button" data-uzu-dialog-close>Close nested</button>
+          </section>
+        </div>
       </section>
     </div>
     <div class="uzu-dialog-overlay" data-uzu-dialog-overlay hidden>

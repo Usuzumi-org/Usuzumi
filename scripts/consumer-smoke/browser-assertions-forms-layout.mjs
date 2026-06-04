@@ -11,6 +11,7 @@ if (Math.round(value.alertSuccessWidth) !== 520) throw new Error('Browser consum
 if (value.stackDisplay !== 'flex' || value.flexDisplay !== 'flex') throw new Error('Browser consumer layout primitives did not use flex layout');
 if (!value.aspectRatio.includes('2 / 1') || value.scrollAreaMaxHeight !== '64px') throw new Error('Browser consumer layout primitive variables did not apply');
 if (value.formDisplay !== 'grid' || value.inputGroupDisplay !== 'flex') throw new Error('Browser consumer form primitives did not apply');
+if (value.formInvalidBefore || value.formValidBeforeManualValidate || !value.formInvalidAfterManualValidate || value.formInvalidAfter || !value.formValidAfter) throw new Error('Browser consumer form validation sync did not work');
 if (value.fileUploadBorderStyle !== 'dashed') throw new Error('Browser consumer file upload styling is missing');
 if (!value.sliderAccentColor || value.sliderValueBefore !== '50%' || value.sliderValueAfter !== '75%') throw new Error('Browser consumer slider styling or value sync is missing');
 if (value.searchClearInitiallyHidden || value.searchValueAfterClear !== '' || !value.searchClearHiddenAfterClear) throw new Error('Browser consumer search clear behavior did not work');

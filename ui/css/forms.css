@@ -120,6 +120,11 @@
   color: var(--uzu-danger);
 }
 
+.uzu-form-error[hidden],
+[data-uzu-form-error][hidden] {
+  display: none;
+}
+
 .uzu-input-group {
   display: flex;
   align-items: stretch;

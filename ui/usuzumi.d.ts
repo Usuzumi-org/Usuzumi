@@ -119,6 +119,26 @@ declare global {
     value: string;
   }
 
+  interface UsuzumiDataGridSelectAllDetail {
+    grid: HTMLElement;
+    table: HTMLTableElement;
+    selected: boolean;
+    rows: HTMLTableRowElement[];
+  }
+
+  interface UsuzumiFieldValidateDetail {
+    field: HTMLElement;
+    control: HTMLElement;
+    valid: boolean;
+    invalid: boolean;
+  }
+
+  interface UsuzumiFormValidateDetail {
+    form: HTMLFormElement | HTMLElement;
+    valid: boolean;
+    invalid: boolean;
+  }
+
   interface UsuzumiTreeToggleDetail {
     tree: HTMLElement;
     item: HTMLElement;
@@ -229,6 +249,20 @@ declare global {
     value: string;
   }
 
+  interface UsuzumiCodeHighlightResult {
+    fragment: DocumentFragment;
+    html: string;
+    language: string;
+    highlighted: boolean;
+  }
+
+  interface UsuzumiCodeHighlightDetail {
+    code: HTMLElement;
+    language: string;
+    source: string;
+    highlighted: boolean;
+  }
+
   interface UsuzumiApi {
     init(root?: ParentNode): void;
     destroy(root?: ParentNode): void;
@@ -238,16 +272,25 @@ declare global {
     setPasswordVisible(password: HTMLElement, visible: boolean, emit?: boolean): void;
     setStepperValue(stepper: HTMLElement, value: number, emit?: boolean): void;
     setComboboxValue(combobox: HTMLElement, optionOrValue: HTMLElement | string, emit?: boolean): void;
+    setDataGridRowSelected(row: HTMLTableRowElement, selected: boolean, emit?: boolean): void;
+    refreshDataGrid(gridOrTable: HTMLElement | HTMLTableElement): void;
     setTagSelected(tag: HTMLElement, selected: boolean, emit?: boolean): void;
     setSplitPaneSize(splitPane: HTMLElement, size: number, emit?: boolean): void;
     setResizableSize(resizable: HTMLElement, width: number, height: number, emit?: boolean): void;
     setTreeItemExpanded(item: HTMLElement, expanded: boolean, emit?: boolean): void;
+    validateForm(form: HTMLFormElement | HTMLElement, emit?: boolean): boolean;
     openMenu(menu: HTMLElement, options?: { trigger?: HTMLElement | null; focus?: boolean; x?: number; y?: number }): void;
     closeMenu(menu: HTMLElement, options?: { trigger?: HTMLElement | null; restoreFocus?: boolean }): void;
     setPaginationPage(pagination: HTMLElement, page: HTMLElement | string, emit?: boolean): void;
     setStepNavStep(stepNav: HTMLElement, step: HTMLElement, emit?: boolean): void;
     renderJson(value: unknown): DocumentFragment;
     renderMarkdown(markdown: string): DocumentFragment;
+    highlightCode(source: string, language?: string): UsuzumiCodeHighlightResult;
+    highlightCodeBlock(target: HTMLElement): boolean;
+    highlightCodeBlocks(root?: ParentNode): number;
+    initCodeHighlight(root?: ParentNode): void;
+    listCodeLanguages(): string[];
+    hasCodeLanguage(language: string): boolean;
     initCodeCopy(root?: ParentNode): void;
     openDialog(dialog: HTMLElement, trigger?: HTMLElement | null): void;
     closeDialog(dialog: HTMLElement): void;
@@ -277,6 +320,9 @@ declare global {
     "uzu-combobox-change": CustomEvent<UsuzumiComboboxChangeDetail>;
     "uzu-data-grid-sort": CustomEvent<UsuzumiDataGridSortDetail>;
     "uzu-data-grid-select": CustomEvent<UsuzumiDataGridSelectDetail>;
+    "uzu-data-grid-select-all": CustomEvent<UsuzumiDataGridSelectAllDetail>;
+    "uzu-field-validate": CustomEvent<UsuzumiFieldValidateDetail>;
+    "uzu-form-validate": CustomEvent<UsuzumiFormValidateDetail>;
     "uzu-tree-toggle": CustomEvent<UsuzumiTreeToggleDetail>;
     "uzu-tree-select": CustomEvent<UsuzumiTreeSelectDetail>;
     "uzu-split-resize": CustomEvent<UsuzumiSplitResizeDetail>;
@@ -296,6 +342,7 @@ declare global {
     "uzu-markdown-editor-change": CustomEvent<UsuzumiMarkdownEditorChangeDetail>;
     "uzu-markdown-editor-render": CustomEvent<UsuzumiMarkdownEditorRenderDetail>;
     "uzu-inline-editor-change": CustomEvent<UsuzumiInlineEditorChangeDetail>;
+    "uzu-code-highlight": CustomEvent<UsuzumiCodeHighlightDetail>;
     "uzu-panel-nav-change": CustomEvent<UsuzumiPanelNavDetail>;
     "uzu-panel-show": CustomEvent<UsuzumiPanelNavDetail>;
   }

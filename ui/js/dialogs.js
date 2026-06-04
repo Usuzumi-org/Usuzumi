@@ -82,6 +82,34 @@
     lockDialogScroll();
   }
 
+  function getTopDialog() {
+    return dialogStack.at(-1) || null;
+  }
+
+  function isNestedDialog(dialog) {
+    const top = getTopDialog();
+    if (!top || top === dialog) return false;
+    const overlay = dialog.closest('[data-uzu-dialog-overlay]');
+    return top.contains(dialog) || (overlay && top.contains(overlay));
+  }
+
+  function pushDialog(dialog, trigger) {
+    const existingIndex = dialogStack.indexOf(dialog);
+    if (existingIndex >= 0) dialogStack.splice(existingIndex, 1);
+    dialogStack.push(dialog);
+    if (trigger) dialogTriggers.set(dialog, trigger);
+    activeDialog = dialog;
+    activeDialogTrigger = trigger;
+  }
+
+  function popDialog(dialog) {
+    const index = dialogStack.indexOf(dialog);
+    if (index >= 0) dialogStack.splice(index, 1);
+    activeDialog = getTopDialog();
+    activeDialogTrigger = activeDialog ? dialogTriggers.get(activeDialog) || null : null;
+    dialogTriggers.delete(dialog);
+  }
+
   function restoreDialogIsolation(dialog = null) {
     if (!dialogIsolationState || (dialog && dialogIsolationState.dialog !== dialog)) return;
     dialogIsolationState.entries.forEach(({ element, hadInert, ariaHidden }) => {
@@ -98,7 +126,8 @@
 
   function openDialog(dialog, trigger = null) {
     if (!dialog) return;
-    if (activeDialog && activeDialog !== dialog && !activeDialog.hidden) {
+    const nested = isNestedDialog(dialog);
+    if (activeDialog && activeDialog !== dialog && !activeDialog.hidden && !nested) {
       closeDialog(activeDialog);
     }
     const existingTimer = dialogCloseTimers.get(dialog);
@@ -106,8 +135,7 @@
       window.clearTimeout(existingTimer);
       dialogCloseTimers.delete(dialog);
     }
-    activeDialog = dialog;
-    activeDialogTrigger = trigger;
+    pushDialog(dialog, trigger);
     const overlay = dialog.closest('[data-uzu-dialog-overlay]');
     if (overlay) overlay.hidden = false;
     dialog.hidden = false;
@@ -120,7 +148,7 @@
     dialog.setAttribute('role', dialog.getAttribute('role') || 'dialog');
     dialog.setAttribute('aria-modal', 'true');
     if (!dialog.hasAttribute('tabindex')) dialog.setAttribute('tabindex', '-1');
-    applyDialogIsolation(dialog);
+    if (!nested) applyDialogIsolation(dialog);
     const focusable = getFocusable(dialog);
     (focusable[0] || dialog).focus();
     emitDialogEvent(dialog, 'uzu-dialog-open');
@@ -135,7 +163,7 @@
       overlay.classList.remove('is-open');
       overlay.classList.add('is-closing');
     }
-    const trigger = activeDialogTrigger;
+    const trigger = dialogTriggers.get(dialog) || activeDialogTrigger;
     const finish = () => {
       dialog.classList.remove('is-closing');
       dialog.hidden = true;
@@ -145,10 +173,10 @@
       }
       restoreDialogIsolation(dialog);
       emitDialogEvent(dialog, 'uzu-dialog-close', trigger);
-      if (activeDialog === dialog) {
-        if (trigger && typeof trigger.focus === 'function') trigger.focus();
-        activeDialog = null;
-        activeDialogTrigger = null;
+      const wasActiveDialog = activeDialog === dialog;
+      if (wasActiveDialog || dialogStack.includes(dialog)) {
+        popDialog(dialog);
+        if (wasActiveDialog && trigger && typeof trigger.focus === 'function') trigger.focus();
       }
       dialogCloseTimers.delete(dialog);
     };

@@ -6,6 +6,10 @@
     return item.querySelector('[data-uzu-tree-label], .uzu-tree-label') || item;
   }
 
+  function getTreeItemRow(item) {
+    return item.querySelector(':scope > [data-uzu-tree-row], :scope > .uzu-tree-row');
+  }
+
   function getTreeItemGroup(item) {
     return item.querySelector(':scope > [role="group"], :scope > .uzu-tree-group');
   }
@@ -59,6 +63,26 @@
     }
   }
 
+  function getTreeItemLevel(item) {
+    let level = 1;
+    let parent = item.parentElement?.closest('[data-uzu-tree-item], .uzu-tree-item');
+    while (parent) {
+      level += 1;
+      parent = parent.parentElement?.closest('[data-uzu-tree-item], .uzu-tree-item');
+    }
+    return level;
+  }
+
+  function syncTreeItemSetMetadata(tree) {
+    getTreeItems(tree).forEach((item) => {
+      const parentGroup = item.parentElement;
+      const siblings = [...parentGroup?.children || []].filter((child) => child.matches?.('[data-uzu-tree-item], .uzu-tree-item'));
+      item.setAttribute('aria-level', String(getTreeItemLevel(item)));
+      item.setAttribute('aria-setsize', String(siblings.length || 1));
+      item.setAttribute('aria-posinset', String(Math.max(1, siblings.indexOf(item) + 1)));
+    });
+  }
+
   function initTrees(root = document) {
     queryAll(root, '[data-uzu-tree]').forEach((tree) => {
       const items = getTreeItems(tree);
@@ -79,12 +103,19 @@
         selected.setAttribute('tabindex', '0');
         selectTreeItem(tree, selected, false);
       }
+      syncTreeItemSetMetadata(tree);
       if (!markInitialized(tree, 'Tree')) return;
       tree.addEventListener('click', (event) => {
         const toggle = getScopedEventControl(event, '[data-uzu-tree-toggle], .uzu-tree-toggle', tree, '[data-uzu-tree]');
         const item = toggle ? toggle.closest('[data-uzu-tree-item], .uzu-tree-item') : getScopedEventControl(event, '[data-uzu-tree-item], .uzu-tree-item', tree, '[data-uzu-tree]');
         if (!item) return;
-        if (toggle) {
+        const group = getTreeItemGroup(item);
+        const row = getTreeItemRow(item);
+        const target = event.target instanceof Element ? event.target : null;
+        const clickedRow = Boolean(target && row?.contains(target));
+        const embeddedControl = target?.closest('a, button, input, select, textarea, [role="button"], [role="link"]');
+        if (embeddedControl && !toggle) return;
+        if (toggle || (group && clickedRow)) {
           event.preventDefault();
           setTreeItemExpanded(item, !isTreeItemExpanded(item));
         } else {

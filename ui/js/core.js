@@ -17,7 +17,9 @@
   const autoInitObservers = new WeakMap();
   const panelNavHashListeners = new WeakMap();
   const tooltipNodes = new WeakMap();
+  const dialogTriggers = new WeakMap();
   const activePointerDrags = new Map();
+  const dialogStack = [];
   let themeMediaQuery = null;
   let resizeListener = null;
   let dialogIsolationState = null;

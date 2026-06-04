@@ -69,6 +69,29 @@ const dialogIsolationRestored = ![...overlay.parentElement.children].some((child
   && document.body.style.overflow === '';
 click(dialogTrigger);
 await wait(80);
+const nestedDialogTrigger = dialog.querySelector('#consumer-nested-dialog-trigger');
+const nestedDialog = dialog.querySelector('#consumer-dialog-nested');
+const nestedOverlay = nestedDialog.closest('[data-uzu-dialog-overlay]');
+click(nestedDialogTrigger);
+await wait(80);
+const nestedDialogOpen = nestedDialog.classList.contains('is-open') && !nestedDialog.hidden;
+const nestedParentStillOpen = dialog.classList.contains('is-open') && !dialog.hidden;
+const nestedOverlayInteractive = !nestedOverlay.hasAttribute('inert') && nestedOverlay.getAttribute('aria-hidden') !== 'true';
+const nestedScrollStillLocked = document.documentElement.style.overflow === 'hidden' && document.body.style.overflow === 'hidden';
+const nestedFocused = document.activeElement === nestedDialog.querySelector('[data-uzu-dialog-close]');
+click(nestedDialog.querySelector('[data-uzu-dialog-close]'));
+await wait(260);
+const nestedClosed = nestedDialog.hidden && nestedOverlay.hidden;
+const nestedParentOpenAfterChildClose = dialog.classList.contains('is-open') && !dialog.hidden;
+const nestedFocusReturnedToTrigger = document.activeElement === nestedDialogTrigger;
+const nestedScrollLockedAfterChildClose = document.documentElement.style.overflow === 'hidden' && document.body.style.overflow === 'hidden';
+click(dialog.querySelector('[data-uzu-dialog-close]'));
+await wait(260);
+const nestedIsolationRestoredAfterParentClose = document.documentElement.style.overflow === ''
+  && document.body.style.overflow === ''
+  && ![...overlay.parentElement.children].some((child) => child.hasAttribute('inert'));
+click(dialogTrigger);
+await wait(80);
 const destroyDialogRoot = dialog.closest('[data-uzu-dialog-overlay]');
 window.Usuzumi.destroy(destroyDialogRoot);
 const destroyDialogHidden = dialog.hidden;

@@ -19,6 +19,7 @@ if (value.comboboxOpenAnimation !== 'uzu-menu-in' || value.comboboxVisibleCount 
 if (!value.comboboxClosedAfterSelect) throw new Error('Browser consumer combobox reopened after selecting an option');
 if (value.comboboxListDisplayOpen !== 'grid') throw new Error('Browser consumer combobox list styling is missing');
 if (value.dataGridFirstCellAfterSort !== 'Alpha' || value.dataGridSelectedValue !== 'alpha' || value.dataGridDisplay !== 'table') throw new Error('Browser consumer data grid did not sort/select');
+if (value.multiDataGridSelectedCount !== 2 || !value.multiDataGridSelectAllChecked || value.multiDataGridSelectAllMixedBeforeRefresh || value.multiDataGridRuntimeSelectedAfterCheckboxClick || value.multiDataGridRuntimeCheckboxAfterClick || !value.multiDataGridSelectAllMixedAfterCheckboxClick || !value.multiDataGridEmptyVisible || value.multiDataGridAlign !== 'right') throw new Error('Browser consumer data grid multi-select, checkbox sync, empty state, or alignment did not work');
 if (value.plainDataGridFirstValue !== '1' || value.plainDataGridSelectedValue !== '2') throw new Error('Browser consumer data grid did not initialize plain table rows');
 if (!value.treeClosed || !value.treeOpen || value.treeKeyboardFocusValue !== 'docs' || value.treeDisplay !== 'grid') throw new Error('Browser consumer tree did not toggle, focus, or style correctly');
 if (Number(value.splitSize) !== 58 || value.splitAriaValue !== '58' || value.splitPaneDisplay !== 'grid') throw new Error('Browser consumer split pane did not resize');

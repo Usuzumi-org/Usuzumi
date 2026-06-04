@@ -141,6 +141,7 @@
         const source = element.tagName === 'TEXTAREA' ? element.value : element.textContent;
         element.replaceChildren(renderMarkdown(source));
       }
+      initCodeHighlight(element);
       initCodeCopy(element);
     });
   }

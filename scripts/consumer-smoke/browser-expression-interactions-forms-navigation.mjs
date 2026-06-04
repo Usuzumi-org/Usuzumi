@@ -1,4 +1,11 @@
 export const browserExpressionFormsNavigationInteractions = `const searchClearInitiallyHidden = searchClear.hidden;
+const formInvalidBefore = consumerRequiredField.classList.contains('is-invalid') && consumerRequiredInput.getAttribute('aria-invalid') === 'true';
+const formValidBeforeManualValidate = window.Usuzumi.validateForm(consumerForm);
+const formInvalidAfterManualValidate = consumerRequiredField.classList.contains('is-invalid') && consumerRequiredInput.getAttribute('aria-invalid') === 'true';
+consumerRequiredInput.value = 'Usuzumi';
+consumerRequiredInput.dispatchEvent(new Event('input', { bubbles: true }));
+const formInvalidAfter = consumerRequiredField.classList.contains('is-invalid');
+const formValidAfter = window.Usuzumi.validateForm(consumerForm);
 click(searchClear);
 const searchValueAfterClear = searchInput.value;
 const searchClearHiddenAfterClear = searchClear.hidden;

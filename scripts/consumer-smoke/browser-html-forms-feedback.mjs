@@ -2,9 +2,14 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
       <div class="uzu-flex uzu-flex-between" id="consumer-flex"><span>Left</span><span>Right</span></div>
       <div class="uzu-aspect" id="consumer-aspect" style="--uzu-aspect-ratio: 2 / 1"><div class="uzu-scroll-area" id="consumer-scroll-area" style="--uzu-scroll-area-max-height: 64px">Scrollable area</div></div>
     </div>
-    <form class="uzu-form" id="consumer-form">
+    <form class="uzu-form" id="consumer-form" data-uzu-form novalidate>
       <fieldset class="uzu-fieldset">
         <legend>Account</legend>
+        <div class="uzu-field" id="consumer-required-field">
+          <label class="uzu-label" for="consumer-required-input">Project</label>
+          <input class="uzu-input" id="consumer-required-input" required value="">
+          <p class="uzu-form-error" data-uzu-form-error>Project is required.</p>
+        </div>
         <div class="uzu-field">
           <label class="uzu-label" for="consumer-search-input">Search</label>
           <div class="uzu-search" id="consumer-search" data-uzu-search>

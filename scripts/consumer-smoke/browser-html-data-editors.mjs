@@ -12,6 +12,22 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
       </table>
     </div>
     <div class="uzu-data-grid-wrap">
+      <table class="uzu-data-grid" id="consumer-data-grid-multi" data-uzu-data-grid data-uzu-data-grid-multi="true">
+        <thead>
+          <tr>
+            <th scope="col"><input type="checkbox" data-uzu-grid-select-all aria-label="Select all rows"></th>
+            <th data-uzu-grid-sort scope="col">Task</th>
+            <th data-uzu-grid-sort data-uzu-grid-align="end" scope="col">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-uzu-grid-row="tokens"><td><input type="checkbox" data-uzu-grid-selection aria-label="Select tokens"></td><td>Tokens</td><td data-uzu-grid-align="end" data-uzu-grid-sort-value="12">12</td></tr>
+          <tr data-uzu-grid-row="runtime"><td><input type="checkbox" data-uzu-grid-selection aria-label="Select runtime"></td><td>Runtime</td><td data-uzu-grid-align="end" data-uzu-grid-sort-value="4">4</td></tr>
+          <tr data-uzu-grid-empty hidden><td colspan="3">No rows</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="uzu-data-grid-wrap">
       <table class="uzu-data-grid" id="consumer-data-grid-plain" data-uzu-data-grid>
         <thead><tr><th data-uzu-grid-sort>Plain name</th><th>State</th></tr></thead>
         <tbody>

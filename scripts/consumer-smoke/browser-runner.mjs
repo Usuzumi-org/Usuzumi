@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import net from 'node:net';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
@@ -56,6 +57,21 @@ function findBrowserExecutable() {
   return matches.sort().at(-1) || '';
 }
 
+function getFreePort() {
+  return new Promise((resolve, reject) => {
+    const server = net.createServer();
+    server.listen(0, '127.0.0.1', () => {
+      const address = server.address();
+      const port = typeof address === 'object' && address ? address.port : 0;
+      server.close(() => {
+        if (port) resolve(port);
+        else reject(new Error('Could not allocate a browser debugging port'));
+      });
+    });
+    server.on('error', reject);
+  });
+}
+
 export async function browserSmoke(appDir) {
   const browser = findBrowserExecutable();
   if (!browser) {
@@ -69,6 +85,7 @@ export async function browserSmoke(appDir) {
   const profile = path.join(appDir, 'browser-profile');
   const activePortFile = path.join(profile, 'DevToolsActivePort');
   const targetUrl = `${pathToFileURL(htmlPath).href}#consumer-panel-hash-two`;
+  const debugPort = Number.parseInt(process.env.USUZUMI_BROWSER_DEBUG_PORT || '', 10) || await getFreePort();
 
   rmSync(profile, { recursive: true, force: true });
   mkdirSync(profile, { recursive: true });
@@ -80,7 +97,8 @@ export async function browserSmoke(appDir) {
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage'
     ] : []),
-    '--remote-debugging-port=0',
+    `--remote-debugging-port=${debugPort}`,
+    '--remote-debugging-address=127.0.0.1',
     '--remote-allow-origins=*',
     `--user-data-dir=${profile}`,
     '--disable-gpu',
@@ -112,25 +130,24 @@ export async function browserSmoke(appDir) {
     const [portText] = readFileSync(activePortFile, 'utf8').split(/\r?\n/);
     return Number.parseInt(portText, 10) || 0;
   };
+  const getBrowserPortCandidates = () => [...new Set([debugPort, readBrowserPort()].filter(Boolean))];
   const waitForBrowser = async () => {
     for (let index = 0; index < 150; index += 1) {
       if (childExit) break;
-      const port = readBrowserPort();
-      if (!port) {
-        await delay(100);
-        continue;
+      for (const port of getBrowserPortCandidates()) {
+        try {
+          return await requestJson(port, '/json/version');
+        } catch (_) {
+          /* Keep polling while Chrome starts. */
+        }
       }
-      try {
-        return await requestJson(port, '/json/version');
-      } catch (_) {
-        await delay(100);
-      }
+      await delay(100);
     }
     throw new Error(`Browser did not expose a DevTools endpoint.\n${browserDiagnostics()}`);
   };
   try {
     const browserInfo = await waitForBrowser();
-    const port = Number.parseInt(new URL(browserInfo.webSocketDebuggerUrl).port, 10) || readBrowserPort();
+    const port = Number.parseInt(new URL(browserInfo.webSocketDebuggerUrl).port, 10) || debugPort || readBrowserPort();
     const target = await requestJson(port, `/json/new?${encodeURIComponent(targetUrl)}`, 'PUT');
     const cdp = await connectCdp(target.webSocketDebuggerUrl);
     await cdp.send('Runtime.enable');

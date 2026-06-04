@@ -37,6 +37,7 @@
   padding: 12px 10px;
   border-bottom: 1px solid var(--uzu-border-soft);
   text-align: left;
+  vertical-align: middle;
 }
 
 .uzu-data-grid th {
@@ -47,6 +48,26 @@
 .uzu-data-grid [data-uzu-grid-sort] {
   cursor: pointer;
   user-select: none;
+}
+
+.uzu-data-grid [data-uzu-grid-align="end"],
+.uzu-data-grid .uzu-grid-align-end,
+.uzu-data-grid .uzu-data-grid-cell-end {
+  text-align: right;
+}
+
+.uzu-data-grid [data-uzu-grid-align="center"],
+.uzu-data-grid .uzu-grid-align-center,
+.uzu-data-grid .uzu-data-grid-cell-center {
+  text-align: center;
+}
+
+.uzu-data-grid [data-uzu-grid-selection],
+.uzu-data-grid [data-uzu-grid-select-all] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--uzu-fg-strong);
 }
 
 .uzu-data-grid [data-uzu-grid-sort]::after {
@@ -81,12 +102,27 @@
   background: color-mix(in srgb, var(--uzu-surface-soft) 64%, transparent);
 }
 
+.uzu-data-grid [data-uzu-grid-disabled],
+.uzu-data-grid tbody tr[aria-disabled="true"] {
+  color: var(--uzu-disabled);
+}
+
 .uzu-data-grid [data-uzu-grid-row].is-selected,
 .uzu-data-grid [data-uzu-grid-row][aria-selected="true"],
 .uzu-data-grid tbody tr.is-selected,
 .uzu-data-grid tbody tr[aria-selected="true"] {
   background: color-mix(in srgb, var(--uzu-fg-strong) 8%, var(--uzu-surface));
   color: var(--uzu-fg-strong);
+}
+
+.uzu-data-grid [data-uzu-grid-empty] {
+  color: var(--uzu-muted);
+}
+
+.uzu-data-grid [data-uzu-grid-empty] td,
+.uzu-data-grid [data-uzu-grid-empty] th {
+  padding: 20px 10px;
+  text-align: center;
 }
 
 .uzu-tree {
@@ -130,6 +166,10 @@
 }
 
 .uzu-tree-label {
+  cursor: pointer;
+}
+
+.uzu-tree-item[aria-expanded] > .uzu-tree-row {
   cursor: pointer;
 }
 

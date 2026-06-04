@@ -13,6 +13,108 @@
     });
   }
 
+  function getFieldControl(field) {
+    return field.querySelector('input:not([type="hidden"]), textarea, select, [data-uzu-select], [data-uzu-combobox], [data-uzu-switch]');
+  }
+
+  function getFormField(control) {
+    return control.closest('.uzu-field, [data-uzu-field]');
+  }
+
+  function getControlValidity(control) {
+    if ('validity' in control && control.validity) return control.validity.valid;
+    if (control.matches?.('[data-uzu-select], [data-uzu-combobox], [data-uzu-switch]')) {
+      return control.getAttribute('aria-invalid') !== 'true' && !control.classList.contains('is-invalid');
+    }
+    return true;
+  }
+
+  function syncFieldValidity(field, emit = false) {
+    const control = getFieldControl(field);
+    if (!control) return true;
+    const valid = getControlValidity(control);
+    const invalid = !valid;
+    field.classList.toggle('is-invalid', invalid);
+    if ('setAttribute' in control) {
+      control.setAttribute('aria-invalid', invalid ? 'true' : 'false');
+    }
+    queryAll(field, '.uzu-form-error, [data-uzu-form-error]').forEach((message) => {
+      message.hidden = !invalid;
+      message.setAttribute('role', message.getAttribute('role') || 'alert');
+    });
+    if (emit) {
+      field.dispatchEvent(new CustomEvent('uzu-field-validate', {
+        bubbles: true,
+        detail: { field, control, valid, invalid }
+      }));
+    }
+    return valid;
+  }
+
+  function syncFieldInitialState(field) {
+    const control = getFieldControl(field);
+    const invalid = field.classList.contains('is-invalid') || control?.getAttribute?.('aria-invalid') === 'true';
+    field.classList.toggle('is-invalid', invalid);
+    if (control && 'setAttribute' in control) {
+      control.setAttribute('aria-invalid', invalid ? 'true' : 'false');
+    }
+    queryAll(field, '.uzu-form-error, [data-uzu-form-error]').forEach((message) => {
+      message.hidden = !invalid;
+      message.setAttribute('role', message.getAttribute('role') || 'alert');
+    });
+    return invalid;
+  }
+
+  function shouldValidateFormOnInit(form) {
+    const value = form.getAttribute('data-uzu-form-validate-on-init');
+    return value === '' || value === 'true';
+  }
+
+  function validateForm(form, emit = true) {
+    const fields = queryAll(form, '.uzu-field, [data-uzu-field]');
+    const valid = fields.map((field) => syncFieldValidity(field, emit)).every(Boolean);
+    form.classList.toggle('is-invalid', !valid);
+    if (emit) {
+      form.dispatchEvent(new CustomEvent('uzu-form-validate', {
+        bubbles: true,
+        detail: { form, valid, invalid: !valid }
+      }));
+    }
+    return valid;
+  }
+
+  function initForms(root = document) {
+    queryAll(root, '[data-uzu-form]').forEach((form) => {
+      if (shouldValidateFormOnInit(form)) {
+        validateForm(form, false);
+      } else {
+        const hasInvalidField = queryAll(form, '.uzu-field, [data-uzu-field]').map(syncFieldInitialState).some(Boolean);
+        form.classList.toggle('is-invalid', hasInvalidField || form.classList.contains('is-invalid'));
+      }
+      if (!markInitialized(form, 'Form')) return;
+      queryAll(form, 'input, textarea, select, [data-uzu-select], [data-uzu-combobox], [data-uzu-switch]').forEach((control) => {
+        const sync = () => {
+          const field = getFormField(control);
+          if (field) syncFieldValidity(field, true);
+          validateForm(form, true);
+        };
+        control.addEventListener('input', sync);
+        control.addEventListener('change', sync);
+        control.addEventListener('blur', sync);
+        control.addEventListener('uzu-select-change', sync);
+        control.addEventListener('uzu-combobox-change', sync);
+        control.addEventListener('uzu-switch-change', sync);
+      });
+      form.addEventListener('submit', (event) => {
+        if (!validateForm(form, true)) {
+          event.preventDefault();
+          const firstInvalid = form.querySelector('[aria-invalid="true"], .is-invalid input, .is-invalid textarea, .is-invalid select, .is-invalid [tabindex]');
+          if (firstInvalid && typeof firstInvalid.focus === 'function') firstInvalid.focus();
+        }
+      });
+    });
+  }
+
   function setSearchClearState(search) {
     const input = search.querySelector('.uzu-search-input, input[type="search"], input[type="text"]');
     const clear = search.querySelector('[data-uzu-search-clear]');

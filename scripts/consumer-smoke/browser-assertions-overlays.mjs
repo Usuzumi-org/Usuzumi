@@ -6,6 +6,10 @@ if (!value.dialogBackgroundIsolated) throw new Error('Browser consumer dialog di
 if (!value.dialogOverlayInteractive) throw new Error('Browser consumer dialog isolated its own overlay');
 if (!value.dialogScrollLocked) throw new Error('Browser consumer dialog did not lock page scroll');
 if (!value.dialogIsolationRestored) throw new Error('Browser consumer dialog did not restore background content and scroll state');
+if (!value.nestedDialogOpen || !value.nestedParentStillOpen || !value.nestedOverlayInteractive) throw new Error('Browser consumer nested dialog did not open inside the active dialog');
+if (!value.nestedScrollStillLocked || !value.nestedFocused) throw new Error('Browser consumer nested dialog did not preserve scroll lock or focus its surface');
+if (!value.nestedClosed || !value.nestedParentOpenAfterChildClose || !value.nestedFocusReturnedToTrigger) throw new Error('Browser consumer nested dialog did not close back to its parent trigger');
+if (!value.nestedScrollLockedAfterChildClose || !value.nestedIsolationRestoredAfterParentClose) throw new Error('Browser consumer nested dialog did not preserve and restore parent isolation');
 if (value.drawerOpenAnimation !== 'uzu-dialog-surface-in' || value.drawerOpenTransform !== 'none' || value.drawerWidth !== 420) throw new Error('Browser consumer drawer behavior or width is wrong');
 if (value.alertDialogRole !== 'alertdialog' || value.alertDialogBorderLeftWidth !== 6 || value.alertDialogAccentColor !== 'rgb(122, 77, 74)') throw new Error('Browser consumer alert dialog semantics or accent styling is wrong');
 if (value.toastRole !== 'status' || value.toastLive !== 'polite' || value.toastAtomic !== 'true') throw new Error('Browser consumer toast live region attributes were not initialized');

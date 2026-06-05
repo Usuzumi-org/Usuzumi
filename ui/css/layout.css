@@ -43,6 +43,10 @@
   text-align: center;
 }
 
+.uzu-section-centered > .uzu-flex {
+  justify-content: center;
+}
+
 .uzu-topbar {
   min-height: 38px;
   margin-bottom: 58px;

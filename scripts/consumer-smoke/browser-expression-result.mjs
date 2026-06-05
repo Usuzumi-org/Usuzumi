@@ -114,6 +114,7 @@ return {
   fieldGap,
   stackDisplay: getComputedStyle(document.querySelector('#consumer-stack')).display,
   flexDisplay: getComputedStyle(document.querySelector('#consumer-flex')).display,
+  centeredFlexJustify: getComputedStyle(document.querySelector('#consumer-section-centered-actions')).justifyContent,
   aspectRatio: getComputedStyle(document.querySelector('#consumer-aspect')).aspectRatio,
   scrollAreaMaxHeight: getComputedStyle(document.querySelector('#consumer-scroll-area')).maxHeight,
   scrollbarButtonProbe: [

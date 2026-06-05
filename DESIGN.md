@@ -319,7 +319,7 @@ Use animation for process states and state transitions: loading, syncing, indete
 
 Letter spacing is 0 by default. Section labels may be uppercase, but they should remain quiet and compact.
 
-Use display-size classes only in their intended page context. `.uzu-signature` belongs in open identity areas such as a homepage hero, and `.uzu-hero-title` belongs in product or offer heroes. In design catalogs, inspect type roles with public layout primitives such as `.uzu-grid`, `.uzu-card`, `.uzu-title-pair`, `.uzu-section-title`, `.uzu-body-large`, and `.uzu-text`; do not add catalog-only specimen classes to the library.
+Use display-size classes only in their intended page context. `.uzu-signature` belongs in open identity areas such as a homepage hero, and `.uzu-hero-title` belongs in product or offer heroes. In design catalogs, inspect type roles with public layout primitives such as `.uzu-grid`, `.uzu-card`, `.uzu-title-pair`, `.uzu-scroll-area`, `.uzu-section-title`, `.uzu-body-large`, and `.uzu-text`; bound page-scale specimens with `.uzu-scroll-area` instead of adding catalog-only specimen classes to the library.
 
 ## Components
 
@@ -687,7 +687,7 @@ Use public primitives for component catalogs, API references, and long documenta
 </main>
 ```
 
-`.uzu-sidebar-layout` keeps the sidebar column at `--uzu-sidebar-layout-sidebar-width`, uses `--uzu-sidebar-layout-gap` for the column gap, and stacks to one column on narrow screens. When the sidebar also has `.uzu-scroll-area`, the layout limits its height so long navigation remains locally scrollable instead of pushing the active panel below the first viewport. The documentation site can add page-local layout classes in its own repository when the generic primitives are not enough. Promote a rule into `ui/css/` only when it is reusable outside the example pages. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
+`.uzu-sidebar-layout` keeps the sidebar column at `--uzu-sidebar-layout-sidebar-width`, uses `--uzu-sidebar-layout-gap` for the column gap, and stacks to one column on narrow screens. When the sidebar also has `.uzu-scroll-area`, the layout limits its height so long navigation remains locally scrollable instead of pushing the active panel below the first viewport. `.uzu-section-centered` centers its section head, large body copy, and direct `.uzu-flex` action row for intro, empty, and download sections. The documentation site can add page-local layout classes in its own repository when the generic primitives are not enough. Promote a rule into `ui/css/` only when it is reusable outside the example pages. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
 
 ### Choosing The Right Surface
 

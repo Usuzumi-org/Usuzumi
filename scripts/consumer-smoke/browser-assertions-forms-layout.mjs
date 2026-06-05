@@ -9,6 +9,7 @@ if (value.alertWarningAccentColor !== 'rgb(123, 104, 66)') throw new Error('Brow
 if (Math.round(value.alertWidth) !== 420) throw new Error('Browser consumer alert max-width variable did not apply');
 if (Math.round(value.alertSuccessWidth) !== 520) throw new Error('Browser consumer alert default max width did not apply');
 if (value.stackDisplay !== 'flex' || value.flexDisplay !== 'flex') throw new Error('Browser consumer layout primitives did not use flex layout');
+if (value.centeredFlexJustify !== 'center') throw new Error('Browser consumer centered section did not center direct flex action rows');
 if (!value.aspectRatio.includes('2 / 1') || value.scrollAreaMaxHeight !== '64px') throw new Error('Browser consumer layout primitive variables did not apply');
 if (!Array.isArray(value.scrollbarButtonProbe) || value.scrollbarButtonProbe.length !== 5) throw new Error('Browser consumer scrollbar probe did not inspect all key public scroll surfaces');
 for (const probe of value.scrollbarButtonProbe) {

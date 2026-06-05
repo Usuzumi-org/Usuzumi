@@ -9,6 +9,7 @@
   font-weight: 400;
   line-height: 1.42;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 .uzu-signature + .uzu-body-large {
@@ -19,29 +20,35 @@
 
 .uzu-hero-title {
   margin: 0;
+  max-width: 100%;
   color: var(--uzu-fg-strong);
   font-size: 132px;
   font-weight: 400;
   line-height: .86;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 .uzu-page-title {
   margin: 0;
+  max-width: 100%;
   color: var(--uzu-fg-strong);
   font-size: 56px;
   font-weight: 400;
   line-height: 1.02;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 .uzu-section-title {
   margin: 0;
+  max-width: 100%;
   color: var(--uzu-fg-strong);
   font-size: 44px;
   font-weight: 400;
   line-height: 1.08;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 .uzu-section-label,

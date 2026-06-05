@@ -15,6 +15,7 @@ if (value.skeletonCardDisplay !== 'grid' || value.skeletonAvatarWidth !== 40 || 
 if (value.listBorderStyle === 'none' || value.listItemDisplay !== 'grid') throw new Error('Browser consumer list styling is missing');
 if (value.avatarWidth !== 36 || value.avatarHeight !== 36 || value.avatarDisplay !== 'inline-flex') throw new Error('Browser consumer avatar metrics are wrong');
 if (value.sidebarDisplay !== 'grid' || value.sidebarWidth !== 240) throw new Error('Browser consumer sidebar metrics are wrong');
+if (value.sidebarLayoutColumnGap !== '28px') throw new Error('Browser consumer sidebar layout default gap is wrong');
 if (value.tagStaticDisplay !== 'inline-flex') throw new Error('Browser consumer tag display is wrong');
 if (value.emptyStateDisplay !== 'grid' || !value.errorStateColor) throw new Error('Browser consumer empty/error state styling is missing');
 }

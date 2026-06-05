@@ -199,6 +199,7 @@ return {
   avatarDisplay: avatarStyle.display,
   sidebarWidth: Math.round(document.querySelector('#consumer-sidebar').getBoundingClientRect().width),
   sidebarDisplay: sidebarStyle.display,
+  sidebarLayoutColumnGap: getComputedStyle(document.querySelector('#consumer-sidebar-layout')).columnGap,
   tagStaticDisplay: tagStaticStyle.display,
   emptyStateDisplay: emptyStateStyle.display,
   errorStateColor: errorStateStyle.color,

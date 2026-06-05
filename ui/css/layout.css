@@ -109,7 +109,7 @@
 
 .uzu-sidebar-layout {
   --uzu-sidebar-layout-sidebar-width: 240px;
-  --uzu-sidebar-layout-gap: 18px;
+  --uzu-sidebar-layout-gap: 28px;
   max-width: 100%;
   min-width: 0;
   display: grid;

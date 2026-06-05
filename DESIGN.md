@@ -687,7 +687,7 @@ Use public primitives for component catalogs, API references, and long documenta
 </main>
 ```
 
-`.uzu-sidebar-layout` keeps the sidebar column at `--uzu-sidebar-layout-sidebar-width`, uses `--uzu-sidebar-layout-gap` for the column gap, and stacks to one column on narrow screens. When the sidebar also has `.uzu-scroll-area`, the layout limits its height so long navigation remains locally scrollable instead of pushing the active panel below the first viewport. `.uzu-section-centered` centers its section head, large body copy, and direct `.uzu-flex` action row for intro, empty, and download sections. The documentation site can add page-local layout classes in its own repository when the generic primitives are not enough. Promote a rule into `ui/css/` only when it is reusable outside the example pages. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
+`.uzu-sidebar-layout` keeps the sidebar column at `--uzu-sidebar-layout-sidebar-width`, uses a 28px default `--uzu-sidebar-layout-gap` for the column gap, and stacks to one column on narrow screens. When the sidebar also has `.uzu-scroll-area`, the layout limits its height so long navigation remains locally scrollable instead of pushing the active panel below the first viewport. `.uzu-section-centered` centers its section head, large body copy, and direct `.uzu-flex` action row for intro, empty, and download sections. The documentation site can add page-local layout classes in its own repository when the generic primitives are not enough. Promote a rule into `ui/css/` only when it is reusable outside the example pages. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
 
 ### Choosing The Right Surface
 

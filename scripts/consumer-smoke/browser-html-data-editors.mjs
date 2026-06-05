@@ -80,4 +80,8 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
           <li><button type="button">Settings</button></li>
         </ul>
       </section>
-    </aside>`;
+    </aside>
+    <div class="uzu-sidebar-layout" id="consumer-sidebar-layout">
+      <aside class="uzu-sidebar" aria-label="Consumer layout sidebar"></aside>
+      <main class="uzu-card">Main content</main>
+    </div>`;

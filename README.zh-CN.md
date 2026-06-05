@@ -186,7 +186,7 @@ Tabs 指示条、Segmented 指示条、Disclosure 实测高度等由脚本写入
 
 组件目录、API 参考和较长的文档页应由公开原语组合：`.uzu-page`、`.uzu-sidebar-layout`、`.uzu-sidebar`、`.uzu-scroll-area`、`.uzu-scroll`、`.uzu-panel-nav`、`.uzu-panel`、`.uzu-section-head`、`.uzu-card`、`.uzu-table`、`.uzu-code-block` 和 `.uzu-prose`。站点仓库里的组件目录是这些公开能力的严格消费方，不依赖隐藏的文档选择器，也不依赖库内的文档生成器。
 
-`.uzu-sidebar-layout` 提供可复用的“侧栏 + 主内容”网格，适合文档页和应用页。它用 `--uzu-sidebar-layout-sidebar-width` 控制侧栏宽度，窄屏收成单列，并会限制子级 `.uzu-sidebar.uzu-scroll-area` 的高度，避免过长导航把当前内容推到首屏之外。`.uzu-scroll-area` 也可以用 `--uzu-scroll-area-max-height` 约束局部预览或标本区域，同时保留公开滚动条样式。`.uzu-section-centered` 会居中标题组、大正文和直接子级 `.uzu-flex` 操作行。`.uzu-grid-4` 是 `.uzu-grid` 的四列形态，窄屏会收成单列。`.uzu-break-anywhere` 用于表格或卡片里的长 CSS 变量、包名、URL，避免撑破容器。
+`.uzu-sidebar-layout` 提供可复用的“侧栏 + 主内容”网格，适合文档页和应用页。它用 `--uzu-sidebar-layout-sidebar-width` 控制侧栏宽度，通过 `--uzu-sidebar-layout-gap` 提供默认 28px 列间距，窄屏收成单列，并会限制子级 `.uzu-sidebar.uzu-scroll-area` 的高度，避免过长导航把当前内容推到首屏之外。`.uzu-scroll-area` 也可以用 `--uzu-scroll-area-max-height` 约束局部预览或标本区域，同时保留公开滚动条样式。`.uzu-section-centered` 会居中标题组、大正文和直接子级 `.uzu-flex` 操作行。`.uzu-grid-4` 是 `.uzu-grid` 的四列形态，窄屏会收成单列。`.uzu-break-anywhere` 用于表格或卡片里的长 CSS 变量、包名、URL，避免撑破容器。
 
 ## 交互脚本
 

@@ -1,4 +1,13 @@
 export const browserExpressionResult = `
+const consumerScrollArea = document.querySelector('#consumer-scroll-area');
+const localScrollThumbTokenIdle = getComputedStyle(consumerScrollArea).getPropertyValue('--uzu-scrollbar-thumb-bg').trim();
+await wait(260);
+consumerScrollArea.focus();
+await wait(0);
+const localScrollThumbTokenFocused = getComputedStyle(consumerScrollArea).getPropertyValue('--uzu-scrollbar-thumb-bg').trim();
+const localScrollFocusActive = document.activeElement === consumerScrollArea;
+consumerScrollArea.blur();
+
 return {
   hasApi: Boolean(window.Usuzumi && window.Usuzumi.init),
   rootClass: document.documentElement.classList.contains('uzu-root'),
@@ -118,6 +127,9 @@ return {
   centeredFlexBetweenJustify: getComputedStyle(document.querySelector('#consumer-section-centered-between')).justifyContent,
   aspectRatio: getComputedStyle(document.querySelector('#consumer-aspect')).aspectRatio,
   scrollAreaMaxHeight: getComputedStyle(document.querySelector('#consumer-scroll-area')).maxHeight,
+  localScrollThumbTokenIdle,
+  localScrollThumbTokenFocused,
+  localScrollFocusActive,
   scrollbarButtonProbe: [
     document.documentElement,
     document.body,

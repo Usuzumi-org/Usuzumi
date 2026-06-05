@@ -719,7 +719,8 @@ The documentation site and large examples live in `Usuzumi-org/Usuzumi-site`. Ke
 Usuzumi defines:
 
 - 6px scrollbars with hidden WebKit arrow buttons for the root viewport and every public scroll surface, including `.uzu-scroll`, `.uzu-scroll-area`, `.uzu-table-wrap`, data/editor viewers, command lists, and combobox lists.
-- Paper-toned scrollbar thumbs with a stable minimum length so short thumbs do not read as triangular quick-scroll buttons.
+- Root scrollbar thumbs stay visible; local scroll surface thumbs are transparent while idle and become paper-toned on hover, focus, focus-within, or active interaction without changing the reserved 6px gutter.
+- Paper-toned scrollbar thumbs keep a stable minimum length so short thumbs do not read as triangular quick-scroll buttons.
 - Firefox-only standard scrollbar styling uses `scrollbar-width` / `scrollbar-color` inside `@supports (-moz-appearance: none)`. Chromium and Edge must stay on the `::-webkit-scrollbar*` path so classic arrow buttons are not drawn.
 - Ink-tinted text selection.
 - Serif link treatment with subtle underline color changes.

@@ -178,7 +178,7 @@ Script-written variables for tab indicators, segmented indicators, and measured 
 - Reusable layout helpers for product, documentation, and component pages. Site-specific compositions remain in the consuming site.
 - JavaScript helpers for theme toggles, language toggles, custom selects, combobox filtering, data grid sorting/selection, tree navigation, split/resizable panels, JSON/diff rendering, editor surfaces, tabs, segmented controls, pagination, switches, search clearing, password visibility, steppers, dropdown and context menus, menubars, command filtering, tag selection and closing, disclosures, accordions, hover cards, dialogs, toast dismissal, step navigation, panel navigation, code copying, and a limited Markdown renderer.
 
-Public scroll surfaces use the same 6px scrollbar contract. WebKit arrow buttons are hidden, and thumbs keep a stable minimum length so long content never turns the thumb into a triangular quick-scroll affordance.
+Public scroll surfaces use the same 6px scrollbar contract. Root scrollbars stay visible, while local scroll surfaces keep the gutter stable and reveal their thumb on hover, focus, focus-within, or active interaction. WebKit arrow buttons are hidden, and thumbs keep a stable minimum length so long content never turns the thumb into a triangular quick-scroll affordance.
 
 ## Documentation Pages
 

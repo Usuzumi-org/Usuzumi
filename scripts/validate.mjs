@@ -117,6 +117,7 @@ function validateScrollbarCssContract(filePath) {
   const text = readText(filePath);
   const buttonBody = getFirstRuleBody(text, '::-webkit-scrollbar-button');
   const thumbBody = getFirstRuleBody(text, '::-webkit-scrollbar-thumb');
+  const thumbHoverBody = getFirstRuleBody(text, '::-webkit-scrollbar-thumb:hover');
 
   for (const surface of scrollbarSurfaces) {
     for (const pseudo of ['::-webkit-scrollbar', '::-webkit-scrollbar-track', '::-webkit-scrollbar-thumb', '::-webkit-scrollbar-corner']) {
@@ -151,6 +152,18 @@ function validateScrollbarCssContract(filePath) {
 
   if (!/min-width\s*:\s*24px/i.test(thumbBody) || !/min-height\s*:\s*24px/i.test(thumbBody)) {
     report(filePath, 'scrollbar thumbs need a 24px minimum length so short thumbs do not read as triangular arrow buttons');
+  }
+  if (!/background\s*:\s*var\(--uzu-scrollbar-thumb-bg/i.test(thumbBody)) {
+    report(filePath, 'scrollbar thumbs should use the visibility token for idle/focused local scroll surfaces');
+  }
+  if (!/background\s*:\s*var\(--uzu-scrollbar-thumb-hover-bg/i.test(thumbHoverBody)) {
+    report(filePath, 'scrollbar thumb hover should use the hover visibility token');
+  }
+  if (!/--uzu-scrollbar-thumb-bg\s*:\s*transparent/i.test(text)) {
+    report(filePath, 'local scroll surface thumbs should be hidden while idle');
+  }
+  if (!/--uzu-scrollbar-thumb-bg\s*:\s*var\(--uzu-border\)/i.test(text)) {
+    report(filePath, 'local scroll surface thumbs should become visible on hover or focus');
   }
 }
 

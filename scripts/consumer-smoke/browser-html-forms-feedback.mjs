@@ -4,7 +4,7 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
         <div class="uzu-flex" id="consumer-section-centered-actions"><button class="uzu-button" type="button">Action</button></div>
         <div class="uzu-flex uzu-flex-between" id="consumer-section-centered-between"><span>Left</span><span>Right</span></div>
       </section>
-      <div class="uzu-aspect" id="consumer-aspect" style="--uzu-aspect-ratio: 2 / 1"><div class="uzu-scroll-area" id="consumer-scroll-area" style="--uzu-scroll-area-max-height: 64px">Scrollable area</div></div>
+      <div class="uzu-aspect" id="consumer-aspect" style="--uzu-aspect-ratio: 2 / 1"><div class="uzu-scroll-area" id="consumer-scroll-area" tabindex="0" style="--uzu-scroll-area-max-height: 64px"><div style="height: 160px">Scrollable area</div></div></div>
     </div>
     <form class="uzu-form" id="consumer-form" data-uzu-form novalidate>
       <fieldset class="uzu-fieldset">

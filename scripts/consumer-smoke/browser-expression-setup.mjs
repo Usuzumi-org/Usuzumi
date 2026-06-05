@@ -59,6 +59,7 @@ const splitResizer = splitPane.querySelector('[data-uzu-split-resizer]');
 const resizable = document.querySelector('#consumer-resizable');
 const resizableHandle = resizable.querySelector('[data-uzu-resizable-handle]');
 const jsonViewer = document.querySelector('#consumer-json-viewer');
+const jsonEscapedKeyViewer = document.querySelector('#consumer-json-escaped-key-viewer');
 const diffViewer = document.querySelector('#consumer-diff-viewer');
 const richEditor = document.querySelector('#consumer-rich-editor');
 const markdownEditor = document.querySelector('#consumer-markdown-editor');

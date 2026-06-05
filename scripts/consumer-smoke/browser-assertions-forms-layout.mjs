@@ -10,6 +10,18 @@ if (Math.round(value.alertWidth) !== 420) throw new Error('Browser consumer aler
 if (Math.round(value.alertSuccessWidth) !== 520) throw new Error('Browser consumer alert default max width did not apply');
 if (value.stackDisplay !== 'flex' || value.flexDisplay !== 'flex') throw new Error('Browser consumer layout primitives did not use flex layout');
 if (!value.aspectRatio.includes('2 / 1') || value.scrollAreaMaxHeight !== '64px') throw new Error('Browser consumer layout primitive variables did not apply');
+if (!Array.isArray(value.scrollbarButtonProbe) || value.scrollbarButtonProbe.length !== 5) throw new Error('Browser consumer scrollbar probe did not inspect all key public scroll surfaces');
+for (const probe of value.scrollbarButtonProbe) {
+if (probe.standardScrollbarWidth === 'thin') throw new Error(`Browser consumer Chromium scroll surface should use WebKit scrollbar styling instead of standard thin scrollbars: ${JSON.stringify(probe)}`);
+if (
+  probe.buttonDisplay !== 'none'
+  || probe.buttonWidth !== '0px'
+  || probe.buttonHeight !== '0px'
+  || (probe.buttonBackgroundImage !== 'none' && probe.buttonBackgroundImage !== '')
+  || (probe.buttonColor !== 'rgba(0, 0, 0, 0)' && probe.buttonColor !== 'transparent')
+) throw new Error(`Browser consumer WebKit scrollbar arrow button is not fully hidden: ${JSON.stringify(probe)}`);
+if (Number.parseFloat(probe.thumbMinWidth) < 24 || Number.parseFloat(probe.thumbMinHeight) < 24) throw new Error(`Browser consumer scrollbar thumb can collapse into a triangular arrow-like shape: ${JSON.stringify(probe)}`);
+}
 if (value.formDisplay !== 'grid' || value.inputGroupDisplay !== 'flex') throw new Error('Browser consumer form primitives did not apply');
 if (value.formInvalidBefore || value.formValidBeforeManualValidate || !value.formInvalidAfterManualValidate || value.formInvalidAfter || !value.formValidAfter) throw new Error('Browser consumer form validation sync did not work');
 if (value.fileUploadBorderStyle !== 'dashed') throw new Error('Browser consumer file upload styling is missing');

@@ -229,4 +229,12 @@
     background: ButtonFace;
     color: CanvasText;
   }
+
+  .uzu-skeleton {
+    animation: none;
+  }
+
+  .uzu-skeleton::before {
+    display: none;
+  }
 }

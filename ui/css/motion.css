@@ -5,8 +5,30 @@
 }
 
 @keyframes uzu-skeleton {
-  to {
-    background-position: -220% 0;
+  0%,
+  100% {
+    background-color: var(--uzu-skeleton-bg);
+  }
+
+  50% {
+    background-color: var(--uzu-skeleton-bg-active);
+  }
+}
+
+@keyframes uzu-skeleton-shimmer {
+  0% {
+    transform: translateX(-68%);
+    opacity: .32;
+  }
+
+  35%,
+  70% {
+    opacity: .88;
+  }
+
+  100% {
+    transform: translateX(68%);
+    opacity: .32;
   }
 }
 
@@ -209,6 +231,7 @@
 @media (prefers-reduced-motion: reduce) {
   .uzu-button.is-loading::before,
   .uzu-skeleton,
+  .uzu-skeleton::before,
   .uzu-progress-indeterminate .uzu-progress-bar,
   .uzu-progress-bar.is-indeterminate,
   .uzu-activity-dot,
@@ -244,5 +267,9 @@
   .uzu-tabs[data-uzu-tabs-indicator="true"]::after,
   .uzu-segmented[data-uzu-segmented-indicator="true"]::before {
     transition: none;
+  }
+
+  .uzu-skeleton::before {
+    display: none;
   }
 }

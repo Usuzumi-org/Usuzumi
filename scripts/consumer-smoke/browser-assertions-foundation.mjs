@@ -24,7 +24,36 @@ if (value.plainDataGridFirstValue !== '1' || value.plainDataGridSelectedValue !=
 if (!value.treeClosed || !value.treeOpen || value.treeKeyboardFocusValue !== 'docs' || value.treeDisplay !== 'grid') throw new Error('Browser consumer tree did not toggle, focus, or style correctly');
 if (Number(value.splitSize) !== 58 || value.splitAriaValue !== '58' || value.splitPaneDisplay !== 'grid') throw new Error('Browser consumer split pane did not resize');
 if (value.resizableWidth !== 300 || value.resizableHeight !== 150 || value.resizablePosition !== 'relative') throw new Error('Browser consumer resizable panel did not resize');
-if (value.jsonNodeCount < 2 || !value.jsonCollapsed || value.jsonViewerBorderStyle === 'none') throw new Error('Browser consumer JSON viewer did not render collapsible JSON');
+if (
+  value.jsonNodeCount < 2
+  || value.jsonFirstLineNumber !== '1'
+  || value.jsonSecondLineNumber !== '2'
+  || value.jsonLineDisplay !== 'grid'
+  || value.jsonLineNumberWidth !== '40px'
+  || value.jsonFoldWidth !== '20px'
+  || value.jsonIndent !== '20px'
+  || !value.jsonHasNestedDepth
+  || value.jsonNestedCodePaddingLeft < 19
+  || value.jsonToggleOpacity !== '0'
+  || value.jsonToggleWidth !== 20
+  || !value.jsonToggleCenterAligned
+  || !value.jsonFoldGutterHover
+  || value.jsonVisibleToggleCountOnGutterHover < 2
+  || !value.jsonFoldGutterHoverCleared
+  || value.jsonToggleText !== ''
+  || value.jsonOpenPunctuationText !== '{'
+  || !value.jsonUsesCodeTokens
+  || !value.jsonEscapedKeyTexts.includes('""')
+  || !value.jsonEscapedKeyTexts.includes('"quote\\"key"')
+  || !value.jsonEscapedStringTexts.includes('"line\\nbreak"')
+  || !value.jsonEscapedStringTexts.includes('"C:\\\\Temp"')
+  || !value.jsonCollapsed
+  || value.jsonCollapsedAria !== 'false'
+  || !value.jsonChildrenHidden
+  || !value.jsonCollapsedSummaryVisible
+  || value.jsonCollapsedSummaryText !== '...'
+  || value.jsonViewerBorderStyle === 'none'
+) throw new Error('Browser consumer JSON viewer did not render collapsible highlighted JSON');
 if (value.diffAddRows !== 1 || value.diffRemoveRows !== 1 || value.diffViewerDisplay !== 'block') throw new Error('Browser consumer diff viewer did not classify rows');
 if (value.editorDisplay !== 'grid' || value.markdownEditorDisplay !== 'grid' || value.markdownEditorHeading !== 'Updated' || value.markdownEditorCleared !== '' || !value.markdownEditorCopyInitialized || !value.markdownEditorShellPreviewEmpty || value.inlineEditorValue !== 'Changed inline') throw new Error('Browser consumer editor helpers did not initialize');
 if (Math.round(value.fieldGap) !== 5) throw new Error('Browser consumer form field should use the default field gap variable');

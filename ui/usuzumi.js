@@ -14445,45 +14445,130 @@ function setSplitPaneSize(splitPane, size, emit = true) {
   }
 
 /* ui/js/editors.js */
-function createJsonNode(value, key = '') {
+function createJsonToken(text, type = '') {
+    const node = document.createElement('span');
+    node.className = type ? `uzu-code-token uzu-code-token-${type}` : 'uzu-code-token';
+    node.textContent = text;
+    return node;
+  }
+
+  function createJsonSpacer() {
+    const spacer = document.createElement('span');
+    spacer.className = 'uzu-json-spacer';
+    spacer.setAttribute('aria-hidden', 'true');
+    return spacer;
+  }
+
+  function createJsonLine(depth, state, foldControl = null) {
+    const line = document.createElement('div');
+    const code = document.createElement('span');
+    line.className = 'uzu-json-line';
+    line.dataset.uzuJsonLine = String(state.line += 1);
+    line.style.setProperty('--uzu-json-depth', String(depth));
+    code.className = 'uzu-json-code';
+    line.append(foldControl || createJsonSpacer(), code);
+    return { line, code };
+  }
+
+  function appendJsonKey(row, key) {
+    if (key === null || key === undefined) return;
+    const keyNode = createJsonToken(JSON.stringify(String(key)), 'property');
+    keyNode.classList.add('uzu-json-key');
+    row.append(keyNode, createJsonToken(': ', 'punctuation'));
+  }
+
+  function appendJsonComma(row, isLast) {
+    if (!isLast) row.append(createJsonToken(',', 'punctuation'));
+  }
+
+  function formatJsonSummary(count) {
+    return ' ...';
+  }
+
+  function createJsonNode(value, key = '', options = {}) {
+    const isLast = options.isLast !== false;
+    const depth = Number.isFinite(options.depth) ? options.depth : 0;
+    const state = options.state || { line: 0 };
     const row = document.createElement('div');
     row.className = 'uzu-json-node';
-    if (key) {
-      const keyNode = document.createElement('span');
-      keyNode.className = 'uzu-json-key';
-      keyNode.textContent = `"${key}"`;
-      row.append(keyNode, document.createTextNode(': '));
-    }
     if (value && typeof value === 'object') {
       const isArray = Array.isArray(value);
       const entries = Object.entries(value);
+      row.classList.add('uzu-json-branch');
       const toggle = document.createElement('button');
       toggle.className = 'uzu-json-toggle';
       toggle.type = 'button';
-      toggle.textContent = isArray ? `[${entries.length}]` : `{${entries.length}}`;
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', isArray ? 'Collapse array' : 'Collapse object');
+      const { line, code } = createJsonLine(depth, state, toggle);
+      appendJsonKey(code, key);
+      code.append(createJsonToken(isArray ? '[' : '{', 'punctuation'));
+      const summary = createJsonToken(formatJsonSummary(entries.length), 'comment');
+      summary.classList.add('uzu-json-summary');
+      const inlineClose = createJsonToken(isArray ? ']' : '}', 'punctuation');
+      inlineClose.classList.add('uzu-json-inline-close');
+      code.append(summary, inlineClose);
+      if (!isLast) {
+        const inlineComma = createJsonToken(',', 'punctuation');
+        inlineComma.classList.add('uzu-json-inline-comma');
+        code.append(inlineComma);
+      }
       const children = document.createElement('div');
       children.className = 'uzu-json-children';
       children.dataset.uzuJsonChildren = '';
-      entries.forEach(([childKey, childValue]) => children.append(createJsonNode(childValue, isArray ? '' : childKey)));
+      entries.forEach(([childKey, childValue], index) => {
+        children.append(createJsonNode(childValue, isArray ? null : childKey, {
+          depth: depth + 1,
+          isLast: index === entries.length - 1,
+          state
+        }));
+      });
+      const close = createJsonLine(depth, state);
+      const closeLine = close.line;
+      closeLine.classList.add('uzu-json-line-end');
+      close.code.append(createJsonToken(isArray ? ']' : '}', 'punctuation'));
+      appendJsonComma(close.code, isLast);
       toggle.addEventListener('click', () => {
         const collapsed = !children.hidden;
         children.hidden = collapsed;
+        closeLine.hidden = collapsed;
         toggle.classList.toggle('is-collapsed', collapsed);
+        toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        toggle.setAttribute('aria-label', collapsed ? (isArray ? 'Expand array' : 'Expand object') : (isArray ? 'Collapse array' : 'Collapse object'));
+        row.classList.toggle('is-collapsed', collapsed);
       });
-      row.append(toggle, children);
+      row.append(line, children, closeLine);
       return row;
     }
+    const { line, code } = createJsonLine(depth, state);
+    appendJsonKey(code, key);
     const valueNode = document.createElement('span');
-    valueNode.className = `uzu-json-value uzu-json-${value === null ? 'null' : typeof value}`;
-    valueNode.textContent = typeof value === 'string' ? `"${value}"` : String(value);
-    row.append(valueNode);
+    const valueType = value === null ? 'null' : typeof value;
+    const tokenType = valueType === 'string' ? 'string' : valueType === 'number' ? 'number' : valueType === 'boolean' || valueType === 'null' ? 'keyword' : '';
+    valueNode.className = `uzu-json-value uzu-json-${valueType} uzu-code-token${tokenType ? ` uzu-code-token-${tokenType}` : ''}`;
+    valueNode.textContent = typeof value === 'string' ? JSON.stringify(value) : String(value);
+    code.append(valueNode);
+    appendJsonComma(code, isLast);
+    row.append(line);
     return row;
   }
 
   function renderJson(value) {
     const fragment = document.createDocumentFragment();
-    fragment.append(createJsonNode(value));
+    fragment.append(createJsonNode(value, null, { state: { line: 0 } }));
     return fragment;
+  }
+
+  function updateJsonFoldGutterHover(viewer, event) {
+    const line = viewer.querySelector('.uzu-json-line');
+    if (!line) return;
+    const lineBox = line.getBoundingClientRect();
+    const style = getComputedStyle(viewer);
+    const lineNumberWidth = Number.parseFloat(style.getPropertyValue('--uzu-json-line-number-width')) || 40;
+    const foldWidth = Number.parseFloat(style.getPropertyValue('--uzu-json-fold-width')) || 20;
+    const x = event.clientX - lineBox.left;
+    const inFoldGutter = x >= lineNumberWidth && x <= lineNumberWidth + foldWidth;
+    viewer.classList.toggle('is-fold-gutter-hover', inFoldGutter);
   }
 
   function initJsonViewers(root = document) {
@@ -14494,6 +14579,8 @@ function createJsonNode(value, key = '') {
       try {
         const value = JSON.parse(source);
         viewer.replaceChildren(renderJson(value));
+        viewer.addEventListener('pointermove', (event) => updateJsonFoldGutterHover(viewer, event));
+        viewer.addEventListener('pointerleave', () => viewer.classList.remove('is-fold-gutter-hover'));
       } catch (_) {
         viewer.classList.add('is-invalid');
       }

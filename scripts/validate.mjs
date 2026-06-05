@@ -11,6 +11,44 @@ const issues = [];
 const forbiddenRootDependencyPattern = /^(?:@tiptap\/|@codemirror\/|codemirror$|markdown-it$|shiki$)/i;
 const forbiddenUiEditorPattern = /@tiptap|@codemirror|\bCodeMirror\b|\bEditorView\b|\bMarkdownIt\b|markdown-it|\bshiki\b|createHighlighterCore/i;
 const publicDocs = ['DESIGN.md', 'README.md', 'README.zh-CN.md'];
+const scrollbarSurfaces = [
+  'html.uzu-root',
+  'body.uzu-app',
+  '.uzu-scroll',
+  '.uzu-scroll-area',
+  '.uzu-command-list',
+  '.uzu-combobox-list',
+  '.uzu-table-wrap',
+  '.uzu-data-grid-wrap',
+  '.uzu-json-viewer',
+  '.uzu-diff-viewer',
+  '.uzu-code-editor',
+  '.uzu-plain-editor',
+  '.uzu-markdown-source',
+  '.uzu-markdown-preview',
+  '.uzu-editor-surface'
+];
+const scrollbarButtonStates = [
+  '',
+  ':single-button',
+  ':double-button',
+  ':start:decrement',
+  ':start:increment',
+  ':end:decrement',
+  ':end:increment',
+  ':vertical:decrement',
+  ':vertical:increment',
+  ':vertical:start:decrement',
+  ':vertical:start:increment',
+  ':vertical:end:decrement',
+  ':vertical:end:increment',
+  ':horizontal:decrement',
+  ':horizontal:increment',
+  ':horizontal:start:decrement',
+  ':horizontal:start:increment',
+  ':horizontal:end:decrement',
+  ':horizontal:end:increment'
+];
 
 function toPosix(filePath) {
   return path.relative(root, filePath).replaceAll(path.sep, '/');
@@ -61,6 +99,59 @@ function dataAttributeToDatasetKey(attribute) {
 
 function cssContainsClass(cssText, className) {
   return new RegExp(`\\.${escapeRegExp(className)}(?:[^_a-zA-Z0-9-]|$)`).test(cssText);
+}
+
+function cssContainsSurfacePseudo(cssText, surface, pseudo) {
+  if (cssText.includes(`${surface}${pseudo}`)) return true;
+  if (!surface.startsWith('.')) return false;
+  const className = surface.slice(1);
+  return new RegExp(`:where\\([^)]*\\.${escapeRegExp(className)}(?:[^_a-zA-Z0-9-]|[^)]*)\\)${escapeRegExp(pseudo)}`).test(cssText);
+}
+
+function getFirstRuleBody(cssText, selectorPart) {
+  const match = cssText.match(new RegExp(`${escapeRegExp(selectorPart)}[\\s\\S]*?\\{([\\s\\S]*?)\\}`));
+  return match ? match[1] : '';
+}
+
+function validateScrollbarCssContract(filePath) {
+  const text = readText(filePath);
+  const buttonBody = getFirstRuleBody(text, '::-webkit-scrollbar-button');
+  const thumbBody = getFirstRuleBody(text, '::-webkit-scrollbar-thumb');
+
+  for (const surface of scrollbarSurfaces) {
+    for (const pseudo of ['::-webkit-scrollbar', '::-webkit-scrollbar-track', '::-webkit-scrollbar-thumb', '::-webkit-scrollbar-corner']) {
+      if (!cssContainsSurfacePseudo(text, surface, pseudo)) {
+        report(filePath, `scrollbar contract does not cover ${surface}${pseudo}`);
+      }
+    }
+    for (const state of scrollbarButtonStates) {
+      const pseudo = `::-webkit-scrollbar-button${state}`;
+      if (!cssContainsSurfacePseudo(text, surface, pseudo)) {
+        report(filePath, `scrollbar contract does not hide ${surface}${pseudo}`);
+      }
+    }
+  }
+
+  const buttonDeclarations = [
+    [/display\s*:\s*none\s*!important/i, 'display: none !important'],
+    [/width\s*:\s*0(?:px)?\s*!important/i, 'width: 0 !important'],
+    [/height\s*:\s*0(?:px)?\s*!important/i, 'height: 0 !important'],
+    [/min-width\s*:\s*0(?:px)?\s*!important/i, 'min-width: 0 !important'],
+    [/min-height\s*:\s*0(?:px)?\s*!important/i, 'min-height: 0 !important'],
+    [/background-image\s*:\s*none\s*!important/i, 'background-image: none !important'],
+    [/color\s*:\s*transparent\s*!important/i, 'color: transparent !important'],
+    [/-webkit-appearance\s*:\s*none\s*!important/i, '-webkit-appearance: none !important'],
+    [/(^|[;\s])appearance\s*:\s*none\s*!important/i, 'appearance: none !important']
+  ];
+  for (const [pattern, label] of buttonDeclarations) {
+    if (!pattern.test(buttonBody)) {
+      report(filePath, `scrollbar buttons must be fully hidden with ${label}`);
+    }
+  }
+
+  if (!/min-width\s*:\s*24px/i.test(thumbBody) || !/min-height\s*:\s*24px/i.test(thumbBody)) {
+    report(filePath, 'scrollbar thumbs need a 24px minimum length so short thumbs do not read as triangular arrow buttons');
+  }
 }
 
 function collectDocumentedItems(pattern) {
@@ -276,6 +367,8 @@ validateRootPackageDependencies();
 validatePublicUiSources();
 validateDocumentedPublicApi();
 validateTextFiles();
+validateScrollbarCssContract(path.join(root, 'ui', 'css', 'base.css'));
+validateScrollbarCssContract(path.join(root, 'ui', 'usuzumi.css'));
 
 if (issues.length) {
   console.error(`Validation failed with ${issues.length} issue(s):`);

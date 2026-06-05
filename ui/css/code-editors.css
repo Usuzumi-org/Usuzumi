@@ -23,7 +23,8 @@
   justify-content: center;
 }
 
-.uzu-code-block {
+.uzu-code-block,
+.uzu-json-viewer {
   min-width: 0;
   max-width: 100%;
   position: relative;
@@ -42,10 +43,15 @@
 }
 
 :root[data-theme="dark"] .uzu-code-block,
+:root[data-theme="dark"] .uzu-json-viewer,
 .uzu-app[data-theme="dark"] .uzu-code-block,
+.uzu-app[data-theme="dark"] .uzu-json-viewer,
 .uzu-scope[data-theme="dark"] .uzu-code-block,
+.uzu-scope[data-theme="dark"] .uzu-json-viewer,
 [data-uzu-theme="dark"] .uzu-code-block,
-[data-theme="dark"] .uzu-code-block {
+[data-uzu-theme="dark"] .uzu-json-viewer,
+[data-theme="dark"] .uzu-code-block,
+[data-theme="dark"] .uzu-json-viewer {
   --uzu-code-token-comment: #8b949e;
   --uzu-code-token-string: #7ee787;
   --uzu-code-token-keyword: #ff7b72;
@@ -202,8 +208,17 @@ pre.uzu-code-block-body {
 .uzu-json-viewer,
 .uzu-diff-viewer {
   max-height: var(--uzu-viewer-max-height, 360px);
-  padding: 12px;
   overflow: auto;
+}
+
+.uzu-json-viewer {
+  --uzu-json-line-number-width: 40px;
+  --uzu-json-fold-width: 20px;
+  --uzu-json-indent: 20px;
+  --uzu-json-line-height: 20px;
+  --uzu-json-line-hover-bg: color-mix(in srgb, var(--uzu-surface-soft) 52%, transparent);
+  --uzu-json-guide-color: color-mix(in srgb, var(--uzu-border) 72%, transparent);
+  padding: var(--uzu-json-viewer-padding, 10px 0);
 }
 
 .uzu-json-viewer.is-invalid {
@@ -216,10 +231,41 @@ pre.uzu-code-block-body {
   white-space: nowrap;
 }
 
+.uzu-json-line {
+  min-height: var(--uzu-json-line-height);
+  display: grid;
+  grid-template-columns: var(--uzu-json-line-number-width) var(--uzu-json-fold-width) max-content;
+  align-items: center;
+  position: relative;
+  padding-right: 16px;
+}
+
+.uzu-json-line::before {
+  content: attr(data-uzu-json-line);
+  grid-column: 1;
+  min-height: var(--uzu-json-line-height);
+  padding: 0 10px 0 6px;
+  color: var(--uzu-soft);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  user-select: none;
+}
+
+.uzu-json-line::after {
+  content: "";
+  width: 1px;
+  position: absolute;
+  inset: 0 auto 0 calc(var(--uzu-json-line-number-width) + var(--uzu-json-fold-width) - 1px);
+  background: var(--uzu-json-guide-color);
+  pointer-events: none;
+}
+
+.uzu-json-line:hover {
+  background: var(--uzu-json-line-hover-bg);
+}
+
 .uzu-json-children {
-  margin-left: var(--uzu-json-indent, 18px);
-  padding-left: 10px;
-  border-left: 1px solid var(--uzu-border-soft);
+  margin-left: 0;
 }
 
 .uzu-json-children[hidden] {
@@ -227,40 +273,120 @@ pre.uzu-code-block-body {
 }
 
 .uzu-json-toggle {
-  min-width: 38px;
-  margin: 0 5px 0 0;
-  padding: 1px 5px;
-  border: 1px solid var(--uzu-border);
+  grid-column: 2;
+  width: var(--uzu-json-fold-width);
+  height: var(--uzu-json-line-height);
+  min-width: var(--uzu-json-fold-width);
+  margin: 0;
+  padding: 0;
+  border: 0;
   border-radius: var(--uzu-radius-micro);
-  background: var(--uzu-surface);
-  color: var(--uzu-muted);
+  background: transparent;
+  color: var(--uzu-soft);
   font: inherit;
-  line-height: 1.3;
+  line-height: 1;
+  display: grid;
+  place-items: center;
   cursor: pointer;
+  opacity: 0;
+  appearance: none;
+  pointer-events: none;
+  transition: opacity var(--uzu-motion-quick) var(--uzu-ease-standard), color var(--uzu-motion-quick) var(--uzu-ease-standard);
+}
+
+.uzu-json-toggle::before {
+  content: "";
+  width: 0;
+  height: 0;
+  margin: 0;
+  border-block: 4px solid transparent;
+  border-left: 5px solid currentColor;
+  display: block;
+  transform: rotate(90deg);
+  transform-origin: 45% 50%;
+  transition: transform var(--uzu-motion-quick) var(--uzu-ease-standard), color var(--uzu-motion-quick) var(--uzu-ease-standard);
 }
 
 .uzu-json-toggle.is-collapsed {
   color: var(--uzu-fg-strong);
 }
 
-.uzu-json-key {
+.uzu-json-toggle.is-collapsed::before {
+  transform: rotate(0deg);
+}
+
+.uzu-json-toggle:hover,
+.uzu-json-toggle:focus-visible {
   color: var(--uzu-fg-strong);
 }
 
+.uzu-json-viewer.is-fold-gutter-hover .uzu-json-toggle,
+.uzu-json-line:hover .uzu-json-toggle,
+.uzu-json-line:focus-within .uzu-json-toggle {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.uzu-json-spacer {
+  grid-column: 2;
+  width: var(--uzu-json-fold-width);
+  min-width: var(--uzu-json-fold-width);
+  display: inline-block;
+}
+
+.uzu-json-code {
+  grid-column: 3;
+  min-height: var(--uzu-json-line-height);
+  padding-left: calc(var(--uzu-json-depth, 0) * var(--uzu-json-indent));
+  position: relative;
+}
+
+.uzu-json-code::before {
+  content: "";
+  width: calc(var(--uzu-json-depth, 0) * var(--uzu-json-indent));
+  position: absolute;
+  inset: 0 auto 0 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(var(--uzu-json-indent) - 1px),
+    var(--uzu-json-guide-color) calc(var(--uzu-json-indent) - 1px),
+    var(--uzu-json-guide-color) var(--uzu-json-indent)
+  );
+  background-size: var(--uzu-json-indent) 100%;
+}
+
+.uzu-json-summary,
+.uzu-json-inline-close,
+.uzu-json-inline-comma {
+  display: none;
+}
+
+.uzu-json-branch.is-collapsed > .uzu-json-line .uzu-json-summary,
+.uzu-json-branch.is-collapsed > .uzu-json-line .uzu-json-inline-close,
+.uzu-json-branch.is-collapsed > .uzu-json-line .uzu-json-inline-comma {
+  display: inline;
+}
+
+.uzu-json-key {
+  color: var(--uzu-code-token-property);
+}
+
 .uzu-json-string {
-  color: var(--uzu-success);
+  color: var(--uzu-code-token-string);
 }
 
 .uzu-json-number {
-  color: var(--uzu-info);
+  color: var(--uzu-code-token-number);
 }
 
 .uzu-json-boolean {
-  color: var(--uzu-warning);
+  color: var(--uzu-code-token-keyword);
 }
 
 .uzu-json-null {
-  color: var(--uzu-muted);
+  color: var(--uzu-code-token-keyword);
 }
 
 .uzu-diff-viewer {

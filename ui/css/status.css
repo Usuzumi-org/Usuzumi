@@ -1,31 +1,100 @@
 .uzu-skeleton {
-  --uzu-skeleton-bg: color-mix(in srgb, var(--uzu-fg) 24%, var(--uzu-surface-soft));
-  --uzu-skeleton-shine: color-mix(in srgb, var(--uzu-fg) 34%, transparent);
+  --uzu-skeleton-bg: color-mix(in srgb, var(--uzu-fg) 10%, var(--uzu-surface-soft));
+  --uzu-skeleton-bg-active: color-mix(in srgb, var(--uzu-fg) 14%, var(--uzu-surface-soft));
+  --uzu-skeleton-shine: color-mix(in srgb, var(--uzu-surface) 78%, transparent);
+  --uzu-skeleton-shine-soft: color-mix(in srgb, var(--uzu-surface) 48%, transparent);
+  --uzu-skeleton-border: color-mix(in srgb, var(--uzu-fg) 10%, transparent);
+  width: var(--uzu-skeleton-width, 100%);
   min-height: 1em;
-  border: 1px solid color-mix(in srgb, var(--uzu-fg) 22%, transparent);
-  border-radius: var(--uzu-radius-micro);
+  border: 1px solid var(--uzu-skeleton-border);
+  border-radius: var(--uzu-skeleton-radius, var(--uzu-radius-micro));
   background-color: var(--uzu-skeleton-bg);
-  background-image: linear-gradient(90deg, transparent, var(--uzu-skeleton-shine), transparent);
-  background-size: 220% 100%;
-  background-repeat: no-repeat;
-  animation: uzu-skeleton 1200ms var(--uzu-ease-standard) infinite;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  color: transparent;
+  user-select: none;
+  animation: uzu-skeleton 2200ms var(--uzu-ease-standard) infinite;
 }
 
-.uzu-skeleton-text {
-  height: 12px;
+.uzu-skeleton::before {
+  content: "";
+  position: absolute;
+  inset: -1px -42%;
+  border-radius: inherit;
+  background-image: linear-gradient(100deg, transparent 18%, var(--uzu-skeleton-shine-soft) 42%, var(--uzu-skeleton-shine) 50%, var(--uzu-skeleton-shine-soft) 58%, transparent 82%);
+  transform: translateX(-68%);
+  pointer-events: none;
+  animation: uzu-skeleton-shimmer 1500ms var(--uzu-ease-standard) infinite;
+}
+
+:root[data-theme="dark"] .uzu-skeleton,
+.uzu-app[data-theme="dark"] .uzu-skeleton,
+.uzu-scope[data-theme="dark"] .uzu-skeleton,
+[data-uzu-theme="dark"] .uzu-skeleton,
+[data-theme="dark"] .uzu-skeleton {
+  --uzu-skeleton-shine: color-mix(in srgb, var(--uzu-fg-strong) 14%, transparent);
+  --uzu-skeleton-shine-soft: color-mix(in srgb, var(--uzu-fg-strong) 7%, transparent);
+}
+
+.uzu-skeleton-card {
+  min-width: 0;
+  padding: var(--uzu-skeleton-card-padding, 16px);
+  border: 1px solid var(--uzu-border);
+  border-radius: var(--uzu-radius-micro);
+  background: color-mix(in srgb, var(--uzu-surface-soft) 54%, var(--uzu-surface));
+  display: grid;
+  gap: var(--uzu-skeleton-card-gap, 12px);
+}
+
+.uzu-skeleton-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--uzu-skeleton-row-gap, 12px);
+}
+
+.uzu-skeleton-stack {
+  min-width: 0;
+  display: grid;
+  gap: var(--uzu-skeleton-stack-gap, 8px);
+}
+
+.uzu-skeleton-avatar {
+  --uzu-skeleton-width: var(--uzu-skeleton-avatar-size, 40px);
+  --uzu-skeleton-radius: var(--uzu-radius-pill);
+  width: var(--uzu-skeleton-avatar-size, 40px);
+  height: var(--uzu-skeleton-avatar-size, 40px);
+  min-height: 0;
+  flex: 0 0 auto;
+}
+
+.uzu-skeleton-media {
+  min-height: var(--uzu-skeleton-media-height, 112px);
+  aspect-ratio: var(--uzu-skeleton-media-ratio, auto);
+}
+
+.uzu-skeleton-text,
+.uzu-skeleton-line {
+  height: var(--uzu-skeleton-line-height, 12px);
 }
 
 .uzu-skeleton-title {
-  width: 62%;
-  height: 18px;
+  --uzu-skeleton-width: 62%;
+  height: var(--uzu-skeleton-title-height, 18px);
 }
 
 .uzu-skeleton-block {
-  height: 96px;
+  min-height: var(--uzu-skeleton-block-height, 96px);
 }
 
 .uzu-skeleton-short {
-  width: 78%;
+  --uzu-skeleton-width: 78%;
+}
+
+.uzu-skeleton-tiny {
+  --uzu-skeleton-width: 34%;
 }
 
 .uzu-progress {

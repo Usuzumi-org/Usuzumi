@@ -38,7 +38,7 @@ The published `ui/usuzumi.css`, `ui/usuzumi.js`, `ui/usuzumi.min.css`, and `ui/u
 - `ui/css/status.css`: empty, error, and loading states.
 - `ui/css/motion.css`: shared process animation primitives.
 - `ui/css/layout.css`: page containers, sections, top bars, grids, sidebars, hero split, footer.
-- `ui/css/patterns.css`: reusable product sections, panel navigation, prose/code helpers, token specimens, type specimens, and small page patterns.
+- `ui/css/patterns.css`: reusable brand links, language toggles, panel navigation, prose helpers, and small public page patterns.
 - `ui/css/utilities.css`: small utilities and language visibility helpers.
 - `ui/css/forced-colors.css`: high-contrast mode visibility rules.
 - `ui/usuzumi-signature.css`: optional signature font entry for `.uzu-signature` and signature specimens.
@@ -91,13 +91,10 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 - `.uzu-progress`, `.uzu-progress-bar`, `.uzu-progress-indeterminate`, `.uzu-progress-circular`, `.uzu-progress-circular-track`, `.uzu-progress-circular-fill`, `.uzu-spinner`, `.uzu-skeleton`
 - `.uzu-activity`, `.uzu-activity-dot`, `.uzu-process`, `.uzu-process-step`, `.uzu-step-nav`, `.uzu-step-nav-item`, `.uzu-step-nav-button`
 - `.uzu-disclosure`, `.uzu-disclosure-trigger`, `.uzu-disclosure-panel`, `.uzu-accordion`, `.uzu-hover-card`, `.uzu-hover-card-content`, `.uzu-tooltip`
-- `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-grid-2`, `.uzu-grid-3`, `.uzu-grid-4`, `.uzu-stack`, `.uzu-flex`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
+- `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-grid-2`, `.uzu-grid-3`, `.uzu-grid-4`, `.uzu-sidebar-layout`, `.uzu-stack`, `.uzu-flex`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
 - `.uzu-section-centered`, `.uzu-panel`
 - `.uzu-panel-nav`, `.uzu-panel-nav-section`, `.uzu-panel-nav-title`, `.uzu-panel-nav-button`, `.uzu-panel-nav-meta`
 - `.uzu-code-block`, `.uzu-code-block-body`, `.uzu-code-block-copy`, `.uzu-prose`
-- `.uzu-reference-layout`, `.uzu-reference-sidebar`, `.uzu-reference-main`, `.uzu-reference-topbar`, `.uzu-reference-brand`, `.uzu-reference-panel`, `.uzu-reference-tutorial`, `.uzu-reference-interface`, `.uzu-reference-table`, `.uzu-reference-demo`, `.uzu-reference-example`, `.uzu-reference-code`
-- `.uzu-download-actions`, `.uzu-app-hero-copy`, `.uzu-product-meta`, `.uzu-feature-list`, `.uzu-feature-item`, `.uzu-feature-index`, `.uzu-screen-grid`, `.uzu-screen-card`, `.uzu-screen-art`, `.uzu-screen-mark`
-- `.uzu-type-list`, `.uzu-type-list-plain`, `.uzu-type-row`, `.uzu-type-sample`
 - `.uzu-break-anywhere`
 
 ### CSS Custom Property API
@@ -322,7 +319,7 @@ Use animation for process states and state transitions: loading, syncing, indete
 
 Letter spacing is 0 by default. Section labels may be uppercase, but they should remain quiet and compact.
 
-Use display-size classes only in their intended page context. `.uzu-signature` belongs in open identity areas such as a homepage hero, and `.uzu-hero-title` belongs in product or offer heroes. In design catalogs, use `.uzu-type-list`, `.uzu-type-row`, and `.uzu-type-sample` so type roles can be inspected in a quiet specimen list without oversized card containers. Use `.uzu-type-list-plain` when the same specimen rhythm is needed without row dividers.
+Use display-size classes only in their intended page context. `.uzu-signature` belongs in open identity areas such as a homepage hero, and `.uzu-hero-title` belongs in product or offer heroes. In design catalogs, inspect type roles with public layout primitives such as `.uzu-grid`, `.uzu-card`, `.uzu-title-pair`, `.uzu-section-title`, `.uzu-body-large`, and `.uzu-text`; do not add catalog-only specimen classes to the library.
 
 ## Components
 
@@ -628,18 +625,18 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 
 ### Product Homepage
 
-Build homepage introductions from `.uzu-page`, `.uzu-topbar`, `.uzu-section`, `.uzu-hero-split`, `.uzu-signature`, `.uzu-title-pair`, `.uzu-body-large`, `.uzu-download-actions`, `.uzu-feature-list`, and `.uzu-footer`. Project-specific hero composition, portfolio rows, or mockup artwork can live in the page itself while still using public buttons, links, cards, typography, and layout primitives.
+Build homepage introductions from `.uzu-page`, `.uzu-topbar`, `.uzu-section`, `.uzu-hero-split`, `.uzu-signature`, `.uzu-title-pair`, `.uzu-body-large`, `.uzu-flex`, `.uzu-grid`, `.uzu-card`, and `.uzu-footer`. Project-specific hero composition, portfolio rows, or mockup artwork can live in the consuming page while still using public buttons, links, cards, typography, and layout primitives.
 
 Use this structure for a compact intro:
 
 ```html
 <main class="uzu-page">
   <section class="uzu-hero-split">
-    <div class="uzu-app-hero-copy">
-      <p class="uzu-product-meta">CSS / Runtime / Components</p>
+    <div class="uzu-stack uzu-gap-4">
+      <p class="uzu-section-label">CSS / Runtime / Components</p>
       <h1 class="uzu-signature">Usuzumi</h1>
       <p class="uzu-body-large">A quiet interface kit for small sites and product pages.</p>
-      <div class="uzu-download-actions">
+      <div class="uzu-flex uzu-wrap uzu-gap-2">
         <a class="uzu-button uzu-button-primary" href="https://github.com/Usuzumi-org/Usuzumi-site">Components</a>
         <a class="uzu-button" href="https://github.com/Usuzumi-org/Usuzumi">GitHub</a>
       </div>
@@ -650,15 +647,15 @@ Use this structure for a compact intro:
 
 ### App Introduction Page
 
-Use a top bar, a hero with product name and short copy, download actions near the hero, a quiet product mockup, feature sections, screen sections, and optional bilingual content.
+Use a top bar, a hero with product name and short copy, action buttons near the hero, a quiet product preview, feature sections, screen sections, and optional bilingual content.
 
-Use `.uzu-hero-split` with `.uzu-app-hero-copy`, `.uzu-product-meta`, and `.uzu-download-actions`. Download actions may be buttons because they are explicit actions. Keep icon labels short enough to fit at mobile widths.
+Use `.uzu-hero-split` with `.uzu-stack`, `.uzu-section-label`, `.uzu-body-large`, and `.uzu-flex` for compact hero copy and actions. Action links may be buttons because they are explicit commands. Keep icon labels short enough to fit at mobile widths.
 
-Use `.uzu-feature-list` and `.uzu-feature-item` for explanatory product features. A feature list is preferred over three identical cards when the content is mostly text and needs editorial rhythm.
+Use `.uzu-stack`, `.uzu-list`, `.uzu-list-item`, `.uzu-grid`, or `.uzu-card` for explanatory product features. A list is preferred over three identical cards when the content is mostly text and needs editorial rhythm.
 
-Use `.uzu-screen-grid` and `.uzu-screen-card` for screen previews. Screen cards may contain simulated interface art or real screenshots. The thumbnail, title, and subtitle must use stable spacing and should not rely on browser-default paragraph margins.
+Use `.uzu-grid`, `.uzu-card`, `.uzu-aspect`, and `.uzu-title-pair` for screen previews. Screen cards may contain simulated interface art or real screenshots. The thumbnail, title, and subtitle must use stable spacing and should not rely on browser-default paragraph margins.
 
-Use `.uzu-title-pair` for title and subtitle pairs inside feature items, cards, and screen cards.
+Use `.uzu-title-pair` for title and subtitle pairs inside feature items, cards, and screen previews.
 
 ### Design Catalog Page
 
@@ -666,36 +663,31 @@ Use the catalog page to show the complete system surface: colors, typography, bu
 
 The catalog page should demonstrate generic system primitives only. It must not include specific product names or project-branded language except for the design-system identity itself.
 
-### Reference Page
+### Documentation Page
 
-Use `.uzu-reference-layout` for component catalogs, API references, and long documentation pages that need persistent navigation plus one main reading column. It is a public pattern because a reference page repeats the same concerns across projects: a constrained sidebar, switchable panels, tutorial prose, interface tables, and live examples.
+Use public primitives for component catalogs, API references, and long documentation pages that need persistent navigation plus one main reading column. Documentation pages should compose `.uzu-page`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`.
 
 ```html
 <main class="uzu-page">
-  <div class="uzu-reference-layout">
-    <aside class="uzu-reference-sidebar">
+  <div class="uzu-sidebar-layout">
+    <aside class="uzu-sidebar uzu-scroll uzu-scroll-area">
       <nav class="uzu-panel-nav" data-uzu-panel-nav>
         <button class="uzu-panel-nav-button" data-uzu-panel-target="#button">Button</button>
       </nav>
     </aside>
-    <section class="uzu-reference-main">
-      <article class="uzu-reference-panel" id="button">
+    <section class="uzu-panel" id="button">
+      <article class="uzu-card">
         <header class="uzu-section-head">
           <h1 class="uzu-section-title">Button</h1>
         </header>
-        <div class="uzu-reference-tutorial">
-          <section class="uzu-reference-section">
-            <h3>Structure</h3>
-            <p class="uzu-text">Use the button class on a button or link with a clear command label.</p>
-          </section>
-        </div>
+        <p class="uzu-text">Use the button class on a button or link with a clear command label.</p>
       </article>
     </section>
   </div>
 </main>
 ```
 
-Reference pages can tune `--uzu-reference-layout-gap`, `--uzu-reference-sidebar-top`, `--uzu-reference-card-padding`, `--uzu-reference-example-padding`, and `--uzu-reference-table-min-width` on the page wrapper. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
+`.uzu-sidebar-layout` keeps the sidebar column at `--uzu-sidebar-layout-sidebar-width`, uses `--uzu-sidebar-layout-gap` for the column gap, and stacks to one column on narrow screens. When the sidebar also has `.uzu-scroll-area`, the layout limits its height so long navigation remains locally scrollable instead of pushing the active panel below the first viewport. The documentation site can add page-local layout classes in its own repository when the generic primitives are not enough. Promote a rule into `ui/css/` only when it is reusable outside the example pages. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
 
 ### Choosing The Right Surface
 
@@ -726,8 +718,9 @@ The documentation site and large examples live in `Usuzumi-org/Usuzumi-site`. Ke
 
 Usuzumi defines:
 
-- 6px scrollbars with hidden WebKit arrow buttons for the root viewport, `.uzu-scroll`, and `.uzu-table-wrap`.
-- Paper-toned scrollbar thumbs.
+- 6px scrollbars with hidden WebKit arrow buttons for the root viewport and every public scroll surface, including `.uzu-scroll`, `.uzu-scroll-area`, `.uzu-table-wrap`, data/editor viewers, command lists, and combobox lists.
+- Paper-toned scrollbar thumbs with a stable minimum length so short thumbs do not read as triangular quick-scroll buttons.
+- Firefox-only standard scrollbar styling uses `scrollbar-width` / `scrollbar-color` inside `@supports (-moz-appearance: none)`. Chromium and Edge must stay on the `::-webkit-scrollbar*` path so classic arrow buttons are not drawn.
 - Ink-tinted text selection.
 - Serif link treatment with subtle underline color changes.
 - Strong caret color for text inputs.

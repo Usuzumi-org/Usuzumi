@@ -52,8 +52,44 @@ const resizableWidth = Math.round(resizable.getBoundingClientRect().width);
 const resizableHeight = Math.round(resizable.getBoundingClientRect().height);
 const jsonToggle = jsonViewer.querySelector('.uzu-json-toggle');
 const jsonNodeCount = jsonViewer.querySelectorAll('.uzu-json-node').length;
+const jsonLines = [...jsonViewer.querySelectorAll('.uzu-json-line')];
+const jsonFirstLineNumber = jsonLines[0]?.dataset.uzuJsonLine || '';
+const jsonSecondLineNumber = jsonLines[1]?.dataset.uzuJsonLine || '';
+const jsonLineDisplay = getComputedStyle(jsonLines[0]).display;
+const jsonLineNumberWidth = getComputedStyle(jsonViewer).getPropertyValue('--uzu-json-line-number-width').trim();
+const jsonFoldWidth = getComputedStyle(jsonViewer).getPropertyValue('--uzu-json-fold-width').trim();
+const jsonIndent = getComputedStyle(jsonViewer).getPropertyValue('--uzu-json-indent').trim();
+const jsonHasNestedDepth = jsonLines.some((line) => line.style.getPropertyValue('--uzu-json-depth').trim() === '1');
+const jsonNestedCodePaddingLeft = Number.parseFloat(getComputedStyle(jsonLines.find((line) => line.style.getPropertyValue('--uzu-json-depth').trim() === '1')?.querySelector('.uzu-json-code')).paddingLeft);
+const jsonToggleOpacity = getComputedStyle(jsonToggle).opacity;
+const jsonToggleWidth = Math.round(jsonToggle.getBoundingClientRect().width);
+const jsonToggleBox = jsonToggle.getBoundingClientRect();
+const jsonToggleCenterAligned = Math.abs((jsonToggleBox.top + jsonToggleBox.height / 2) - (jsonLines[0].getBoundingClientRect().top + jsonLines[0].getBoundingClientRect().height / 2)) < 1.5;
+const jsonFoldGutterX = jsonLines[0].getBoundingClientRect().left + Number.parseFloat(jsonLineNumberWidth) + Number.parseFloat(jsonFoldWidth) / 2;
+const jsonFoldGutterY = jsonLines[0].getBoundingClientRect().top + jsonLines[0].getBoundingClientRect().height / 2;
+jsonViewer.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: jsonFoldGutterX, clientY: jsonFoldGutterY }));
+await wait(80);
+const jsonFoldGutterHover = jsonViewer.classList.contains('is-fold-gutter-hover');
+const jsonVisibleToggleCountOnGutterHover = [...jsonViewer.querySelectorAll('.uzu-json-toggle')].filter((toggle) => Number.parseFloat(getComputedStyle(toggle).opacity) > 0.5).length;
+jsonViewer.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: jsonLines[0].getBoundingClientRect().left + Number.parseFloat(jsonLineNumberWidth) + Number.parseFloat(jsonFoldWidth) + 16, clientY: jsonFoldGutterY }));
+await wait(80);
+const jsonFoldGutterHoverCleared = !jsonViewer.classList.contains('is-fold-gutter-hover');
+const jsonToggleText = jsonToggle.textContent.trim();
+const jsonOpenPunctuationText = jsonViewer.querySelector('.uzu-json-line .uzu-code-token-punctuation')?.textContent || '';
+const jsonUsesCodeTokens = Boolean(
+  jsonViewer.querySelector('.uzu-code-token-punctuation')
+  && jsonViewer.querySelector('.uzu-code-token-property')
+  && jsonViewer.querySelector('.uzu-code-token-string')
+  && jsonViewer.querySelector('.uzu-code-token-keyword')
+);
+const jsonEscapedKeyTexts = [...jsonEscapedKeyViewer.querySelectorAll('.uzu-json-key')].map((node) => node.textContent);
+const jsonEscapedStringTexts = [...jsonEscapedKeyViewer.querySelectorAll('.uzu-json-string')].map((node) => node.textContent);
 click(jsonToggle);
 const jsonCollapsed = jsonToggle.classList.contains('is-collapsed');
+const jsonCollapsedAria = jsonToggle.getAttribute('aria-expanded');
+const jsonChildrenHidden = jsonViewer.querySelector('.uzu-json-children')?.hidden === true;
+const jsonCollapsedSummaryVisible = getComputedStyle(jsonViewer.querySelector('.uzu-json-summary')).display !== 'none';
+const jsonCollapsedSummaryText = jsonViewer.querySelector('.uzu-json-summary')?.textContent.trim() || '';
 const diffAddRows = diffViewer.querySelectorAll('.uzu-diff-line-add').length;
 const diffRemoveRows = diffViewer.querySelectorAll('.uzu-diff-line-remove').length;
 click(richEditor.querySelector('[data-uzu-editor-command]'));

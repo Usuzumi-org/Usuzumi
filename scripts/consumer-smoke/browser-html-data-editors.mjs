@@ -53,7 +53,8 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
       <div class="uzu-resizable-content">Resizable content</div>
       <button class="uzu-resizable-handle" type="button" data-uzu-resizable-handle aria-label="Resize panel"></button>
     </div>
-    <div class="uzu-json-viewer" id="consumer-json-viewer" data-uzu-json-viewer><script type="application/json">{"name":"Usuzumi","enabled":true,"count":2}</script></div>
+    <div class="uzu-json-viewer" id="consumer-json-viewer" data-uzu-json-viewer><script type="application/json">{"name":"Usuzumi","enabled":true,"count":2,"theme":{"light":true,"dark":true},"modules":["css","runtime"]}</script></div>
+    <div class="uzu-json-viewer" id="consumer-json-escaped-key-viewer" data-uzu-json-viewer><script type="application/json">{"":1,"quote\\\"key":"line\\nbreak","path":"C:\\\\Temp"}</script></div>
     <pre class="uzu-diff-viewer" id="consumer-diff-viewer" data-uzu-diff-viewer>@@ file
 - old
 + new</pre>

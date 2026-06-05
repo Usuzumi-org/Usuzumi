@@ -21,7 +21,7 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
           <label class="uzu-label" for="consumer-password-input">Password</label>
           <div class="uzu-password" id="consumer-password" data-uzu-password>
             <input class="uzu-input uzu-password-input" id="consumer-password-input" type="password" value="secret">
-            <button class="uzu-icon-button uzu-password-toggle" type="button" data-uzu-password-toggle aria-label="Toggle password">••</button>
+            <button class="uzu-icon-button uzu-password-toggle" type="button" data-uzu-password-toggle aria-label="Toggle password">**</button>
           </div>
         </div>
         <div class="uzu-field">
@@ -99,4 +99,15 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
       <li class="uzu-process-step is-active" aria-current="step">Build CSS bundle</li>
       <li class="uzu-process-step">Package release</li>
     </ol>
+    <article class="uzu-skeleton-card" id="consumer-skeleton-card" aria-busy="true" aria-label="Loading card">
+      <div class="uzu-skeleton-row">
+        <span class="uzu-skeleton uzu-skeleton-avatar" id="consumer-skeleton-avatar" aria-hidden="true"></span>
+        <span class="uzu-skeleton-stack">
+          <span class="uzu-skeleton uzu-skeleton-title" id="consumer-skeleton-title"></span>
+          <span class="uzu-skeleton uzu-skeleton-line uzu-skeleton-short"></span>
+        </span>
+      </div>
+      <span class="uzu-skeleton uzu-skeleton-media" id="consumer-skeleton-media" aria-hidden="true"></span>
+      <span class="uzu-skeleton uzu-skeleton-line" id="consumer-skeleton-line"></span>
+    </article>
     <span class="uzu-spinner" id="consumer-spinner" role="status" aria-label="Loading"></span>`;

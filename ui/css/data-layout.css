@@ -1,4 +1,7 @@
 .uzu-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
 }
 
@@ -22,6 +25,9 @@
 }
 
 .uzu-data-grid-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow: auto;
 }
 

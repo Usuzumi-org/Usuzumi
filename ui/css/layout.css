@@ -30,8 +30,7 @@
   text-align: center;
 }
 
-.uzu-section-centered .uzu-section-head,
-.uzu-section-centered .uzu-download-actions {
+.uzu-section-centered .uzu-section-head {
   margin-left: auto;
   margin-right: auto;
 }
@@ -42,10 +41,6 @@
 
 .uzu-section-centered .uzu-body-large {
   text-align: center;
-}
-
-.uzu-section-centered .uzu-download-actions {
-  justify-content: center;
 }
 
 .uzu-topbar {
@@ -106,6 +101,31 @@
 
 .uzu-grid-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.uzu-sidebar-layout {
+  --uzu-sidebar-layout-sidebar-width: 240px;
+  --uzu-sidebar-layout-gap: 18px;
+  max-width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, var(--uzu-sidebar-layout-sidebar-width)) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--uzu-sidebar-layout-gap);
+}
+
+.uzu-sidebar-layout > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.uzu-sidebar-layout > .uzu-sidebar {
+  --uzu-sidebar-width: var(--uzu-sidebar-layout-sidebar-width);
+  width: 100%;
+}
+
+.uzu-sidebar-layout > .uzu-sidebar.uzu-scroll-area {
+  --uzu-scroll-area-max-height: calc(100vh - 180px);
 }
 
 .uzu-stack {
@@ -268,6 +288,14 @@
   .uzu-grid-3,
   .uzu-grid-4 {
     grid-template-columns: 1fr;
+  }
+
+  .uzu-sidebar-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .uzu-sidebar-layout > .uzu-sidebar.uzu-scroll-area {
+    --uzu-scroll-area-max-height: min(260px, calc(100vh - 220px));
   }
 
   .uzu-hero-split {

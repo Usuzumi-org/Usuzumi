@@ -4240,7 +4240,7 @@
     text-align: center;
   }
 
-  .uzu-section-centered > .uzu-flex {
+  :where(.uzu-section-centered) > .uzu-flex {
     justify-content: center;
   }
 

@@ -120,7 +120,7 @@ Use \`.uzu-code\` inside copy.
       </article>
       <article class="uzu-page-panel" data-uzu-page-panel="2" hidden>Second page</article>
     </div>
-    <a class="uzu-page-button" id="consumer-page-link" href="#linked-page">Linked page</a>
+    <a class="uzu-page-button" id="consumer-page-link" href="#linked-page" aria-label="Linked page">4</a>
     <nav aria-label="Disabled page pagination">
       <ol class="uzu-pagination" id="consumer-disabled-pagination" data-uzu-pagination>
         <li><button class="uzu-page-button" type="button" data-uzu-page-prev aria-label="Previous page">‹</button></li>

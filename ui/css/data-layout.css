@@ -332,9 +332,10 @@
 }
 
 .uzu-page-button {
-  min-width: 36px;
-  min-height: 36px;
-  padding: 7px 10px;
+  inline-size: 40px;
+  block-size: 40px;
+  min-inline-size: 40px;
+  padding: 0;
   border: 1px solid var(--uzu-border);
   border-radius: var(--uzu-radius-standard);
   background: var(--uzu-surface);
@@ -345,6 +346,8 @@
   font-size: 13px;
   line-height: 1;
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
   cursor: pointer;
   appearance: none;

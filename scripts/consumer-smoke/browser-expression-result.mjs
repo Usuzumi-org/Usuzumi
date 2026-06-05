@@ -331,6 +331,8 @@ return {
   plainPageButtonColor: plainPageButtonStyle.color,
   plainPageButtonTextDecoration: plainPageButtonStyle.textDecorationLine,
   pageButtonWidth: Math.round(pageButton.getBoundingClientRect().width),
+  pageButtonHeight: Math.round(pageButton.getBoundingClientRect().height),
+  pageButtonRadius: pageButtonStyle.borderTopLeftRadius,
   pageButtonBackground: pageButtonStyle.backgroundColor,
   pageButtonColor: pageButtonStyle.color,
   pagePanelAnimation: pagePanelStyle.animationName,

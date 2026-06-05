@@ -41,5 +41,5 @@ if (value.paginationNextDisabled !== 'true') throw new Error('Browser consumer p
 if (value.disabledPaginationPage !== '3' || value.disabledPaginationActiveText !== '3') throw new Error('Browser consumer pagination did not skip disabled pages');
 if (value.pagePanelAnimation !== 'uzu-page-panel-in') throw new Error('Browser consumer pagination panel animation is missing');
 if (value.plainPageButtonColor !== 'rgb(104, 104, 102)' || value.plainPageButtonTextDecoration !== 'none') throw new Error('Browser consumer plain page links should keep page button styling');
-if (value.pageButtonWidth < 36 || value.pageButtonWidth > 52 || value.pageButtonBackground !== 'rgb(32, 32, 30)' || value.pageButtonColor !== 'rgb(247, 246, 241)') throw new Error('Browser consumer active page button styling is wrong');
+if (value.pageButtonWidth !== 40 || value.pageButtonHeight !== 40 || value.pageButtonRadius === '0px' || value.pageButtonBackground !== 'rgb(32, 32, 30)' || value.pageButtonColor !== 'rgb(247, 246, 241)') throw new Error('Browser consumer active page button styling is wrong');
 }

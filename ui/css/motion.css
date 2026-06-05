@@ -198,8 +198,7 @@
     height: 34px;
   }
 
-  .uzu-toolbar .uzu-button,
-  .uzu-pagination .uzu-page-button {
+  .uzu-toolbar .uzu-button {
     width: auto;
   }
 

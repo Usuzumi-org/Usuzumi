@@ -76,6 +76,7 @@
 
     pagination.dataset.uzuPaginationPage = value;
     const panel = syncPaginationPanels(pagination, value);
+    if (panel) queueDisclosureHeightRefresh(panel);
 
     if (emit && value !== previousValue) {
       pagination.dispatchEvent(new CustomEvent('uzu-pagination-change', {

@@ -1,3 +1,9 @@
+function assertHardEditorFocusProbe(probe, label) {
+if (!probe || !probe.active) throw new Error(`Browser consumer ${label} did not receive focus`);
+if (probe.boxShadow !== 'none' || probe.targetBoxShadow !== 'none') throw new Error(`Browser consumer ${label} focus should not use a blurred or outer shadow ring: ${JSON.stringify(probe)}`);
+if (!probe.borderColor || probe.borderColor === probe.beforeBorderColor) throw new Error(`Browser consumer ${label} focus should strengthen a hard border: ${JSON.stringify(probe)}`);
+}
+
 export function assertConsumerFoundationResult(value) {
 if (!value.hasApi) throw new Error('Browser consumer page did not expose window.Usuzumi');
 if (!value.rootClass) throw new Error('Browser consumer page did not keep uzu-root');
@@ -15,13 +21,16 @@ if (Math.abs(value.segmentedIndicatorWidthAfterLanguage - value.segmentedActiveW
 if (value.selectOpenAnimation !== 'uzu-menu-in' || value.selectCloseAnimation !== 'uzu-menu-out') throw new Error('Browser consumer select did not animate open and close');
 if (value.selectOpenTransform !== 'none') throw new Error('Browser consumer select menu should not shift or scale while opening');
 if (!value.selectClosing || value.selectExpandedAfterClose !== 'false') throw new Error('Browser consumer select did not keep a closing state with collapsed ARIA');
+if (value.selectHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer select reveal did not refresh nested open disclosure height');
 if (value.comboboxOpenAnimation !== 'uzu-menu-in' || value.comboboxVisibleCount !== 1 || value.comboboxValue !== 'tree' || value.comboboxHiddenValue !== 'tree') throw new Error('Browser consumer combobox did not filter, animate, or sync value');
 if (!value.comboboxClosedAfterSelect) throw new Error('Browser consumer combobox reopened after selecting an option');
 if (value.comboboxListDisplayOpen !== 'grid') throw new Error('Browser consumer combobox list styling is missing');
+if (value.comboboxHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer combobox reveal did not refresh nested open disclosure height');
 if (value.dataGridFirstCellAfterSort !== 'Alpha' || value.dataGridSelectedValue !== 'alpha' || value.dataGridDisplay !== 'table') throw new Error('Browser consumer data grid did not sort/select');
 if (value.multiDataGridSelectedCount !== 2 || !value.multiDataGridSelectAllChecked || value.multiDataGridSelectAllMixedBeforeRefresh || value.multiDataGridRuntimeSelectedAfterCheckboxClick || value.multiDataGridRuntimeCheckboxAfterClick || !value.multiDataGridSelectAllMixedAfterCheckboxClick || !value.multiDataGridEmptyVisible || value.multiDataGridAlign !== 'right') throw new Error('Browser consumer data grid multi-select, checkbox sync, empty state, or alignment did not work');
 if (value.plainDataGridFirstValue !== '1' || value.plainDataGridSelectedValue !== '2') throw new Error('Browser consumer data grid did not initialize plain table rows');
 if (!value.treeClosed || !value.treeOpen || value.treeKeyboardFocusValue !== 'docs' || value.treeDisplay !== 'grid') throw new Error('Browser consumer tree did not toggle, focus, or style correctly');
+if (value.treeHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer tree reveal did not refresh nested open disclosure height');
 if (Number(value.splitSize) !== 58 || value.splitAriaValue !== '58' || value.splitPaneDisplay !== 'grid') throw new Error('Browser consumer split pane did not resize');
 if (value.resizableWidth !== 300 || value.resizableHeight !== 150 || value.resizablePosition !== 'relative') throw new Error('Browser consumer resizable panel did not resize');
 if (
@@ -56,6 +65,15 @@ if (
 ) throw new Error('Browser consumer JSON viewer did not render collapsible highlighted JSON');
 if (value.diffAddRows !== 1 || value.diffRemoveRows !== 1 || value.diffViewerDisplay !== 'block') throw new Error('Browser consumer diff viewer did not classify rows');
 if (value.editorDisplay !== 'grid' || value.markdownEditorDisplay !== 'grid' || value.markdownEditorHeading !== 'Updated' || value.markdownEditorCleared !== '' || !value.markdownEditorCopyInitialized || !value.markdownEditorShellPreviewEmpty || value.inlineEditorValue !== 'Changed inline') throw new Error('Browser consumer editor helpers did not initialize');
+for (const [label, probe] of [
+  ['code editor', value.codeEditorFocusProbe],
+  ['plain editor', value.plainEditorFocusProbe],
+  ['toolbar link input', value.toolbarLinkInputFocusProbe],
+  ['editor surface', value.editorSurfaceFocusProbe],
+  ['standalone editor surface', value.standaloneEditorSurfaceFocusProbe],
+  ['markdown source', value.markdownSourceFocusProbe],
+  ['inline editor', value.inlineEditorFocusProbe]
+]) assertHardEditorFocusProbe(probe, label);
 if (Math.round(value.fieldGap) !== 5) throw new Error('Browser consumer form field should use the default field gap variable');
 if (value.fieldLabelToInputGap < 4) throw new Error('Browser consumer form label should not overlap the input');
 if (value.disclosureOpenAnimation !== 'uzu-disclosure-in' || value.disclosureCloseAnimation !== 'uzu-disclosure-out') throw new Error('Browser consumer disclosure did not animate open and close');

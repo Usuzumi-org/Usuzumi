@@ -3,6 +3,10 @@ export const consumerInteractionsHtml = `    <div class="uzu-menu" id="consumer-
       <div class="uzu-menu-content" data-uzu-menu-content>
         <button class="uzu-menu-item" type="button" data-uzu-menu-value="rename">Rename</button>
         <button class="uzu-menu-item" type="button" data-uzu-menu-value="duplicate">Duplicate</button>
+        <section class="uzu-disclosure is-open" id="consumer-menu-hidden-disclosure" data-uzu-disclosure>
+          <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="true">Menu details</button>
+          <div class="uzu-disclosure-panel" data-uzu-disclosure-panel><div style="min-height: 280px">Disclosure content inside a menu.</div></div>
+        </section>
       </div>
     </div>
     <div class="uzu-menu" id="consumer-context-menu" data-uzu-context-menu data-uzu-context-menu-trigger="#consumer-context-target">
@@ -41,10 +45,15 @@ export const consumerInteractionsHtml = `    <div class="uzu-menu" id="consumer-
         <div class="uzu-disclosure-panel" data-uzu-disclosure-panel hidden>Second content</div>
       </section>
     </div>
-    <span class="uzu-hover-card" id="consumer-hover-card" data-uzu-hover-card data-uzu-hover-card-delay="20" data-uzu-hover-card-close-delay="20">
+    <div class="uzu-hover-card" id="consumer-hover-card" data-uzu-hover-card data-uzu-hover-card-delay="20" data-uzu-hover-card-close-delay="20">
       <button class="uzu-button" type="button" data-uzu-hover-card-trigger>Hover info</button>
-      <span class="uzu-hover-card-content" data-uzu-hover-card-content>Supporting information.</span>
-    </span>
+      <div class="uzu-hover-card-content" data-uzu-hover-card-content>
+        <section class="uzu-disclosure is-open" id="consumer-hover-hidden-disclosure" data-uzu-disclosure>
+          <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="true">Hover details</button>
+          <div class="uzu-disclosure-panel" data-uzu-disclosure-panel><div style="min-height: 280px">Disclosure content inside a hover card.</div></div>
+        </section>
+      </div>
+    </div>
     <span class="uzu-tag" id="consumer-tag-static" data-uzu-tag>Docs</span>
     <button class="uzu-tag is-selected" id="consumer-tag-selectable" type="button" data-uzu-tag data-uzu-tag-selectable="true" data-uzu-tag-value="active" aria-pressed="true">Active</button>
     <span class="uzu-tag" id="consumer-tag-closeable" data-uzu-tag data-uzu-tag-value="filter">Filter<button class="uzu-tag-close" type="button" data-uzu-tag-close aria-label="Remove filter">x</button></span>

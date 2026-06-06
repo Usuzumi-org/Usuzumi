@@ -117,7 +117,9 @@ assert(js.includes('data-uzu-split-pane'), 'Runtime is missing split pane initia
 assert(js.includes('data-uzu-resizable'), 'Runtime is missing resizable initialization support');
 assert(js.includes('data-uzu-json-viewer'), 'Runtime is missing JSON viewer initialization support');
 assert(js.includes('data-uzu-diff-viewer'), 'Runtime is missing diff viewer initialization support');
-assert(js.includes('data-uzu-markdown-editor'), 'Runtime is missing editor initialization support');
+assert(js.includes('data-uzu-editor'), 'Runtime is missing editor shell initialization support');
+assert(!js.includes('data-uzu-' + 'r' + 'ich-editor'), 'Runtime should not include the retired editor attribute');
+assert(js.includes('data-uzu-markdown-editor'), 'Runtime is missing markdown editor initialization support');
 assert(js.includes('data-uzu-accordion'), 'Runtime is missing accordion initialization support');
 assert(js.includes('data-uzu-hover-card'), 'Runtime is missing hover card initialization support');
 assert(js.includes('data-uzu-tag'), 'Runtime is missing tag initialization support');

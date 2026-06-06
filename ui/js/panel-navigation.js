@@ -52,6 +52,7 @@
       detail: { target, control, panel, nav: root }
     }));
     queueIndicatorRefresh(panel, true);
+    queueDisclosureHeightRefresh(panel);
     return panel;
   }
 

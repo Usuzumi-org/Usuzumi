@@ -73,6 +73,7 @@
     content.hidden = false;
     menu.classList.remove('is-closing');
     menu.classList.add('is-open');
+    queueDisclosureHeightRefresh(content);
     if (isContextMenu) setContextMenuPoint(menu, content, options.x, options.y);
     if (trigger) {
       trigger.setAttribute('aria-haspopup', trigger.getAttribute('aria-haspopup') || 'menu');

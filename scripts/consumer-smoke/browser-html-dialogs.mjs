@@ -4,6 +4,10 @@ export const consumerDialogsHtml = `    <button class="uzu-button" type="button"
       <section class="uzu-modal" id="consumer-dialog" data-uzu-dialog hidden tabindex="-1" aria-labelledby="consumer-dialog-title">
         <h2 id="consumer-dialog-title">Consumer dialog</h2>
         <button class="uzu-button" id="consumer-nested-dialog-trigger" type="button" data-uzu-dialog-target="#consumer-dialog-nested">Open nested dialog</button>
+        <section class="uzu-disclosure is-open" id="consumer-dialog-hidden-disclosure" data-uzu-disclosure>
+          <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="true">Dialog details</button>
+          <div class="uzu-disclosure-panel" data-uzu-disclosure-panel><div style="min-height: 280px">Disclosure content inside a dialog.</div></div>
+        </section>
         <button class="uzu-button" type="button" data-uzu-dialog-close>Close</button>
         <div class="uzu-dialog-overlay" data-uzu-dialog-overlay hidden>
           <section class="uzu-modal" id="consumer-dialog-nested" data-uzu-dialog hidden tabindex="-1" aria-labelledby="consumer-dialog-nested-title">

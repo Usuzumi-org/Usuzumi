@@ -180,6 +180,8 @@ Script-written variables for tab indicators, segmented indicators, and measured 
 
 Public scroll surfaces use the same 6px scrollbar contract. Root scrollbars stay visible, while local scroll surfaces keep the gutter stable and reveal their thumb on hover, focus, focus-within, or active interaction. WebKit arrow buttons are hidden, and thumbs keep a stable minimum length so long content never turns the thumb into a triangular quick-scroll affordance.
 
+Text inputs, textareas, command inputs, combobox inputs, steppers, and editor surfaces use a hard focus border without blurred shadow or glow. Input groups and steppers draw the focus border on the outer shell so add-ons, inline actions, and stepper buttons read as attached segments of one control.
+
 ## Documentation Pages
 
 Use public primitives to compose component catalogs, API references, and long documentation pages: `.uzu-page`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`. The component catalog in the site repository is a strict consumer of these pieces; it does not rely on hidden documentation selectors or a library-owned docs generator.
@@ -210,11 +212,11 @@ Optional document helpers:
 - Add `data-uzu-menu`, `data-uzu-context-menu`, `data-uzu-menubar`, or `data-uzu-command` for lightweight menu behavior.
 - Add `data-uzu-accordion`, `data-uzu-hover-card`, `data-uzu-tag`, or `data-uzu-step-nav` when those components need runtime state sync.
 - Add `data-uzu-combobox`, `data-uzu-data-grid`, `data-uzu-tree`, `data-uzu-split-pane`, or `data-uzu-resizable` for searchable choices, light data tables, hierarchical lists, and adjustable panels. Data grids can use `data-uzu-grid-sort`, `data-uzu-grid-selection`, `data-uzu-grid-select-all`, `data-uzu-grid-empty`, and `data-uzu-grid-align` for sorting, multi-select, empty rows, and column alignment.
-- Add `data-uzu-json-viewer`, `data-uzu-diff-viewer`, `data-uzu-rich-editor`, `data-uzu-markdown-editor`, or `data-uzu-inline-editor` for readable data previews and editor shells.
+- Add `data-uzu-json-viewer`, `data-uzu-diff-viewer`, `data-uzu-editor`, `data-uzu-markdown-editor`, or `data-uzu-inline-editor` for readable data previews and editor shells.
 - Dialogs, drawers, and sheets use the same `data-uzu-dialog-*` behavior. A dialog opened from inside another active dialog stays nested, keeps the parent mounted, returns focus to the nested trigger on close, and releases scroll locking after the parent closes.
 - Add `data-uzu-auto-init` to a container when components will be inserted later and should initialize without calling `window.Usuzumi.init(container)` manually.
 
-Editor shells are UI and event bridges, not bundled editor engines. `data-uzu-rich-editor` emits toolbar command and surface change events; mount Tiptap inside `.uzu-editor-mount` when you need a document model, history, shortcuts, paste rules, or collaboration. `data-uzu-markdown-editor` emits source changes; use markdown-it for Markdown rendering and sanitization strategy. `textarea.uzu-code-editor` can stay a native textarea for short snippets, while CodeMirror 6 is the recommended engine inside `.uzu-editor-mount` for full code editing.
+Editor shells are UI and event bridges, not bundled editor engines. `data-uzu-editor` emits toolbar command and surface change events through the public shell; mount any project-owned editing engine inside `.uzu-editor-mount` when you need a document model, history, shortcuts, paste rules, collaboration, or full code editing. `data-uzu-markdown-editor` emits source changes; use a project-owned Markdown pipeline when the built-in light preview is not enough. `textarea.uzu-code-editor` can stay a native textarea for short snippets.
 
 Custom events:
 
@@ -269,7 +271,7 @@ The native library now includes lightweight versions of the larger component fam
 - Tree view: hierarchical focus, selection, expand/collapse behavior, and ARIA level/position metadata.
 - Split pane and resizable panel: pointer and keyboard resizing, with optional local persistence keys.
 - JSON viewer and diff viewer: parsed JSON trees and readable unified-diff style rows.
-- Editor surfaces: rich-text, code, Markdown, plain-text, inline editor shells, and toolbar buttons. These are shells and light helpers; pair rich text with Tiptap, Markdown rendering with markdown-it, and full code editing with CodeMirror 6 when the project needs editor-engine behavior.
+- Editor surfaces: generic editor shells, code, Markdown, plain-text, inline editing, and toolbar buttons. These are shells and light helpers; pair them with project-owned engines when the project needs full editor behavior.
 
 ## Site And Examples
 

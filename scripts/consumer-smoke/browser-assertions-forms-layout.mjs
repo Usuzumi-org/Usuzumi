@@ -1,3 +1,9 @@
+function assertHardEditFocusProbe(probe, label) {
+if (!probe || !probe.active) throw new Error(`Browser consumer ${label} did not receive focus`);
+if (probe.boxShadow !== 'none' || probe.targetBoxShadow !== 'none') throw new Error(`Browser consumer ${label} focus should not use a blurred or outer shadow ring: ${JSON.stringify(probe)}`);
+if (!probe.borderColor || probe.borderColor === probe.beforeBorderColor) throw new Error(`Browser consumer ${label} focus should strengthen a hard border: ${JSON.stringify(probe)}`);
+}
+
 export function assertConsumerFormsLayoutResult(value) {
 if (value.calloutBorderStyle === 'none') throw new Error('Browser consumer CSS did not style callouts');
 if (value.calloutBorderColor !== 'rgb(10, 20, 30)' || value.calloutBackground !== 'rgb(240, 241, 242)') throw new Error('Browser consumer callout color variables did not apply');
@@ -27,9 +33,47 @@ if (
 if (Number.parseFloat(probe.thumbMinWidth) < 24 || Number.parseFloat(probe.thumbMinHeight) < 24) throw new Error(`Browser consumer scrollbar thumb can collapse into a triangular arrow-like shape: ${JSON.stringify(probe)}`);
 }
 if (value.formDisplay !== 'grid' || value.inputGroupDisplay !== 'flex') throw new Error('Browser consumer form primitives did not apply');
+if (value.inputGroupBorderWidth !== '1px' || value.inputGroupInputBorderWidth !== '0px' || value.inputGroupBorderRadius === '0px') throw new Error('Browser consumer input group should use one outer rounded border');
+if (value.inputGroupFocusedBorderColor === value.inputGroupBorderColor || value.inputGroupFocusedBoxShadow !== 'none' || value.inputGroupFocusedInputBoxShadow !== 'none') throw new Error('Browser consumer input group focus should strengthen the group border without a blurred ring or inner input ring');
+if (value.inputGroupAddonBackground !== 'rgb(239, 238, 233)' || value.inputGroupAddonBorderRightWidth !== '0px' || value.inputGroupUnitAddonDividerWidth !== '1px') throw new Error('Browser consumer input group addons should read as quiet attached segments');
+for (const [label, probe] of [
+  ['plain input', value.plainInputFocusProbe],
+  ['textarea', value.textareaFocusProbe],
+  ['search input', value.searchInputFocusProbe],
+  ['password input', value.passwordInputFocusProbe],
+  ['stepper', value.stepperInputFocusProbe],
+  ['combobox input', value.comboboxInputFocusProbe],
+  ['command input', value.commandFocusProbe]
+]) assertHardEditFocusProbe(probe, label);
+if (
+  value.stepperShellBorderWidth !== '1px'
+  || value.stepperShellBorderRadius === '0px'
+  || value.stepperInputBorderWidth !== '0px'
+  || value.stepperInputBoxShadow !== 'none'
+  || value.stepperControlsDividerWidth !== '1px'
+  || value.stepperButtonBorderWidth !== '0px'
+  || !['none', ''].includes(value.stepperButtonBackdropFilter)
+) throw new Error('Browser consumer stepper should render as one attached input surface without floating inner buttons');
 if (value.formInvalidBefore || value.formValidBeforeManualValidate || !value.formInvalidAfterManualValidate || value.formInvalidAfter || !value.formValidAfter) throw new Error('Browser consumer form validation sync did not work');
 if (value.fileUploadBorderStyle !== 'dashed') throw new Error('Browser consumer file upload styling is missing');
 if (!value.sliderAccentColor || value.sliderValueBefore !== '50%' || value.sliderValueAfter !== '75%') throw new Error('Browser consumer slider styling or value sync is missing');
+if (
+  value.sliderHeight !== '36px'
+  || value.sliderTrackHeightToken !== '10px'
+  || value.sliderThumbSizeToken !== '16px'
+  || !value.sliderTrackToken
+  || !value.sliderFillToken
+  || !value.sliderThumbToken
+  || value.sliderBoxShadow !== 'none'
+) throw new Error(`Browser consumer slider should expose quiet thick-track styling tokens without an outer shadow: ${JSON.stringify({
+  height: value.sliderHeight,
+  trackHeight: value.sliderTrackHeightToken,
+  thumbSize: value.sliderThumbSizeToken,
+  track: value.sliderTrackToken,
+  fill: value.sliderFillToken,
+  thumb: value.sliderThumbToken,
+  shadow: value.sliderBoxShadow
+})}`);
 if (value.searchClearInitiallyHidden || value.searchValueAfterClear !== '' || !value.searchClearHiddenAfterClear) throw new Error('Browser consumer search clear behavior did not work');
 if (value.passwordTypeAfterToggle !== 'text' || value.passwordPressedAfterToggle !== 'true') throw new Error('Browser consumer password toggle behavior did not work');
 if (value.stepperValueAfterIncrement !== '3' || !value.stepperIncrementDisabledAfterMax || value.stepperInputAppearance === 'auto') throw new Error('Browser consumer stepper behavior or appearance did not work');

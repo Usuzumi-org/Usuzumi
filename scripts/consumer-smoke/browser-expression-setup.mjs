@@ -61,7 +61,7 @@ const resizableHandle = resizable.querySelector('[data-uzu-resizable-handle]');
 const jsonViewer = document.querySelector('#consumer-json-viewer');
 const jsonEscapedKeyViewer = document.querySelector('#consumer-json-escaped-key-viewer');
 const diffViewer = document.querySelector('#consumer-diff-viewer');
-const richEditor = document.querySelector('#consumer-rich-editor');
+const editorShell = document.querySelector('#consumer-editor');
 const markdownEditor = document.querySelector('#consumer-markdown-editor');
 const markdownEditorSource = markdownEditor.querySelector('[data-uzu-markdown-source]');
 const markdownEditorPreview = markdownEditor.querySelector('[data-uzu-markdown-preview]');
@@ -69,9 +69,16 @@ const markdownEditorShell = document.querySelector('#consumer-markdown-editor-sh
 const markdownEditorShellSource = markdownEditorShell.querySelector('[data-uzu-markdown-source]');
 const markdownEditorShellPreview = markdownEditorShell.querySelector('[data-uzu-markdown-preview]');
 const inlineEditor = document.querySelector('#consumer-inline-editor');
-const disclosure = document.querySelector('[data-uzu-disclosure]');
-const disclosureTrigger = document.querySelector('[data-uzu-disclosure-trigger]');
-const disclosurePanel = document.querySelector('[data-uzu-disclosure-panel]');
+const consumerPlainInput = document.querySelector('#consumer-field');
+const consumerNotesTextarea = document.querySelector('#consumer-notes-textarea');
+const consumerCodeEditor = document.querySelector('#consumer-code-editor');
+const consumerPlainEditor = document.querySelector('#consumer-plain-editor');
+const editorSurface = editorShell.querySelector('[data-uzu-editor-surface]');
+const standaloneEditorSurface = document.querySelector('#consumer-standalone-editor-surface');
+const toolbarLinkInput = editorShell.querySelector('#consumer-toolbar-link-input');
+const disclosure = document.querySelector('#consumer-disclosure');
+const disclosureTrigger = disclosure.querySelector('[data-uzu-disclosure-trigger]');
+const disclosurePanel = disclosure.querySelector('[data-uzu-disclosure-panel]');
 const search = document.querySelector('#consumer-search');
 const searchInput = document.querySelector('#consumer-search-input');
 const searchClear = search.querySelector('[data-uzu-search-clear]');
@@ -100,6 +107,27 @@ const tagCloseable = document.querySelector('#consumer-tag-closeable');
 const consumerForm = document.querySelector('#consumer-form');
 const consumerRequiredField = document.querySelector('#consumer-required-field');
 const consumerRequiredInput = document.querySelector('#consumer-required-input');
+const readFocusProbe = async (target, surface = target, borderProperty = 'borderTopColor') => {
+  const beforeStyle = getComputedStyle(surface);
+  const beforeBorderColor = beforeStyle[borderProperty];
+  target.focus();
+  await wait(0);
+  const surfaceStyle = getComputedStyle(surface);
+  const targetStyle = getComputedStyle(target);
+  const probe = {
+    active: document.activeElement === target,
+    beforeBorderColor,
+    borderColor: surfaceStyle[borderProperty],
+    borderTopColor: surfaceStyle.borderTopColor,
+    borderRightColor: surfaceStyle.borderRightColor,
+    boxShadow: surfaceStyle.boxShadow,
+    targetBoxShadow: targetStyle.boxShadow
+  };
+  target.blur();
+  await wait(0);
+  return probe;
+};
+const readDisclosureTargetHeight = (selector) => Number.parseFloat(document.querySelector(selector)?.style.getPropertyValue('--uzu-disclosure-panel-height') || '0');
 menu.addEventListener('uzu-menu-select', (event) => newEvents.push('menu:' + event.detail.value));
 contextMenu.addEventListener('uzu-menu-select', (event) => newEvents.push('context:' + event.detail.value));
 menubar.addEventListener('uzu-menubar-change', (event) => newEvents.push('menubar:' + event.detail.value));
@@ -113,8 +141,8 @@ plainDataGrid.addEventListener('uzu-data-grid-select', (event) => newEvents.push
 tree.addEventListener('uzu-tree-toggle', (event) => newEvents.push('tree-toggle:' + event.detail.expanded));
 splitPane.addEventListener('uzu-split-resize', (event) => newEvents.push('split:' + Math.round(event.detail.size)));
 resizable.addEventListener('uzu-resizable-resize', () => newEvents.push('resizable'));
-richEditor.addEventListener('uzu-editor-command', (event) => newEvents.push('editor:' + event.detail.command));
-richEditor.addEventListener('uzu-editor-change', () => newEvents.push('editor-change'));
+editorShell.addEventListener('uzu-editor-command', (event) => newEvents.push('editor:' + event.detail.command));
+editorShell.addEventListener('uzu-editor-change', () => newEvents.push('editor-change'));
 markdownEditor.addEventListener('uzu-markdown-editor-change', () => newEvents.push('markdown-editor-change'));
 markdownEditor.addEventListener('uzu-markdown-editor-render', () => newEvents.push('markdown-editor'));
 markdownEditorShell.addEventListener('uzu-markdown-editor-change', () => newEvents.push('markdown-shell-change'));

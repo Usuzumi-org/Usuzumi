@@ -1,11 +1,13 @@
 export function assertConsumerNavigationFeedbackResult(value) {
 if (value.menuOpenAnimation !== 'uzu-menu-in' || value.menuCloseAnimation !== 'uzu-menu-out' || value.menuExpandedAfterOpen !== 'true') throw new Error('Browser consumer menu behavior did not work');
+if (value.menuHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer menu reveal did not refresh nested open disclosure height');
 if (!value.contextMenuOpen || value.contextMenuLeft < 8) throw new Error('Browser consumer context menu did not open at a clamped position');
 if (value.menubarActiveValue !== 'edit') throw new Error('Browser consumer menubar did not update active item');
 if (value.commandVisibleCount !== 1) throw new Error('Browser consumer command filtering did not narrow results');
 if (value.stepNavValue !== 'review' || value.stepNavReviewCurrent !== 'step') throw new Error('Browser consumer step navigation did not update current step');
 if (value.accordionFirstOpen || !value.accordionSecondOpen) throw new Error('Browser consumer accordion did not keep one panel open');
 if (!value.hoverCardOpen) throw new Error('Browser consumer hover card did not open on focus');
+if (value.hoverCardHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer hover-card reveal did not refresh nested open disclosure height');
 if (value.tagSelectablePressed !== 'false' || !value.tagCloseableHidden) throw new Error('Browser consumer tag behavior did not work');
 if (value.progressAnimation !== 'uzu-progress-indeterminate') throw new Error('Browser consumer CSS did not animate indeterminate progress');
 if (value.activityAnimation !== 'uzu-activity-dot') throw new Error('Browser consumer CSS did not animate activity dots');

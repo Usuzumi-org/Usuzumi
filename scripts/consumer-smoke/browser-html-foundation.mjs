@@ -49,7 +49,14 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
       </nav>
       <div>
         <section class="uzu-panel consumer-panel" id="consumer-panel-one">Panel one</section>
-        <section class="uzu-panel consumer-panel" id="consumer-panel-two" hidden>Panel two</section>
+        <section class="uzu-panel consumer-panel" id="consumer-panel-two" hidden>
+          <div class="uzu-disclosure is-open" id="consumer-hidden-panel-disclosure" data-uzu-disclosure>
+            <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="true">Hidden panel disclosure</button>
+            <div class="uzu-disclosure-panel" data-uzu-disclosure-panel>
+              Hidden ancestors should not lock open disclosure panels to a zero-height measurement.
+            </div>
+          </div>
+        </section>
       </div>
     </div>
     <div id="consumer-auto-init" data-uzu-auto-init></div>
@@ -67,13 +74,13 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
       </div>
     </div>
     <section class="uzu-editor" id="consumer-editor-mount-shell">
-      <div class="uzu-editor-toolbar uzu-editor-toolbar-rich">
+      <div class="uzu-editor-toolbar uzu-editor-toolbar-grouped">
         <span class="uzu-toolbar-group">
           <button class="uzu-toolbar-button" type="button">B</button>
         </span>
       </div>
       <div class="uzu-editor-surface uzu-editor-mount" id="consumer-editor-mount">
-        <div class="ProseMirror"><p>Mounted editor content</p><pre><code>const mounted = true;</code></pre></div>
+        <p>Mounted editor content</p><pre><code>const mounted = true;</code></pre>
       </div>
     </section>
     <div class="consumer-panel-layout" id="consumer-panel-layout-hash">

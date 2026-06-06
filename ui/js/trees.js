@@ -28,6 +28,7 @@
     item.classList.toggle('is-open', expanded);
     item.setAttribute('aria-expanded', expanded ? 'true' : 'false');
     if (toggle) toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    if (expanded) queueDisclosureHeightRefresh(group);
     if (emit && tree) {
       tree.dispatchEvent(new CustomEvent('uzu-tree-toggle', {
         bubbles: true,

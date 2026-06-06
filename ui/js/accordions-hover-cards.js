@@ -55,6 +55,7 @@
       content.hidden = false;
       card.classList.remove('is-closing');
       card.classList.add('is-open');
+      queueDisclosureHeightRefresh(content);
     } else if (card.classList.contains('is-open')) {
       card.classList.remove('is-open');
       card.classList.add('is-closing');

@@ -12289,6 +12289,7 @@ function closeSelect(select) {
     select.classList.remove('is-closing');
     select.classList.add('is-open');
     if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    queueDisclosureHeightRefresh(select);
     const selectedIndex = options.findIndex((option) => option.classList.contains('is-selected'));
     focusSelectOption(select, focusIndex ?? (selectedIndex >= 0 ? selectedIndex : 0));
   }
@@ -12487,7 +12488,10 @@ function syncTabsState(tabsRoot, activeTab, emit = true) {
     });
     tabsRoot.dataset.uzuTabsValue = value;
     setControlIndicator(tabsRoot, nextTab, 'tabs');
-    if (panel) queueIndicatorRefresh(panel, true);
+    if (panel) {
+      queueIndicatorRefresh(panel, true);
+      queueDisclosureHeightRefresh(panel);
+    }
 
     if (emit && value !== previousValue) {
       tabsRoot.dispatchEvent(new CustomEvent('uzu-tabs-change', {
@@ -12692,6 +12696,7 @@ function getPaginationPageValue(control) {
 
     pagination.dataset.uzuPaginationPage = value;
     const panel = syncPaginationPanels(pagination, value);
+    if (panel) queueDisclosureHeightRefresh(panel);
 
     if (emit && value !== previousValue) {
       pagination.dispatchEvent(new CustomEvent('uzu-pagination-change', {
@@ -13144,6 +13149,7 @@ function getMenuTrigger(menu) {
     content.hidden = false;
     menu.classList.remove('is-closing');
     menu.classList.add('is-open');
+    queueDisclosureHeightRefresh(content);
     if (isContextMenu) setContextMenuPoint(menu, content, options.x, options.y);
     if (trigger) {
       trigger.setAttribute('aria-haspopup', trigger.getAttribute('aria-haspopup') || 'menu');
@@ -13507,10 +13513,24 @@ function parseLengthValue(value) {
 
   function syncDisclosurePanelHeight(panel) {
     if (!panel) return;
+    if (!panel.isConnected || panel.getClientRects().length === 0) {
+      panel.style.removeProperty('--uzu-disclosure-panel-height');
+      return;
+    }
     const style = window.getComputedStyle(panel);
     const targetPadding = parseLengthValue(style.getPropertyValue('--uzu-disclosure-panel-block-end-padding'));
     const currentPadding = parseLengthValue(style.paddingBottom);
     panel.style.setProperty('--uzu-disclosure-panel-height', `${panel.scrollHeight + Math.max(0, targetPadding - currentPadding)}px`);
+  }
+
+  function refreshDisclosureHeights(root = document) {
+    queryAll(root, '[data-uzu-disclosure].is-open').forEach((disclosure) => {
+      syncDisclosurePanelHeight(disclosure.querySelector('[data-uzu-disclosure-panel]'));
+    });
+  }
+
+  function queueDisclosureHeightRefresh(root = document) {
+    window.requestAnimationFrame(() => refreshDisclosureHeights(root));
   }
 
   function setDisclosureState(disclosure, open, emit = true) {
@@ -13610,6 +13630,7 @@ function getComboboxInput(combobox) {
     list.hidden = false;
     combobox.classList.add('is-open');
     input.setAttribute('aria-expanded', 'true');
+    queueDisclosureHeightRefresh(list);
     combobox.dispatchEvent(new CustomEvent('uzu-combobox-open', {
       bubbles: true,
       detail: { combobox, input, list }
@@ -13982,6 +14003,7 @@ function getTreeItems(tree) {
     item.classList.toggle('is-open', expanded);
     item.setAttribute('aria-expanded', expanded ? 'true' : 'false');
     if (toggle) toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    if (expanded) queueDisclosureHeightRefresh(group);
     if (emit && tree) {
       tree.dispatchEvent(new CustomEvent('uzu-tree-toggle', {
         bubbles: true,
@@ -14163,6 +14185,7 @@ function initAccordions(root = document) {
       content.hidden = false;
       card.classList.remove('is-closing');
       card.classList.add('is-open');
+      queueDisclosureHeightRefresh(content);
     } else if (card.classList.contains('is-open')) {
       card.classList.remove('is-open');
       card.classList.add('is-closing');
@@ -14609,10 +14632,10 @@ function createJsonToken(text, type = '') {
     });
   }
 
-  function initRichEditors(root = document) {
-    queryAll(root, '[data-uzu-rich-editor]').forEach((editor) => {
+  function initEditorShells(root = document) {
+    queryAll(root, '[data-uzu-editor]').forEach((editor) => {
       const surface = editor.querySelector('[data-uzu-editor-surface], .uzu-editor-surface');
-      if (!markInitialized(editor, 'RichEditor')) return;
+      if (!markInitialized(editor, 'EditorShell')) return;
       queryAll(editor, '[data-uzu-editor-command]').forEach((button) => {
         const command = button.dataset.uzuEditorCommand || '';
         const value = button.dataset.uzuEditorValue || '';
@@ -14698,7 +14721,7 @@ function createJsonToken(text, type = '') {
   }
 
   function initEditors(root = document) {
-    initRichEditors(root);
+    initEditorShells(root);
     initMarkdownEditors(root);
     initInlineEditors(root);
   }
@@ -14855,6 +14878,7 @@ function getDialog(selector) {
     dialog.setAttribute('aria-modal', 'true');
     if (!dialog.hasAttribute('tabindex')) dialog.setAttribute('tabindex', '-1');
     if (!nested) applyDialogIsolation(dialog);
+    queueDisclosureHeightRefresh(dialog);
     const focusable = getFocusable(dialog);
     (focusable[0] || dialog).focus();
     emitDialogEvent(dialog, 'uzu-dialog-open');
@@ -14999,6 +15023,7 @@ function getPanelNavTarget(control) {
       detail: { target, control, panel, nav: root }
     }));
     queueIndicatorRefresh(panel, true);
+    queueDisclosureHeightRefresh(panel);
     return panel;
   }
 

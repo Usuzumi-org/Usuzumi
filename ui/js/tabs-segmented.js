@@ -27,7 +27,10 @@
     });
     tabsRoot.dataset.uzuTabsValue = value;
     setControlIndicator(tabsRoot, nextTab, 'tabs');
-    if (panel) queueIndicatorRefresh(panel, true);
+    if (panel) {
+      queueIndicatorRefresh(panel, true);
+      queueDisclosureHeightRefresh(panel);
+    }
 
     if (emit && value !== previousValue) {
       tabsRoot.dispatchEvent(new CustomEvent('uzu-tabs-change', {

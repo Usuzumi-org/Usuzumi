@@ -4,10 +4,24 @@
 
   function syncDisclosurePanelHeight(panel) {
     if (!panel) return;
+    if (!panel.isConnected || panel.getClientRects().length === 0) {
+      panel.style.removeProperty('--uzu-disclosure-panel-height');
+      return;
+    }
     const style = window.getComputedStyle(panel);
     const targetPadding = parseLengthValue(style.getPropertyValue('--uzu-disclosure-panel-block-end-padding'));
     const currentPadding = parseLengthValue(style.paddingBottom);
     panel.style.setProperty('--uzu-disclosure-panel-height', `${panel.scrollHeight + Math.max(0, targetPadding - currentPadding)}px`);
+  }
+
+  function refreshDisclosureHeights(root = document) {
+    queryAll(root, '[data-uzu-disclosure].is-open').forEach((disclosure) => {
+      syncDisclosurePanelHeight(disclosure.querySelector('[data-uzu-disclosure-panel]'));
+    });
+  }
+
+  function queueDisclosureHeightRefresh(root = document) {
+    window.requestAnimationFrame(() => refreshDisclosureHeights(root));
   }
 
   function setDisclosureState(disclosure, open, emit = true) {

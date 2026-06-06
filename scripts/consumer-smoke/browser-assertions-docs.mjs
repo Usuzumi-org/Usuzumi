@@ -8,7 +8,7 @@ if (value.toolbarDisplay !== 'flex') throw new Error('Browser consumer toolbar d
 if (value.toolbarButtonWidth <= 40 || value.toolbarButtonWidth >= 180) throw new Error('Browser consumer toolbar button width is not stable');
 if (value.toolbarButtonBackground !== 'rgb(47, 47, 44)') throw new Error('Browser consumer toolbar primary button styling is wrong');
 if (value.statDisplay !== 'grid' || value.statValueFontSize !== '34px') throw new Error('Browser consumer stat styles are wrong');
-if (value.editorMountMinHeight < 160 || value.editorMountProseMirrorPaddingTop < 12 || !value.editorMountCodeFontFamily.toLowerCase().includes('mono')) throw new Error('Browser consumer editor mount pattern styles are missing');
+if (value.editorMountMinHeight < 160 || value.editorMountFirstBlockMarginTop !== 0 || !value.editorMountCodeFontFamily.toLowerCase().includes('mono')) throw new Error('Browser consumer editor mount pattern styles are missing');
 if (!value.codeFontFamily.toLowerCase().includes('mono')) throw new Error('Browser consumer code should use a monospace stack');
 if (value.codeBlockBorderStyle === 'none') throw new Error('Browser consumer code block styling is missing');
 if (value.codeBlockCustomBackground !== 'rgb(250, 248, 240)' || value.codeBlockCustomColor !== 'rgb(32, 32, 30)') throw new Error('Browser consumer code block variables should customize the native code block surface');
@@ -22,6 +22,7 @@ if (!value.codeBlockCopySvgExists || value.codeBlockCopyDisplay !== 'absolute') 
 if (value.codeBlockCopyButtonWidth !== 28 || value.codeBlockCopyButtonHeight !== 28) throw new Error('Browser consumer code copy button should use compact icon metrics');
 if (value.codeBlockPaddingTop >= 30) throw new Error('Browser consumer code block should not reserve vertical space for the copy button');
 if (value.panelNavDisplay !== 'grid' || value.panelNavEvent !== '#consumer-panel-two' || value.panelNavSecondPressed !== 'true' || value.panelTwoHidden) throw new Error('Browser consumer panel nav did not switch panels');
+if (!(value.hiddenPanelDisclosureTargetHeight > 20) || Math.round(value.hiddenPanelDisclosurePaddingBottom) !== 20) throw new Error('Browser consumer disclosure should restore its open height and bottom spacing after a hidden panel is shown');
 if (value.hashBeforePanelNav !== value.hashAfterPanelNav) throw new Error('Browser consumer panel nav should not update the URL hash unless data-uzu-panel-hash is enabled');
 if (value.autoSwitchChecked !== 'true') throw new Error('Browser consumer auto-init container did not initialize inserted components');
 if (value.autoRemovedSwitchInitialized) throw new Error('Browser consumer auto-init should ignore detached nodes');

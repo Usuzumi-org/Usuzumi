@@ -182,6 +182,8 @@ Tabs 指示条、Segmented 指示条、Disclosure 实测高度等由脚本写入
 
 所有公开滚动区域共用同一套 6px 滚动条规范。根页面滚动条保持可见；局部滚动区域保留稳定滚动槽，并在 hover、focus、focus-within 或 active 交互时显示 thumb。WebKit 箭头按钮会被隐藏，滚动条 thumb 保持稳定的最小长度，避免长内容把 thumb 压成像三角形快速滚动按钮的形状。
 
+文本输入、文本域、命令输入、组合框输入、步进器和编辑器表面使用硬边框焦点，不使用虚化阴影或外发光。输入组合和步进器的焦点边框画在外层壳上，让前缀、后缀、局部操作和步进按钮保持一个整体控件的视觉。
+
 ## 文档页
 
 组件目录、API 参考和较长的文档页应由公开原语组合：`.uzu-page`、`.uzu-sidebar-layout`、`.uzu-sidebar`、`.uzu-scroll-area`、`.uzu-scroll`、`.uzu-panel-nav`、`.uzu-panel`、`.uzu-section-head`、`.uzu-card`、`.uzu-table`、`.uzu-code-block` 和 `.uzu-prose`。站点仓库里的组件目录是这些公开能力的严格消费方，不依赖隐藏的文档选择器，也不依赖库内的文档生成器。
@@ -208,11 +210,11 @@ window.Usuzumi.destroy(container);
 
 需要内置行为时，在组件外层使用对应的 `data-uzu-*` 属性：表单校验使用 `data-uzu-form`，菜单使用 `data-uzu-menu` 或 `data-uzu-context-menu`，命令菜单使用 `data-uzu-command`，accordion 使用 `data-uzu-accordion`，悬浮卡片使用 `data-uzu-hover-card`，标签使用 `data-uzu-tag`，步骤导航使用 `data-uzu-step-nav`。`data-uzu-form` 初始加载时只保留已有的 `.is-invalid` 或 `aria-invalid="true"` 状态，不会立刻校验空的必填项；需要首屏立即校验时添加 `data-uzu-form-validate-on-init="true"`。
 
-组合框、轻量数据网格、树形视图、分栏和可调整面板分别使用 `data-uzu-combobox`、`data-uzu-data-grid`、`data-uzu-tree`、`data-uzu-split-pane`、`data-uzu-resizable`。数据网格可用 `data-uzu-grid-sort`、`data-uzu-grid-selection`、`data-uzu-grid-select-all`、`data-uzu-grid-empty`、`data-uzu-grid-align` 处理排序、多选、全选、空状态和列对齐。JSON / Diff 查看器和编辑器外壳使用 `data-uzu-json-viewer`、`data-uzu-diff-viewer`、`data-uzu-rich-editor`、`data-uzu-markdown-editor`、`data-uzu-inline-editor`。
+组合框、轻量数据网格、树形视图、分栏和可调整面板分别使用 `data-uzu-combobox`、`data-uzu-data-grid`、`data-uzu-tree`、`data-uzu-split-pane`、`data-uzu-resizable`。数据网格可用 `data-uzu-grid-sort`、`data-uzu-grid-selection`、`data-uzu-grid-select-all`、`data-uzu-grid-empty`、`data-uzu-grid-align` 处理排序、多选、全选、空状态和列对齐。JSON / Diff 查看器和编辑器外壳使用 `data-uzu-json-viewer`、`data-uzu-diff-viewer`、`data-uzu-editor`、`data-uzu-markdown-editor`、`data-uzu-inline-editor`。
 
 Dialog、drawer 和 sheet 共用 `data-uzu-dialog-*` 行为。从已打开的弹窗内部再打开弹窗时，运行时会保持父弹窗挂载，关闭子弹窗后把焦点还给触发按钮，并在父弹窗关闭后释放滚动锁和背景隔离。
 
-编辑器外壳只负责 UI、事件和主题，不把完整编辑器引擎打包进核心库。`data-uzu-rich-editor` 会派发工具栏命令和内容区输入事件；需要文档模型、历史记录、快捷键、粘贴规则或协作时，把 Tiptap 挂到 `.uzu-editor-mount`。`data-uzu-markdown-editor` 会派发源码变化事件；Markdown 渲染和安全策略交给 markdown-it。短代码片段可以继续使用原生 `textarea.uzu-code-editor`，完整代码编辑推荐把 CodeMirror 6 挂到 `.uzu-editor-mount`。
+编辑器外壳只负责 UI、事件和主题，不把完整编辑器引擎打包进核心库。`data-uzu-editor` 会通过公开外壳派发工具栏命令和内容区输入事件；需要文档模型、历史记录、快捷键、粘贴规则、协作或完整代码编辑时，把项目自己的编辑器引擎挂到 `.uzu-editor-mount`。`data-uzu-markdown-editor` 会派发源码变化事件；内置预览不够用时，由项目自己的 Markdown 流程负责渲染和安全策略。短代码片段可以继续使用原生 `textarea.uzu-code-editor`。
 
 异步插入组件时，可以在外层容器上加 `data-uzu-auto-init`，后续新增的组件会自动初始化；也可以继续手动调用 `window.Usuzumi.init(container)`。
 
@@ -269,7 +271,7 @@ Dialog、drawer 和 sheet 共用 `data-uzu-dialog-*` 行为。从已打开的弹
 - Tree View：层级焦点、选中、展开收起和 ARIA 层级位置同步。
 - Split Pane / Resizable Panel：拖拽和键盘调整尺寸，并可用 key 做本地持久化。
 - JSON Viewer / Diff Viewer：JSON 树渲染和统一 diff 风格行展示。
-- 编辑器表面：富文本、代码、Markdown、纯文本、行内编辑外壳和工具栏按钮。它们是外壳和轻量辅助；富文本推荐接 Tiptap，Markdown 渲染推荐接 markdown-it，完整代码编辑推荐接 CodeMirror 6。
+- 编辑器表面：通用编辑器外壳、代码、Markdown、纯文本、行内编辑和工具栏按钮。它们是外壳和轻量辅助；需要完整编辑能力时，由项目接入自己的编辑器引擎。
 
 ## 站点与示例
 

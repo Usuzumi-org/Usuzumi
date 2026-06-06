@@ -5,6 +5,7 @@ if (value.dialogOpenTransform !== 'none' || value.dialogCloseTransform !== 'none
 if (!value.dialogBackgroundIsolated) throw new Error('Browser consumer dialog did not isolate background content');
 if (!value.dialogOverlayInteractive) throw new Error('Browser consumer dialog isolated its own overlay');
 if (!value.dialogScrollLocked) throw new Error('Browser consumer dialog did not lock page scroll');
+if (value.dialogHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer dialog reveal did not refresh nested open disclosure height');
 if (!value.dialogIsolationRestored) throw new Error('Browser consumer dialog did not restore background content and scroll state');
 if (!value.nestedDialogOpen || !value.nestedParentStillOpen || !value.nestedOverlayInteractive) throw new Error('Browser consumer nested dialog did not open inside the active dialog');
 if (!value.nestedScrollStillLocked || !value.nestedFocused) throw new Error('Browser consumer nested dialog did not preserve scroll lock or focus its surface');

@@ -162,10 +162,10 @@
     });
   }
 
-  function initRichEditors(root = document) {
-    queryAll(root, '[data-uzu-rich-editor]').forEach((editor) => {
+  function initEditorShells(root = document) {
+    queryAll(root, '[data-uzu-editor]').forEach((editor) => {
       const surface = editor.querySelector('[data-uzu-editor-surface], .uzu-editor-surface');
-      if (!markInitialized(editor, 'RichEditor')) return;
+      if (!markInitialized(editor, 'EditorShell')) return;
       queryAll(editor, '[data-uzu-editor-command]').forEach((button) => {
         const command = button.dataset.uzuEditorCommand || '';
         const value = button.dataset.uzuEditorValue || '';
@@ -251,7 +251,7 @@
   }
 
   function initEditors(root = document) {
-    initRichEditors(root);
+    initEditorShells(root);
     initMarkdownEditors(root);
     initInlineEditors(root);
   }

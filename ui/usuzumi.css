@@ -996,6 +996,16 @@
     border-color: var(--uzu-border-strong);
   }
 
+  .uzu-input:focus,
+  .uzu-textarea:focus,
+  .uzu-select-trigger:focus,
+  .uzu-input:focus-visible,
+  .uzu-textarea:focus-visible,
+  .uzu-select-trigger:focus-visible {
+    border-color: var(--uzu-fg-strong);
+    box-shadow: none;
+  }
+
   .uzu-input:disabled,
   .uzu-textarea:disabled,
   .uzu-select-trigger:disabled,
@@ -1073,6 +1083,10 @@
     align-items: stretch;
     width: 100%;
     min-width: 0;
+    border: 1px solid var(--uzu-border);
+    border-radius: var(--uzu-radius-standard);
+    background: var(--uzu-surface);
+    overflow: hidden;
   }
 
   .uzu-input-group > .uzu-input,
@@ -1080,33 +1094,40 @@
   .uzu-input-group > .uzu-icon-button,
   .uzu-input-group > .uzu-input-addon,
   .uzu-input-group > .uzu-input-action {
+    border: 0;
     border-radius: var(--uzu-radius-micro);
-  }
-
-  .uzu-input-group > :first-child {
-    border-top-left-radius: var(--uzu-radius-standard);
-    border-bottom-left-radius: var(--uzu-radius-standard);
-  }
-
-  .uzu-input-group > :last-child {
-    border-top-right-radius: var(--uzu-radius-standard);
-    border-bottom-right-radius: var(--uzu-radius-standard);
+    box-shadow: none;
   }
 
   .uzu-input-group > :not(:first-child) {
-    margin-left: -1px;
+    border-left: 1px solid var(--uzu-border-soft);
+  }
+
+  .uzu-input-group:hover {
+    border-color: var(--uzu-border-strong);
+  }
+
+  .uzu-input-group:focus-within {
+    border-color: var(--uzu-fg-strong);
+    box-shadow: none;
+  }
+
+  .uzu-input-group > :focus-visible {
+    box-shadow: none;
   }
 
   .uzu-input-group > .uzu-input {
     flex: 1 1 auto;
     min-width: 0;
+    min-height: 40px;
+    padding-block: 8px;
+    background: transparent;
   }
 
   .uzu-input-addon,
   .uzu-input-action {
-    min-height: 42px;
-    padding: 9px 11px;
-    border: 1px solid var(--uzu-border);
+    min-height: 40px;
+    padding: 8px 11px;
     background: var(--uzu-surface-soft);
     color: var(--uzu-muted);
     display: inline-flex;
@@ -1122,9 +1143,27 @@
     background: var(--uzu-surface);
   }
 
+  .uzu-input-group > .uzu-button,
+  .uzu-input-group > .uzu-input-action {
+    min-height: 40px;
+    padding-inline: 14px;
+  }
+
+  .uzu-field.is-invalid .uzu-input-group,
+  .uzu-input-group:has(.uzu-input.is-invalid),
+  .uzu-input-group:has(.uzu-input[aria-invalid="true"]) {
+    border-color: color-mix(in srgb, var(--uzu-danger) 48%, var(--uzu-border));
+    background: color-mix(in srgb, var(--uzu-danger-bg) 18%, var(--uzu-surface));
+  }
+
+  .uzu-field.is-invalid .uzu-input-group > .uzu-input,
+  .uzu-input-group:has(.uzu-input.is-invalid) > .uzu-input,
+  .uzu-input-group:has(.uzu-input[aria-invalid="true"]) > .uzu-input {
+    background: transparent;
+  }
+
   .uzu-search,
-  .uzu-password,
-  .uzu-stepper {
+  .uzu-password {
     position: relative;
     display: flex;
     align-items: stretch;
@@ -1132,9 +1171,28 @@
     min-width: 0;
   }
 
+  .uzu-stepper {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--uzu-border);
+    border-radius: var(--uzu-radius-standard);
+    background: var(--uzu-surface);
+    overflow: hidden;
+  }
+
+  .uzu-stepper:hover {
+    border-color: var(--uzu-border-strong);
+  }
+
+  .uzu-stepper:focus-within {
+    border-color: var(--uzu-fg-strong);
+    box-shadow: none;
+  }
+
   .uzu-search-input,
-  .uzu-password-input,
-  .uzu-stepper-input {
+  .uzu-password-input {
     padding-right: 42px;
   }
 
@@ -1152,7 +1210,14 @@
   }
 
   .uzu-stepper-input {
-    padding-right: 78px;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: var(--uzu-radius-micro);
+    background: transparent;
+    box-shadow: none;
     appearance: textfield;
     -moz-appearance: textfield;
   }
@@ -1165,21 +1230,38 @@
   }
 
   .uzu-stepper-controls {
-    position: absolute;
-    top: 3px;
-    right: 3px;
+    border-left: 1px solid var(--uzu-border-soft);
+    background: var(--uzu-surface);
     display: inline-flex;
-    align-items: center;
+    align-items: stretch;
+    align-self: stretch;
+    flex: 0 0 auto;
   }
 
   .uzu-stepper-button {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: auto;
+    min-height: 40px;
+    border: 0;
     border-radius: var(--uzu-radius-micro);
+    background: transparent;
+    color: var(--uzu-muted);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .uzu-stepper-button + .uzu-stepper-button {
-    margin-left: 2px;
+    margin-left: 0;
+    border-left: 1px solid var(--uzu-border-soft);
+  }
+
+  .uzu-stepper-button:hover,
+  .uzu-stepper-button:focus-visible {
+    border-color: transparent;
+    background: var(--uzu-surface-soft);
+    color: var(--uzu-fg-strong);
+    box-shadow: none;
   }
 
   .uzu-file-upload {
@@ -1231,12 +1313,14 @@
 
   .uzu-slider {
     --uzu-slider-value: 0%;
-    --uzu-slider-track: color-mix(in srgb, var(--uzu-border) 72%, var(--uzu-surface-soft));
-    --uzu-slider-fill: var(--uzu-action-bg);
-    --uzu-slider-thumb: var(--uzu-surface);
-    --uzu-slider-thumb-ring: var(--uzu-bg);
+    --uzu-slider-track: color-mix(in srgb, var(--uzu-surface-inset) 76%, var(--uzu-border));
+    --uzu-slider-fill: color-mix(in srgb, var(--uzu-fg-strong) 82%, var(--uzu-border));
+    --uzu-slider-thumb: var(--uzu-fg-strong);
+    --uzu-slider-thumb-border: var(--uzu-surface);
+    --uzu-slider-track-height: 10px;
+    --uzu-slider-thumb-size: 16px;
     width: 100%;
-    height: 34px;
+    height: 36px;
     margin: 0;
     accent-color: var(--uzu-action-bg);
     background: transparent;
@@ -1250,8 +1334,8 @@
   }
 
   .uzu-slider::-webkit-slider-runnable-track {
-    height: 8px;
-    border: 1px solid color-mix(in srgb, var(--uzu-border-strong) 38%, transparent);
+    height: var(--uzu-slider-track-height);
+    border: 1px solid color-mix(in srgb, var(--uzu-border-strong) 54%, transparent);
     border-radius: var(--uzu-radius-pill);
     background: var(--uzu-slider-track);
   }
@@ -1261,48 +1345,46 @@
   }
 
   .uzu-slider::-webkit-slider-thumb {
-    width: 18px;
-    height: 18px;
-    margin-top: -6px;
-    border: 1px solid var(--uzu-border-strong);
+    width: var(--uzu-slider-thumb-size);
+    height: var(--uzu-slider-thumb-size);
+    margin-top: calc((var(--uzu-slider-track-height) - var(--uzu-slider-thumb-size)) / 2 - 1px);
+    border: 2px solid var(--uzu-slider-thumb-border);
     border-radius: var(--uzu-radius-pill);
     background: var(--uzu-slider-thumb);
-    box-shadow: 0 0 0 4px var(--uzu-slider-thumb-ring);
+    box-shadow: none;
     appearance: none;
   }
 
   .uzu-slider::-moz-range-track {
-    height: 8px;
-    border: 1px solid color-mix(in srgb, var(--uzu-border-strong) 38%, transparent);
+    height: var(--uzu-slider-track-height);
+    border: 1px solid color-mix(in srgb, var(--uzu-border-strong) 54%, transparent);
     border-radius: var(--uzu-radius-pill);
     background: var(--uzu-slider-track);
   }
 
   .uzu-slider::-moz-range-progress {
-    height: 8px;
+    height: var(--uzu-slider-track-height);
     border-radius: var(--uzu-radius-pill);
     background: var(--uzu-slider-fill);
   }
 
   .uzu-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border: 1px solid var(--uzu-border-strong);
+    width: var(--uzu-slider-thumb-size);
+    height: var(--uzu-slider-thumb-size);
+    border: 2px solid var(--uzu-slider-thumb-border);
     border-radius: var(--uzu-radius-pill);
     background: var(--uzu-slider-thumb);
-    box-shadow: 0 0 0 4px var(--uzu-slider-thumb-ring);
+    box-shadow: none;
   }
 
   .uzu-slider:focus-visible::-webkit-slider-thumb {
-    box-shadow:
-      0 0 0 4px var(--uzu-slider-thumb-ring),
-      0 0 0 7px color-mix(in srgb, var(--uzu-fg-strong) 18%, transparent);
+    border-color: var(--uzu-bg);
+    box-shadow: 0 0 0 1px var(--uzu-fg-strong);
   }
 
   .uzu-slider:focus-visible::-moz-range-thumb {
-    box-shadow:
-      0 0 0 4px var(--uzu-slider-thumb-ring),
-      0 0 0 7px color-mix(in srgb, var(--uzu-fg-strong) 18%, transparent);
+    border-color: var(--uzu-bg);
+    box-shadow: 0 0 0 1px var(--uzu-fg-strong);
   }
 
   /* ui/css/menus.css */
@@ -1461,6 +1543,13 @@
     display: grid;
   }
 
+  .uzu-command:focus,
+  .uzu-command:focus-visible,
+  .uzu-command:focus-within {
+    border-color: var(--uzu-fg-strong);
+    box-shadow: none;
+  }
+
   .uzu-command-input {
     width: 100%;
     min-height: 42px;
@@ -1471,6 +1560,11 @@
     color: var(--uzu-fg);
     font-size: 15px;
     line-height: 1.35;
+  }
+
+  .uzu-command-input:focus,
+  .uzu-command-input:focus-visible {
+    box-shadow: none;
   }
 
   .uzu-command-list {
@@ -2331,6 +2425,13 @@
     overflow: hidden;
   }
 
+  .uzu-editor:focus,
+  .uzu-editor:focus-visible,
+  .uzu-editor:focus-within {
+    border-color: var(--uzu-fg-strong);
+    box-shadow: none;
+  }
+
   .uzu-editor-toolbar {
     padding: 8px;
     border-bottom: 1px solid var(--uzu-border-soft);
@@ -2341,12 +2442,12 @@
     gap: 6px;
   }
 
-  .uzu-editor-toolbar-rich {
+  .uzu-editor-toolbar-grouped {
     align-items: stretch;
     gap: 8px;
   }
 
-  .uzu-editor-toolbar-rich .uzu-toolbar-group {
+  .uzu-editor-toolbar-grouped .uzu-toolbar-group {
     padding: 3px;
     border: 1px solid var(--uzu-border-soft);
     border-radius: var(--uzu-radius-micro);
@@ -2371,6 +2472,12 @@
     min-height: 32px;
     padding: 6px 9px;
     font-size: 13px;
+  }
+
+  .uzu-toolbar-link-input:focus,
+  .uzu-toolbar-link-input:focus-visible {
+    border-color: var(--uzu-fg-strong);
+    box-shadow: none;
   }
 
   .uzu-toolbar-button {
@@ -2401,25 +2508,25 @@
     color: var(--uzu-fg-strong);
   }
 
-  .uzu-editor-toolbar-rich .uzu-toolbar-button {
+  .uzu-editor-toolbar-grouped .uzu-toolbar-button {
     min-width: 34px;
     border-color: transparent;
     background: transparent;
     white-space: nowrap;
   }
 
-  .uzu-editor-toolbar-rich .uzu-toolbar-link-field .uzu-toolbar-button {
+  .uzu-editor-toolbar-grouped .uzu-toolbar-link-field .uzu-toolbar-button {
     min-width: 0;
   }
 
-  .uzu-editor-toolbar-rich .uzu-toolbar-button:hover,
-  .uzu-editor-toolbar-rich .uzu-toolbar-button:focus-visible,
-  .uzu-editor-toolbar-rich .uzu-toolbar-button.is-active,
-  .uzu-editor-toolbar-rich .uzu-toolbar-button[aria-pressed="true"] {
+  .uzu-editor-toolbar-grouped .uzu-toolbar-button:hover,
+  .uzu-editor-toolbar-grouped .uzu-toolbar-button:focus-visible,
+  .uzu-editor-toolbar-grouped .uzu-toolbar-button.is-active,
+  .uzu-editor-toolbar-grouped .uzu-toolbar-button[aria-pressed="true"] {
     background: var(--uzu-surface);
   }
 
-  .uzu-editor-toolbar-rich .uzu-toolbar-button:disabled {
+  .uzu-editor-toolbar-grouped .uzu-toolbar-button:disabled {
     opacity: 0.45;
     cursor: not-allowed;
   }
@@ -2439,10 +2546,17 @@
   }
 
   .uzu-editor-surface {
+    border: 1px solid transparent;
     background: var(--uzu-surface);
     font-family: var(--uzu-font-serif);
     font-size: 14px;
     line-height: 1.7;
+  }
+
+  .uzu-editor-surface:focus,
+  .uzu-editor-surface:focus-visible {
+    border-color: var(--uzu-fg-strong);
+    box-shadow: none;
   }
 
   .uzu-code-editor,
@@ -2450,6 +2564,14 @@
     width: 100%;
     resize: vertical;
     overflow: auto;
+  }
+
+  .uzu-code-editor:focus,
+  .uzu-plain-editor:focus,
+  .uzu-code-editor:focus-visible,
+  .uzu-plain-editor:focus-visible {
+    border-color: var(--uzu-fg-strong);
+    box-shadow: none;
   }
 
   .uzu-code-editor,
@@ -2487,6 +2609,12 @@
     resize: vertical;
   }
 
+  .uzu-markdown-source:focus,
+  .uzu-markdown-source:focus-visible {
+    border-right-color: var(--uzu-fg-strong);
+    box-shadow: none;
+  }
+
   .uzu-markdown-preview {
     background: var(--uzu-surface);
     font-family: var(--uzu-font-serif);
@@ -2507,63 +2635,46 @@
     min-height: var(--uzu-editor-mount-min-height, 190px);
     align-content: start;
     background: var(--uzu-editor-mount-bg, var(--uzu-surface));
+    overflow: auto;
   }
 
-  .uzu-editor-mount .ProseMirror,
-  .uzu-editor-mount .cm-editor {
-    min-height: inherit;
-    width: 100%;
-  }
-
-  .uzu-editor-mount .ProseMirror {
-    padding: var(--uzu-editor-mount-padding, 16px);
-    outline: none;
-  }
-
-  .uzu-editor-mount .ProseMirror > :first-child,
+  .uzu-editor-mount > :first-child,
   .uzu-markdown-preview.uzu-editor-mount > :first-child {
     margin-top: 0;
   }
 
-  .uzu-editor-mount .ProseMirror > :last-child,
+  .uzu-editor-mount > :last-child,
   .uzu-markdown-preview.uzu-editor-mount > :last-child {
     margin-bottom: 0;
   }
 
-  .uzu-editor-mount .ProseMirror p,
-  .uzu-editor-mount .ProseMirror ul,
-  .uzu-editor-mount .ProseMirror ol,
-  .uzu-editor-mount .ProseMirror blockquote,
-  .uzu-editor-mount .ProseMirror pre {
+  .uzu-editor-mount :where(p, ul, ol, blockquote, pre) {
     margin: 0 0 .85em;
   }
 
-  .uzu-editor-mount .ProseMirror ul,
-  .uzu-editor-mount .ProseMirror ol {
+  .uzu-editor-mount :where(ul, ol) {
     padding-left: 1.35em;
   }
 
-  .uzu-editor-mount .ProseMirror h1,
-  .uzu-editor-mount .ProseMirror h2,
-  .uzu-editor-mount .ProseMirror h3 {
+  .uzu-editor-mount :where(h1, h2, h3) {
     margin: 0 0 .7em;
     line-height: 1.22;
   }
 
-  .uzu-editor-mount .ProseMirror mark {
+  .uzu-editor-mount mark {
     padding: .04em .2em;
     border-radius: .2em;
     background: color-mix(in srgb, var(--uzu-warning-bg) 82%, var(--uzu-surface));
     color: var(--uzu-fg-strong);
   }
 
-  .uzu-editor-mount .ProseMirror a {
+  .uzu-editor-mount a {
     color: var(--uzu-fg-strong);
     text-decoration-thickness: 1px;
     text-underline-offset: .2em;
   }
 
-  .uzu-editor-mount .ProseMirror code {
+  .uzu-editor-mount code {
     padding: .12em .35em;
     border: 1px solid var(--uzu-border-soft);
     border-radius: var(--uzu-radius-micro);
@@ -2572,7 +2683,7 @@
     font-size: .92em;
   }
 
-  .uzu-editor-mount .ProseMirror pre {
+  .uzu-editor-mount pre {
     padding: 12px;
     overflow: auto;
     border: 1px solid var(--uzu-border-soft);
@@ -2580,77 +2691,40 @@
     background: var(--uzu-surface-soft);
   }
 
-  .uzu-editor-mount .ProseMirror pre code {
+  .uzu-editor-mount pre code {
     padding: 0;
     border: 0;
     background: transparent;
   }
 
-  .uzu-editor-mount .ProseMirror blockquote {
+  .uzu-editor-mount blockquote {
     padding-left: 12px;
     border-left: 3px solid var(--uzu-border-strong);
     color: var(--uzu-muted);
   }
 
-  .uzu-editor-mount .ProseMirror ul[data-type="taskList"] {
-    padding-left: 0;
-    list-style: none;
-  }
-
-  .uzu-editor-mount .ProseMirror table {
+  .uzu-editor-mount table {
     width: 100%;
     margin: 0 0 .85em;
     border-collapse: collapse;
   }
 
-  .uzu-editor-mount .ProseMirror th,
-  .uzu-editor-mount .ProseMirror td {
+  .uzu-editor-mount th,
+  .uzu-editor-mount td {
     padding: 8px 10px;
     border: 1px solid var(--uzu-border);
     vertical-align: top;
   }
 
-  .uzu-editor-mount .ProseMirror th {
+  .uzu-editor-mount th {
     background: var(--uzu-surface-soft);
     text-align: left;
   }
 
-  .uzu-editor-mount .ProseMirror li[data-type="taskItem"] {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .uzu-editor-mount .ProseMirror li[data-type="taskItem"] > label {
-    padding-top: .22em;
-    flex: 0 0 auto;
-  }
-
-  .uzu-editor-mount .ProseMirror li[data-type="taskItem"] > label input {
-    width: 14px;
-    height: 14px;
-    margin: 0;
-    accent-color: var(--uzu-fg-strong);
-  }
-
-  .uzu-editor-mount .ProseMirror li[data-type="taskItem"] > div {
-    min-width: 0;
-  }
-
-  .uzu-editor-mount .ProseMirror hr {
+  .uzu-editor-mount hr {
     margin: 1em 0;
     border: 0;
     border-top: 1px solid var(--uzu-border);
-  }
-
-  .uzu-editor-mount .cm-editor {
-    border-radius: var(--uzu-radius-micro);
-    background: var(--uzu-surface);
-    font-family: var(--uzu-font-mono);
-  }
-
-  .uzu-editor-mount .cm-scroller {
-    font-family: var(--uzu-font-mono);
   }
 
   .uzu-editor-mount .uzu-title-pair {
@@ -2692,9 +2766,11 @@
     line-height: inherit;
   }
 
+  .uzu-inline-editor:focus,
   .uzu-inline-editor:focus-visible {
-    border-color: var(--uzu-border-strong);
+    border-color: var(--uzu-fg-strong);
     background: var(--uzu-surface);
+    box-shadow: none;
   }
 
   .uzu-inline-editor.is-empty::before {
@@ -4850,6 +4926,8 @@
     .uzu-toolbar-button,
     .uzu-markdown-source,
     .uzu-step-nav-button,
+    .uzu-input-group,
+    .uzu-stepper,
     .uzu-input,
     .uzu-textarea,
     .uzu-select-trigger,

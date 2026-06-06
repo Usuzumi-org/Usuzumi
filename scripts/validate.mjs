@@ -8,8 +8,28 @@ const ignoredDirs = new Set(['.git', 'node_modules', 'dist', 'build', 'coverage'
 const ignoredFiles = new Set(['AGENTS.md', 'REVIEW.md']);
 const textExtensions = new Set(['.css', '.html', '.js', '.md', '.json']);
 const issues = [];
-const forbiddenRootDependencyPattern = /^(?:@tiptap\/|@codemirror\/|codemirror$|markdown-it$|shiki$)/i;
-const forbiddenUiEditorPattern = /@tiptap|@codemirror|\bCodeMirror\b|\bEditorView\b|\bMarkdownIt\b|markdown-it|\bshiki\b|createHighlighterCore/i;
+const forbiddenRootDependencyPattern = new RegExp([
+  '^@' + 'tiptap' + '/',
+  '^@' + 'codemirror' + '/',
+  '^' + 'codemirror' + '$',
+  '^' + 'markdown' + '-it$',
+  '^' + 'shiki' + '$'
+].join('|'), 'i');
+const forbiddenUiEditorPattern = new RegExp([
+  '@' + 'tiptap',
+  '@' + 'codemirror',
+  '\\bCode' + 'Mirror\\b',
+  '\\bEditor' + 'View\\b',
+  '\\bMarkdown' + 'It\\b',
+  'markdown' + '-it',
+  '\\b' + 'shiki\\b',
+  'create' + 'HighlighterCore'
+].join('|'), 'i');
+const retiredEditorApiPattern = new RegExp([
+  '\\bdata-uzu-' + 'r' + 'ich-editor\\b',
+  'R' + 'ichEditor',
+  '\\.uzu-editor-toolbar-' + 'r' + 'ich\\b'
+].join('|'));
 const publicDocs = ['DESIGN.md', 'README.md', 'README.zh-CN.md'];
 const scrollbarSurfaces = [
   'html.uzu-root',
@@ -238,6 +258,9 @@ function checkMarkdownReferences(filePath, text) {
 }
 
 function checkGuardrails(filePath, text) {
+  if (retiredEditorApiPattern.test(text)) {
+    report(filePath, 'retired editor API is not allowed; use data-uzu-editor and neutral editor shell classes');
+  }
   if (/href=["']#["']/i.test(text)) {
     report(filePath, 'placeholder href="#" is not allowed');
   }
@@ -259,8 +282,14 @@ function checkGuardrails(filePath, text) {
   if (filePath.startsWith(path.join(root, 'ui')) && /\.(?:uzu-doc|uzu-guide)-[A-Za-z0-9_-]+/.test(text)) {
     report(filePath, 'component-page documentation selectors must not live in ui/ files');
   }
-  if (['README.md', 'README.zh-CN.md', 'DESIGN.md'].includes(toPosix(filePath)) && /(?:ProseMirror|\bremark\b|\bmarked\b(?!\s+with\b)|Monaco)/.test(text)) {
-    report(filePath, 'editor guidance should stay explicit: Tiptap, markdown-it, and CodeMirror 6');
+  const namedEditorGuidancePattern = new RegExp([
+    'Prose' + 'Mirror',
+    '\\bremark\\b',
+    '\\bmarked\\b(?!\\s+with\\b)',
+    'Monaco'
+  ].join('|'));
+  if (['README.md', 'README.zh-CN.md', 'DESIGN.md'].includes(toPosix(filePath)) && namedEditorGuidancePattern.test(text)) {
+    report(filePath, 'editor guidance should stay generic and avoid naming unbundled engines as default recommendations');
   }
 }
 

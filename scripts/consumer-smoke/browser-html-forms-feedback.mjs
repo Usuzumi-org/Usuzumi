@@ -48,6 +48,10 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
       <div class="uzu-select-menu" role="listbox">
         <div class="uzu-select-option is-selected" data-uzu-select-option data-value="balanced" role="option" aria-selected="true">Balanced</div>
         <div class="uzu-select-option" data-uzu-select-option data-value="compact" role="option" aria-selected="false">Compact</div>
+        <section class="uzu-disclosure is-open" id="consumer-select-hidden-disclosure" data-uzu-disclosure>
+          <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="true">Select details</button>
+          <div class="uzu-disclosure-panel" data-uzu-disclosure-panel><div style="min-height: 280px">Disclosure content inside a select menu.</div></div>
+        </section>
       </div>
     </div>
     <div class="uzu-combobox" id="consumer-combobox" data-uzu-combobox data-uzu-combobox-name="component">
@@ -57,6 +61,10 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
         <button class="uzu-combobox-option" type="button" data-uzu-combobox-option data-uzu-combobox-value="dialog">Dialog</button>
         <button class="uzu-combobox-option" type="button" data-uzu-combobox-option data-uzu-combobox-value="tree">Tree View</button>
         <p class="uzu-combobox-empty" hidden>No matches</p>
+        <section class="uzu-disclosure is-open" id="consumer-combobox-hidden-disclosure" data-uzu-disclosure>
+          <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="true">Combobox details</button>
+          <div class="uzu-disclosure-panel" data-uzu-disclosure-panel><div style="min-height: 280px">Disclosure content inside a combobox list.</div></div>
+        </section>
       </div>
     </div>
     <div class="uzu-field">
@@ -64,7 +72,11 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
       <input class="uzu-input" id="consumer-field" placeholder="Untitled project">
       <span class="uzu-help">Field helper text.</span>
     </div>
-    <section class="uzu-disclosure" data-uzu-disclosure>
+    <div class="uzu-field">
+      <label class="uzu-label" for="consumer-notes-textarea">Notes</label>
+      <textarea class="uzu-textarea" id="consumer-notes-textarea">Draft notes</textarea>
+    </div>
+    <section class="uzu-disclosure" id="consumer-disclosure" data-uzu-disclosure>
       <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="false">Details</button>
       <div class="uzu-disclosure-panel" data-uzu-disclosure-panel hidden>Disclosure content</div>
     </section>

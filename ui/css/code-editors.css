@@ -433,6 +433,13 @@ pre.uzu-code-block-body {
   overflow: hidden;
 }
 
+.uzu-editor:focus,
+.uzu-editor:focus-visible,
+.uzu-editor:focus-within {
+  border-color: var(--uzu-fg-strong);
+  box-shadow: none;
+}
+
 .uzu-editor-toolbar {
   padding: 8px;
   border-bottom: 1px solid var(--uzu-border-soft);
@@ -443,12 +450,12 @@ pre.uzu-code-block-body {
   gap: 6px;
 }
 
-.uzu-editor-toolbar-rich {
+.uzu-editor-toolbar-grouped {
   align-items: stretch;
   gap: 8px;
 }
 
-.uzu-editor-toolbar-rich .uzu-toolbar-group {
+.uzu-editor-toolbar-grouped .uzu-toolbar-group {
   padding: 3px;
   border: 1px solid var(--uzu-border-soft);
   border-radius: var(--uzu-radius-micro);
@@ -473,6 +480,12 @@ pre.uzu-code-block-body {
   min-height: 32px;
   padding: 6px 9px;
   font-size: 13px;
+}
+
+.uzu-toolbar-link-input:focus,
+.uzu-toolbar-link-input:focus-visible {
+  border-color: var(--uzu-fg-strong);
+  box-shadow: none;
 }
 
 .uzu-toolbar-button {
@@ -503,25 +516,25 @@ pre.uzu-code-block-body {
   color: var(--uzu-fg-strong);
 }
 
-.uzu-editor-toolbar-rich .uzu-toolbar-button {
+.uzu-editor-toolbar-grouped .uzu-toolbar-button {
   min-width: 34px;
   border-color: transparent;
   background: transparent;
   white-space: nowrap;
 }
 
-.uzu-editor-toolbar-rich .uzu-toolbar-link-field .uzu-toolbar-button {
+.uzu-editor-toolbar-grouped .uzu-toolbar-link-field .uzu-toolbar-button {
   min-width: 0;
 }
 
-.uzu-editor-toolbar-rich .uzu-toolbar-button:hover,
-.uzu-editor-toolbar-rich .uzu-toolbar-button:focus-visible,
-.uzu-editor-toolbar-rich .uzu-toolbar-button.is-active,
-.uzu-editor-toolbar-rich .uzu-toolbar-button[aria-pressed="true"] {
+.uzu-editor-toolbar-grouped .uzu-toolbar-button:hover,
+.uzu-editor-toolbar-grouped .uzu-toolbar-button:focus-visible,
+.uzu-editor-toolbar-grouped .uzu-toolbar-button.is-active,
+.uzu-editor-toolbar-grouped .uzu-toolbar-button[aria-pressed="true"] {
   background: var(--uzu-surface);
 }
 
-.uzu-editor-toolbar-rich .uzu-toolbar-button:disabled {
+.uzu-editor-toolbar-grouped .uzu-toolbar-button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
@@ -541,10 +554,17 @@ pre.uzu-code-block-body {
 }
 
 .uzu-editor-surface {
+  border: 1px solid transparent;
   background: var(--uzu-surface);
   font-family: var(--uzu-font-serif);
   font-size: 14px;
   line-height: 1.7;
+}
+
+.uzu-editor-surface:focus,
+.uzu-editor-surface:focus-visible {
+  border-color: var(--uzu-fg-strong);
+  box-shadow: none;
 }
 
 .uzu-code-editor,
@@ -552,6 +572,14 @@ pre.uzu-code-block-body {
   width: 100%;
   resize: vertical;
   overflow: auto;
+}
+
+.uzu-code-editor:focus,
+.uzu-plain-editor:focus,
+.uzu-code-editor:focus-visible,
+.uzu-plain-editor:focus-visible {
+  border-color: var(--uzu-fg-strong);
+  box-shadow: none;
 }
 
 .uzu-code-editor,
@@ -589,6 +617,12 @@ textarea.uzu-markdown-source {
   resize: vertical;
 }
 
+.uzu-markdown-source:focus,
+.uzu-markdown-source:focus-visible {
+  border-right-color: var(--uzu-fg-strong);
+  box-shadow: none;
+}
+
 .uzu-markdown-preview {
   background: var(--uzu-surface);
   font-family: var(--uzu-font-serif);
@@ -609,63 +643,46 @@ textarea.uzu-markdown-source {
   min-height: var(--uzu-editor-mount-min-height, 190px);
   align-content: start;
   background: var(--uzu-editor-mount-bg, var(--uzu-surface));
+  overflow: auto;
 }
 
-.uzu-editor-mount .ProseMirror,
-.uzu-editor-mount .cm-editor {
-  min-height: inherit;
-  width: 100%;
-}
-
-.uzu-editor-mount .ProseMirror {
-  padding: var(--uzu-editor-mount-padding, 16px);
-  outline: none;
-}
-
-.uzu-editor-mount .ProseMirror > :first-child,
+.uzu-editor-mount > :first-child,
 .uzu-markdown-preview.uzu-editor-mount > :first-child {
   margin-top: 0;
 }
 
-.uzu-editor-mount .ProseMirror > :last-child,
+.uzu-editor-mount > :last-child,
 .uzu-markdown-preview.uzu-editor-mount > :last-child {
   margin-bottom: 0;
 }
 
-.uzu-editor-mount .ProseMirror p,
-.uzu-editor-mount .ProseMirror ul,
-.uzu-editor-mount .ProseMirror ol,
-.uzu-editor-mount .ProseMirror blockquote,
-.uzu-editor-mount .ProseMirror pre {
+.uzu-editor-mount :where(p, ul, ol, blockquote, pre) {
   margin: 0 0 .85em;
 }
 
-.uzu-editor-mount .ProseMirror ul,
-.uzu-editor-mount .ProseMirror ol {
+.uzu-editor-mount :where(ul, ol) {
   padding-left: 1.35em;
 }
 
-.uzu-editor-mount .ProseMirror h1,
-.uzu-editor-mount .ProseMirror h2,
-.uzu-editor-mount .ProseMirror h3 {
+.uzu-editor-mount :where(h1, h2, h3) {
   margin: 0 0 .7em;
   line-height: 1.22;
 }
 
-.uzu-editor-mount .ProseMirror mark {
+.uzu-editor-mount mark {
   padding: .04em .2em;
   border-radius: .2em;
   background: color-mix(in srgb, var(--uzu-warning-bg) 82%, var(--uzu-surface));
   color: var(--uzu-fg-strong);
 }
 
-.uzu-editor-mount .ProseMirror a {
+.uzu-editor-mount a {
   color: var(--uzu-fg-strong);
   text-decoration-thickness: 1px;
   text-underline-offset: .2em;
 }
 
-.uzu-editor-mount .ProseMirror code {
+.uzu-editor-mount code {
   padding: .12em .35em;
   border: 1px solid var(--uzu-border-soft);
   border-radius: var(--uzu-radius-micro);
@@ -674,7 +691,7 @@ textarea.uzu-markdown-source {
   font-size: .92em;
 }
 
-.uzu-editor-mount .ProseMirror pre {
+.uzu-editor-mount pre {
   padding: 12px;
   overflow: auto;
   border: 1px solid var(--uzu-border-soft);
@@ -682,77 +699,40 @@ textarea.uzu-markdown-source {
   background: var(--uzu-surface-soft);
 }
 
-.uzu-editor-mount .ProseMirror pre code {
+.uzu-editor-mount pre code {
   padding: 0;
   border: 0;
   background: transparent;
 }
 
-.uzu-editor-mount .ProseMirror blockquote {
+.uzu-editor-mount blockquote {
   padding-left: 12px;
   border-left: 3px solid var(--uzu-border-strong);
   color: var(--uzu-muted);
 }
 
-.uzu-editor-mount .ProseMirror ul[data-type="taskList"] {
-  padding-left: 0;
-  list-style: none;
-}
-
-.uzu-editor-mount .ProseMirror table {
+.uzu-editor-mount table {
   width: 100%;
   margin: 0 0 .85em;
   border-collapse: collapse;
 }
 
-.uzu-editor-mount .ProseMirror th,
-.uzu-editor-mount .ProseMirror td {
+.uzu-editor-mount th,
+.uzu-editor-mount td {
   padding: 8px 10px;
   border: 1px solid var(--uzu-border);
   vertical-align: top;
 }
 
-.uzu-editor-mount .ProseMirror th {
+.uzu-editor-mount th {
   background: var(--uzu-surface-soft);
   text-align: left;
 }
 
-.uzu-editor-mount .ProseMirror li[data-type="taskItem"] {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.uzu-editor-mount .ProseMirror li[data-type="taskItem"] > label {
-  padding-top: .22em;
-  flex: 0 0 auto;
-}
-
-.uzu-editor-mount .ProseMirror li[data-type="taskItem"] > label input {
-  width: 14px;
-  height: 14px;
-  margin: 0;
-  accent-color: var(--uzu-fg-strong);
-}
-
-.uzu-editor-mount .ProseMirror li[data-type="taskItem"] > div {
-  min-width: 0;
-}
-
-.uzu-editor-mount .ProseMirror hr {
+.uzu-editor-mount hr {
   margin: 1em 0;
   border: 0;
   border-top: 1px solid var(--uzu-border);
-}
-
-.uzu-editor-mount .cm-editor {
-  border-radius: var(--uzu-radius-micro);
-  background: var(--uzu-surface);
-  font-family: var(--uzu-font-mono);
-}
-
-.uzu-editor-mount .cm-scroller {
-  font-family: var(--uzu-font-mono);
 }
 
 .uzu-editor-mount .uzu-title-pair {
@@ -794,9 +774,11 @@ textarea.uzu-markdown-source {
   line-height: inherit;
 }
 
+.uzu-inline-editor:focus,
 .uzu-inline-editor:focus-visible {
-  border-color: var(--uzu-border-strong);
+  border-color: var(--uzu-fg-strong);
   background: var(--uzu-surface);
+  box-shadow: none;
 }
 
 .uzu-inline-editor.is-empty::before {

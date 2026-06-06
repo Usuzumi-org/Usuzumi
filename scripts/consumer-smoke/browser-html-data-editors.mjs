@@ -43,6 +43,17 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
           <li class="uzu-tree-item is-selected" data-uzu-tree-item data-uzu-tree-value="overview"><div class="uzu-tree-row"><span class="uzu-tree-label" data-uzu-tree-label>Overview</span></div></li>
         </ul>
       </li>
+      <li class="uzu-tree-item" data-uzu-tree-item data-uzu-tree-value="hidden-details">
+        <div class="uzu-tree-row"><button class="uzu-tree-toggle" type="button" data-uzu-tree-toggle aria-label="Toggle hidden details"></button><span class="uzu-tree-label" data-uzu-tree-label>details</span></div>
+        <ul class="uzu-tree-group">
+          <li class="uzu-tree-item" data-uzu-tree-item data-uzu-tree-value="tree-disclosure">
+            <section class="uzu-disclosure is-open" id="consumer-tree-hidden-disclosure" data-uzu-disclosure>
+              <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="true">Tree details</button>
+              <div class="uzu-disclosure-panel" data-uzu-disclosure-panel><div style="min-height: 280px">Disclosure content inside a collapsed tree branch.</div></div>
+            </section>
+          </li>
+        </ul>
+      </li>
     </ul>
     <div class="uzu-split-pane" id="consumer-split-pane" data-uzu-split-pane data-uzu-split-size="40" data-uzu-split-min="20" data-uzu-split-max="80">
       <section class="uzu-split-panel">Left panel</section>
@@ -58,10 +69,13 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
     <pre class="uzu-diff-viewer" id="consumer-diff-viewer" data-uzu-diff-viewer>@@ file
 - old
 + new</pre>
-    <section class="uzu-editor" id="consumer-rich-editor" data-uzu-rich-editor>
-      <div class="uzu-editor-toolbar" role="toolbar" aria-label="Editor tools"><button class="uzu-toolbar-button" type="button" data-uzu-editor-command="bold" data-uzu-editor-toggle>B</button></div>
+    <textarea class="uzu-code-editor" id="consumer-code-editor">const editable = true;</textarea>
+    <textarea class="uzu-plain-editor" id="consumer-plain-editor">Plain editable text</textarea>
+    <section class="uzu-editor" id="consumer-editor" data-uzu-editor>
+      <div class="uzu-editor-toolbar" role="toolbar" aria-label="Editor tools"><button class="uzu-toolbar-button" type="button" data-uzu-editor-command="bold" data-uzu-editor-toggle>B</button><input class="uzu-input uzu-toolbar-link-input" id="consumer-toolbar-link-input" aria-label="Link URL" value="https://example.com"></div>
       <div class="uzu-editor-surface" data-uzu-editor-surface contenteditable="true" role="textbox" aria-multiline="true">Editable text</div>
     </section>
+    <div class="uzu-editor-surface" id="consumer-standalone-editor-surface" contenteditable="true" role="textbox" aria-multiline="true">Standalone editable surface</div>
     <section class="uzu-editor uzu-markdown-editor" id="consumer-markdown-editor" data-uzu-markdown-editor data-uzu-markdown-render>
       <textarea class="uzu-markdown-source" data-uzu-markdown-source># Editor markdown</textarea>
       <div class="uzu-markdown-preview" data-uzu-markdown-preview></div>

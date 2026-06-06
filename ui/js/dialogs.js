@@ -149,6 +149,7 @@
     dialog.setAttribute('aria-modal', 'true');
     if (!dialog.hasAttribute('tabindex')) dialog.setAttribute('tabindex', '-1');
     if (!nested) applyDialogIsolation(dialog);
+    queueDisclosureHeightRefresh(dialog);
     const focusable = getFocusable(dialog);
     (focusable[0] || dialog).focus();
     emitDialogEvent(dialog, 'uzu-dialog-open');

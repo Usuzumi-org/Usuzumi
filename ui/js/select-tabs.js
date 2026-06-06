@@ -60,6 +60,7 @@
     select.classList.remove('is-closing');
     select.classList.add('is-open');
     if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    queueDisclosureHeightRefresh(select);
     const selectedIndex = options.findIndex((option) => option.classList.contains('is-selected'));
     focusSelectOption(select, focusIndex ?? (selectedIndex >= 0 ? selectedIndex : 0));
   }

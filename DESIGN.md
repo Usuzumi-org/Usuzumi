@@ -234,7 +234,7 @@ The native runtime includes lightweight versions of the complex component famili
 - Tree view manages hierarchical focus, selection, expand/collapse state, and matching ARIA level/position attributes.
 - Split pane and resizable panel support pointer and keyboard resizing. Optional persistence keys use local storage.
 - JSON viewer parses JSON into a collapsible tree. Diff viewer renders unified-diff style text into readable rows.
-- Editor surfaces provide shells, toolbar buttons, source/preview regions, plain/code text surfaces, inline editing, and event hooks. They are not full editor engines. Rich text projects should mount Tiptap inside the surface. Markdown projects should use markdown-it for complete rendering and safety policy. Code editing projects should mount CodeMirror 6 inside the editor shell. Add `data-uzu-markdown-render` only for Usuzumi's small built-in preview helper.
+- Editor surfaces provide generic shells, toolbar buttons, source/preview regions, plain/code text surfaces, inline editing, and event hooks. They are not full editor engines. Projects that need document models, history, shortcuts, paste rules, collaboration, complete Markdown policy, or full code editing should mount their own editing or rendering engine inside the shell. Add `data-uzu-markdown-render` only for Usuzumi's small built-in preview helper.
 
 ## Visual Principles
 
@@ -356,6 +356,8 @@ Cards are for repeated bounded objects, compact summaries, controls, static over
 ### Forms
 
 Fields must have real labels. Placeholders are hints, not labels.
+
+Text inputs, textareas, command inputs, combobox inputs, steppers, and editor surfaces use a hard focus border with no blurred shadow or glow. Input groups and steppers are one control surface: `.uzu-input-group` and `.uzu-stepper` own the rounded outer border and focus border, while add-ons, local actions, and stepper buttons stay as attached inner segments.
 
 ```html
 <label class="uzu-field">
@@ -705,7 +707,7 @@ The documentation site and large examples live in `Usuzumi-org/Usuzumi-site`. Ke
 
 ## Accessibility
 
-- Use `:focus-visible` rings from the system. Never remove outlines without replacement.
+- Use `:focus-visible` affordances from the system. Never remove outlines without replacement. Editing surfaces use the system hard-border focus treatment instead of blurred shadow rings.
 - Every interactive element must be reachable by keyboard.
 - Color must not be the only meaning channel.
 - Forms need visible labels.

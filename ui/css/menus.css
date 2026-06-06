@@ -153,6 +153,13 @@
   display: grid;
 }
 
+.uzu-command:focus,
+.uzu-command:focus-visible,
+.uzu-command:focus-within {
+  border-color: var(--uzu-fg-strong);
+  box-shadow: none;
+}
+
 .uzu-command-input {
   width: 100%;
   min-height: 42px;
@@ -163,6 +170,11 @@
   color: var(--uzu-fg);
   font-size: 15px;
   line-height: 1.35;
+}
+
+.uzu-command-input:focus,
+.uzu-command-input:focus-visible {
+  box-shadow: none;
 }
 
 .uzu-command-list {

@@ -39,6 +39,7 @@
     list.hidden = false;
     combobox.classList.add('is-open');
     input.setAttribute('aria-expanded', 'true');
+    queueDisclosureHeightRefresh(list);
     combobox.dispatchEvent(new CustomEvent('uzu-combobox-open', {
       bubbles: true,
       detail: { combobox, input, list }

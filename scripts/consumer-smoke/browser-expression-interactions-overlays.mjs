@@ -47,6 +47,39 @@ const customDestroyTooltipDescription = document.querySelector('#consumer-toolti
 tooltipDestroyRoot.remove();
 const gridToastHeight = document.querySelector('#consumer-grid-toast').getBoundingClientRect().height;
 const gridTallCardHeight = document.querySelector('#consumer-tall-card').getBoundingClientRect().height;
+const toastTrigger = document.querySelector('#consumer-toast-trigger');
+const toastStack = document.querySelector('#consumer-toast-stack');
+const triggeredToastOpenEvents = [];
+toastStack.addEventListener('uzu-toast-open', (event) => {
+  triggeredToastOpenEvents.push(event.detail.toast?.querySelector('h3')?.textContent.trim() || '');
+});
+const triggeredToastInitialCount = toastStack.querySelectorAll('[data-uzu-toast]').length;
+click(toastTrigger);
+await wait(80);
+const triggeredToast = toastStack.querySelector('[data-uzu-toast]');
+const triggeredToastCountAfterOpen = toastStack.querySelectorAll('[data-uzu-toast]').length;
+const triggeredToastTitle = triggeredToast?.querySelector('h3')?.textContent.trim() || '';
+const triggeredToastClose = triggeredToast?.querySelector('[data-uzu-toast-close]');
+const triggeredToastCloseHasSvg = Boolean(triggeredToastClose?.querySelector('svg'));
+const triggeredToastRole = triggeredToast?.getAttribute('role') || '';
+const triggeredToastLive = triggeredToast?.getAttribute('aria-live') || '';
+click(triggeredToastClose);
+await wait(260);
+const triggeredToastRemovedAfterClose = !toastStack.querySelector('[data-uzu-toast]');
+const explicitMissingStackToast = document.createElement('article');
+explicitMissingStackToast.className = 'uzu-toast';
+explicitMissingStackToast.innerHTML = '<div class="uzu-toast-content"><h3>Wrong stack</h3></div><button type="button" data-uzu-toast-close>Close</button>';
+const missingStackToastBeforeCount = toastStack.querySelectorAll('[data-uzu-toast]').length;
+const missingStackToastResult = window.Usuzumi.showToast({
+  toast: explicitMissingStackToast,
+  stack: '#consumer-missing-toast-stack'
+});
+const missingStackToastAfterCount = toastStack.querySelectorAll('[data-uzu-toast]').length;
+const missingStackToastReturnedNull = missingStackToastResult === null;
+const missingStackToastMutated = explicitMissingStackToast.hasAttribute('data-uzu-toast')
+  || explicitMissingStackToast.hasAttribute('role')
+  || explicitMissingStackToast.hasAttribute('aria-live')
+  || explicitMissingStackToast.isConnected;
 click(dialog.querySelector('[data-uzu-dialog-close]'));
 const dialogCloseAnimation = getComputedStyle(dialog).animationName;
 const dialogCloseTransform = getComputedStyle(dialog).transform;

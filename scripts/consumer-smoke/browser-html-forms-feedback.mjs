@@ -18,14 +18,14 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
           <label class="uzu-label" for="consumer-search-input">Search</label>
           <div class="uzu-search" id="consumer-search" data-uzu-search>
             <input class="uzu-input uzu-search-input" id="consumer-search-input" type="search" value="query">
-            <button class="uzu-icon-button uzu-search-clear" type="button" data-uzu-search-clear aria-label="Clear search">x</button>
+            <button class="uzu-icon-button uzu-search-clear" type="button" data-uzu-search-clear aria-label="Clear search"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
           </div>
         </div>
         <div class="uzu-field">
           <label class="uzu-label" for="consumer-password-input">Password</label>
           <div class="uzu-password" id="consumer-password" data-uzu-password>
             <input class="uzu-input uzu-password-input" id="consumer-password-input" type="password" value="secret">
-            <button class="uzu-icon-button uzu-password-toggle" type="button" data-uzu-password-toggle aria-label="Toggle password">**</button>
+            <button class="uzu-icon-button uzu-password-toggle" type="button" data-uzu-password-toggle aria-label="Toggle password"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M3.8 12s3-5.2 8.2-5.2S20.2 12 20.2 12s-3 5.2-8.2 5.2S3.8 12 3.8 12Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.2" stroke="currentColor" stroke-width="1.7"/></svg></button>
           </div>
         </div>
         <div class="uzu-field">
@@ -40,10 +40,12 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
         </div>
       </fieldset>
     </form>
-    <div class="uzu-input-group" id="consumer-input-group"><span class="uzu-input-addon">$</span><input class="uzu-input" value="128"><span class="uzu-input-addon">USD</span></div>
+    <div class="uzu-input-group" id="consumer-input-group"><span class="uzu-input-addon">$</span><input class="uzu-input" value="128"><span class="uzu-select" id="consumer-input-group-currency" data-uzu-select data-uzu-select-name="currency"><button class="uzu-select-trigger" type="button" data-uzu-select-trigger aria-label="Currency"><span data-uzu-select-label>USD</span></button><span class="uzu-select-menu" role="listbox"><span class="uzu-select-option is-selected" data-uzu-select-option data-value="usd" role="option">USD</span><span class="uzu-select-option" data-uzu-select-option data-value="eur" role="option">EUR</span></span></span><button class="uzu-button uzu-input-action" type="button">Apply</button></div>
     <label class="uzu-file-upload" id="consumer-file-upload"><span class="uzu-label">File</span><input class="uzu-file-input" type="file"><span class="uzu-file-summary">Native file input.</span></label>
     <input class="uzu-slider" id="consumer-slider" type="range" value="50">
-    <div class="uzu-select" data-uzu-select data-uzu-select-name="density">
+    <input class="uzu-slider uzu-slider-stepped" id="consumer-slider-stepped" type="range" min="0" max="5" step="1" value="2" data-uzu-slider-stepped>
+    <input class="uzu-slider uzu-slider-stepped" id="consumer-slider-stepped-uneven" type="range" min="0" max="10" step="3" value="6" data-uzu-slider-stepped>
+    <div class="uzu-select" id="consumer-select" data-uzu-select data-uzu-select-name="density">
       <button class="uzu-select-trigger" type="button" data-uzu-select-trigger aria-expanded="false">Balanced</button>
       <div class="uzu-select-menu" role="listbox">
         <div class="uzu-select-option is-selected" data-uzu-select-option data-value="balanced" role="option" aria-selected="true">Balanced</div>

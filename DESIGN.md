@@ -38,12 +38,12 @@ The published `ui/usuzumi.css`, `ui/usuzumi.js`, `ui/usuzumi.min.css`, and `ui/u
 - `ui/css/status.css`: empty, error, and loading states.
 - `ui/css/motion.css`: shared process animation primitives.
 - `ui/css/layout.css`: page containers, sections, top bars, grids, sidebars, hero split, footer.
-- `ui/css/patterns.css`: reusable brand links, language toggles, panel navigation, prose helpers, and small public page patterns.
+- `ui/css/patterns.css`: reusable brand links, language selectors, panel navigation, prose helpers, and small public page patterns.
 - `ui/css/utilities.css`: small utilities and language visibility helpers.
 - `ui/css/forced-colors.css`: high-contrast mode visibility rules.
 - `ui/usuzumi-signature.css`: optional signature font entry for `.uzu-signature` and signature specimens.
 - `ui/js/*.js`: maintainable runtime source modules. They are concatenated into `ui/usuzumi.js` and minified into `ui/usuzumi.min.js`.
-- `ui/usuzumi.js`: generated runtime entry for theme toggles, language toggles, custom selects, tabs, segmented controls, pagination, switches, search, password, steppers, menus, comboboxes, data grids, trees, split/resizable panels, JSON/diff viewers, editor shells, tags, disclosures, accordions, hover cards, dialogs, step navigation, panel navigation, toast dismissal, code copying, and limited Markdown rendering.
+- `ui/usuzumi.js`: generated runtime entry for theme toggles, language selectors, custom selects, tabs, segmented controls, pagination, switches, search, password, steppers, menus, comboboxes, data grids, trees, split/resizable panels, JSON/diff viewers, editor shells, tags, disclosures, accordions, hover cards, popovers, dialogs, step navigation, panel navigation, toast dismissal, code copying, and limited Markdown rendering.
 - `ui/usuzumi.d.ts`: TypeScript declarations for the browser API and custom events.
 
 ## Adoption Modes
@@ -78,19 +78,20 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 
 - `.uzu-button`, `.uzu-button-primary`, `.uzu-button-ghost`, `.uzu-button-danger`
 - `.uzu-text-link`
-- `.uzu-icon-button`, `.uzu-theme-toggle`, `.uzu-floating-controls`
+- `.uzu-icon-button`, `.uzu-theme-toggle`, `.uzu-language-select`, `.uzu-language-trigger`, `.uzu-language-menu`, `.uzu-language-option`, `.uzu-floating-controls`
+- `.uzu-topbar`, `.uzu-brand-link`, `.uzu-nav`, `.uzu-topbar-actions`
 - `.uzu-toolbar`, `.uzu-toolbar-group`, `.uzu-breadcrumb`, `.uzu-pagination`, `.uzu-page-button`
 - `.uzu-card`, `.uzu-card-muted`, `.uzu-title-pair`, `.uzu-stat`, `.uzu-stat-label`, `.uzu-stat-value`, `.uzu-stat-note`
 - `.uzu-list`, `.uzu-list-item`, `.uzu-list-meta`, `.uzu-list-action`, `.uzu-avatar`
 - `.uzu-form`, `.uzu-fieldset`, `.uzu-form-message`, `.uzu-form-error`
 - `.uzu-field`, `.uzu-label`, `.uzu-input`, `.uzu-textarea`, `.uzu-select`, `.uzu-input-group`, `.uzu-input-addon`, `.uzu-input-action`
-- `.uzu-search`, `.uzu-search-input`, `.uzu-search-clear`, `.uzu-password`, `.uzu-password-input`, `.uzu-password-toggle`, `.uzu-file-upload`, `.uzu-file-input`, `.uzu-file-summary`, `.uzu-slider`, `.uzu-stepper`, `.uzu-stepper-input`, `.uzu-stepper-button`
+- `.uzu-search`, `.uzu-search-input`, `.uzu-search-clear`, `.uzu-password`, `.uzu-password-input`, `.uzu-password-toggle`, `.uzu-file-upload`, `.uzu-file-input`, `.uzu-file-summary`, `.uzu-slider`, `.uzu-slider-stepped`, `.uzu-stepper`, `.uzu-stepper-input`, `.uzu-stepper-button`
 - `.uzu-menu`, `.uzu-menu-trigger`, `.uzu-menu-content`, `.uzu-menu-item`, `.uzu-menubar`, `.uzu-menubar-item`, `.uzu-command`, `.uzu-command-input`, `.uzu-command-list`, `.uzu-command-item`
 - `.uzu-tabs`, `.uzu-tab`, `.uzu-segmented`, `.uzu-segment`
 - `.uzu-badge`, `.uzu-tag`, `.uzu-tag-close`, `.uzu-separator`, `.uzu-separator-vertical`, `.uzu-code`, `.uzu-kbd`, `.uzu-alert`, `.uzu-alert-info`, `.uzu-alert-success`, `.uzu-alert-warning`, `.uzu-alert-danger`, `.uzu-callout`, `.uzu-callout-title`, `.uzu-toast`, `.uzu-table`, `.uzu-popover`, `.uzu-modal`, `.uzu-alert-dialog`, `.uzu-dialog-overlay`, `.uzu-drawer`, `.uzu-sheet`
 - `.uzu-progress`, `.uzu-progress-bar`, `.uzu-progress-indeterminate`, `.uzu-progress-circular`, `.uzu-progress-circular-track`, `.uzu-progress-circular-fill`, `.uzu-spinner`, `.uzu-skeleton`
 - `.uzu-activity`, `.uzu-activity-dot`, `.uzu-process`, `.uzu-process-step`, `.uzu-step-nav`, `.uzu-step-nav-item`, `.uzu-step-nav-button`
-- `.uzu-disclosure`, `.uzu-disclosure-trigger`, `.uzu-disclosure-panel`, `.uzu-accordion`, `.uzu-hover-card`, `.uzu-hover-card-content`, `.uzu-tooltip`
+- `.uzu-disclosure`, `.uzu-disclosure-trigger`, `.uzu-disclosure-panel`, `.uzu-accordion`, `.uzu-popover-trigger`, `.uzu-hover-card`, `.uzu-hover-card-content`, `.uzu-tooltip`
 - `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-grid-2`, `.uzu-grid-3`, `.uzu-grid-4`, `.uzu-sidebar-layout`, `.uzu-stack`, `.uzu-flex`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
 - `.uzu-section-centered`, `.uzu-panel`
 - `.uzu-panel-nav`, `.uzu-panel-nav-section`, `.uzu-panel-nav-title`, `.uzu-panel-nav-button`, `.uzu-panel-nav-meta`
@@ -136,12 +137,12 @@ Stable global variables include:
 
 - Color roles: `--uzu-bg`, `--uzu-surface`, `--uzu-surface-soft`, `--uzu-surface-muted`, `--uzu-surface-inset`, `--uzu-fg`, `--uzu-fg-strong`, `--uzu-muted`, `--uzu-subtle`, `--uzu-soft`, `--uzu-disabled`, `--uzu-border`, `--uzu-border-soft`, `--uzu-border-strong`, `--uzu-action-bg`, `--uzu-action-fg`
 - Semantic roles: `--uzu-success`, `--uzu-success-bg`, `--uzu-warning`, `--uzu-warning-bg`, `--uzu-danger`, `--uzu-danger-bg`, `--uzu-info`, `--uzu-info-bg`
-- Surface support: `--uzu-control-bg`, `--uzu-shadow-popover`, `--uzu-focus-ring`
+- Surface support: `--uzu-control-bg`, `--uzu-shadow-popover`, `--uzu-focus-ring`, `--uzu-edit-focus-border`
 - Font stacks: `--uzu-font-serif`, `--uzu-font-signature`, `--uzu-font-mono`
 - Motion: `--uzu-motion-quick`, `--uzu-motion-base`, `--uzu-motion-slow`, `--uzu-ease-standard`
 - Radius: `--uzu-radius-micro`, `--uzu-radius-standard`, `--uzu-radius-medium`, `--uzu-radius-large`, `--uzu-radius-pill`
 - Spacing: `--uzu-space-1`, `--uzu-space-2`, `--uzu-space-3`, `--uzu-space-4`, `--uzu-space-5`, `--uzu-space-6`, `--uzu-space-8`, `--uzu-space-10`
-- Layout, card, and form rhythm: `--uzu-page-max-width`, `--uzu-page-narrow-max-width`, `--uzu-card-title-size`, `--uzu-card-title-line`, `--uzu-card-subtitle-size`, `--uzu-card-subtitle-line`, `--uzu-card-title-gap`, `--uzu-card-block-gap`, `--uzu-field-gap`
+- Layout, card, and form rhythm: `--uzu-page-max-width`, `--uzu-page-narrow-max-width`, `--uzu-topbar-margin-bottom`, `--uzu-topbar-gap`, `--uzu-topbar-actions-gap`, `--uzu-card-title-size`, `--uzu-card-title-line`, `--uzu-card-subtitle-size`, `--uzu-card-subtitle-line`, `--uzu-card-title-gap`, `--uzu-card-block-gap`, `--uzu-field-gap`
 - Local layout primitives: `--uzu-stack-gap`, `--uzu-flex-gap`, `--uzu-aspect-ratio`, `--uzu-scroll-area-max-height`
 
 Stable component variables include:
@@ -150,10 +151,10 @@ Stable component variables include:
 - Callout colors: `--uzu-callout-border-color`, `--uzu-callout-bg`, `--uzu-callout-title-color`, `--uzu-callout-text-color`
 - Toast sizing: `--uzu-toast-width`, `--uzu-toast-inline-padding`, `--uzu-toast-content-end-offset`, `--uzu-toast-action-size`, `--uzu-toast-action-gap`
 - Disclosure spacing: `--uzu-disclosure-panel-block-end-padding`
-- Form and upload sizing: `--uzu-form-gap`, `--uzu-file-upload-min-height`
+- Form, upload, and slider sizing: `--uzu-form-gap`, `--uzu-file-upload-min-height`, `--uzu-slider-track-height`, `--uzu-slider-thumb-size`, `--uzu-slider-track`, `--uzu-slider-track-border`, `--uzu-slider-fill`, `--uzu-slider-thumb`, `--uzu-slider-thumb-border`, `--uzu-slider-step-dot`, `--uzu-slider-step-dot-active`, `--uzu-slider-step-dot-radius`
 - Menu and command sizing: `--uzu-menu-min-width`, `--uzu-menu-offset`, `--uzu-menu-content-width`, `--uzu-command-max-height`
 - Identity and navigation sizing: `--uzu-avatar-size`, `--uzu-sidebar-width`, `--uzu-step-nav-gap`
-- Overlay sizing: `--uzu-hover-card-width`, `--uzu-alert-dialog-accent-color`, `--uzu-drawer-width`, `--uzu-sheet-width`
+- Overlay sizing: `--uzu-popover-width`, `--uzu-popover-offset`, `--uzu-hover-card-width`, `--uzu-alert-dialog-accent-color`, `--uzu-drawer-width`, `--uzu-sheet-width`
 - Loading sizing: `--uzu-spinner-size`, `--uzu-spinner-stroke`
 
 Use `--uzu-space-*` for layout primitives and project-level spacing. Component internals use component-specific rhythm variables when customization is part of the public API.
@@ -162,6 +163,9 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | --- | --- | --- | --- |
 | `--uzu-page-max-width` | `1120px` | `.uzu-page` width | `.uzu-app`, `.uzu-scope`, local page |
 | `--uzu-page-narrow-max-width` | `960px` | `.uzu-page-narrow` width | `.uzu-app`, `.uzu-scope`, local page |
+| `--uzu-topbar-margin-bottom` | `58px` desktop, `54px` narrow screens | `.uzu-topbar` block-end spacing | local topbar or page |
+| `--uzu-topbar-gap` | `24px` | brand/nav/actions gap in `.uzu-topbar` | local topbar or page |
+| `--uzu-topbar-actions-gap` | `8px` | action button gap in `.uzu-topbar-actions` | local topbar or page |
 | `--uzu-card-title-size` | `18px` | `.uzu-title-pair` heading | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-title-line` | `1.25` | `.uzu-title-pair` heading | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-subtitle-size` | `13px` | `.uzu-title-pair` description | `.uzu-app`, `.uzu-scope`, local card |
@@ -169,6 +173,18 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | `--uzu-card-title-gap` | `6px` | title/description rhythm | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-block-gap` | `12px` | repeated card content spacing | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-field-gap` | `5px` | label/input/help spacing | `.uzu-app`, `.uzu-scope`, local form |
+| `--uzu-edit-focus-border` | mixed strong ink and strong border | input and editor focus border | `.uzu-app`, `.uzu-scope`, local form or editor |
+| `--uzu-slider-track-height` | `10px` | slider track height | local slider or form |
+| `--uzu-slider-thumb-size` | `16px` | slider thumb width and height | local slider or form |
+| `--uzu-slider-track` | `color-mix(in srgb, var(--uzu-surface-inset) 76%, var(--uzu-border))` | slider track background | local slider or form |
+| `--uzu-slider-track-border` | `color-mix(in srgb, var(--uzu-border-strong) 54%, transparent)` | slider track border | local slider or form |
+| `--uzu-slider-fill` | `color-mix(in srgb, var(--uzu-fg-strong) 82%, var(--uzu-border))` | slider filled range | local slider or form |
+| `--uzu-slider-thumb` | `var(--uzu-fg-strong)` | slider thumb background | local slider or form |
+| `--uzu-slider-thumb-border` | `var(--uzu-surface)` | slider thumb border | local slider or form |
+| `--uzu-slider-step-dot` | `color-mix(in srgb, var(--uzu-fg) 20%, transparent)` | inactive stepped slider dots | local stepped slider |
+| `--uzu-slider-step-dot-active` | `color-mix(in srgb, var(--uzu-surface) 62%, var(--uzu-slider-fill))` | active stepped slider dots | local stepped slider |
+| `--uzu-slider-step-dot-radius` | `1px` | stepped slider dot radius | local stepped slider |
+| `--uzu-slider-step-ticks` | `none`, runtime generated for stepped sliders | stepped slider tick background | runtime-owned slider state |
 | `--uzu-alert-max-width` | `520px` | alert width | local alert or container |
 | `--uzu-alert-border-color` | `var(--uzu-border)` | alert border | local alert or container |
 | `--uzu-alert-accent-color` | `var(--uzu-border-strong)` | alert left accent | local alert or container |
@@ -192,6 +208,8 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | `--uzu-avatar-size` | `36px` | avatar size | local avatar or container |
 | `--uzu-sidebar-width` | `240px` | sidebar width | local sidebar or layout |
 | `--uzu-step-nav-gap` | `8px` | step navigation gap | local step nav |
+| `--uzu-popover-width` | `280px` | triggered popover width | local popover wrapper |
+| `--uzu-popover-offset` | `6px` | triggered popover distance from trigger | local popover wrapper |
 | `--uzu-hover-card-width` | `260px` | hover card width | local hover card |
 | `--uzu-combobox-list-max-height` | `240px` | combobox popup height | local combobox |
 | `--uzu-split-primary-size` | `50%` | split pane primary panel size | local split pane |
@@ -207,7 +225,7 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | `--uzu-spinner-size` | `18px` | spinner size | local spinner |
 | `--uzu-spinner-stroke` | `2px` | spinner stroke | local spinner |
 
-Runtime-written variables such as `--uzu-tabs-indicator-x`, `--uzu-tabs-indicator-width`, `--uzu-segmented-indicator-x`, `--uzu-segmented-indicator-width`, and `--uzu-disclosure-panel-height` are internal state. They can appear in computed styles, but application code should not set them as customization hooks.
+Runtime-written variables such as `--uzu-tabs-indicator-x`, `--uzu-tabs-indicator-width`, `--uzu-segmented-indicator-x`, `--uzu-segmented-indicator-width`, `--uzu-disclosure-panel-height`, and `--uzu-slider-step-ticks` are internal state. They can appear in computed styles, but application code should not set them as customization hooks.
 
 If a project repeatedly needs a size or behavior that is not covered here, add a small component variable to `ui/css/*.css`, rebuild `ui/usuzumi.css`, and document it in this section. Do not solve that gap with example-page CSS.
 
@@ -269,7 +287,8 @@ Usuzumi should feel like a carefully typeset independent publication that can al
 | Soft Text | `--uzu-soft` | `#8a8a85` | Decorative captions, section labels. Not for long-form readable text |
 | Default Border | `--uzu-border` | `#dad9d5` | Cards, controls, dividers |
 | Soft Border | `--uzu-border-soft` | `#e5e4e0` | Internal dividers |
-| Strong Border | `--uzu-border-strong` | `#aaa9a2` | Focus and hover support |
+| Strong Border | `--uzu-border-strong` | `#aaa9a2` | Hover support and stronger dividers |
+| Edit Focus Border | `--uzu-edit-focus-border` | mixed | Hard focus border for inputs and editor surfaces |
 | Primary Action | `--uzu-action-bg` | `#2f2f2c` | Filled primary action |
 | Action Text | `--uzu-action-fg` | `#f7f6f1` | Text on charcoal action |
 
@@ -357,7 +376,7 @@ Cards are for repeated bounded objects, compact summaries, controls, static over
 
 Fields must have real labels. Placeholders are hints, not labels.
 
-Text inputs, textareas, command inputs, combobox inputs, steppers, and editor surfaces use a hard focus border with no blurred shadow or glow. Input groups and steppers are one control surface: `.uzu-input-group` and `.uzu-stepper` own the rounded outer border and focus border, while add-ons, local actions, and stepper buttons stay as attached inner segments.
+Text inputs, textareas, command inputs, combobox inputs, steppers, and editor surfaces use `--uzu-edit-focus-border` for a hard focus border with no blurred shadow or glow. The token is mixed from strong ink and strong border so dark mode does not flash a near-white edit border. Input groups and steppers are one control surface: `.uzu-input-group` and `.uzu-stepper` own the rounded outer border and show the edit focus border only when their editable input is focused, while add-ons, selectable suffixes, local actions, and stepper buttons stay as attached inner segments with their own focus affordance. Use `.uzu-input-addon` only for fixed text; when a suffix can vary, compose a nested `.uzu-select[data-uzu-select]` inside the input group.
 
 ```html
 <label class="uzu-field">
@@ -384,9 +403,11 @@ Validation belongs to the field, not just the message:
 
 Use `disabled` and `readonly` attributes for non-editable controls. Disabled controls reduce contrast and remove pointer affordance; read-only controls remain readable.
 
+Sliders use `.uzu-slider` on native `input[type="range"]` so keyboard, min/max, form value, and validation behavior stay native. For finite choices, add `.uzu-slider-stepped` plus `data-uzu-slider-stepped`; the runtime reads `min`, `max`, and `step` to generate marker dots while keeping the input as a real range control. Stepped sliders keep the same base track and thumb as continuous sliders; marker dots stay within the thumb travel range instead of stretching to the visual edges.
+
 ### Navigation
 
-Top navigation uses `.uzu-topbar` and `.uzu-nav`. Use `.uzu-tabs` for peer sections and `.uzu-segmented` for compact mode switches.
+Top navigation uses `.uzu-topbar` for the row, `.uzu-brand-link` for the brand, `.uzu-nav` for links, and `.uzu-topbar-actions` for compact page controls. The nav slot grows through the center of the row, while `.uzu-topbar-actions` stays at the inline end for theme toggles and language selectors. Use `.uzu-tabs` for peer sections and `.uzu-segmented` for compact mode switches.
 
 Tabs and segmented controls are static visual primitives by default. Add `data-uzu-tabs` or `data-uzu-segmented` when the runtime should manage the active state, keyboard arrow navigation, ARIA state, animated active indicators, and change events.
 
@@ -404,7 +425,7 @@ Tabs and segmented controls are static visual primitives by default. Add `data-u
 
 ### Feedback
 
-Badges, alerts, callouts, toasts, and validation use the muted semantic families. State should be carried by text, ARIA, and layout as well as color. Alerts provide `.uzu-alert-info`, `.uzu-alert-success`, `.uzu-alert-warning`, and `.uzu-alert-danger` presets. Alerts and callouts also expose color custom properties for project-specific tones; prefer those variables over selector overrides. Toasts use `.uzu-toast-stack` and `.uzu-toast`; close buttons use `data-uzu-toast-close`. The runtime fills default `role="status"`, `aria-live="polite"`, and `aria-atomic="true"` when authors have not set them.
+Badges, alerts, callouts, toasts, and validation use the muted semantic families. State should be carried by text, ARIA, and layout as well as color. Alerts provide `.uzu-alert-info`, `.uzu-alert-success`, `.uzu-alert-warning`, and `.uzu-alert-danger` presets. Alerts and callouts also expose color custom properties for project-specific tones; prefer those variables over selector overrides. Toasts use `.uzu-toast-stack` and `.uzu-toast`; close buttons use icon-only `.uzu-icon-button` controls with `data-uzu-toast-close`. Use `data-uzu-toast-trigger`, `data-uzu-toast-template`, and `data-uzu-toast-stack` when a toast should be created after a user action. The runtime fills default `role="status"`, `aria-live="polite"`, and `aria-atomic="true"` when authors have not set them.
 
 Use `.uzu-callout` for editorial notes, constraints, and secondary context that belongs in the reading flow. Callouts are not alerts: they should not announce urgent errors, destructive states, or time-sensitive feedback. Use `.uzu-callout-note`, `.uzu-callout-info`, or `.uzu-callout-warning` to adjust the tone while keeping the message text-led.
 
@@ -419,7 +440,7 @@ Use `.uzu-callout` for editorial notes, constraints, and secondary context that 
 
 Use `.uzu-breadcrumb` for page hierarchy, `.uzu-toolbar` with `.uzu-toolbar-group` for local actions, and `.uzu-pagination` with `.uzu-page-button` for paged lists. Page buttons are fixed square controls with rounded corners, so keep the visible label to a page number, ellipsis, or compact symbol and put longer meaning in `aria-label`. Mark the current breadcrumb or page with `aria-current="page"`. Add `data-uzu-pagination` when the runtime should manage active page state, previous/next buttons, and optional `data-uzu-page-panel` content. Toolbars may use native buttons, links styled as `.uzu-button`, or icon buttons when the action has an accessible name.
 
-Use `.uzu-panel-nav` with `data-uzu-panel-nav` for side navigation that switches `.uzu-panel` sections. Use `.uzu-code-block` for copyable code snippets: add `data-uzu-code-language` or a `language-*` class to the `code` or `pre` element, let `Usuzumi.init()` write Usuzumi token spans, and keep `data-uzu-code-source` as the plain copy value. Use `window.Usuzumi.listCodeLanguages()` and `window.Usuzumi.hasCodeLanguage(language)` when a page needs to expose or validate the bundled language set. Set `--uzu-code-block-bg`, `--uzu-code-block-fg`, and `--uzu-code-token-*` variables on the block when a page needs different code colors. Use `.uzu-prose[data-uzu-markdown]` for the built-in Markdown subset. The Markdown renderer intentionally supports only headings, paragraphs, unordered lists, links, inline code, and fenced code blocks; full Markdown documents should still be generated by a dedicated documentation pipeline.
+Use `.uzu-panel-nav` with `data-uzu-panel-nav` for side navigation that switches `.uzu-panel` sections. Use `.uzu-code-block` for copyable code snippets: add `data-uzu-code-language` or a `language-*` class to the `code` or `pre` element, let `Usuzumi.init()` write Usuzumi token spans, and keep `data-uzu-code-source` as the plain copy value. If one code block carries multiple `[data-lang]` snippets, the copy control should follow the currently visible language. Use `window.Usuzumi.listCodeLanguages()` and `window.Usuzumi.hasCodeLanguage(language)` when a page needs to expose or validate the bundled language set. Set `--uzu-code-block-bg`, `--uzu-code-block-fg`, and `--uzu-code-token-*` variables on the block when a page needs different code colors. Use `.uzu-prose[data-uzu-markdown]` for the built-in Markdown subset. The Markdown renderer intentionally supports only headings, paragraphs, unordered lists, links, inline code, and fenced code blocks; full Markdown documents should still be generated by a dedicated documentation pipeline.
 
 ```html
 <nav aria-label="Breadcrumb">
@@ -486,7 +507,7 @@ Data grids start from the same table markup and add `data-uzu-data-grid` to the 
 
 ### Overlays
 
-Use `.uzu-popover` and `.uzu-modal` for overlay surfaces. Overlay shadows are allowed, but standard cards should remain flat. Dialog behavior uses `data-uzu-dialog-target`, `data-uzu-dialog-overlay`, `data-uzu-dialog`, and `data-uzu-dialog-close`. The runtime handles Escape, backdrop clicks, focus return, a small focus trap, background `inert` isolation, page scroll locking, and open/close animation timing.
+Use `.uzu-popover` and `.uzu-modal` for overlay surfaces. Overlay shadows are allowed, but standard cards should remain flat. Triggered popovers use a `data-uzu-popover` wrapper, a `data-uzu-popover-trigger` button, and a `.uzu-popover[data-uzu-popover-content]` layer. The wrapper provides the positioning scope, supports `data-uzu-popover-align="end"`, and the runtime toggles `hidden`, `is-open`, and `aria-expanded`, then closes on Escape or outside click. Dialog behavior uses `data-uzu-dialog-target`, `data-uzu-dialog-overlay`, `data-uzu-dialog`, and `data-uzu-dialog-close`. The runtime handles Escape, backdrop clicks, focus return, a small focus trap, background `inert` isolation, page scroll locking, and open/close animation timing.
 
 Nested dialogs are supported when the nested overlay lives inside the active dialog. Closing the nested dialog returns focus to its trigger and keeps the parent dialog isolated; closing the parent releases scroll locking and background isolation.
 
@@ -543,13 +564,21 @@ For containers that receive components after page load, add `data-uzu-auto-init`
 
 Place the inline theme boot script before the stylesheet so it can resolve the persisted `data-theme-mode` (`auto`, `light`, or `dark`) into `data-theme` / `data-uzu-theme` (`light` or `dark`) before CSS loads. The deferred script cycles `light -> dark -> auto -> light` and persists the mode under the root `data-uzu-theme-key`. Use `data-uzu-theme-target` to target a scoped element. If omitted, the document root is used. Toggle icon state is synchronized through `.is-dark` and `.is-auto`, so scoped toggles do not inherit the visual state of an unrelated dark ancestor.
 
-### Language Toggle
+### Language Selector
 
 ```html
-<button class="uzu-icon-button uzu-language-toggle" data-uzu-language-toggle>EN</button>
+<span class="uzu-language-select" data-uzu-language-select data-uzu-language-key="site-language">
+  <button class="uzu-icon-button uzu-language-trigger" type="button" data-uzu-language-trigger aria-label="Language">
+    Language
+  </button>
+  <span class="uzu-language-menu" data-uzu-language-menu>
+    <button class="uzu-language-option is-selected" type="button" data-uzu-language-option data-uzu-language-value="en" data-uzu-language-html-lang="en">English</button>
+    <button class="uzu-language-option" type="button" data-uzu-language-option data-uzu-language-value="ja" data-uzu-language-html-lang="ja">Japanese</button>
+  </span>
+</span>
 ```
 
-The script toggles `data-language` and `data-uzu-lang`. Content can be marked with `data-lang="zh"` and `data-lang="en"`.
+The script writes `data-language`, `data-uzu-lang`, and `lang` on the target root. Use `data-uzu-language-target` when a selector should control a scoped container instead of the document root. Content can be marked with `data-lang="en"`, `data-lang="ja"`, or any other language value. Static markup should add `data-uzu-language-hidden` to fragments outside the initial language so deferred scripts do not reveal multiple languages on first paint.
 
 ### Custom Select
 
@@ -584,6 +613,7 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 ### Custom Events
 
 - `uzu-select-change`: `{ value, label, option, select }`
+- `uzu-language-change`: `{ language, previousLanguage, htmlLang, key, option, select, root }`
 - `uzu-tabs-change`: `{ value, tab, tabs, index, panel }`
 - `uzu-segmented-change`: `{ value, segment, segmented, index }`
 - `uzu-pagination-change`: `{ value, page, pagination, index, panel }`
@@ -610,8 +640,10 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 - `uzu-disclosure-change`: `{ open, disclosure }`
 - `uzu-accordion-change`: `{ open, accordion, disclosure }`
 - `uzu-hover-card-open` / `uzu-hover-card-close`: `{ hoverCard, trigger, content }`
+- `uzu-popover-open` / `uzu-popover-close`: `{ popover, trigger, content }`
 - `uzu-tag-change`: `{ selected, tag, value }`
 - `uzu-tag-close`: `{ tag, closeButton, value }`
+- `uzu-toast-open`: `{ toast, stack }`
 - `uzu-toast-close`: `{ toast }`
 - `uzu-dialog-open` / `uzu-dialog-close`: `{ dialog, overlay, trigger }`
 - `uzu-step-nav-change`: `{ value, step, stepNav, index }`
@@ -667,7 +699,9 @@ The catalog page should demonstrate generic system primitives only. It must not 
 
 ### Documentation Page
 
-Use public primitives for component catalogs, API references, and long documentation pages that need persistent navigation plus one main reading column. Documentation pages should compose `.uzu-page`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`.
+Use public primitives for component catalogs, API references, and long documentation pages that need persistent navigation plus one main reading column. Documentation pages should compose `.uzu-page`, `.uzu-topbar`, `.uzu-nav`, `.uzu-topbar-actions`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`.
+
+Component catalogs are consumers of the library. They should not add catalog-only selectors, runtime hooks, or hidden documentation generators to `ui/`. Each component entry should keep a real preview/code switch, a copyable snippet, two concise guidance notes, and a concrete interface table. Use `.uzu-code` for inline class, attribute, ARIA, role, and token names; do not leave markdown backticks, ellipsis placeholders, or template categories such as "Base Interface" in visible docs. Merge closely related public controls into one panel when it improves comprehension, as with topbar, theme toggle, and language selector.
 
 ```html
 <main class="uzu-page">
@@ -711,7 +745,7 @@ The documentation site and large examples live in `Usuzumi-org/Usuzumi-site`. Ke
 - Every interactive element must be reachable by keyboard.
 - Color must not be the only meaning channel.
 - Forms need visible labels.
-- Theme and language toggles must remain focusable.
+- Theme toggles and language selectors must remain focusable.
 - Respect `prefers-reduced-motion`.
 - Respect `forced-colors` where possible.
 - Soft borders are aesthetic and not sufficient as the only interactive affordance.

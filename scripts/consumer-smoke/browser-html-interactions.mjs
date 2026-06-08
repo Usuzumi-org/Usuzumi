@@ -54,11 +54,37 @@ export const consumerInteractionsHtml = `    <div class="uzu-menu" id="consumer-
         </section>
       </div>
     </div>
+    <div id="consumer-popover" data-uzu-popover>
+      <button class="uzu-button uzu-popover-trigger" type="button" data-uzu-popover-trigger>View settings</button>
+      <aside class="uzu-popover uzu-stack uzu-gap-3" data-uzu-popover-content aria-labelledby="consumer-popover-title">
+        <div class="uzu-title-pair">
+          <h3 id="consumer-popover-title">Display options</h3>
+          <p>Small settings beside a trigger.</p>
+        </div>
+        <section class="uzu-disclosure is-open" id="consumer-popover-hidden-disclosure" data-uzu-disclosure>
+          <button class="uzu-disclosure-trigger" type="button" data-uzu-disclosure-trigger aria-expanded="true">Popover details</button>
+          <div class="uzu-disclosure-panel" data-uzu-disclosure-panel><div style="min-height: 280px">Disclosure content inside a popover.</div></div>
+        </section>
+      </aside>
+    </div>
     <span class="uzu-tag" id="consumer-tag-static" data-uzu-tag>Docs</span>
     <button class="uzu-tag is-selected" id="consumer-tag-selectable" type="button" data-uzu-tag data-uzu-tag-selectable="true" data-uzu-tag-value="active" aria-pressed="true">Active</button>
     <span class="uzu-tag" id="consumer-tag-closeable" data-uzu-tag data-uzu-tag-value="filter">Filter<button class="uzu-tag-close" type="button" data-uzu-tag-close aria-label="Remove filter">x</button></span>
     <section class="uzu-empty-state" id="consumer-empty-state"><div class="uzu-title-pair"><h3>No projects</h3><p>Create one to continue.</p></div></section>
     <section class="uzu-error-state" id="consumer-error-state" role="alert"><div class="uzu-title-pair"><h3>Load failed</h3><p>Try again.</p></div></section>
+    <button class="uzu-button" id="consumer-toast-trigger" type="button" data-uzu-toast-trigger data-uzu-toast-template="#consumer-toast-template" data-uzu-toast-stack="#consumer-toast-stack">Show toast</button>
+    <div class="uzu-toast-stack uzu-toast-stack-inline" id="consumer-toast-stack" data-uzu-toast-stack></div>
+    <template id="consumer-toast-template">
+      <article class="uzu-toast" data-uzu-toast>
+        <div class="uzu-toast-content">
+          <div class="uzu-title-pair">
+            <h3>Triggered</h3>
+            <p>Created from a public toast trigger.</p>
+          </div>
+        </div>
+        <button class="uzu-icon-button uzu-toast-close" type="button" data-uzu-toast-close aria-label="Dismiss triggered toast"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      </article>
+    </template>
     <article class="uzu-toast" data-uzu-toast>
       <div class="uzu-toast-content">
         <div class="uzu-title-pair">
@@ -66,7 +92,7 @@ export const consumerInteractionsHtml = `    <div class="uzu-menu" id="consumer-
           <p>Dismissible toast message with a longer body line for wrapping checks.</p>
         </div>
       </div>
-      <button class="uzu-icon-button uzu-toast-close" type="button" data-uzu-toast-close aria-label="Dismiss toast">x</button>
+      <button class="uzu-icon-button uzu-toast-close" type="button" data-uzu-toast-close aria-label="Dismiss toast"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
     </article>
     <div class="uzu-grid uzu-grid-2">
       <article class="uzu-card" id="consumer-tall-card" style="min-height: 180px">Tall sibling</article>
@@ -77,6 +103,6 @@ export const consumerInteractionsHtml = `    <div class="uzu-menu" id="consumer-
             <p>Compact grid toast.</p>
           </div>
         </div>
-        <button class="uzu-icon-button uzu-toast-close" type="button" data-uzu-toast-close aria-label="Dismiss grid toast">x</button>
+        <button class="uzu-icon-button uzu-toast-close" type="button" data-uzu-toast-close aria-label="Dismiss grid toast"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       </article>
     </div>`;

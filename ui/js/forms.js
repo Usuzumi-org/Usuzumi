@@ -266,7 +266,32 @@
     const value = Number.parseFloat(slider.value || '0');
     const range = max - min;
     const percent = range ? ((value - min) / range) * 100 : 0;
-    slider.style.setProperty('--uzu-slider-value', `${Math.min(100, Math.max(0, percent))}%`);
+    const clampedPercent = Math.min(100, Math.max(0, percent));
+    slider.style.setProperty('--uzu-slider-value', `${clampedPercent}%`);
+    syncSliderSteps(slider, min, max, value, range);
+  }
+
+  function syncSliderSteps(slider, min, max, value, range) {
+    const stepped = slider.classList.contains('uzu-slider-stepped') || slider.hasAttribute('data-uzu-slider-stepped');
+    const stepAttr = slider.getAttribute('step');
+    const step = stepAttr !== 'any' ? Number.parseFloat(stepAttr || '1') : NaN;
+    const stepCount = range > 0 && Number.isFinite(step) && step > 0 ? Math.floor(range / step) + 1 : 0;
+    if (!stepped || stepCount < 2 || stepCount > 64) {
+      slider.style.setProperty('--uzu-slider-step-count', '0');
+      slider.style.setProperty('--uzu-slider-step-ticks', 'none');
+      return;
+    }
+
+    const clampedValue = Math.min(range, Math.max(0, value - min));
+    const valueIndex = Math.round(clampedValue / step);
+    const ticks = Array.from({ length: stepCount }, (_, index) => {
+      const stepValue = Math.min(range, index * step);
+      const position = (stepValue / range) * 100;
+      const color = index <= valueIndex ? 'var(--uzu-slider-step-dot-active)' : 'var(--uzu-slider-step-dot)';
+      return `radial-gradient(circle at ${position}% 50%, ${color} 0 var(--uzu-slider-step-dot-radius), transparent calc(var(--uzu-slider-step-dot-radius) + 1px))`;
+    });
+    slider.style.setProperty('--uzu-slider-step-count', String(stepCount));
+    slider.style.setProperty('--uzu-slider-step-ticks', ticks.join(', '));
   }
 
   function initSliders(root = document) {

@@ -42,9 +42,13 @@ const pageWidthCustom = pageWidthTarget.getBoundingClientRect().width;
 const tabs = document.querySelector('[data-uzu-tabs]');
 const segmented = document.querySelector('[data-uzu-segmented]');
 const paginationRoot = document.querySelector('#consumer-pagination');
-const select = document.querySelector('[data-uzu-select]');
-const selectTrigger = document.querySelector('[data-uzu-select-trigger]');
-const selectMenu = document.querySelector('.uzu-select-menu');
+const languageSelect = document.querySelector('#consumer-language-select');
+const languageTrigger = document.querySelector('#consumer-language-trigger');
+const languageMenu = document.querySelector('#consumer-language-menu');
+const languageEnglishOption = document.querySelector('#consumer-language-en');
+const select = document.querySelector('#consumer-select');
+const selectTrigger = select.querySelector('[data-uzu-select-trigger]');
+const selectMenu = select.querySelector('.uzu-select-menu');
 const combobox = document.querySelector('#consumer-combobox');
 const comboboxInput = combobox.querySelector('[data-uzu-combobox-input]');
 const comboboxList = combobox.querySelector('[data-uzu-combobox-list]');
@@ -102,14 +106,40 @@ const commandInput = command.querySelector('[data-uzu-command-input]');
 const accordion = document.querySelector('#consumer-accordion');
 const stepNav = document.querySelector('#consumer-step-nav');
 const hoverCard = document.querySelector('#consumer-hover-card');
+const popover = document.querySelector('#consumer-popover');
+const popoverTrigger = popover.querySelector('[data-uzu-popover-trigger]');
+const popoverContent = popover.querySelector('[data-uzu-popover-content]');
 const tagSelectable = document.querySelector('#consumer-tag-selectable');
 const tagCloseable = document.querySelector('#consumer-tag-closeable');
 const consumerForm = document.querySelector('#consumer-form');
 const consumerRequiredField = document.querySelector('#consumer-required-field');
 const consumerRequiredInput = document.querySelector('#consumer-required-input');
+const canContainProbe = (element) => element && !['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(element.tagName);
+const readResolvedBorderToken = (token, context = document.body) => {
+  const host = canContainProbe(context) ? context : context?.parentElement || document.body;
+  const probe = document.createElement('span');
+  probe.style.cssText = 'position:fixed;left:-9999px;top:-9999px;border:1px solid var(' + token + ');';
+  host.append(probe);
+  const value = getComputedStyle(probe).borderTopColor;
+  probe.remove();
+  return value;
+};
+const readResolvedColorValue = (value, context = document.body) => {
+  if (!value) return '';
+  const host = canContainProbe(context) ? context : context?.parentElement || document.body;
+  const probe = document.createElement('span');
+  probe.style.cssText = 'position:fixed;left:-9999px;top:-9999px;border:1px solid transparent;';
+  probe.style.borderTopColor = value;
+  host.append(probe);
+  const resolved = getComputedStyle(probe).borderTopColor;
+  probe.remove();
+  return resolved;
+};
 const readFocusProbe = async (target, surface = target, borderProperty = 'borderTopColor') => {
   const beforeStyle = getComputedStyle(surface);
   const beforeBorderColor = beforeStyle[borderProperty];
+  const editFocusBorderColor = readResolvedBorderToken('--uzu-edit-focus-border', surface);
+  const fgStrongColor = readResolvedBorderToken('--uzu-fg-strong', surface);
   target.focus();
   await wait(0);
   const surfaceStyle = getComputedStyle(surface);
@@ -121,11 +151,20 @@ const readFocusProbe = async (target, surface = target, borderProperty = 'border
     borderTopColor: surfaceStyle.borderTopColor,
     borderRightColor: surfaceStyle.borderRightColor,
     boxShadow: surfaceStyle.boxShadow,
-    targetBoxShadow: targetStyle.boxShadow
+    targetBoxShadow: targetStyle.boxShadow,
+    editFocusBorderColor,
+    fgStrongColor
   };
   target.blur();
   await wait(0);
   return probe;
+};
+const focusVisible = (target) => {
+  try {
+    target.focus({ focusVisible: true });
+  } catch (_) {
+    target.focus();
+  }
 };
 const readDisclosureTargetHeight = (selector) => Number.parseFloat(document.querySelector(selector)?.style.getPropertyValue('--uzu-disclosure-panel-height') || '0');
 menu.addEventListener('uzu-menu-select', (event) => newEvents.push('menu:' + event.detail.value));
@@ -150,6 +189,8 @@ inlineEditor.addEventListener('uzu-inline-editor-change', () => newEvents.push('
 accordion.addEventListener('uzu-accordion-change', (event) => newEvents.push('accordion:' + event.detail.open));
 stepNav.addEventListener('uzu-step-nav-change', (event) => newEvents.push('step-nav:' + event.detail.value));
 hoverCard.addEventListener('uzu-hover-card-open', () => newEvents.push('hover:open'));
+popover.addEventListener('uzu-popover-open', () => newEvents.push('popover:open'));
+popover.addEventListener('uzu-popover-close', () => newEvents.push('popover:close'));
 tagSelectable.addEventListener('uzu-tag-change', (event) => newEvents.push('tag:' + event.detail.selected));
 tagCloseable.addEventListener('uzu-tag-close', (event) => newEvents.push('tag-close:' + event.detail.value));
 consumerForm.addEventListener('uzu-form-validate', (event) => newEvents.push('form:' + event.detail.valid));
@@ -158,4 +199,5 @@ segmented.addEventListener('uzu-segmented-change', (event) => events.push(event.
 paginationRoot.addEventListener('uzu-pagination-change', (event) => events.push('page:' + event.detail.value));
 password.addEventListener('uzu-password-toggle', (event) => events.push('password:' + event.detail.visible));
 stepper.addEventListener('uzu-stepper-change', (event) => events.push('stepper:' + event.detail.value));
+languageSelect.addEventListener('uzu-language-change', (event) => events.push('language:' + event.detail.language + ':' + event.detail.previousLanguage + ':' + event.detail.htmlLang));
 `;

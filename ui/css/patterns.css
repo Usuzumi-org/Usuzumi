@@ -3,12 +3,110 @@
   text-decoration: none;
 }
 
-.uzu-app .uzu-language-toggle,
-.uzu-scope .uzu-language-toggle {
-  font-size: 10px;
-  line-height: 1;
-  letter-spacing: 0;
-  text-transform: uppercase;
+.uzu-language-select {
+  --uzu-language-menu-min-width: 174px;
+  --uzu-language-menu-offset: 6px;
+  position: relative;
+  display: inline-flex;
+}
+
+.uzu-language-trigger svg {
+  width: 18px;
+  height: 18px;
+}
+
+.uzu-language-menu {
+  position: absolute;
+  z-index: 42;
+  top: calc(100% + var(--uzu-language-menu-offset));
+  right: 0;
+  min-width: var(--uzu-language-menu-min-width);
+  max-width: min(260px, calc(100vw - 32px));
+  padding: 6px;
+  border: 1px solid var(--uzu-border-soft);
+  border-radius: var(--uzu-radius-medium);
+  background: var(--uzu-surface);
+  color: var(--uzu-fg);
+  box-shadow: var(--uzu-shadow-popover);
+  display: grid;
+  gap: 2px;
+}
+
+.uzu-language-select[data-uzu-language-align="start"] .uzu-language-menu {
+  right: auto;
+  left: 0;
+}
+
+.uzu-language-menu[hidden],
+.uzu-language-select:not(.is-open):not(.is-closing) .uzu-language-menu {
+  display: none;
+}
+
+.uzu-language-select.is-open .uzu-language-menu {
+  animation: uzu-menu-in var(--uzu-motion-quick) var(--uzu-ease-standard);
+}
+
+.uzu-language-select.is-closing .uzu-language-menu {
+  pointer-events: none;
+  animation: uzu-menu-out var(--uzu-motion-quick) var(--uzu-ease-standard) forwards;
+}
+
+.uzu-language-option {
+  min-height: 40px;
+  width: 100%;
+  padding: 8px 10px 8px 12px;
+  border: 0;
+  border-radius: var(--uzu-radius-standard);
+  background: transparent;
+  color: var(--uzu-fg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 15px;
+  line-height: 1.35;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+}
+
+.uzu-language-option:hover,
+.uzu-language-option:focus-visible,
+.uzu-language-option.is-active,
+.uzu-language-option.is-selected,
+.uzu-language-option[aria-selected="true"] {
+  background: var(--uzu-surface-soft);
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-language-option.is-selected,
+.uzu-language-option[aria-selected="true"] {
+  font-weight: 700;
+}
+
+.uzu-language-option::after {
+  content: "";
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+
+.uzu-language-option.is-selected::after,
+.uzu-language-option[aria-selected="true"]::after {
+  content: "";
+  width: 15px;
+  height: 9px;
+  border-left: 1.7px solid currentColor;
+  border-bottom: 1.7px solid currentColor;
+  transform: translateY(-1px) rotate(-45deg);
+}
+
+.uzu-language-option:disabled,
+.uzu-language-option[aria-disabled="true"] {
+  color: var(--uzu-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .uzu-panel {

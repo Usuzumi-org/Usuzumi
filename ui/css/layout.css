@@ -49,13 +49,30 @@
 
 .uzu-topbar {
   min-height: 38px;
-  margin-bottom: 58px;
+  margin-bottom: var(--uzu-topbar-margin-bottom, 58px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: var(--uzu-topbar-gap, 24px);
   color: var(--uzu-muted);
   font-size: 13px;
+}
+
+.uzu-topbar > * {
+  min-width: 0;
+}
+
+.uzu-topbar > .uzu-nav {
+  flex: 1 1 auto;
+}
+
+.uzu-topbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: var(--uzu-topbar-actions-gap, 8px);
 }
 
 .uzu-nav {
@@ -177,6 +194,7 @@
   max-height: var(--uzu-scroll-area-max-height);
   min-width: 0;
   overflow: auto;
+  scrollbar-gutter: stable;
 }
 
 .uzu-sidebar {
@@ -186,6 +204,10 @@
   display: grid;
   align-content: start;
   gap: var(--uzu-space-5);
+}
+
+.uzu-sidebar.uzu-scroll-area {
+  padding-inline-end: var(--uzu-space-3);
 }
 
 .uzu-sidebar-section {
@@ -320,13 +342,17 @@
   }
 
   .uzu-topbar {
-    margin-bottom: 54px;
+    margin-bottom: var(--uzu-topbar-margin-bottom, 54px);
     align-items: flex-start;
     flex-direction: column;
     gap: 16px;
   }
 
   .uzu-nav {
+    justify-content: flex-start;
+  }
+
+  .uzu-topbar-actions {
     justify-content: flex-start;
   }
 

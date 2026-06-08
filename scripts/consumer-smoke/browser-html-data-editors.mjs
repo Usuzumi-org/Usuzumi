@@ -86,12 +86,15 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
     </section>
     <span class="uzu-inline-editor" id="consumer-inline-editor" data-uzu-inline-editor data-placeholder="Untitled">Inline text</span>
     <span class="uzu-avatar" id="consumer-avatar" aria-label="Usuzumi">U</span>
-    <aside class="uzu-sidebar" id="consumer-sidebar" aria-label="Consumer sidebar">
+    <aside class="uzu-sidebar uzu-scroll-area" id="consumer-sidebar" style="--uzu-scroll-area-max-height: 72px" aria-label="Consumer sidebar">
       <section class="uzu-sidebar-section">
         <p class="uzu-micro-label">Project</p>
         <ul class="uzu-sidebar-nav">
           <li><a href="#overview" aria-current="page">Overview</a></li>
           <li><button type="button">Settings</button></li>
+          <li><button type="button">Members</button></li>
+          <li><button type="button">Deployments</button></li>
+          <li><button type="button">Billing</button></li>
         </ul>
       </section>
     </aside>

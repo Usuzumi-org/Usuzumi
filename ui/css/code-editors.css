@@ -436,7 +436,7 @@ pre.uzu-code-block-body {
 .uzu-editor:focus,
 .uzu-editor:focus-visible,
 .uzu-editor:focus-within {
-  border-color: var(--uzu-fg-strong);
+  border-color: var(--uzu-edit-focus-border);
   box-shadow: none;
 }
 
@@ -484,7 +484,7 @@ pre.uzu-code-block-body {
 
 .uzu-toolbar-link-input:focus,
 .uzu-toolbar-link-input:focus-visible {
-  border-color: var(--uzu-fg-strong);
+  border-color: var(--uzu-edit-focus-border);
   box-shadow: none;
 }
 
@@ -563,7 +563,7 @@ pre.uzu-code-block-body {
 
 .uzu-editor-surface:focus,
 .uzu-editor-surface:focus-visible {
-  border-color: var(--uzu-fg-strong);
+  border-color: var(--uzu-edit-focus-border);
   box-shadow: none;
 }
 
@@ -578,7 +578,7 @@ pre.uzu-code-block-body {
 .uzu-plain-editor:focus,
 .uzu-code-editor:focus-visible,
 .uzu-plain-editor:focus-visible {
-  border-color: var(--uzu-fg-strong);
+  border-color: var(--uzu-edit-focus-border);
   box-shadow: none;
 }
 
@@ -619,7 +619,8 @@ textarea.uzu-markdown-source {
 
 .uzu-markdown-source:focus,
 .uzu-markdown-source:focus-visible {
-  border-right-color: var(--uzu-fg-strong);
+  border-right-color: var(--uzu-edit-focus-border);
+  border-bottom-color: var(--uzu-edit-focus-border);
   box-shadow: none;
 }
 
@@ -776,7 +777,7 @@ textarea.uzu-markdown-source {
 
 .uzu-inline-editor:focus,
 .uzu-inline-editor:focus-visible {
-  border-color: var(--uzu-fg-strong);
+  border-color: var(--uzu-edit-focus-border);
   background: var(--uzu-surface);
   box-shadow: none;
 }

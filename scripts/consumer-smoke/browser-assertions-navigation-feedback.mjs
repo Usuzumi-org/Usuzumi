@@ -8,6 +8,10 @@ if (value.stepNavValue !== 'review' || value.stepNavReviewCurrent !== 'step') th
 if (value.accordionFirstOpen || !value.accordionSecondOpen) throw new Error('Browser consumer accordion did not keep one panel open');
 if (!value.hoverCardOpen) throw new Error('Browser consumer hover card did not open on focus');
 if (value.hoverCardHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer hover-card reveal did not refresh nested open disclosure height');
+if (!value.popoverInitiallyHidden || value.popoverInitialExpanded !== 'false') throw new Error('Browser consumer popover should initialize closed with hidden content');
+if (!value.popoverOpen || value.popoverExpandedAfterOpen !== 'true' || value.popoverContentHiddenAfterOpen || value.popoverOpenAnimation !== 'uzu-menu-in') throw new Error('Browser consumer popover trigger did not open the floating surface');
+if (value.popoverHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer popover reveal did not refresh nested open disclosure height');
+if (!value.popoverClosedAfterEscape || !value.popoverClosedAfterOutsideClick) throw new Error('Browser consumer popover did not close on Escape and outside click');
 if (value.tagSelectablePressed !== 'false' || !value.tagCloseableHidden) throw new Error('Browser consumer tag behavior did not work');
 if (value.progressAnimation !== 'uzu-progress-indeterminate') throw new Error('Browser consumer CSS did not animate indeterminate progress');
 if (value.activityAnimation !== 'uzu-activity-dot') throw new Error('Browser consumer CSS did not animate activity dots');
@@ -17,6 +21,7 @@ if (value.skeletonCardDisplay !== 'grid' || value.skeletonAvatarWidth !== 40 || 
 if (value.listBorderStyle === 'none' || value.listItemDisplay !== 'grid') throw new Error('Browser consumer list styling is missing');
 if (value.avatarWidth !== 36 || value.avatarHeight !== 36 || value.avatarDisplay !== 'inline-flex') throw new Error('Browser consumer avatar metrics are wrong');
 if (value.sidebarDisplay !== 'grid' || value.sidebarWidth !== 240) throw new Error('Browser consumer sidebar metrics are wrong');
+if (value.sidebarOverflowY !== 'auto' || !String(value.sidebarScrollbarGutter).includes('stable') || Number.parseFloat(value.sidebarPaddingInlineEnd) < 12 || value.sidebarActiveRightGap < 18) throw new Error(`Browser consumer scrollable sidebar should keep content away from its scrollbar: ${JSON.stringify({ overflow: value.sidebarOverflowY, gutter: value.sidebarScrollbarGutter, padding: value.sidebarPaddingInlineEnd, gap: value.sidebarActiveRightGap })}`);
 if (value.sidebarLayoutColumnGap !== '28px') throw new Error('Browser consumer sidebar layout default gap is wrong');
 if (value.tagStaticDisplay !== 'inline-flex') throw new Error('Browser consumer tag display is wrong');
 if (value.emptyStateDisplay !== 'grid' || !value.errorStateColor) throw new Error('Browser consumer empty/error state styling is missing');

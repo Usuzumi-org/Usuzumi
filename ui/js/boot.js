@@ -5,15 +5,21 @@
     queryAll(document, '[data-uzu-combobox].is-open').forEach((combobox) => {
       if (!combobox.contains(event.target)) closeCombobox(combobox);
     });
+    queryAll(document, '[data-uzu-language-select].is-open').forEach((select) => {
+      if (!select.contains(event.target)) closeLanguageSelect(select);
+    });
     queryAll(document, '[data-uzu-menu].is-open, [data-uzu-context-menu].is-open').forEach((menu) => {
       const trigger = getContextMenuTrigger(menu);
       if (!menu.contains(event.target) && !(trigger instanceof Element && trigger.contains(event.target))) closeMenu(menu);
+    });
+    queryAll(document, '[data-uzu-popover].is-open').forEach((popover) => {
+      if (!popover.contains(event.target)) closePopover(popover);
     });
   }
 
   function handleDocumentKeydown(event) {
     if (event.key !== 'Escape') return;
-    if (closeOpenMenus()) {
+    if (closeOpenLanguageSelects() || closeOpenMenus() || closeOpenPopovers()) {
       event.preventDefault();
     } else if (activeDialog) {
       event.preventDefault();
@@ -147,6 +153,18 @@
       node.classList.remove('is-closing');
       node.hidden = true;
     });
+    queryAll(root, '[data-uzu-popover]').forEach((popover) => {
+      const timer = popoverCloseTimers.get(popover);
+      if (timer) {
+        window.clearTimeout(timer);
+        popoverCloseTimers.delete(popover);
+      }
+      const content = getPopoverContent(popover);
+      popover.classList.remove('is-open', 'is-closing');
+      if (content) content.hidden = true;
+      const trigger = getPopoverTrigger(popover);
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    });
     if (!isWholeDocumentRoot(root)) return;
     if (themeMediaQuery) {
       if (themeMediaQuery.removeEventListener) {
@@ -169,7 +187,7 @@
   function init(root = document) {
     syncRootClass();
     initGlobalListeners();
-    for (const fn of [initThemeToggles, initLanguageToggles, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initForms, initSearches, initPasswords, initSteppers, initSliders, initMenus, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initTrees, initDisclosures, initAccordions, initHoverCards, initTags, initSplitPanes, initResizables, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initMarkdown, initCodeHighlight, initCodeCopy]) {
+    for (const fn of [initThemeToggles, initLanguageSelects, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initForms, initSearches, initPasswords, initSteppers, initSliders, initMenus, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initTrees, initDisclosures, initAccordions, initHoverCards, initPopovers, initTags, initSplitPanes, initResizables, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initMarkdown, initCodeHighlight, initCodeCopy]) {
       try { fn(root); } catch (error) { console.error('[usuzumi]', error); }
     }
     initAutoInit(root);
@@ -194,6 +212,8 @@
     renderJson,
     openMenu,
     closeMenu,
+    openPopover,
+    closePopover,
     setPaginationPage: syncPaginationState,
     setStepNavStep: syncStepNavState,
     renderMarkdown,
@@ -204,6 +224,8 @@
     listCodeLanguages,
     hasCodeLanguage,
     initCodeCopy,
+    showToast,
+    closeToast,
     openDialog,
     closeDialog,
     destroy

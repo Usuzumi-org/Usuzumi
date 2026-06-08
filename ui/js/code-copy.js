@@ -38,8 +38,29 @@
     button.textContent = button.dataset.uzuCopyText || 'Copy';
   }
 
+  function isCodeCopyCandidateVisible(candidate) {
+    if (!(candidate instanceof Element)) return false;
+    let node = candidate;
+    const block = candidate.closest('.uzu-code-block');
+    while (node && node !== block) {
+      if (node.hidden || node.hasAttribute('data-uzu-language-hidden')) return false;
+      node = node.parentElement;
+    }
+    const style = window.getComputedStyle(candidate);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  }
+
+  function getCodeCopyCandidate(block) {
+    if (!block) return null;
+    const candidates = [
+      ...queryAll(block, 'pre code'),
+      ...queryAll(block, 'pre').filter((pre) => !pre.querySelector('code'))
+    ];
+    return candidates.find(isCodeCopyCandidateVisible) || candidates[0] || null;
+  }
+
   function getCodeCopyText(block) {
-    const code = block?.querySelector('pre code') || block?.querySelector('pre');
+    const code = getCodeCopyCandidate(block);
     return code?.dataset?.uzuCodeSource ?? code?.textContent ?? '';
   }
 

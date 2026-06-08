@@ -68,15 +68,10 @@
   background: var(--uzu-surface-muted);
 }
 
-html[data-uzu-lang="en"] .uzu-app [data-lang="zh"],
-html[data-language="en"] .uzu-app [data-lang="zh"],
-.uzu-app[data-uzu-lang="en"] [data-lang="zh"],
-.uzu-scope[data-uzu-lang="en"] [data-lang="zh"],
-.uzu-scope[data-language="en"] [data-lang="zh"],
-html[data-uzu-lang="zh"] .uzu-app [data-lang="en"],
-html[data-language="zh"] .uzu-app [data-lang="en"],
-.uzu-app[data-uzu-lang="zh"] [data-lang="en"],
-.uzu-scope[data-uzu-lang="zh"] [data-lang="en"],
-.uzu-scope[data-language="zh"] [data-lang="en"] {
+[data-uzu-language-hidden] {
+  display: none !important;
+}
+
+[hidden][data-lang] {
   display: none !important;
 }

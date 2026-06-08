@@ -2,7 +2,7 @@ export {};
 
 declare global {
   type UsuzumiThemeMode = "auto" | "light" | "dark";
-  type UsuzumiLanguage = "zh" | "en";
+  type UsuzumiLanguage = string;
 
   interface UsuzumiSelectChangeDetail {
     value: string;
@@ -24,6 +24,16 @@ declare global {
     segment: HTMLElement;
     segmented: HTMLElement;
     index: number;
+  }
+
+  interface UsuzumiLanguageChangeDetail {
+    language: UsuzumiLanguage;
+    previousLanguage: string;
+    htmlLang: string;
+    key: string;
+    option: HTMLElement;
+    select: HTMLElement;
+    root: HTMLElement;
   }
 
   interface UsuzumiPaginationChangeDetail {
@@ -180,6 +190,12 @@ declare global {
     content: HTMLElement | null;
   }
 
+  interface UsuzumiPopoverDetail {
+    popover: HTMLElement;
+    trigger: HTMLElement | null;
+    content: HTMLElement | null;
+  }
+
   interface UsuzumiTagChangeDetail {
     selected: boolean;
     tag: HTMLElement;
@@ -194,6 +210,20 @@ declare global {
 
   interface UsuzumiToastCloseDetail {
     toast: HTMLElement;
+  }
+
+  interface UsuzumiToastOpenDetail {
+    toast: HTMLElement;
+    stack: HTMLElement;
+  }
+
+  interface UsuzumiShowToastOptions {
+    template?: string;
+    templateSelector?: string;
+    stack?: string;
+    stackSelector?: string;
+    toast?: HTMLElement;
+    trigger?: Element;
   }
 
   interface UsuzumiDialogDetail {
@@ -267,7 +297,7 @@ declare global {
     init(root?: ParentNode): void;
     destroy(root?: ParentNode): void;
     applyTheme(root: HTMLElement, mode: UsuzumiThemeMode, key?: string, persist?: boolean): void;
-    applyLanguage(root: HTMLElement, language: UsuzumiLanguage, key?: string): void;
+    applyLanguage(root: HTMLElement, language: UsuzumiLanguage, key?: string, htmlLang?: string): void;
     setSwitchState(control: HTMLElement, checked: boolean, emit?: boolean): void;
     setPasswordVisible(password: HTMLElement, visible: boolean, emit?: boolean): void;
     setStepperValue(stepper: HTMLElement, value: number, emit?: boolean): void;
@@ -281,6 +311,8 @@ declare global {
     validateForm(form: HTMLFormElement | HTMLElement, emit?: boolean): boolean;
     openMenu(menu: HTMLElement, options?: { trigger?: HTMLElement | null; focus?: boolean; x?: number; y?: number }): void;
     closeMenu(menu: HTMLElement, options?: { trigger?: HTMLElement | null; restoreFocus?: boolean }): void;
+    openPopover(popover: HTMLElement, options?: { trigger?: HTMLElement | null }): void;
+    closePopover(popover: HTMLElement, options?: { trigger?: HTMLElement | null; restoreFocus?: boolean }): void;
     setPaginationPage(pagination: HTMLElement, page: HTMLElement | string, emit?: boolean): void;
     setStepNavStep(stepNav: HTMLElement, step: HTMLElement, emit?: boolean): void;
     renderJson(value: unknown): DocumentFragment;
@@ -292,6 +324,8 @@ declare global {
     listCodeLanguages(): string[];
     hasCodeLanguage(language: string): boolean;
     initCodeCopy(root?: ParentNode): void;
+    showToast(options?: UsuzumiShowToastOptions | string): HTMLElement | null;
+    closeToast(toast: HTMLElement): void;
     openDialog(dialog: HTMLElement, trigger?: HTMLElement | null): void;
     closeDialog(dialog: HTMLElement): void;
   }
@@ -304,6 +338,7 @@ declare global {
     "uzu-select-change": CustomEvent<UsuzumiSelectChangeDetail>;
     "uzu-tabs-change": CustomEvent<UsuzumiTabsChangeDetail>;
     "uzu-segmented-change": CustomEvent<UsuzumiSegmentedChangeDetail>;
+    "uzu-language-change": CustomEvent<UsuzumiLanguageChangeDetail>;
     "uzu-pagination-change": CustomEvent<UsuzumiPaginationChangeDetail>;
     "uzu-switch-change": CustomEvent<UsuzumiSwitchChangeDetail>;
     "uzu-password-toggle": CustomEvent<UsuzumiPasswordToggleDetail>;
@@ -331,8 +366,11 @@ declare global {
     "uzu-accordion-change": CustomEvent<UsuzumiAccordionChangeDetail>;
     "uzu-hover-card-open": CustomEvent<UsuzumiHoverCardDetail>;
     "uzu-hover-card-close": CustomEvent<UsuzumiHoverCardDetail>;
+    "uzu-popover-open": CustomEvent<UsuzumiPopoverDetail>;
+    "uzu-popover-close": CustomEvent<UsuzumiPopoverDetail>;
     "uzu-tag-change": CustomEvent<UsuzumiTagChangeDetail>;
     "uzu-tag-close": CustomEvent<UsuzumiTagCloseDetail>;
+    "uzu-toast-open": CustomEvent<UsuzumiToastOpenDetail>;
     "uzu-toast-close": CustomEvent<UsuzumiToastCloseDetail>;
     "uzu-dialog-open": CustomEvent<UsuzumiDialogDetail>;
     "uzu-dialog-close": CustomEvent<UsuzumiDialogDetail>;

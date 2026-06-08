@@ -2,6 +2,12 @@ function assertHardEditorFocusProbe(probe, label) {
 if (!probe || !probe.active) throw new Error(`Browser consumer ${label} did not receive focus`);
 if (probe.boxShadow !== 'none' || probe.targetBoxShadow !== 'none') throw new Error(`Browser consumer ${label} focus should not use a blurred or outer shadow ring: ${JSON.stringify(probe)}`);
 if (!probe.borderColor || probe.borderColor === probe.beforeBorderColor) throw new Error(`Browser consumer ${label} focus should strengthen a hard border: ${JSON.stringify(probe)}`);
+if (probe.editFocusBorderColor && probe.borderColor !== probe.editFocusBorderColor) throw new Error(`Browser consumer ${label} focus should use the edit focus border token: ${JSON.stringify(probe)}`);
+if (probe.fgStrongColor && probe.borderColor === probe.fgStrongColor) throw new Error(`Browser consumer ${label} focus should not reuse the strong text color as its edit border: ${JSON.stringify(probe)}`);
+}
+
+function assertEnglishLanguageVisibility(states, label) {
+if (!Array.isArray(states) || !states.some((item) => item.lang === 'en' && !item.hidden) || !states.some((item) => item.lang === 'zh' && item.hidden) || !states.some((item) => item.lang === 'ja' && item.hidden)) throw new Error(`Browser consumer ${label} language visibility did not match English: ${JSON.stringify(states)}`);
 }
 
 export function assertConsumerFoundationResult(value) {
@@ -13,6 +19,15 @@ if (value.tabValue !== 'two' || value.tabSelected !== 'true') throw new Error('B
 if (value.tabsIndicator !== 'true' || value.tabsIndicatorWidth <= 0) throw new Error('Browser consumer tabs did not expose animated indicator metrics');
 if (value.tabsIndicatorTransform === 'none') throw new Error('Browser consumer tabs indicator did not move');
 if (Math.abs(value.tabsIndicatorWidthAfterLanguage - value.tabsActiveWidthAfterLanguage) > 1) throw new Error('Browser consumer tabs indicator did not refresh after language change');
+if (value.languageHasLegacyToggle) throw new Error('Browser consumer should not expose retired language toggle controls');
+if (value.languageOpenAnimation !== 'uzu-menu-in' || value.languageCloseAnimation !== 'uzu-menu-out' || value.languageMenuDisplayOpen !== 'grid') throw new Error(`Browser consumer language selector did not open as a public listbox menu: ${JSON.stringify({ open: value.languageOpenAnimation, close: value.languageCloseAnimation, display: value.languageMenuDisplayOpen })}`);
+if (value.languageExpandedAfterOpen !== 'true' || value.languageExpandedAfterSelect !== 'false') throw new Error('Browser consumer language selector did not sync trigger ARIA state');
+if (value.languageRootValue !== 'en' || value.languageRootUzuValue !== 'en' || value.languageRootHtmlLang !== 'en' || value.languageSelectValue !== 'en' || value.languageSelectedText !== 'English') throw new Error(`Browser consumer language selector did not sync root and option state: ${JSON.stringify({ language: value.languageRootValue, uzu: value.languageRootUzuValue, html: value.languageRootHtmlLang, select: value.languageSelectValue, selected: value.languageSelectedText })}`);
+if (!Array.isArray(value.languageInitialHiddenStates) || !value.languageInitialHiddenStates.some((item) => item.lang === 'zh' && !item.hidden) || !value.languageInitialHiddenStates.some((item) => item.lang === 'en' && item.hidden) || !value.languageInitialHiddenStates.some((item) => item.lang === 'ja' && item.hidden)) throw new Error(`Browser consumer initial language visibility did not sync: ${JSON.stringify(value.languageInitialHiddenStates)}`);
+assertEnglishLanguageVisibility(value.languageHiddenStates, 'static');
+assertEnglishLanguageVisibility(value.languageManualDynamicHiddenStates, 'manual dynamic');
+assertEnglishLanguageVisibility(value.languageAutoDynamicHiddenStates, 'auto-init dynamic');
+if (!value.events.includes('language:en:zh:en')) throw new Error(`Browser consumer language selector did not emit uzu-language-change: ${JSON.stringify(value.events)}`);
 if (value.segmentValue !== 'beta' || value.segmentPressed !== 'true') throw new Error('Browser consumer segmented control did not respond');
 if (value.segmentedIndicator !== 'true' || value.segmentedIndicatorWidth <= 0) throw new Error('Browser consumer segmented control did not expose animated indicator metrics');
 if (value.segmentedIndicatorTransform === 'none') throw new Error('Browser consumer segmented indicator did not move');
@@ -72,8 +87,10 @@ for (const [label, probe] of [
   ['editor surface', value.editorSurfaceFocusProbe],
   ['standalone editor surface', value.standaloneEditorSurfaceFocusProbe],
   ['markdown source', value.markdownSourceFocusProbe],
+  ['stacked markdown source bottom border', value.markdownSourceStackedFocusProbe],
   ['inline editor', value.inlineEditorFocusProbe]
 ]) assertHardEditorFocusProbe(probe, label);
+if (value.markdownSourceStackedBorderBottomWidth !== '1px') throw new Error(`Browser consumer stacked markdown source should keep a visible bottom focus border: ${JSON.stringify({ borderBottomWidth: value.markdownSourceStackedBorderBottomWidth })}`);
 if (Math.round(value.fieldGap) !== 5) throw new Error('Browser consumer form field should use the default field gap variable');
 if (value.fieldLabelToInputGap < 4) throw new Error('Browser consumer form label should not overlap the input');
 if (value.disclosureOpenAnimation !== 'uzu-disclosure-in' || value.disclosureCloseAnimation !== 'uzu-disclosure-out') throw new Error('Browser consumer disclosure did not animate open and close');

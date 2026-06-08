@@ -221,7 +221,8 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .uzu-markdown-source {
+  .uzu-markdown-source,
+  textarea.uzu-markdown-source {
     border-right: 0;
     border-bottom: 1px solid var(--uzu-border-soft);
   }
@@ -238,11 +239,17 @@
   .uzu-process-step.is-active::before,
   .uzu-menu.is-open .uzu-menu-content,
   .uzu-menu.is-closing .uzu-menu-content,
+  .uzu-language-select.is-open .uzu-language-menu,
+  .uzu-language-select.is-closing .uzu-language-menu,
   .uzu-combobox.is-open .uzu-combobox-list,
   .uzu-select.is-open .uzu-select-menu,
   .uzu-select.is-closing .uzu-select-menu,
   .uzu-hover-card.is-open .uzu-hover-card-content,
   .uzu-hover-card.is-closing .uzu-hover-card-content,
+  [data-uzu-popover].is-open > .uzu-popover,
+  [data-uzu-popover].is-open > [data-uzu-popover-content],
+  [data-uzu-popover].is-closing > .uzu-popover,
+  [data-uzu-popover].is-closing > [data-uzu-popover-content],
   .uzu-disclosure.is-open .uzu-disclosure-panel,
   .uzu-disclosure.is-closing .uzu-disclosure-panel,
   .uzu-dialog-overlay.is-open,

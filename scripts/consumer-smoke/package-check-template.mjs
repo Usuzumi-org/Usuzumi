@@ -48,6 +48,7 @@ assert(packageJson.exports['./usuzumi-signature.css'] === './ui/usuzumi-signatur
 
 const css = readPackageFile(packageRoot, 'ui/usuzumi.css');
 assert(css.includes('.uzu-app'), 'Published CSS is missing app styles');
+assert(css.includes('--uzu-edit-focus-border'), 'Published CSS is missing the edit focus border token');
 assert(css.includes('.uzu-callout'), 'Published CSS is missing callout styles');
 assert(css.includes('.uzu-toolbar'), 'Published CSS is missing toolbar styles');
 assert(css.includes('.uzu-breadcrumb'), 'Published CSS is missing breadcrumb styles');
@@ -64,7 +65,17 @@ assert(css.includes('.uzu-input-group'), 'Published CSS is missing input group s
 assert(css.includes('.uzu-search'), 'Published CSS is missing search styles');
 assert(css.includes('.uzu-password'), 'Published CSS is missing password input styles');
 assert(css.includes('.uzu-stepper'), 'Published CSS is missing stepper styles');
+assert(css.includes('.uzu-slider-stepped'), 'Published CSS is missing stepped slider styles');
+assert(css.includes('var(--uzu-slider-fill) 0 var(--uzu-slider-value)'), 'Published CSS must show the selected range on stepped sliders');
+assert(css.includes('var(--uzu-slider-step-ticks)'), 'Published CSS must include runtime-generated stepped slider tick backgrounds');
+assert(css.includes('calc(var(--uzu-slider-thumb-size) / 2) 0'), 'Published CSS must keep stepped slider backgrounds inside the thumb travel range');
+assert(css.includes('calc(100% - var(--uzu-slider-thumb-size)) 100%'), 'Published CSS must keep stepped slider backgrounds from clipping at the track edges');
 assert(css.includes('.uzu-stack'), 'Published CSS is missing stack layout styles');
+assert(css.includes('.uzu-topbar-actions'), 'Published CSS is missing topbar action slot styles');
+assert(css.includes('.uzu-language-select'), 'Published CSS is missing language selector styles');
+assert(css.includes('.uzu-language-menu'), 'Published CSS is missing language menu styles');
+assert(css.includes('.uzu-language-option'), 'Published CSS is missing language option styles');
+assert(!css.includes('.uzu-language-toggle'), 'Published CSS should not include the retired language toggle class');
 assert(css.includes('.uzu-menu'), 'Published CSS is missing menu styles');
 assert(css.includes('.uzu-menubar'), 'Published CSS is missing menubar styles');
 assert(css.includes('.uzu-command'), 'Published CSS is missing command menu styles');
@@ -83,6 +94,7 @@ assert(css.includes('.uzu-avatar'), 'Published CSS is missing avatar styles');
 assert(css.includes('.uzu-tag'), 'Published CSS is missing tag styles');
 assert(css.includes('.uzu-accordion'), 'Published CSS is missing accordion styles');
 assert(css.includes('.uzu-hover-card'), 'Published CSS is missing hover card styles');
+assert(css.includes('[data-uzu-popover]'), 'Published CSS is missing popover trigger styles');
 assert(css.includes('.uzu-alert-dialog'), 'Published CSS is missing alert dialog styles');
 assert(css.includes('.uzu-drawer'), 'Published CSS is missing drawer styles');
 assert(css.includes('.uzu-sheet'), 'Published CSS is missing sheet styles');
@@ -122,8 +134,13 @@ assert(!js.includes('data-uzu-' + 'r' + 'ich-editor'), 'Runtime should not inclu
 assert(js.includes('data-uzu-markdown-editor'), 'Runtime is missing markdown editor initialization support');
 assert(js.includes('data-uzu-accordion'), 'Runtime is missing accordion initialization support');
 assert(js.includes('data-uzu-hover-card'), 'Runtime is missing hover card initialization support');
+assert(js.includes('data-uzu-popover'), 'Runtime is missing popover initialization support');
 assert(js.includes('data-uzu-tag'), 'Runtime is missing tag initialization support');
 assert(js.includes('data-uzu-step-nav'), 'Runtime is missing step navigation initialization support');
+assert(js.includes('data-uzu-language-select'), 'Runtime is missing language selector initialization support');
+assert(!js.includes('data-uzu-language-toggle'), 'Runtime should not include the retired language toggle attribute');
+assert(js.includes('data-uzu-toast-trigger'), 'Runtime is missing toast trigger initialization support');
+assert(js.includes('showToast'), 'Runtime is missing showToast API support');
 
 const dts = readPackageFile(packageRoot, 'ui/usuzumi.d.ts');
 assert(dts.includes('destroy(root?: ParentNode): void'), 'Type declarations are missing destroy()');
@@ -144,8 +161,12 @@ assert(dts.includes('"uzu-markdown-editor-change"'), 'Types are missing markdown
 assert(dts.includes('"uzu-markdown-editor-render"'), 'Types are missing markdown editor event declarations');
 assert(dts.includes('"uzu-accordion-change"'), 'Types are missing accordion event declarations');
 assert(dts.includes('"uzu-hover-card-open"'), 'Types are missing hover card event declarations');
+assert(dts.includes('"uzu-popover-open"'), 'Types are missing popover event declarations');
 assert(dts.includes('"uzu-tag-change"'), 'Types are missing tag event declarations');
 assert(dts.includes('"uzu-step-nav-change"'), 'Types are missing step nav event declarations');
+assert(dts.includes('"uzu-language-change"'), 'Types are missing language selector event declarations');
+assert(dts.includes('"uzu-toast-open"'), 'Types are missing toast open event declarations');
+assert(dts.includes('showToast(options?: UsuzumiShowToastOptions | string): HTMLElement | null'), 'Types are missing showToast API');
 
 const signatureCss = readPackageFile(packageRoot, 'ui/usuzumi-signature.css');
 assert(signatureCss.includes('./css/fonts.css'), 'Signature CSS must import packaged fonts.css');

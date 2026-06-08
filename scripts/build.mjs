@@ -41,6 +41,7 @@ const jsFiles = [
   'ui/js/data-grids.js',
   'ui/js/trees.js',
   'ui/js/accordions-hover-cards.js',
+  'ui/js/popovers.js',
   'ui/js/tags.js',
   'ui/js/resizable.js',
   'ui/js/editors.js',
@@ -80,6 +81,9 @@ function minifyJs(text) {
     loader: 'js',
     minify: true,
     legalComments: 'none',
+    supported: {
+      'template-literal': false
+    },
     target: 'es2020'
   }).code.trim();
 }

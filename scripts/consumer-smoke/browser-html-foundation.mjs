@@ -2,6 +2,30 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
     <section id="consumer-theme-root" class="uzu-scope" data-theme="light" data-uzu-theme-key="consumer-theme">
       <button id="consumer-theme-toggle" class="uzu-icon-button" type="button" data-uzu-theme-toggle data-uzu-theme-target="#consumer-theme-root" aria-label="Theme">T</button>
     </section>
+    <header id="consumer-topbar" class="uzu-topbar" style="--uzu-topbar-margin-bottom: 0; --uzu-topbar-gap: 30px; --uzu-topbar-actions-gap: 10px">
+      <a class="uzu-brand-link" href="#brand">Usuzumi</a>
+      <nav id="consumer-topbar-nav" class="uzu-nav" aria-label="Consumer topbar navigation">
+        <a href="#home" aria-current="page">Home</a>
+        <a href="#components">Components</a>
+        <a href="#docs">Docs</a>
+      </nav>
+      <div id="consumer-topbar-actions" class="uzu-topbar-actions" aria-label="Consumer page settings">
+        <span class="uzu-language-select" id="consumer-language-select" data-uzu-language-select data-uzu-language-key="">
+          <button class="uzu-icon-button uzu-language-trigger" id="consumer-language-trigger" type="button" data-uzu-language-trigger aria-label="Language">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M4 7h7M7.5 4v3M10.5 7c-.7 3.2-2.6 5.5-5.5 7M6.2 9.6c1 1.8 2.4 3.2 4.2 4.2M13 20l4-10 4 10M14.3 17h5.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="uzu-language-menu" id="consumer-language-menu" data-uzu-language-menu>
+            <button class="uzu-language-option is-selected" type="button" data-uzu-language-option data-uzu-language-value="zh" data-uzu-language-html-lang="zh-CN">Chinese</button>
+            <button class="uzu-language-option" id="consumer-language-en" type="button" data-uzu-language-option data-uzu-language-value="en" data-uzu-language-html-lang="en">English</button>
+            <button class="uzu-language-option" type="button" data-uzu-language-option data-uzu-language-value="ja" data-uzu-language-html-lang="ja">Japanese</button>
+          </span>
+        </span>
+        <button class="uzu-icon-button uzu-theme-toggle" type="button" data-uzu-theme-toggle aria-label="Switch theme">T</button>
+      </div>
+    </header>
+    <p id="consumer-language-copy"><span data-lang="zh">Chinese copy</span><span data-lang="en" data-uzu-language-hidden>English copy</span><span data-lang="ja" data-uzu-language-hidden>Japanese copy</span></p>
+    <p id="consumer-language-dynamic-manual"></p>
+    <p id="consumer-language-dynamic-auto" data-uzu-auto-init></p>
     <button id="consumer-button" class="uzu-button" type="button">Hover target</button>
     <button id="consumer-primary" class="uzu-button uzu-button-primary" type="button">Primary</button>
     <a id="consumer-ghost" class="uzu-button uzu-button-ghost" href="#ghost">Ghost</a>
@@ -35,6 +59,14 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
     <div class="uzu-code-block" id="consumer-code-block" style="--uzu-code-block-bg: rgb(250, 248, 240); --uzu-code-block-fg: rgb(32, 32, 30)">
       <pre class="uzu-code-block-body uzu-scroll"><code data-uzu-code-source="const label = 'Usuzumi';"><span class="line"><span>highlighted label</span></span></code></pre>
       <button class="uzu-icon-button uzu-code-block-copy" type="button" data-uzu-code-copy aria-label="Copy code">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="8" y="8" width="10" height="10" rx="1.8" stroke="currentColor" stroke-width="1.7"/><path d="M6 15H5.8A1.8 1.8 0 0 1 4 13.2V5.8A1.8 1.8 0 0 1 5.8 4h7.4A1.8 1.8 0 0 1 15 5.8V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span data-uzu-code-copy-label>Copy</span>
+      </button>
+    </div>
+    <div class="uzu-code-block" id="consumer-language-code-block">
+      <pre class="uzu-code-block-body uzu-scroll" data-lang="zh"><code class="language-html">&lt;button class=&quot;uzu-button&quot;&gt;保存&lt;/button&gt;</code></pre>
+      <pre class="uzu-code-block-body uzu-scroll" data-lang="en" data-uzu-language-hidden><code class="language-html">&lt;button class=&quot;uzu-button&quot;&gt;Save&lt;/button&gt;</code></pre>
+      <button class="uzu-icon-button uzu-code-block-copy" type="button" data-uzu-code-copy aria-label="Copy localized code">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="8" y="8" width="10" height="10" rx="1.8" stroke="currentColor" stroke-width="1.7"/><path d="M6 15H5.8A1.8 1.8 0 0 1 4 13.2V5.8A1.8 1.8 0 0 1 5.8 4h7.4A1.8 1.8 0 0 1 15 5.8V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
         <span data-uzu-code-copy-label>Copy</span>
       </button>

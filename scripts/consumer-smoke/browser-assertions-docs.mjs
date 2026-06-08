@@ -21,6 +21,7 @@ if (!value.codeBlockCopyLabelExists) throw new Error('Browser consumer code copy
 if (!value.codeBlockCopySvgExists || value.codeBlockCopyDisplay !== 'absolute') throw new Error('Browser consumer code copy should render as an overlay icon button');
 if (value.codeBlockCopyButtonWidth !== 28 || value.codeBlockCopyButtonHeight !== 28) throw new Error('Browser consumer code copy button should use compact icon metrics');
 if (value.codeBlockPaddingTop >= 30) throw new Error('Browser consumer code block should not reserve vertical space for the copy button');
+if (value.localizedCodeCopiedZh !== '<button class="uzu-button">保存</button>' || value.localizedCodeCopiedEn !== '<button class="uzu-button">Save</button>') throw new Error(`Browser consumer localized code copy should use the currently visible language block: ${JSON.stringify({ zh: value.localizedCodeCopiedZh, en: value.localizedCodeCopiedEn })}`);
 if (value.panelNavDisplay !== 'grid' || value.panelNavEvent !== '#consumer-panel-two' || value.panelNavSecondPressed !== 'true' || value.panelTwoHidden) throw new Error('Browser consumer panel nav did not switch panels');
 if (!(value.hiddenPanelDisclosureTargetHeight > 20) || Math.round(value.hiddenPanelDisclosurePaddingBottom) !== 20) throw new Error('Browser consumer disclosure should restore its open height and bottom spacing after a hidden panel is shown');
 if (value.hashBeforePanelNav !== value.hashAfterPanelNav) throw new Error('Browser consumer panel nav should not update the URL hash unless data-uzu-panel-hash is enabled');

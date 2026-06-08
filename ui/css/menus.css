@@ -156,7 +156,7 @@
 .uzu-command:focus,
 .uzu-command:focus-visible,
 .uzu-command:focus-within {
-  border-color: var(--uzu-fg-strong);
+  border-color: var(--uzu-edit-focus-border);
   box-shadow: none;
 }
 

@@ -29,6 +29,7 @@
   --uzu-control-bg: rgba(244, 243, 240, 0.78);
   --uzu-shadow-popover: 0 20px 70px rgba(25, 25, 22, 0.11);
   --uzu-focus-ring: 0 0 0 2px var(--uzu-surface), 0 0 0 4px var(--uzu-fg-strong);
+  --uzu-edit-focus-border: color-mix(in srgb, var(--uzu-fg-strong) 40%, var(--uzu-border-strong));
   --uzu-font-serif: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif CN", serif;
   --uzu-font-signature: "Meddon Custom", cursive;
   --uzu-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

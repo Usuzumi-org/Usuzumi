@@ -230,7 +230,8 @@ Optional document helpers:
 - Add `data-uzu-search`, `data-uzu-password`, or `data-uzu-stepper` when search clear buttons, password visibility toggles, or numeric steppers need built-in behavior.
 - Add `data-uzu-form` to a form when Usuzumi should synchronize invalid field state, reveal `.uzu-form-error` messages, and emit validation events. Initial load preserves any existing `.is-invalid` or `aria-invalid="true"` state without validating empty required fields; add `data-uzu-form-validate-on-init="true"` when the first render should validate immediately.
 - Add `data-uzu-menu`, `data-uzu-context-menu`, `data-uzu-menubar`, or `data-uzu-command` for lightweight menu behavior.
-- Add `data-uzu-accordion`, `data-uzu-hover-card`, `data-uzu-popover`, `data-uzu-tag`, or `data-uzu-step-nav` when those components need runtime state sync. Popovers use a `data-uzu-popover` wrapper, a `data-uzu-popover-trigger` button, and a `.uzu-popover[data-uzu-popover-content]` layer. The runtime toggles `hidden`, `is-open`, and `aria-expanded`, then closes on Escape or outside click.
+- Use `.uzu-tag` for category labels, filter tokens, and removable conditions. Add `data-uzu-tag` only when the tag needs runtime behavior: selectable tags use `data-uzu-tag-selectable="true"` with `aria-pressed`, and removable tags use an icon-only `.uzu-tag-close` button with `data-uzu-tag-close`. Add `data-uzu-tag-list` to a tag group and place a `.uzu-tag-add[data-uzu-tag-add]` button after the last tag when users should be able to add tags; Enter or blur commits non-empty input and emits `uzu-tag-add`. Calling `preventDefault()` on `uzu-tag-add` keeps the input open and prevents insertion.
+- Add `data-uzu-accordion`, `data-uzu-hover-card`, `data-uzu-popover`, or `data-uzu-step-nav` when those components need runtime state sync. Popovers use a `data-uzu-popover` wrapper, a `data-uzu-popover-trigger` button, and a `.uzu-popover[data-uzu-popover-content]` layer. The runtime toggles `hidden`, `is-open`, and `aria-expanded`, then closes on Escape or outside click.
 - Use `data-uzu-toast-trigger` with `data-uzu-toast-template="#template-id"` and `data-uzu-toast-stack="#stack-id"` when a toast should appear after user action. Static `.uzu-toast[data-uzu-toast]` nodes still initialize close buttons and live-region attributes.
 - Add `data-uzu-combobox`, `data-uzu-data-grid`, `data-uzu-tree`, `data-uzu-split-pane`, or `data-uzu-resizable` for searchable choices, light data tables, hierarchical lists, and adjustable panels. Data grids can use `data-uzu-grid-sort`, `data-uzu-grid-selection`, `data-uzu-grid-select-all`, `data-uzu-grid-empty`, and `data-uzu-grid-align` for sorting, multi-select, empty rows, and column alignment.
 - Add `data-uzu-json-viewer`, `data-uzu-diff-viewer`, `data-uzu-editor`, `data-uzu-markdown-editor`, or `data-uzu-inline-editor` for readable data previews and editor shells.
@@ -272,6 +273,7 @@ Custom events:
 - `uzu-popover-open` / `uzu-popover-close`: `{ popover, trigger, content }`
 - `uzu-tag-change`: `{ selected, tag, value }`
 - `uzu-tag-close`: `{ tag, closeButton, value }`
+- `uzu-tag-add`: `{ list, tag, input, trigger, value, label }`
 - `uzu-toast-open`: `{ toast, stack }`
 - `uzu-toast-close`: `{ toast }`
 - `uzu-dialog-open` / `uzu-dialog-close`: `{ dialog, overlay, trigger }`

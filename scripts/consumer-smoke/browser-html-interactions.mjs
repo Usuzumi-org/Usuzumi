@@ -69,7 +69,11 @@ export const consumerInteractionsHtml = `    <div class="uzu-menu" id="consumer-
     </div>
     <span class="uzu-tag" id="consumer-tag-static" data-uzu-tag>Docs</span>
     <button class="uzu-tag is-selected" id="consumer-tag-selectable" type="button" data-uzu-tag data-uzu-tag-selectable="true" data-uzu-tag-value="active" aria-pressed="true">Active</button>
-    <span class="uzu-tag" id="consumer-tag-closeable" data-uzu-tag data-uzu-tag-value="filter">Filter<button class="uzu-tag-close" type="button" data-uzu-tag-close aria-label="Remove filter">x</button></span>
+    <span class="uzu-tag" id="consumer-tag-closeable" data-uzu-tag data-uzu-tag-value="filter">Filter<button class="uzu-tag-close" type="button" data-uzu-tag-close aria-label="Remove filter"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></span>
+    <div class="uzu-flex uzu-wrap uzu-gap-2" id="consumer-tag-list" data-uzu-tag-list>
+      <span class="uzu-tag" data-uzu-tag data-uzu-tag-value="owner">Owner<button class="uzu-tag-close" type="button" data-uzu-tag-close aria-label="Remove owner"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></span>
+      <button class="uzu-tag-add" id="consumer-tag-add" type="button" data-uzu-tag-add aria-label="Add filter tag" data-uzu-tag-input-label="New filter tag" data-uzu-tag-input-placeholder="Add tag" data-uzu-tag-close-label="Remove tag: {label}"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </div>
     <section class="uzu-empty-state" id="consumer-empty-state"><div class="uzu-title-pair"><h3>No projects</h3><p>Create one to continue.</p></div></section>
     <section class="uzu-error-state" id="consumer-error-state" role="alert"><div class="uzu-title-pair"><h3>Load failed</h3><p>Try again.</p></div></section>
     <button class="uzu-button" id="consumer-toast-trigger" type="button" data-uzu-toast-trigger data-uzu-toast-template="#consumer-toast-template" data-uzu-toast-stack="#consumer-toast-stack">Show toast</button>

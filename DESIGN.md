@@ -425,7 +425,7 @@ Tabs and segmented controls are static visual primitives by default. Add `data-u
 
 ### Feedback
 
-Badges, alerts, callouts, toasts, and validation use the muted semantic families. State should be carried by text, ARIA, and layout as well as color. Alerts provide `.uzu-alert-info`, `.uzu-alert-success`, `.uzu-alert-warning`, and `.uzu-alert-danger` presets. Alerts and callouts also expose color custom properties for project-specific tones; prefer those variables over selector overrides. Toasts use `.uzu-toast-stack` and `.uzu-toast`; close buttons use icon-only `.uzu-icon-button` controls with `data-uzu-toast-close`. Use `data-uzu-toast-trigger`, `data-uzu-toast-template`, and `data-uzu-toast-stack` when a toast should be created after a user action. The runtime fills default `role="status"`, `aria-live="polite"`, and `aria-atomic="true"` when authors have not set them.
+Badges, alerts, callouts, toasts, and validation use the muted semantic families. State should be carried by text, ARIA, and layout as well as color. Badges are short status labels; do not use them for user-removable filters or categories. Alerts provide `.uzu-alert-info`, `.uzu-alert-success`, `.uzu-alert-warning`, and `.uzu-alert-danger` presets. Alerts and callouts also expose color custom properties for project-specific tones; prefer those variables over selector overrides. Toasts use `.uzu-toast-stack` and `.uzu-toast`; close buttons use icon-only `.uzu-icon-button` controls with `data-uzu-toast-close`. Use `data-uzu-toast-trigger`, `data-uzu-toast-template`, and `data-uzu-toast-stack` when a toast should be created after a user action. The runtime fills default `role="status"`, `aria-live="polite"`, and `aria-atomic="true"` when authors have not set them.
 
 Use `.uzu-callout` for editorial notes, constraints, and secondary context that belongs in the reading flow. Callouts are not alerts: they should not announce urgent errors, destructive states, or time-sensitive feedback. Use `.uzu-callout-note`, `.uzu-callout-info`, or `.uzu-callout-warning` to adjust the tone while keeping the message text-led.
 
@@ -474,7 +474,7 @@ Use `.uzu-panel-nav` with `data-uzu-panel-nav` for side navigation that switches
 
 ### Compact Data
 
-Use `.uzu-stat` for small metric summaries. Use `.uzu-separator` or `.uzu-separator-vertical` for explicit divisions inside compact surfaces. Use `.uzu-code` for inline identifiers and `.uzu-kbd` for keyboard hints.
+Use `.uzu-stat` for small metric summaries. Use `.uzu-tag` for category labels, filter tokens, and removable conditions; selectable tags use `data-uzu-tag-selectable="true"` with `aria-pressed`, removable tags use an icon-only `.uzu-tag-close` control with `data-uzu-tag-close`, and editable tag groups use `data-uzu-tag-list` with a trailing `.uzu-tag-add[data-uzu-tag-add]` control. Canceling `uzu-tag-add` with `preventDefault()` keeps the input open and leaves insertion to the application. Use `.uzu-separator` or `.uzu-separator-vertical` for explicit divisions inside compact surfaces. Use `.uzu-code` for inline identifiers and `.uzu-kbd` for keyboard hints.
 
 ```html
 <article class="uzu-stat">
@@ -643,6 +643,7 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 - `uzu-popover-open` / `uzu-popover-close`: `{ popover, trigger, content }`
 - `uzu-tag-change`: `{ selected, tag, value }`
 - `uzu-tag-close`: `{ tag, closeButton, value }`
+- `uzu-tag-add`: `{ list, tag, input, trigger, value, label }`
 - `uzu-toast-open`: `{ toast, stack }`
 - `uzu-toast-close`: `{ toast }`
 - `uzu-dialog-open` / `uzu-dialog-close`: `{ dialog, overlay, trigger }`

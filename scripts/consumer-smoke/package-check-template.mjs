@@ -92,6 +92,9 @@ assert(css.includes('.uzu-sidebar'), 'Published CSS is missing sidebar styles');
 assert(css.includes('.uzu-list'), 'Published CSS is missing list styles');
 assert(css.includes('.uzu-avatar'), 'Published CSS is missing avatar styles');
 assert(css.includes('.uzu-tag'), 'Published CSS is missing tag styles');
+assert(css.includes('.uzu-tag[hidden]'), 'Published CSS is missing hidden removable tag styles');
+assert(css.includes('.uzu-tag-add'), 'Published CSS is missing tag add styles');
+assert(css.includes('.uzu-tag[aria-pressed="true"]:hover'), 'Published CSS is missing selected tag hover styles');
 assert(css.includes('.uzu-accordion'), 'Published CSS is missing accordion styles');
 assert(css.includes('.uzu-hover-card'), 'Published CSS is missing hover card styles');
 assert(css.includes('[data-uzu-popover]'), 'Published CSS is missing popover trigger styles');
@@ -136,6 +139,8 @@ assert(js.includes('data-uzu-accordion'), 'Runtime is missing accordion initiali
 assert(js.includes('data-uzu-hover-card'), 'Runtime is missing hover card initialization support');
 assert(js.includes('data-uzu-popover'), 'Runtime is missing popover initialization support');
 assert(js.includes('data-uzu-tag'), 'Runtime is missing tag initialization support');
+assert(js.includes('data-uzu-tag-list'), 'Runtime is missing tag list initialization support');
+assert(js.includes('data-uzu-tag-add'), 'Runtime is missing tag add initialization support');
 assert(js.includes('data-uzu-step-nav'), 'Runtime is missing step navigation initialization support');
 assert(js.includes('data-uzu-language-select'), 'Runtime is missing language selector initialization support');
 assert(!js.includes('data-uzu-language-toggle'), 'Runtime should not include the retired language toggle attribute');
@@ -163,6 +168,7 @@ assert(dts.includes('"uzu-accordion-change"'), 'Types are missing accordion even
 assert(dts.includes('"uzu-hover-card-open"'), 'Types are missing hover card event declarations');
 assert(dts.includes('"uzu-popover-open"'), 'Types are missing popover event declarations');
 assert(dts.includes('"uzu-tag-change"'), 'Types are missing tag event declarations');
+assert(dts.includes('"uzu-tag-add"'), 'Types are missing tag add event declarations');
 assert(dts.includes('"uzu-step-nav-change"'), 'Types are missing step nav event declarations');
 assert(dts.includes('"uzu-language-change"'), 'Types are missing language selector event declarations');
 assert(dts.includes('"uzu-toast-open"'), 'Types are missing toast open event declarations');

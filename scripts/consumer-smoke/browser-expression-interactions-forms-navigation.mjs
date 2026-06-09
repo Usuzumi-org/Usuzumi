@@ -230,8 +230,66 @@ await wait(260);
 const popoverClosedAfterOutsideClick = !popover.classList.contains('is-open') && popoverContent.hidden;
 click(tagSelectable);
 const tagSelectablePressed = tagSelectable.getAttribute('aria-pressed');
-click(tagCloseable.querySelector('[data-uzu-tag-close]'));
+const tagCloseButtonHasSvg = Boolean(tagCloseButton.querySelector('svg'));
+const tagCloseButtonText = tagCloseButton.textContent.trim();
+const tagCloseButtonStyle = getComputedStyle(tagCloseButton);
+const tagCloseButtonWidth = tagCloseButtonStyle.width;
+const tagCloseButtonHeight = tagCloseButtonStyle.height;
+click(tagCloseButton);
 const tagCloseableHidden = tagCloseable.hidden;
+const tagCloseableDisplayAfterClose = getComputedStyle(tagCloseable).display;
+const tagAddButtonHasSvg = Boolean(tagAddButton.querySelector('svg'));
+const tagAddButtonText = tagAddButton.textContent.trim();
+const tagAddButtonStyle = getComputedStyle(tagAddButton);
+const tagAddButtonWidth = tagAddButtonStyle.width;
+const tagAddButtonHeight = tagAddButtonStyle.height;
+click(tagAddButton);
+await wait(40);
+const tagInput = tagList.querySelector('[data-uzu-tag-input-control]');
+const tagInputFocused = document.activeElement === tagInput;
+const tagInputPlaceholder = tagInput?.getAttribute('placeholder') || '';
+const tagInputLabel = tagInput?.getAttribute('aria-label') || '';
+const tagInputStyle = tagInput ? getComputedStyle(tagInput) : null;
+const tagInputOutline = tagInputStyle?.outlineStyle || '';
+const tagInputBoxShadow = tagInputStyle?.boxShadow || '';
+if (tagInput) {
+  tagInput.value = 'Priority';
+  tagInput.dispatchEvent(new Event('input', { bubbles: true }));
+  tagInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+}
+await wait(40);
+const addedTag = Array.from(tagList.querySelectorAll('[data-uzu-tag]')).find((tag) => tag.dataset.uzuTagValue === 'Priority');
+const tagFocusRestoredAfterEnter = document.activeElement === tagAddButton;
+const tagInputRemovedAfterAdd = !tagList.querySelector('[data-uzu-tag-input-control]');
+const addedTagText = addedTag?.querySelector('span')?.textContent.trim() || '';
+const addedTagCloseButton = addedTag?.querySelector('[data-uzu-tag-close]');
+const addedTagCloseLabel = addedTagCloseButton?.getAttribute('aria-label') || '';
+const addedTagCloseHasSvg = Boolean(addedTagCloseButton?.querySelector('svg'));
+if (addedTagCloseButton) click(addedTagCloseButton);
+const addedTagHiddenAfterClose = Boolean(addedTag?.hidden);
+const addedTagDisplayAfterClose = addedTag ? getComputedStyle(addedTag).display : '';
+const canceledTagAddEvents = [];
+tagList.addEventListener('uzu-tag-add', (event) => {
+  canceledTagAddEvents.push(event.detail.label + ':' + event.detail.value);
+  event.preventDefault();
+}, { once: true });
+click(tagAddButton);
+await wait(40);
+const tagCancelInput = tagList.querySelector('[data-uzu-tag-input-control]');
+if (tagCancelInput) {
+  tagCancelInput.value = 'Needs review';
+  tagCancelInput.dispatchEvent(new Event('input', { bubbles: true }));
+  tagCancelInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+}
+await wait(40);
+const tagCanceledInput = tagList.querySelector('[data-uzu-tag-input-control]');
+const tagCanceledInputStillOpen = tagCanceledInput === tagCancelInput;
+const tagCanceledInputValue = tagCanceledInput?.value || '';
+const tagCanceledInputFocused = document.activeElement === tagCanceledInput;
+const tagCanceledTagInserted = Array.from(tagList.querySelectorAll('[data-uzu-tag]')).some((tag) => tag.dataset.uzuTagValue === 'Needs review');
+if (tagCanceledInput) {
+  tagCanceledInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+}
 click(disclosureTrigger);
 const disclosureOpenAnimation = getComputedStyle(disclosurePanel).animationName;
 const disclosurePanelTargetHeight = Number.parseFloat(disclosurePanel.style.getPropertyValue('--uzu-disclosure-panel-height'));

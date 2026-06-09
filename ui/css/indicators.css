@@ -101,40 +101,167 @@
 }
 
 .uzu-tag {
-  min-height: 28px;
-  padding: 4px 9px;
-  border: 1px solid var(--uzu-border);
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb, var(--uzu-border) 82%, var(--uzu-fg-strong));
   border-radius: var(--uzu-radius-standard);
-  background: var(--uzu-surface-soft);
+  background: color-mix(in srgb, var(--uzu-surface-soft) 78%, var(--uzu-surface));
   color: var(--uzu-fg);
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   font-size: 13px;
   line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard);
+}
+
+.uzu-tag[hidden] {
+  display: none;
+}
+
+button.uzu-tag,
+a.uzu-tag,
+.uzu-tag[data-uzu-tag-selectable="true"] {
+  cursor: pointer;
+}
+
+button.uzu-tag {
+  font-family: inherit;
+  appearance: none;
+}
+
+button.uzu-tag:hover,
+a.uzu-tag:hover,
+.uzu-tag[data-uzu-tag-selectable="true"]:hover {
+  border-color: color-mix(in srgb, var(--uzu-fg-strong) 35%, var(--uzu-border));
+  background: var(--uzu-surface);
+  color: var(--uzu-fg-strong);
 }
 
 .uzu-tag.is-selected,
 .uzu-tag[aria-pressed="true"] {
-  border-color: var(--uzu-fg-strong);
-  background: var(--uzu-fg-strong);
-  color: var(--uzu-action-fg);
+  border-color: color-mix(in srgb, var(--uzu-fg-strong) 56%, var(--uzu-border));
+  background: color-mix(in srgb, var(--uzu-fg-strong) 12%, var(--uzu-surface));
+  color: var(--uzu-fg-strong);
+}
+
+button.uzu-tag.is-selected:hover,
+button.uzu-tag[aria-pressed="true"]:hover,
+a.uzu-tag.is-selected:hover,
+a.uzu-tag[aria-pressed="true"]:hover,
+.uzu-tag[data-uzu-tag-selectable="true"].is-selected:hover,
+.uzu-tag[data-uzu-tag-selectable="true"][aria-pressed="true"]:hover {
+  border-color: color-mix(in srgb, var(--uzu-fg-strong) 72%, var(--uzu-border));
+  background: color-mix(in srgb, var(--uzu-fg-strong) 18%, var(--uzu-surface));
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-tag:disabled,
+.uzu-tag[aria-disabled="true"],
+.uzu-tag.is-disabled {
+  opacity: .48;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .uzu-tag-close {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
+  margin-inline-end: -5px;
   padding: 0;
-  border: 0;
-  border-radius: var(--uzu-radius-pill);
-  background: color-mix(in srgb, currentColor 10%, transparent);
-  color: inherit;
+  border: 1px solid transparent;
+  border-radius: var(--uzu-radius-micro);
+  background: transparent;
+  color: var(--uzu-muted);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
   cursor: pointer;
   appearance: none;
+  transition: background var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard);
+}
+
+.uzu-tag-close:hover {
+  border-color: color-mix(in srgb, currentColor 22%, transparent);
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-tag.is-selected .uzu-tag-close,
+.uzu-tag[aria-pressed="true"] .uzu-tag-close {
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-tag-close svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.uzu-tag-add {
+  width: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0;
+  border: 1px dashed color-mix(in srgb, var(--uzu-border) 78%, var(--uzu-muted));
+  border-radius: var(--uzu-radius-standard);
+  background: color-mix(in srgb, var(--uzu-surface-soft) 62%, transparent);
+  color: var(--uzu-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  cursor: pointer;
+  appearance: none;
+  transition: background var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard);
+}
+
+.uzu-tag-add:hover {
+  border-color: color-mix(in srgb, var(--uzu-fg-strong) 40%, var(--uzu-border));
+  background: var(--uzu-surface);
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-tag-add svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.uzu-tag-input {
+  padding: 5px 10px;
+  border-color: var(--uzu-edit-focus-border);
+  background: var(--uzu-surface);
+  color: var(--uzu-fg-strong);
+}
+
+.uzu-tag-input-control {
+  width: 10ch;
+  min-width: 8ch;
+  max-width: min(24ch, 52vw);
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1.3;
+  caret-color: var(--uzu-fg-strong);
+}
+
+.uzu-tag-input-control:focus,
+.uzu-tag-input-control:focus-visible {
+  outline: 0;
+  box-shadow: none;
+}
+
+.uzu-tag-input-control::placeholder {
+  color: var(--uzu-muted);
 }
 
 .uzu-avatar {

@@ -229,7 +229,7 @@ window.Usuzumi.destroy(container);
 
 语言选择器使用 `.uzu-language-select` 外层和 `data-uzu-language-select`，触发按钮使用 `data-uzu-language-trigger`，菜单使用 `data-uzu-language-menu`，每个选项使用 `data-uzu-language-option` 和 `data-uzu-language-value`。选择器默认把 `data-language`、`data-uzu-lang` 和 `lang` 写到文档根；需要控制局部预览或嵌入式应用时，使用 `data-uzu-language-target="#id"` 指向局部容器。任意 `[data-lang]` 片段的值与当前语言不一致时会被隐藏；静态 HTML 应该给非初始语言片段预先加上 `data-uzu-language-hidden`，避免首屏同时闪出多种语言。
 
-需要内置行为时，在组件外层使用对应的 `data-uzu-*` 属性：表单校验使用 `data-uzu-form`，菜单使用 `data-uzu-menu` 或 `data-uzu-context-menu`，命令菜单使用 `data-uzu-command`，accordion 使用 `data-uzu-accordion`，悬浮卡片使用 `data-uzu-hover-card`，浮层使用 `data-uzu-popover`，标签使用 `data-uzu-tag`，步骤导航使用 `data-uzu-step-nav`。Popover 使用 `data-uzu-popover` 外层、`data-uzu-popover-trigger` 按钮和 `.uzu-popover[data-uzu-popover-content]` 内容层；运行时会切换 `hidden`、`is-open`、`aria-expanded`，并支持 Escape 和外部点击关闭。Toast 需要由用户操作触发时，使用 `data-uzu-toast-trigger`、`data-uzu-toast-template="#template-id"` 和 `data-uzu-toast-stack="#stack-id"`；静态 `.uzu-toast[data-uzu-toast]` 仍会初始化关闭按钮和 live region 属性。`data-uzu-form` 初始加载时只保留已有的 `.is-invalid` 或 `aria-invalid="true"` 状态，不会立刻校验空的必填项；需要首屏立即校验时添加 `data-uzu-form-validate-on-init="true"`。
+需要内置行为时，在组件外层使用对应的 `data-uzu-*` 属性：表单校验使用 `data-uzu-form`，菜单使用 `data-uzu-menu` 或 `data-uzu-context-menu`，命令菜单使用 `data-uzu-command`，accordion 使用 `data-uzu-accordion`，悬浮卡片使用 `data-uzu-hover-card`，浮层使用 `data-uzu-popover`，步骤导航使用 `data-uzu-step-nav`。`.uzu-tag` 用于分类标签、筛选 token 和可移除条件；只有需要运行时行为时才添加 `data-uzu-tag`。可选择标签使用 `data-uzu-tag-selectable="true"` 和 `aria-pressed`，可移除标签使用图标化 `.uzu-tag-close` 按钮和 `data-uzu-tag-close`。需要允许用户新增标签时，在标签组上添加 `data-uzu-tag-list`，并把 `.uzu-tag-add[data-uzu-tag-add]` 按钮放在最后一个标签后面；回车或失焦会提交非空输入并派发 `uzu-tag-add`。在 `uzu-tag-add` 上调用 `preventDefault()` 会保留输入态并阻止插入。Popover 使用 `data-uzu-popover` 外层、`data-uzu-popover-trigger` 按钮和 `.uzu-popover[data-uzu-popover-content]` 内容层；运行时会切换 `hidden`、`is-open`、`aria-expanded`，并支持 Escape 和外部点击关闭。Toast 需要由用户操作触发时，使用 `data-uzu-toast-trigger`、`data-uzu-toast-template="#template-id"` 和 `data-uzu-toast-stack="#stack-id"`；静态 `.uzu-toast[data-uzu-toast]` 仍会初始化关闭按钮和 live region 属性。`data-uzu-form` 初始加载时只保留已有的 `.is-invalid` 或 `aria-invalid="true"` 状态，不会立刻校验空的必填项；需要首屏立即校验时添加 `data-uzu-form-validate-on-init="true"`。
 
 组合框、轻量数据网格、树形视图、分栏和可调整面板分别使用 `data-uzu-combobox`、`data-uzu-data-grid`、`data-uzu-tree`、`data-uzu-split-pane`、`data-uzu-resizable`。数据网格可用 `data-uzu-grid-sort`、`data-uzu-grid-selection`、`data-uzu-grid-select-all`、`data-uzu-grid-empty`、`data-uzu-grid-align` 处理排序、多选、全选、空状态和列对齐。JSON / Diff 查看器和编辑器外壳使用 `data-uzu-json-viewer`、`data-uzu-diff-viewer`、`data-uzu-editor`、`data-uzu-markdown-editor`、`data-uzu-inline-editor`。
 
@@ -275,6 +275,7 @@ Dialog、drawer 和 sheet 共用 `data-uzu-dialog-*` 行为。从已打开的弹
 - `uzu-popover-open` / `uzu-popover-close`：`{ popover, trigger, content }`
 - `uzu-tag-change`：`{ selected, tag, value }`
 - `uzu-tag-close`：`{ tag, closeButton, value }`
+- `uzu-tag-add`：`{ list, tag, input, trigger, value, label }`
 - `uzu-step-nav-change`：`{ value, step, stepNav, index }`
 - `uzu-editor-command`：`{ editor, surface, button, command, value }`
 - `uzu-editor-change`：`{ editor, surface, value }`

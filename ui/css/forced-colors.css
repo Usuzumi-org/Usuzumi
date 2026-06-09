@@ -44,6 +44,7 @@
   .uzu-plain-editor,
   .uzu-list,
   .uzu-tag,
+  .uzu-tag-input,
   .uzu-avatar,
   .uzu-segmented,
   .uzu-menubar,
@@ -79,7 +80,9 @@
   .uzu-input,
   .uzu-textarea,
   .uzu-select-trigger,
-  .uzu-select-menu {
+  .uzu-select-menu,
+  .uzu-tag-add,
+  .uzu-tag-close {
     border: 1px solid CanvasText;
     background: ButtonFace;
     color: ButtonText;
@@ -117,6 +120,7 @@
   .uzu-tag[aria-pressed="true"],
   .uzu-step-nav-button.is-active,
   .uzu-step-nav-button[aria-current="step"] {
+    border-color: Highlight;
     background: Highlight;
     color: HighlightText;
   }

@@ -208,6 +208,15 @@ declare global {
     value: string;
   }
 
+  interface UsuzumiTagAddDetail {
+    list: HTMLElement;
+    tag: HTMLElement;
+    input: HTMLInputElement;
+    trigger: HTMLElement | null;
+    value: string;
+    label: string;
+  }
+
   interface UsuzumiToastCloseDetail {
     toast: HTMLElement;
   }
@@ -370,6 +379,7 @@ declare global {
     "uzu-popover-close": CustomEvent<UsuzumiPopoverDetail>;
     "uzu-tag-change": CustomEvent<UsuzumiTagChangeDetail>;
     "uzu-tag-close": CustomEvent<UsuzumiTagCloseDetail>;
+    "uzu-tag-add": CustomEvent<UsuzumiTagAddDetail>;
     "uzu-toast-open": CustomEvent<UsuzumiToastOpenDetail>;
     "uzu-toast-close": CustomEvent<UsuzumiToastCloseDetail>;
     "uzu-dialog-open": CustomEvent<UsuzumiDialogDetail>;

@@ -23,6 +23,7 @@ export function assertConsumerFormsLayoutResult(value) {
 if (value.calloutBorderStyle === 'none') throw new Error('Browser consumer CSS did not style callouts');
 if (value.calloutBorderColor !== 'rgb(10, 20, 30)' || value.calloutBackground !== 'rgb(240, 241, 242)') throw new Error('Browser consumer callout color variables did not apply');
 if (value.calloutTitleColor !== 'rgb(30, 40, 50)' || value.calloutBodyColor !== 'rgb(60, 70, 80)') throw new Error('Browser consumer callout text color variables did not apply');
+if (Number.parseFloat(value.calloutSignatureFontSize) < 100) throw new Error(`Browser consumer callout should not shrink explicit signature typography: ${JSON.stringify({ fontSize: value.calloutSignatureFontSize, lineHeight: value.calloutSignatureLineHeight })}`);
 if (value.alertAccentColor !== 'rgb(10, 20, 30)' || value.alertBackground !== 'rgb(240, 241, 242)') throw new Error('Browser consumer alert color variables did not apply');
 if (value.alertTitleColor !== 'rgb(30, 40, 50)' || value.alertBodyColor !== 'rgb(60, 70, 80)') throw new Error('Browser consumer alert text color variables did not apply');
 if (value.alertSuccessAccentColor !== 'rgb(78, 102, 85)') throw new Error('Browser consumer success alert preset did not apply');

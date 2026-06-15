@@ -17,6 +17,8 @@
   padding: 12px 10px;
   border-bottom: 1px solid var(--uzu-border-soft);
   text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
 }
 
 .uzu-table th {

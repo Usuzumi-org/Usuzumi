@@ -150,6 +150,12 @@ assert(js.includes('showToast'), 'Runtime is missing showToast API support');
 const dts = readPackageFile(packageRoot, 'ui/usuzumi.d.ts');
 assert(dts.includes('destroy(root?: ParentNode): void'), 'Type declarations are missing destroy()');
 assert(dts.includes('interface UsuzumiApi'), 'Types are missing UsuzumiApi');
+const apiExportBlock = js.match(/window\.Usuzumi = \{([\s\S]*?)\n  \};/)?.[1] || '';
+const dtsApiBlock = dts.match(/interface UsuzumiApi \{([\s\S]*?)\n  \}/)?.[1] || '';
+const exportedApiNames = [...apiExportBlock.matchAll(/^\s*([A-Za-z_$][\w$]*)(?:\s*:)?/gm)].map((match) => match[1]);
+for (const apiName of exportedApiNames) {
+  assert(new RegExp('\\b' + apiName + '\\s*\\(').test(dtsApiBlock), 'Types are missing public Usuzumi API: ' + apiName + '()');
+}
 assert(dts.includes('"uzu-tabs-change"'), 'Types are missing tabs event declarations');
 assert(dts.includes('"uzu-segmented-change"'), 'Types are missing segmented event declarations');
 assert(dts.includes('"uzu-pagination-change"'), 'Types are missing pagination event declarations');

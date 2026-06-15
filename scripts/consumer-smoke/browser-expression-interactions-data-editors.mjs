@@ -128,10 +128,40 @@ await wait(80);
 const markdownEditorHeading = markdownEditorPreview.querySelector('h2')?.textContent.trim() || '';
 const markdownFence = String.fromCharCode(96, 96, 96);
 const markdownLineBreak = String.fromCharCode(10);
+window.Usuzumi.applyLanguage(document.documentElement, 'zh', '', 'zh-CN');
+await wait(60);
 markdownEditorSource.value = markdownFence + 'js' + markdownLineBreak + 'const copied = true;' + markdownLineBreak + markdownFence;
 markdownEditorSource.dispatchEvent(new Event('input', { bubbles: true }));
 const markdownEditorCopyButton = markdownEditorPreview.querySelector('[data-uzu-code-copy]');
 const markdownEditorCopyInitialized = markdownEditorCopyButton?.dataset.uzuCodeCopyInitialized === 'true';
+const getMarkdownEditorActiveCodeCopyLabelText = (button) => Array.from(button?.querySelectorAll('[data-uzu-code-copy-label]') || [])
+  .find((label) => !label.hasAttribute('data-uzu-language-hidden'))
+  ?.textContent.trim() || '';
+const markdownEditorCodeCopyZh = {
+  aria: markdownEditorCopyButton?.getAttribute('aria-label') || '',
+  label: getMarkdownEditorActiveCodeCopyLabelText(markdownEditorCopyButton),
+  zhHidden: markdownEditorCopyButton?.querySelector('[data-uzu-code-copy-label][data-lang="zh"]')?.hasAttribute('data-uzu-language-hidden') || false,
+  enHidden: markdownEditorCopyButton?.querySelector('[data-uzu-code-copy-label][data-lang="en"]')?.hasAttribute('data-uzu-language-hidden') || false
+};
+window.Usuzumi.applyLanguage(document.documentElement, 'en', '', 'en');
+await wait(60);
+const markdownEditorCodeCopyEn = {
+  aria: markdownEditorCopyButton?.getAttribute('aria-label') || '',
+  label: getMarkdownEditorActiveCodeCopyLabelText(markdownEditorCopyButton),
+  zhHidden: markdownEditorCopyButton?.querySelector('[data-uzu-code-copy-label][data-lang="zh"]')?.hasAttribute('data-uzu-language-hidden') || false,
+  enHidden: markdownEditorCopyButton?.querySelector('[data-uzu-code-copy-label][data-lang="en"]')?.hasAttribute('data-uzu-language-hidden') || false
+};
+markdownEditorSource.value = markdownFence + 'js' + markdownLineBreak + 'const copiedAgain = true;' + markdownLineBreak + markdownFence;
+markdownEditorSource.dispatchEvent(new Event('input', { bubbles: true }));
+const markdownEditorCopyButtonAfterLanguageRender = markdownEditorPreview.querySelector('[data-uzu-code-copy]');
+const markdownEditorCodeCopyEnAfterRender = {
+  aria: markdownEditorCopyButtonAfterLanguageRender?.getAttribute('aria-label') || '',
+  label: getMarkdownEditorActiveCodeCopyLabelText(markdownEditorCopyButtonAfterLanguageRender),
+  zhHidden: markdownEditorCopyButtonAfterLanguageRender?.querySelector('[data-uzu-code-copy-label][data-lang="zh"]')?.hasAttribute('data-uzu-language-hidden') || false,
+  enHidden: markdownEditorCopyButtonAfterLanguageRender?.querySelector('[data-uzu-code-copy-label][data-lang="en"]')?.hasAttribute('data-uzu-language-hidden') || false
+};
+window.Usuzumi.applyLanguage(document.documentElement, 'zh', '', 'zh-CN');
+await wait(60);
 markdownEditorShellSource.value = '## Shell only updated';
 markdownEditorShellSource.dispatchEvent(new Event('input', { bubbles: true }));
 const markdownEditorShellPreviewEmpty = markdownEditorShellPreview.textContent.trim() === '';

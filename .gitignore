@@ -26,6 +26,7 @@ build/
 coverage/
 .cache/
 .tmp/
+output/
 
 # Sibling documentation site repository
 usuzumi-site/

@@ -37,6 +37,30 @@ const markdownCodeBlock = markdown.querySelector('.uzu-code-block');
 const markdownSafeLink = [...markdown.querySelectorAll('a')].find((anchor) => anchor.textContent.trim() === 'Safe link');
 const markdownUnsafeLink = [...markdown.querySelectorAll('a')].find((anchor) => anchor.textContent.trim() === 'Bad link');
 const renderedFragment = window.Usuzumi.renderMarkdown('Hello ' + String.fromCharCode(96) + 'api' + String.fromCharCode(96));
+const neutralMarkdownRoot = document.createElement('section');
+neutralMarkdownRoot.className = 'uzu-scope';
+neutralMarkdownRoot.setAttribute('lang', 'en');
+const neutralMarkdownFence = String.fromCharCode(96, 96, 96);
+const neutralMarkdownLineBreak = String.fromCharCode(10);
+neutralMarkdownRoot.append(window.Usuzumi.renderMarkdown(neutralMarkdownFence + 'js' + neutralMarkdownLineBreak + 'const neutralCopy = true;' + neutralMarkdownLineBreak + neutralMarkdownFence));
+document.body.append(neutralMarkdownRoot);
+const previousRootLanguage = document.documentElement.getAttribute('data-language');
+const previousRootUzuLanguage = document.documentElement.getAttribute('data-uzu-lang');
+document.documentElement.removeAttribute('data-language');
+document.documentElement.removeAttribute('data-uzu-lang');
+window.Usuzumi.init(neutralMarkdownRoot);
+const neutralMarkdownCopyButton = neutralMarkdownRoot.querySelector('[data-uzu-code-copy]');
+const neutralMarkdownCodeCopy = {
+  aria: neutralMarkdownCopyButton?.getAttribute('aria-label') || '',
+  activeLabel: Array.from(neutralMarkdownCopyButton?.querySelectorAll('[data-uzu-code-copy-label]') || [])
+    .find((label) => !label.hasAttribute('data-uzu-language-hidden'))
+    ?.textContent.trim() || '',
+  zhHidden: neutralMarkdownCopyButton?.querySelector('[data-uzu-code-copy-label][data-lang="zh"]')?.hasAttribute('data-uzu-language-hidden') || false,
+  enHidden: neutralMarkdownCopyButton?.querySelector('[data-uzu-code-copy-label][data-lang="en"]')?.hasAttribute('data-uzu-language-hidden') || false
+};
+if (previousRootLanguage !== null) document.documentElement.setAttribute('data-language', previousRootLanguage);
+if (previousRootUzuLanguage !== null) document.documentElement.setAttribute('data-uzu-lang', previousRootUzuLanguage);
+neutralMarkdownRoot.remove();
 const plainBackticks = document.querySelector('#consumer-plain-backticks');
 const plainBackticksCodeExists = Boolean(plainBackticks.querySelector('.uzu-code'));
 const kbdStyle = getComputedStyle(document.querySelector('#consumer-kbd'));

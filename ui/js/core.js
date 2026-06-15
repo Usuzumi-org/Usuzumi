@@ -295,12 +295,19 @@
     return element.closest('[data-uzu-language-root], [data-language], [data-uzu-lang]') || document.documentElement;
   }
 
+  function hasExplicitLanguageRoot(root) {
+    return Boolean(root?.hasAttribute?.('data-language') || root?.hasAttribute?.('data-uzu-lang'));
+  }
+
   function initLanguageRoots(root = document) {
     const roots = new Set();
-    if (root === document) roots.add(document.documentElement);
-    if (root instanceof Element && (root.hasAttribute('data-language') || root.hasAttribute('data-uzu-lang'))) roots.add(root);
+    if (root === document && hasExplicitLanguageRoot(document.documentElement)) roots.add(document.documentElement);
+    if (root instanceof Element && hasExplicitLanguageRoot(root)) roots.add(root);
     queryAll(root, '[data-language], [data-uzu-lang]').forEach((item) => roots.add(item));
-    queryAll(root, '[data-lang]').forEach((item) => roots.add(getClosestLanguageRoot(item)));
+    queryAll(root, '[data-lang]').forEach((item) => {
+      const languageRoot = getClosestLanguageRoot(item);
+      if (hasExplicitLanguageRoot(languageRoot)) roots.add(languageRoot);
+    });
     roots.forEach((languageRoot) => {
       if (languageRoot !== document.documentElement) languageRoot.setAttribute('data-uzu-language-root', '');
     });
@@ -343,6 +350,7 @@
     if (key) storage.set(key, nextLanguage);
     syncLanguageContent(root, nextLanguage);
     syncLanguageControls(root, nextLanguage);
+    if (typeof refreshCodeCopyLabels === 'function') refreshCodeCopyLabels(root);
     refreshStateIndicators(root, true);
     queueIndicatorRefresh(root, true);
   }

@@ -210,6 +210,7 @@
         const value = sourceValue || '';
         editor.dataset.uzuMarkdownValue = value;
         preview.replaceChildren(renderMarkdown(value));
+        syncGeneratedMarkdownLanguage(editor);
         initCodeHighlight(preview);
         initCodeCopy(preview);
         editor.dispatchEvent(new CustomEvent('uzu-markdown-editor-render', {

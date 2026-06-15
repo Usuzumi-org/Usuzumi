@@ -224,6 +224,7 @@
     listCodeLanguages,
     hasCodeLanguage,
     initCodeCopy,
+    refreshCodeCopyLabels,
     showToast,
     closeToast,
     openDialog,

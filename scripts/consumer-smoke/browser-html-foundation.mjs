@@ -66,9 +66,16 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
     <div class="uzu-code-block" id="consumer-language-code-block">
       <pre class="uzu-code-block-body uzu-scroll" data-lang="zh"><code class="language-html">&lt;button class=&quot;uzu-button&quot;&gt;保存&lt;/button&gt;</code></pre>
       <pre class="uzu-code-block-body uzu-scroll" data-lang="en" data-uzu-language-hidden><code class="language-html">&lt;button class=&quot;uzu-button&quot;&gt;Save&lt;/button&gt;</code></pre>
-      <button class="uzu-icon-button uzu-code-block-copy" type="button" data-uzu-code-copy aria-label="Copy localized code">
+      <button class="uzu-icon-button uzu-code-block-copy" type="button" data-uzu-code-copy aria-label="复制代码">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="8" y="8" width="10" height="10" rx="1.8" stroke="currentColor" stroke-width="1.7"/><path d="M6 15H5.8A1.8 1.8 0 0 1 4 13.2V5.8A1.8 1.8 0 0 1 5.8 4h7.4A1.8 1.8 0 0 1 15 5.8V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-        <span data-uzu-code-copy-label>Copy</span>
+        <span data-uzu-code-copy-label data-lang="zh" data-uzu-copy-text="复制代码" data-uzu-copied-text="已复制" data-uzu-copy-failed-text="复制失败">复制</span>
+        <span data-uzu-code-copy-label data-lang="en" data-uzu-copy-text="Copy code" data-uzu-copied-text="Copied" data-uzu-copy-failed-text="Copy failed" data-uzu-language-hidden>Copy</span>
+      </button>
+    </div>
+    <div class="uzu-code-block" id="consumer-code-block-no-label">
+      <pre class="uzu-code-block-body uzu-scroll"><code class="language-js">const noLabelCopy = true;</code></pre>
+      <button class="uzu-icon-button uzu-code-block-copy" type="button" data-uzu-code-copy aria-label="Copy code">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="8" y="8" width="10" height="10" rx="1.8" stroke="currentColor" stroke-width="1.7"/><path d="M6 15H5.8A1.8 1.8 0 0 1 4 13.2V5.8A1.8 1.8 0 0 1 5.8 4h7.4A1.8 1.8 0 0 1 15 5.8V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
       </button>
     </div>
     <div class="consumer-panel-layout" id="consumer-panel-layout">

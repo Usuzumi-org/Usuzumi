@@ -12,6 +12,31 @@ const consumerSidebarActive = consumerSidebar.querySelector('[aria-current="page
 const consumerSidebarRect = consumerSidebar.getBoundingClientRect();
 const consumerSidebarActiveRect = consumerSidebarActive.getBoundingClientRect();
 const consumerSidebarStyle = getComputedStyle(consumerSidebar);
+const readCheckRowAlignment = (selector) => {
+  const row = document.querySelector(selector);
+  const input = row?.querySelector('input');
+  const label = row?.querySelector('span');
+  const inputRect = input?.getBoundingClientRect();
+  const labelRect = label?.getBoundingClientRect();
+  const inputStyle = input ? getComputedStyle(input) : null;
+  const rowStyle = row ? getComputedStyle(row) : null;
+  if (!row || !input || !label || !inputRect || !labelRect || !inputStyle || !rowStyle) {
+    return { missing: true };
+  }
+  return {
+    rowDisplay: rowStyle.display,
+    rowAlignItems: rowStyle.alignItems,
+    inputWidth: Math.round(inputRect.width),
+    inputHeight: Math.round(inputRect.height),
+    inputMarginTop: inputStyle.marginTop,
+    inputMarginBottom: inputStyle.marginBottom,
+    centerDelta: Math.abs(((inputRect.top + inputRect.bottom) / 2) - ((labelRect.top + labelRect.bottom) / 2))
+  };
+};
+const checkRowAlignment = [
+  readCheckRowAlignment('#consumer-check-row'),
+  readCheckRowAlignment('#consumer-radio-row')
+];
 
 return {
   hasApi: Boolean(window.Usuzumi && window.Usuzumi.init),
@@ -131,6 +156,9 @@ return {
   markdownEditorHeading,
   markdownEditorCleared,
   markdownEditorCopyInitialized,
+  markdownEditorCodeCopyZh,
+  markdownEditorCodeCopyEn,
+  markdownEditorCodeCopyEnAfterRender,
   markdownEditorShellPreviewEmpty,
   inlineEditorValue,
   disclosureOpenAnimation,
@@ -144,6 +172,8 @@ return {
   calloutBackground: style.backgroundColor,
   calloutTitleColor: calloutTitle.color,
   calloutBodyColor: calloutBody.color,
+  calloutSignatureFontSize: calloutSignature.fontSize,
+  calloutSignatureLineHeight: calloutSignature.lineHeight,
   alertAccentColor: alertStyle.borderLeftColor,
   alertBackground: alertStyle.backgroundColor,
   alertTitleColor: alertTitle.color,
@@ -153,6 +183,7 @@ return {
   alertWidth,
   alertSuccessWidth,
   fieldGap,
+  checkRowAlignment,
   stackDisplay: getComputedStyle(document.querySelector('#consumer-stack')).display,
   flexDisplay: getComputedStyle(document.querySelector('#consumer-flex')).display,
   topbarDisplay: getComputedStyle(document.querySelector('#consumer-topbar')).display,
@@ -487,8 +518,23 @@ return {
   codeBlockCopyButtonWidth: Math.round(codeCopyButton.getBoundingClientRect().width),
   codeBlockCopyButtonHeight: Math.round(codeCopyButton.getBoundingClientRect().height),
   codeBlockPaddingTop,
+  localizedCodeCopyAriaZh,
+  localizedCodeCopyLabelZh,
+  localizedCodeCopyAriaEn,
+  localizedCodeCopyLabelEn,
   localizedCodeCopiedZh,
   localizedCodeCopiedEn,
+  noLabelCodeCopySvgBefore,
+  noLabelCodeCopiedText,
+  noLabelCodeCopyTextDuringFeedback,
+  noLabelCodeCopySvgDuringFeedback,
+  noLabelCodeCopySvgAfterRestore,
+  noLabelCodeCopyTextAfterRestore,
+  uninitializedNoLabelHasSvgAfterLanguage,
+  uninitializedNoLabelTextAfterLanguage,
+  uninitializedNoLabelAriaAfterLanguage,
+  uninitializedNoLabelCopiedText,
+  uninitializedNoLabelTextDuringFeedback,
   panelNavDisplay: getComputedStyle(panelNav).display,
   panelNavEvent,
   panelNavSecondPressed: panelNavSecond.getAttribute('aria-pressed'),
@@ -510,6 +556,7 @@ return {
   markdownSafeLinkHref: markdownSafeLink?.href || '',
   markdownUnsafeLinkExists: Boolean(markdownUnsafeLink),
   renderedMarkdownInlineCode: renderedFragment.querySelector?.('.uzu-code')?.textContent || '',
+  neutralMarkdownCodeCopy,
   plainBackticksText: plainBackticks.textContent.trim(),
   plainBackticksCodeExists,
   kbdHeight: Math.round(document.querySelector('#consumer-kbd').getBoundingClientRect().height),

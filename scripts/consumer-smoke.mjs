@@ -35,6 +35,7 @@ function runNpm(args, options = {}) {
       ...process.env,
       npm_config_cache: npmCacheDir,
       npm_config_update_notifier: 'false',
+      npm_config_dry_run: 'false',
       ...(options.env || {})
     }
   };

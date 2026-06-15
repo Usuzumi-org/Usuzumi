@@ -80,6 +80,9 @@ if (
 ) throw new Error('Browser consumer JSON viewer did not render collapsible highlighted JSON');
 if (value.diffAddRows !== 1 || value.diffRemoveRows !== 1 || value.diffViewerDisplay !== 'block') throw new Error('Browser consumer diff viewer did not classify rows');
 if (value.editorDisplay !== 'grid' || value.markdownEditorDisplay !== 'grid' || value.markdownEditorHeading !== 'Updated' || value.markdownEditorCleared !== '' || !value.markdownEditorCopyInitialized || !value.markdownEditorShellPreviewEmpty || value.inlineEditorValue !== 'Changed inline') throw new Error('Browser consumer editor helpers did not initialize');
+if (!value.markdownEditorCodeCopyZh || value.markdownEditorCodeCopyZh.aria !== '\u590d\u5236\u4ee3\u7801' || value.markdownEditorCodeCopyZh.label !== '\u590d\u5236' || value.markdownEditorCodeCopyZh.zhHidden || !value.markdownEditorCodeCopyZh.enHidden) throw new Error(`Browser consumer markdown preview code copy should initialize with Chinese labels: ${JSON.stringify(value.markdownEditorCodeCopyZh)}`);
+if (!value.markdownEditorCodeCopyEn || value.markdownEditorCodeCopyEn.aria !== 'Copy code' || value.markdownEditorCodeCopyEn.label !== 'Copy' || !value.markdownEditorCodeCopyEn.zhHidden || value.markdownEditorCodeCopyEn.enHidden) throw new Error(`Browser consumer markdown preview code copy should switch to English labels: ${JSON.stringify(value.markdownEditorCodeCopyEn)}`);
+if (!value.markdownEditorCodeCopyEnAfterRender || value.markdownEditorCodeCopyEnAfterRender.aria !== 'Copy code' || value.markdownEditorCodeCopyEnAfterRender.label !== 'Copy' || !value.markdownEditorCodeCopyEnAfterRender.zhHidden || value.markdownEditorCodeCopyEnAfterRender.enHidden) throw new Error(`Browser consumer markdown preview code copy should keep English labels after rerender: ${JSON.stringify(value.markdownEditorCodeCopyEnAfterRender)}`);
 for (const [label, probe] of [
   ['code editor', value.codeEditorFocusProbe],
   ['plain editor', value.plainEditorFocusProbe],
@@ -93,6 +96,13 @@ for (const [label, probe] of [
 if (value.markdownSourceStackedBorderBottomWidth !== '1px') throw new Error(`Browser consumer stacked markdown source should keep a visible bottom focus border: ${JSON.stringify({ borderBottomWidth: value.markdownSourceStackedBorderBottomWidth })}`);
 if (Math.round(value.fieldGap) !== 5) throw new Error('Browser consumer form field should use the default field gap variable');
 if (value.fieldLabelToInputGap < 4) throw new Error('Browser consumer form label should not overlap the input');
+if (!Array.isArray(value.checkRowAlignment) || value.checkRowAlignment.length !== 2) throw new Error(`Browser consumer check rows were not measured: ${JSON.stringify(value.checkRowAlignment)}`);
+for (const probe of value.checkRowAlignment) {
+  if (probe.missing) throw new Error(`Browser consumer check row is missing required parts: ${JSON.stringify(probe)}`);
+  if (probe.rowDisplay !== 'flex' || probe.rowAlignItems !== 'center') throw new Error(`Browser consumer check row should align input and label with flex center: ${JSON.stringify(probe)}`);
+  if (probe.inputWidth !== 16 || probe.inputHeight !== 16 || probe.inputMarginTop !== '0px' || probe.inputMarginBottom !== '0px') throw new Error(`Browser consumer check row input should have a stable 16px box without default vertical margin: ${JSON.stringify(probe)}`);
+  if (probe.centerDelta > 1) throw new Error(`Browser consumer check row input and label center lines should align: ${JSON.stringify(probe)}`);
+}
 if (value.disclosureOpenAnimation !== 'uzu-disclosure-in' || value.disclosureCloseAnimation !== 'uzu-disclosure-out') throw new Error('Browser consumer disclosure did not animate open and close');
 if (!(value.disclosurePanelTargetHeight > 0)) throw new Error('Browser consumer disclosure did not set a measured panel height');
 if (!value.disclosureClosing || value.disclosureHiddenWhileClosing) throw new Error('Browser consumer disclosure did not stay visible while closing');

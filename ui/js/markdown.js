@@ -56,9 +56,16 @@
     button.type = 'button';
     button.setAttribute('aria-label', 'Copy code');
     button.setAttribute('data-uzu-code-copy', '');
-    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="8" y="8" width="10" height="10" rx="1.8" stroke="currentColor" stroke-width="1.7"/><path d="M6 15H5.8A1.8 1.8 0 0 1 4 13.2V5.8A1.8 1.8 0 0 1 5.8 4h7.4A1.8 1.8 0 0 1 15 5.8V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span data-uzu-code-copy-label>Copy</span>';
+    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="8" y="8" width="10" height="10" rx="1.8" stroke="currentColor" stroke-width="1.7"/><path d="M6 15H5.8A1.8 1.8 0 0 1 4 13.2V5.8A1.8 1.8 0 0 1 5.8 4h7.4A1.8 1.8 0 0 1 15 5.8V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span data-uzu-code-copy-label data-lang="en" data-uzu-copy-text="Copy code" data-uzu-copied-text="Copied" data-uzu-copy-failed-text="Copy failed">Copy</span><span data-uzu-code-copy-label data-lang="zh" data-uzu-copy-text="\u590d\u5236\u4ee3\u7801" data-uzu-copied-text="\u5df2\u590d\u5236" data-uzu-copy-failed-text="\u590d\u5236\u5931\u8d25" data-uzu-language-hidden>\u590d\u5236</span>';
     shell.append(pre, button);
     return shell;
+  }
+
+  function syncGeneratedMarkdownLanguage(element) {
+    const languageRoot = getClosestLanguageRoot(element);
+    if (!languageRoot.hasAttribute('data-language') && !languageRoot.hasAttribute('data-uzu-lang')) return;
+    const language = normalizeLanguage(languageRoot.getAttribute('data-language') || languageRoot.getAttribute('data-uzu-lang'));
+    syncLanguageContent(languageRoot, language);
   }
 
   function renderMarkdown(markdown) {
@@ -140,6 +147,7 @@
       if (markInitialized(element, 'Markdown')) {
         const source = element.tagName === 'TEXTAREA' ? element.value : element.textContent;
         element.replaceChildren(renderMarkdown(source));
+        syncGeneratedMarkdownLanguage(element);
       }
       initCodeHighlight(element);
       initCodeCopy(element);

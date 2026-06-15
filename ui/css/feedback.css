@@ -70,7 +70,7 @@
   margin-bottom: 0;
 }
 
-.uzu-callout p {
+:where(.uzu-callout) :where(p) {
   margin: 0;
   color: var(--uzu-callout-text-color);
   font-size: 14px;

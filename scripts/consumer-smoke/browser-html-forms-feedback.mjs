@@ -40,6 +40,10 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
         </div>
       </fieldset>
     </form>
+    <div class="uzu-stack uzu-gap-2" id="consumer-check-rows">
+      <label class="uzu-check-row" id="consumer-check-row"><input type="checkbox" checked><span>Enable alerts</span></label>
+      <label class="uzu-check-row" id="consumer-radio-row"><input type="radio" name="consumer-density" checked><span>Default density</span></label>
+    </div>
     <div class="uzu-input-group" id="consumer-input-group"><span class="uzu-input-addon">$</span><input class="uzu-input" value="128"><span class="uzu-select" id="consumer-input-group-currency" data-uzu-select data-uzu-select-name="currency"><button class="uzu-select-trigger" type="button" data-uzu-select-trigger aria-label="Currency"><span data-uzu-select-label>USD</span></button><span class="uzu-select-menu" role="listbox"><span class="uzu-select-option is-selected" data-uzu-select-option data-value="usd" role="option">USD</span><span class="uzu-select-option" data-uzu-select-option data-value="eur" role="option">EUR</span></span></span><button class="uzu-button uzu-input-action" type="button">Apply</button></div>
     <label class="uzu-file-upload" id="consumer-file-upload"><span class="uzu-label">File</span><input class="uzu-file-input" type="file"><span class="uzu-file-summary">Native file input.</span></label>
     <input class="uzu-slider" id="consumer-slider" type="range" value="50">
@@ -85,6 +89,7 @@ export const consumerFormsFeedbackHtml = `    <div class="uzu-stack" id="consume
     <aside class="uzu-callout uzu-callout-note" style="--uzu-callout-border-color: rgb(10, 20, 30); --uzu-callout-bg: rgb(240, 241, 242); --uzu-callout-title-color: rgb(30, 40, 50); --uzu-callout-text-color: rgb(60, 70, 80);">
       <h3 class="uzu-callout-title">Consumer page</h3>
       <p>Loaded from node_modules.</p>
+      <p class="uzu-signature">Usuzumi</p>
     </aside>
     <article class="uzu-alert" id="consumer-alert" style="--uzu-alert-max-width: 420px; --uzu-alert-accent-color: rgb(10, 20, 30); --uzu-alert-bg: rgb(240, 241, 242); --uzu-alert-title-color: rgb(30, 40, 50); --uzu-alert-text-color: rgb(60, 70, 80);">
       <div class="uzu-title-pair">

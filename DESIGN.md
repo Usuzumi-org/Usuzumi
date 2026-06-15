@@ -271,6 +271,8 @@ Usuzumi should feel like a carefully typeset independent publication that can al
 
 ## Tokens
 
+Color tokens and motion tokens are documentation-level design roles, not component catalog entries. Explain their scope, contrast expectations, timing intent, and affected component roles in documentation; the component page should stay focused on actual reusable UI components.
+
 ### Core Color Roles
 
 | Role | Token | Hex | Use |
@@ -702,7 +704,7 @@ The catalog page should demonstrate generic system primitives only. It must not 
 
 Use public primitives for component catalogs, API references, and long documentation pages that need persistent navigation plus one main reading column. Documentation pages should compose `.uzu-page`, `.uzu-topbar`, `.uzu-nav`, `.uzu-topbar-actions`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`.
 
-Component catalogs are consumers of the library. They should not add catalog-only selectors, runtime hooks, or hidden documentation generators to `ui/`. Each component entry should keep a real preview/code switch, a copyable snippet, two concise guidance notes, and a concrete interface table. Use `.uzu-code` for inline class, attribute, ARIA, role, and token names; do not leave markdown backticks, ellipsis placeholders, or template categories such as "Base Interface" in visible docs. Merge closely related public controls into one panel when it improves comprehension, as with topbar, theme toggle, and language selector.
+Component catalogs are consumers of the library. They should not add catalog-only selectors, runtime hooks, or hidden documentation generators to `ui/`. Each component entry should keep a real preview/code switch, a copyable snippet, two concise guidance notes, and a concrete interface table. Multi-variant entries should put variant-specific guidance beside each variant preview/code group, while bottom notes stay limited to shared rules, events, accessibility, and interface tables. Use `.uzu-code` for inline class, attribute, ARIA, role, and token names; do not leave markdown backticks, ellipsis placeholders, or template categories such as "Base Interface" in visible docs. Merge closely related public controls into one panel when it improves comprehension, as with topbar, theme toggle, and language selector. Do not add standalone panels for design-token categories such as color roles or motion timings; put animated examples under the concrete component that owns the behavior.
 
 ```html
 <main class="uzu-page">

@@ -12179,12 +12179,19 @@ if (typeof window === 'undefined' || typeof document === 'undefined') return;
     return element.closest('[data-uzu-language-root], [data-language], [data-uzu-lang]') || document.documentElement;
   }
 
+  function hasExplicitLanguageRoot(root) {
+    return Boolean(root?.hasAttribute?.('data-language') || root?.hasAttribute?.('data-uzu-lang'));
+  }
+
   function initLanguageRoots(root = document) {
     const roots = new Set();
-    if (root === document) roots.add(document.documentElement);
-    if (root instanceof Element && (root.hasAttribute('data-language') || root.hasAttribute('data-uzu-lang'))) roots.add(root);
+    if (root === document && hasExplicitLanguageRoot(document.documentElement)) roots.add(document.documentElement);
+    if (root instanceof Element && hasExplicitLanguageRoot(root)) roots.add(root);
     queryAll(root, '[data-language], [data-uzu-lang]').forEach((item) => roots.add(item));
-    queryAll(root, '[data-lang]').forEach((item) => roots.add(getClosestLanguageRoot(item)));
+    queryAll(root, '[data-lang]').forEach((item) => {
+      const languageRoot = getClosestLanguageRoot(item);
+      if (hasExplicitLanguageRoot(languageRoot)) roots.add(languageRoot);
+    });
     roots.forEach((languageRoot) => {
       if (languageRoot !== document.documentElement) languageRoot.setAttribute('data-uzu-language-root', '');
     });
@@ -12227,6 +12234,7 @@ if (typeof window === 'undefined' || typeof document === 'undefined') return;
     if (key) storage.set(key, nextLanguage);
     syncLanguageContent(root, nextLanguage);
     syncLanguageControls(root, nextLanguage);
+    if (typeof refreshCodeCopyLabels === 'function') refreshCodeCopyLabels(root);
     refreshStateIndicators(root, true);
     queueIndicatorRefresh(root, true);
   }
@@ -15283,6 +15291,7 @@ function createJsonToken(text, type = '') {
         const value = sourceValue || '';
         editor.dataset.uzuMarkdownValue = value;
         preview.replaceChildren(renderMarkdown(value));
+        syncGeneratedMarkdownLanguage(editor);
         initCodeHighlight(preview);
         initCodeCopy(preview);
         editor.dispatchEvent(new CustomEvent('uzu-markdown-editor-render', {
@@ -16078,9 +16087,16 @@ function isSafeMarkdownHref(value) {
     button.type = 'button';
     button.setAttribute('aria-label', 'Copy code');
     button.setAttribute('data-uzu-code-copy', '');
-    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="8" y="8" width="10" height="10" rx="1.8" stroke="currentColor" stroke-width="1.7"/><path d="M6 15H5.8A1.8 1.8 0 0 1 4 13.2V5.8A1.8 1.8 0 0 1 5.8 4h7.4A1.8 1.8 0 0 1 15 5.8V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span data-uzu-code-copy-label>Copy</span>';
+    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="8" y="8" width="10" height="10" rx="1.8" stroke="currentColor" stroke-width="1.7"/><path d="M6 15H5.8A1.8 1.8 0 0 1 4 13.2V5.8A1.8 1.8 0 0 1 5.8 4h7.4A1.8 1.8 0 0 1 15 5.8V6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span data-uzu-code-copy-label data-lang="en" data-uzu-copy-text="Copy code" data-uzu-copied-text="Copied" data-uzu-copy-failed-text="Copy failed">Copy</span><span data-uzu-code-copy-label data-lang="zh" data-uzu-copy-text="\u590d\u5236\u4ee3\u7801" data-uzu-copied-text="\u5df2\u590d\u5236" data-uzu-copy-failed-text="\u590d\u5236\u5931\u8d25" data-uzu-language-hidden>\u590d\u5236</span>';
     shell.append(pre, button);
     return shell;
+  }
+
+  function syncGeneratedMarkdownLanguage(element) {
+    const languageRoot = getClosestLanguageRoot(element);
+    if (!languageRoot.hasAttribute('data-language') && !languageRoot.hasAttribute('data-uzu-lang')) return;
+    const language = normalizeLanguage(languageRoot.getAttribute('data-language') || languageRoot.getAttribute('data-uzu-lang'));
+    syncLanguageContent(languageRoot, language);
   }
 
   function renderMarkdown(markdown) {
@@ -16162,6 +16178,7 @@ function isSafeMarkdownHref(value) {
       if (markInitialized(element, 'Markdown')) {
         const source = element.tagName === 'TEXTAREA' ? element.value : element.textContent;
         element.replaceChildren(renderMarkdown(source));
+        syncGeneratedMarkdownLanguage(element);
       }
       initCodeHighlight(element);
       initCodeCopy(element);
@@ -16177,35 +16194,62 @@ function getCodeCopyLabelText(button, label, key, fallback) {
     return queryAll(button, '[data-uzu-code-copy-label]');
   }
 
+  function isCodeCopyLabelActive(button, label) {
+    if (!(label instanceof Element)) return false;
+    let node = label;
+    while (node && node !== button) {
+      if (node.hidden || node.hasAttribute('data-uzu-language-hidden')) return false;
+      node = node.parentElement;
+    }
+    return true;
+  }
+
+  function getActiveCodeCopyLabel(button) {
+    const labels = getCodeCopyLabels(button);
+    return labels.find((label) => isCodeCopyLabelActive(button, label)) || labels[0] || null;
+  }
+
+  function setCodeCopyAriaLabel(button, key, fallback) {
+    const label = getActiveCodeCopyLabel(button);
+    button.setAttribute('aria-label', getCodeCopyLabelText(button, label, key, button.dataset[key] || fallback));
+  }
+
+  function getCodeCopyLabelDefault(button, label) {
+    if (!label.dataset.uzuCodeCopyDefault) {
+      label.dataset.uzuCodeCopyDefault = label.textContent.trim() || getCodeCopyLabelText(button, label, 'uzuCopyText', 'Copy');
+    }
+    return label.dataset.uzuCodeCopyDefault;
+  }
+
   function setCodeCopyLabel(button, key, fallback) {
     const labels = getCodeCopyLabels(button);
-    const nextLabel = button.dataset[key] || fallback;
-    button.setAttribute('aria-label', nextLabel);
+    setCodeCopyAriaLabel(button, key, fallback);
     if (labels.length) {
       labels.forEach((label) => {
         label.textContent = getCodeCopyLabelText(button, label, key, fallback);
       });
       return;
     }
+    const nextLabel = button.dataset[key] || fallback;
     button.textContent = nextLabel;
   }
 
   function restoreCodeCopyLabel(button) {
     const labels = getCodeCopyLabels(button);
     if (labels.length) {
-      button.setAttribute('aria-label', button.dataset.uzuCopyText || 'Copy code');
+      setCodeCopyAriaLabel(button, 'uzuCopyText', 'Copy code');
       labels.forEach((label) => {
-        label.textContent = getCodeCopyLabelText(button, label, 'uzuCopyText', label.dataset.uzuCodeCopyDefault || 'Copy');
+        label.textContent = getCodeCopyLabelDefault(button, label);
       });
       return;
     }
     const defaultContent = codeCopyDefaultContent.get(button);
     if (defaultContent) {
       button.replaceChildren(...defaultContent.map((node) => node.cloneNode(true)));
-      button.setAttribute('aria-label', button.dataset.uzuCopyText || 'Copy code');
+      setCodeCopyAriaLabel(button, 'uzuCopyText', 'Copy code');
       return;
     }
-    button.setAttribute('aria-label', button.dataset.uzuCopyText || 'Copy code');
+    setCodeCopyAriaLabel(button, 'uzuCopyText', 'Copy code');
     button.textContent = button.dataset.uzuCopyText || 'Copy';
   }
 
@@ -16240,11 +16284,12 @@ function getCodeCopyLabelText(button, label, key, fallback) {
       if (!markInitialized(button, 'CodeCopy')) return;
       const labels = getCodeCopyLabels(button);
       labels.forEach((label) => {
-        if (!label.dataset.uzuCodeCopyDefault) label.dataset.uzuCodeCopyDefault = label.textContent.trim();
+        getCodeCopyLabelDefault(button, label);
       });
       if (!labels.length && !codeCopyDefaultContent.has(button)) {
         codeCopyDefaultContent.set(button, [...button.childNodes].map((node) => node.cloneNode(true)));
       }
+      restoreCodeCopyLabel(button);
       button.addEventListener('click', () => {
         const block = button.closest('.uzu-code-block');
         const code = getCodeCopyText(block);
@@ -16260,6 +16305,17 @@ function getCodeCopyLabelText(button, label, key, fallback) {
           }, 1800);
         });
       });
+    });
+  }
+
+  function refreshCodeCopyLabels(root = document) {
+    queryAll(root, '[data-uzu-code-copy]').forEach((button) => {
+      const labels = getCodeCopyLabels(button);
+      if (!labels.length && button.dataset.uzuCodeCopyInitialized !== 'true' && !codeCopyDefaultContent.has(button)) {
+        setCodeCopyAriaLabel(button, 'uzuCopyText', 'Copy code');
+        return;
+      }
+      restoreCodeCopyLabel(button);
     });
   }
 
@@ -16490,6 +16546,7 @@ function handleDocumentClick(event) {
     listCodeLanguages,
     hasCodeLanguage,
     initCodeCopy,
+    refreshCodeCopyLabels,
     showToast,
     closeToast,
     openDialog,

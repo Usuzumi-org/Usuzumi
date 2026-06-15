@@ -5,17 +5,32 @@
   gap: 9px;
   color: var(--uzu-fg);
   font-size: 14px;
+  line-height: 1.45;
 }
 
-.uzu-check-row input {
+.uzu-check-row input[type="checkbox"],
+.uzu-check-row input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex: 0 0 auto;
   accent-color: var(--uzu-action-bg);
 }
 
-.uzu-check-row input:disabled {
+.uzu-check-row > span {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+}
+
+.uzu-check-row input[type="checkbox"]:disabled,
+.uzu-check-row input[type="radio"]:disabled {
   cursor: not-allowed;
 }
 
-.uzu-check-row input:disabled ~ * {
+.uzu-check-row input[type="checkbox"]:disabled ~ *,
+.uzu-check-row input[type="radio"]:disabled ~ * {
   color: var(--uzu-disabled);
 }
 

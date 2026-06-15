@@ -118,6 +118,7 @@ Single-instance adjustments:
 ```
 
 Documented variables cover color roles, radius, spacing, motion, page width, card title rhythm, form field rhythm, slider track/thumb/step-dot styling, feedback sizing and colors, toast sizing, and disclosure panel spacing.
+Color roles and motion timings are design tokens, not standalone UI components; document their scope, contrast behavior, and timing intent here instead of adding token demos to the component catalog.
 Use `--uzu-space-*` for layout primitives and project-level spacing. Component internals expose narrower rhythm variables such as `--uzu-card-block-gap`, `--uzu-field-gap`, and `--uzu-toast-inline-padding` when they are intended to be customized.
 
 | Variable | Default | Applies to | Suggested scope |
@@ -201,7 +202,7 @@ Text inputs, textareas, command inputs, combobox inputs, steppers, and editor su
 
 ## Documentation Pages
 
-Use public primitives to compose component catalogs, API references, and long documentation pages: `.uzu-page`, `.uzu-topbar`, `.uzu-nav`, `.uzu-topbar-actions`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`. The component catalog in the site repository is a strict consumer of these pieces; it does not rely on hidden documentation selectors or a library-owned docs generator. Catalog entries should keep public preview/code tabs, copyable snippets, concrete interface notes, and inline `.uzu-code` markers for class, attribute, ARIA, role, and token names. Related public controls can share one panel when that is clearer, such as the topbar, theme toggle, and language selector pattern.
+Use public primitives to compose component catalogs, API references, and long documentation pages: `.uzu-page`, `.uzu-topbar`, `.uzu-nav`, `.uzu-topbar-actions`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`. The component catalog in the site repository is a strict consumer of these pieces; it does not rely on hidden documentation selectors or a library-owned docs generator. Catalog entries should keep public preview/code tabs, copyable snippets, concrete interface notes, and inline `.uzu-code` markers for class, attribute, ARIA, role, and token names. Multi-variant entries should put variant-specific guidance in each variant card, leaving the bottom notes for shared rules and interface tables. Related public controls can share one panel when that is clearer, such as the topbar, theme toggle, and language selector pattern. Design tokens such as color roles and motion timings belong in README/DESIGN text; animated UI examples should live with the actual component that owns the behavior.
 
 `.uzu-topbar` arranges brand, `.uzu-nav`, and `.uzu-topbar-actions` as one page header. The nav slot grows to fill the middle of the row, while `.uzu-topbar-actions` stays at the inline end for compact controls such as theme toggles and language selectors. Use `--uzu-topbar-margin-bottom: 0` when embedding a topbar as a bounded preview rather than a page header.
 

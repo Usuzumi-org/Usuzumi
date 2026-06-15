@@ -118,6 +118,7 @@ Usuzumi 通过 CSS 自定义属性提供样式接口。项目应优先在 `:root
 ```
 
 已文档化的变量覆盖颜色角色、圆角、间距、动效、页面宽度、卡片标题节奏、表单字段间距、滑块轨道、thumb 和档位点样式、反馈卡片尺寸与颜色、Toast 尺寸和 Disclosure 内容边距。
+颜色角色和动效时间属于设计令牌，不是独立 UI 组件；在这里说明它们的作用域、对比度要求和时间节奏，不在组件目录里单独做令牌展示。
 `--uzu-space-*` 主要用于布局原语和项目级间距；组件内部节奏使用更具体的变量，例如 `--uzu-card-block-gap`、`--uzu-field-gap`、`--uzu-toast-inline-padding`。
 
 | 变量 | 默认值 | 作用范围 | 建议设置位置 |
@@ -203,7 +204,7 @@ Tabs 指示条、Segmented 指示条、Disclosure 实测高度、有级滑块档
 
 ## 文档页
 
-组件目录、API 参考和较长的文档页应由公开原语组合：`.uzu-page`、`.uzu-topbar`、`.uzu-nav`、`.uzu-topbar-actions`、`.uzu-sidebar-layout`、`.uzu-sidebar`、`.uzu-scroll-area`、`.uzu-scroll`、`.uzu-panel-nav`、`.uzu-panel`、`.uzu-section-head`、`.uzu-card`、`.uzu-table`、`.uzu-code-block` 和 `.uzu-prose`。站点仓库里的组件目录是这些公开能力的严格消费方，不依赖隐藏的文档选择器，也不依赖库内的文档生成器。目录条目应保留公开的预览/代码切换、可复制代码、具体接口说明，并用 `.uzu-code` 标记 class、attribute、ARIA、role 和 token 名称。相关的公开控件可以合并到一个面板里展示，例如顶部栏、主题切换和语言选择器模式。
+组件目录、API 参考和较长的文档页应由公开原语组合：`.uzu-page`、`.uzu-topbar`、`.uzu-nav`、`.uzu-topbar-actions`、`.uzu-sidebar-layout`、`.uzu-sidebar`、`.uzu-scroll-area`、`.uzu-scroll`、`.uzu-panel-nav`、`.uzu-panel`、`.uzu-section-head`、`.uzu-card`、`.uzu-table`、`.uzu-code-block` 和 `.uzu-prose`。站点仓库里的组件目录是这些公开能力的严格消费方，不依赖隐藏的文档选择器，也不依赖库内的文档生成器。目录条目应保留公开的预览/代码切换、可复制代码、具体接口说明，并用 `.uzu-code` 标记 class、attribute、ARIA、role 和 token 名称。多变体条目应把各变体的说明放在对应变体卡片里，底部只保留共享规则和接口表。相关的公开控件可以合并到一个面板里展示，例如顶部栏、主题切换和语言选择器模式。颜色角色、动效时间这类设计令牌应留在 README/DESIGN 文档里；动画示例应放在真正拥有该行为的组件面板中。
 
 `.uzu-topbar` 把品牌、`.uzu-nav` 和 `.uzu-topbar-actions` 组织成页面顶部栏。导航槽会填充中间空间，`.uzu-topbar-actions` 固定在行末，用来放主题切换和语言选择器这类短操作。把 topbar 嵌入预览或卡片时，可设置 `--uzu-topbar-margin-bottom: 0` 去掉页面级底部间距。
 

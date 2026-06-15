@@ -333,6 +333,7 @@ declare global {
     listCodeLanguages(): string[];
     hasCodeLanguage(language: string): boolean;
     initCodeCopy(root?: ParentNode): void;
+    refreshCodeCopyLabels(root?: ParentNode): void;
     showToast(options?: UsuzumiShowToastOptions | string): HTMLElement | null;
     closeToast(toast: HTMLElement): void;
     openDialog(dialog: HTMLElement, trigger?: HTMLElement | null): void;

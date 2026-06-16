@@ -54,6 +54,20 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
       <p class="uzu-stat-value">42</p>
       <p class="uzu-stat-note">Public primitives.</p>
     </article>
+    <article class="uzu-card uzu-card-cover" id="consumer-card-cover" style="width: 320px; --uzu-cover-ratio: 2 / 1; --uzu-cover-min-height: 120px; --uzu-cover-bg: rgb(250, 248, 240);">
+      <div class="uzu-card-cover-media" id="consumer-card-cover-media">
+        <svg id="consumer-card-cover-svg" viewBox="0 0 320 160" role="img" aria-label="Consumer cover">
+          <rect width="320" height="160" fill="var(--uzu-surface-soft)"></rect>
+          <path d="M36 118 118 54l54 42 46-30 66 52" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <div class="uzu-card-cover-body" id="consumer-card-cover-body">
+        <div class="uzu-title-pair">
+          <h3>Cover card</h3>
+          <p>Consumer-owned cover content.</p>
+        </div>
+      </div>
+    </article>
     <p><code class="uzu-code" id="consumer-code">.uzu-scope</code> <kbd class="uzu-kbd" id="consumer-kbd">Ctrl</kbd></p>
     <p id="consumer-plain-backticks">Plain \`raw\` text should stay untouched.</p>
     <div class="uzu-code-block" id="consumer-code-block" style="--uzu-code-block-bg: rgb(250, 248, 240); --uzu-code-block-fg: rgb(32, 32, 30)">

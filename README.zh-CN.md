@@ -1,6 +1,6 @@
 # Usuzumi
 
-[English](README.md)
+[English](README.md) · [更新日志](CHANGELOG.zh-CN.md)
 
 Usuzumi 是一套可以直接引入的 CSS 和 JavaScript 组件库，适合个人页面、应用介绍页、文档页面和小型产品工具。
 
@@ -117,7 +117,7 @@ Usuzumi 通过 CSS 自定义属性提供样式接口。项目应优先在 `:root
 </article>
 ```
 
-已文档化的变量覆盖颜色角色、圆角、间距、动效、页面宽度、卡片标题节奏、表单字段间距、滑块轨道、thumb 和档位点样式、反馈卡片尺寸与颜色、Toast 尺寸和 Disclosure 内容边距。
+已文档化的变量覆盖颜色角色、圆角、间距、动效、页面宽度、卡片标题节奏、卡片封面媒体、表单字段间距、滑块轨道、thumb 和档位点样式、反馈卡片尺寸与颜色、Toast 尺寸和 Disclosure 内容边距。
 颜色角色和动效时间属于设计令牌，不是独立 UI 组件；在这里说明它们的作用域、对比度要求和时间节奏，不在组件目录里单独做令牌展示。
 `--uzu-space-*` 主要用于布局原语和项目级间距；组件内部节奏使用更具体的变量，例如 `--uzu-card-block-gap`、`--uzu-field-gap`、`--uzu-toast-inline-padding`。
 
@@ -134,6 +134,11 @@ Usuzumi 通过 CSS 自定义属性提供样式接口。项目应优先在 `:root
 | `--uzu-card-subtitle-line` | `1.55` | `.uzu-title-pair` 说明文字行高 | `.uzu-app`、`.uzu-scope`、局部卡片 |
 | `--uzu-card-title-gap` | `6px` | 标题和说明之间的距离 | `.uzu-app`、`.uzu-scope`、局部卡片 |
 | `--uzu-card-block-gap` | `12px` | 卡片内重复内容间距 | `.uzu-app`、`.uzu-scope`、局部卡片 |
+| `--uzu-cover-ratio` | `16 / 9` | `.uzu-card-cover-media` 宽高比 | 局部封面卡片 |
+| `--uzu-cover-min-height` | `0` | `.uzu-card-cover-media` 最小高度 | 局部封面卡片 |
+| `--uzu-cover-bg` | `var(--uzu-surface-soft)` | `.uzu-card-cover-media` 兜底背景 | 局部封面卡片 |
+| `--uzu-cover-align` | `stretch` | `.uzu-card-cover-media` 内容对齐 | 局部封面卡片 |
+| `--uzu-cover-radius` | `var(--uzu-radius-micro)` | `.uzu-card-cover-media` 顶部圆角 | 局部封面卡片 |
 | `--uzu-field-gap` | `5px` | label、输入框、帮助文字间距 | `.uzu-app`、`.uzu-scope`、局部表单 |
 | `--uzu-edit-focus-border` | 强文本色与强边框色混合 | 输入框和编辑器焦点边框 | `.uzu-app`、`.uzu-scope`、局部表单或编辑器 |
 | `--uzu-slider-track-height` | `10px` | 滑块轨道高度 | 局部 slider 或表单 |
@@ -199,6 +204,8 @@ Tabs 指示条、Segmented 指示条、Disclosure 实测高度、有级滑块档
 - 主题切换、语言选择器、自定义 select、组合框过滤、数据网格排序/选择、树形导航、分栏/可调整面板、JSON / Diff 渲染、编辑器表面、标签页、分段控件、分页、switch、搜索清空、密码显示切换、stepper、下拉/右键菜单、菜单栏、命令过滤、标签选择/关闭、disclosure、accordion、hover card、popover、dialog、toast 触发/关闭、步骤导航、面板导航、代码复制和有限 Markdown 渲染等交互脚本。
 
 所有公开滚动区域共用同一套 6px 滚动条规范。根页面滚动条保持可见；局部滚动区域保留稳定滚动槽，并在 hover、focus、focus-within 或 active 交互时显示 thumb。WebKit 箭头按钮会被隐藏，滚动条 thumb 保持稳定的最小长度，避免长内容把 thumb 压成像三角形快速滚动按钮的形状。
+
+卡片可以保持为普通 `.uzu-card` 表面；当重复项需要顶部 flush 媒体区时，叠加 `.uzu-card-cover`。把消费方提供的媒体或组件组合放进 `.uzu-card-cover-media`，把文字与操作放进 `.uzu-card-cover-body`，封面颜色使用 `--uzu-*` token 或 `currentColor`，以便跟随主题变化。
 
 文本输入、文本域、命令输入、组合框输入、步进器和编辑器表面使用 `--uzu-edit-focus-border` 作为更安静的硬边框焦点，不使用虚化阴影或外发光。输入组合和步进器只在真实可编辑输入框获得焦点时，把焦点边框画在外层壳上；前缀、局部操作、可选择后缀和步进按钮保留自己的焦点反馈，不触发编辑外壳。固定文字使用 `.uzu-input-addon`；币种、单位这类可变后缀使用内嵌 `.uzu-select[data-uzu-select]`。
 

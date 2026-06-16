@@ -111,12 +111,12 @@
   .uzu-scope *::after {
     box-sizing: border-box;
   }
-
+  
   html.uzu-root,
   .uzu-app {
     scroll-behavior: smooth;
   }
-
+  
   .uzu-app,
   .uzu-scope {
     background: var(--uzu-bg);
@@ -125,13 +125,13 @@
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
   }
-
+  
   body.uzu-app {
     margin: 0;
     min-height: 100vh;
     transition: background var(--uzu-motion-slow) var(--uzu-ease-standard), color var(--uzu-motion-slow) var(--uzu-ease-standard);
   }
-
+  
   @media (prefers-reduced-motion: reduce) {
     .uzu-app,
     .uzu-app *,
@@ -146,20 +146,20 @@
       scroll-behavior: auto !important;
     }
   }
-
+  
   @supports (-moz-appearance: none) {
     html.uzu-root,
     body.uzu-app {
       scrollbar-width: thin;
       scrollbar-color: var(--uzu-border) transparent;
     }
-
+  
     .uzu-scroll,
     :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface) {
       scrollbar-width: thin;
       scrollbar-color: transparent transparent;
     }
-
+  
     .uzu-scroll:hover,
     .uzu-scroll:focus,
     .uzu-scroll:focus-within,
@@ -171,19 +171,19 @@
       scrollbar-color: var(--uzu-border) transparent;
     }
   }
-
+  
   html.uzu-root,
   body.uzu-app {
     --uzu-scrollbar-thumb-bg: var(--uzu-border);
     --uzu-scrollbar-thumb-hover-bg: var(--uzu-soft);
   }
-
+  
   .uzu-scroll,
   :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface) {
     --uzu-scrollbar-thumb-bg: transparent;
     --uzu-scrollbar-thumb-hover-bg: transparent;
   }
-
+  
   .uzu-scroll:hover,
   .uzu-scroll:focus,
   .uzu-scroll:focus-within,
@@ -195,7 +195,7 @@
     --uzu-scrollbar-thumb-bg: var(--uzu-border);
     --uzu-scrollbar-thumb-hover-bg: var(--uzu-soft);
   }
-
+  
   html.uzu-root::-webkit-scrollbar,
   body.uzu-app::-webkit-scrollbar,
   .uzu-scroll::-webkit-scrollbar,
@@ -214,7 +214,7 @@
     width: 6px;
     height: 6px;
   }
-
+  
   html.uzu-root::-webkit-scrollbar-button,
   body.uzu-app::-webkit-scrollbar-button,
   .uzu-scroll::-webkit-scrollbar-button,
@@ -237,7 +237,7 @@
     -webkit-appearance: none !important;
     appearance: none !important;
   }
-
+  
   /* Keep state selectors separate so unsupported WebKit variants cannot drop the base rule. */
   html.uzu-root::-webkit-scrollbar-button:single-button,
   html.uzu-root::-webkit-scrollbar-button:double-button,
@@ -327,7 +327,7 @@
     -webkit-appearance: none !important;
     appearance: none !important;
   }
-
+  
   html.uzu-root::-webkit-scrollbar-track,
   body.uzu-app::-webkit-scrollbar-track,
   .uzu-scroll::-webkit-scrollbar-track,
@@ -345,7 +345,7 @@
   .uzu-editor-surface::-webkit-scrollbar-track {
     background: transparent;
   }
-
+  
   html.uzu-root::-webkit-scrollbar-corner,
   body.uzu-app::-webkit-scrollbar-corner,
   .uzu-scroll::-webkit-scrollbar-corner,
@@ -363,7 +363,7 @@
   .uzu-editor-surface::-webkit-scrollbar-corner {
     background: transparent;
   }
-
+  
   html.uzu-root::-webkit-scrollbar-thumb,
   body.uzu-app::-webkit-scrollbar-thumb,
   .uzu-scroll::-webkit-scrollbar-thumb,
@@ -384,7 +384,7 @@
     min-width: 24px;
     min-height: 24px;
   }
-
+  
   html.uzu-root::-webkit-scrollbar-thumb:hover,
   body.uzu-app::-webkit-scrollbar-thumb:hover,
   .uzu-scroll::-webkit-scrollbar-thumb:hover,
@@ -402,24 +402,24 @@
   .uzu-editor-surface::-webkit-scrollbar-thumb:hover {
     background: var(--uzu-scrollbar-thumb-hover-bg, var(--uzu-soft));
   }
-
+  
   .uzu-app ::selection,
   .uzu-scope ::selection {
     background: color-mix(in srgb, var(--uzu-fg-strong) 18%, transparent);
     color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-app :focus,
   .uzu-scope :focus {
     outline: none;
   }
-
+  
   .uzu-app :focus-visible,
   .uzu-scope :focus-visible {
     outline: none;
     box-shadow: var(--uzu-focus-ring);
   }
-
+  
   .uzu-app a,
   .uzu-scope a {
     color: var(--uzu-fg-strong);
@@ -428,12 +428,12 @@
     text-underline-offset: 3px;
     transition: color var(--uzu-motion-base) var(--uzu-ease-standard), text-decoration-color var(--uzu-motion-base) var(--uzu-ease-standard);
   }
-
+  
   .uzu-app a:hover,
   .uzu-scope a:hover {
     text-decoration-color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-app button,
   .uzu-scope button,
   .uzu-app input,
@@ -444,14 +444,14 @@
   .uzu-scope select {
     font: inherit;
   }
-
+  
   .uzu-app input,
   .uzu-scope input,
   .uzu-app textarea,
   .uzu-scope textarea {
     caret-color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-app ::placeholder,
   .uzu-scope ::placeholder {
     color: var(--uzu-subtle);
@@ -636,25 +636,25 @@
     appearance: none;
     transition: background var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), color var(--uzu-motion-base) var(--uzu-ease-standard);
   }
-
+  
   .uzu-button:hover {
     border-color: color-mix(in srgb, var(--uzu-fg-strong) 38%, var(--uzu-border));
     background: var(--uzu-surface);
     color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-app a.uzu-button,
   .uzu-scope a.uzu-button {
     color: var(--uzu-fg-strong);
     text-decoration: none;
   }
-
+  
   .uzu-app a.uzu-button:hover,
   .uzu-scope a.uzu-button:hover {
     color: var(--uzu-fg-strong);
     text-decoration: none;
   }
-
+  
   .uzu-button:disabled,
   .uzu-button[aria-disabled="true"],
   .uzu-button.is-disabled,
@@ -670,11 +670,11 @@
     pointer-events: none;
     transform: none;
   }
-
+  
   .uzu-button.is-loading {
     cursor: progress;
   }
-
+  
   .uzu-button.is-loading::before {
     content: "";
     width: 12px;
@@ -685,80 +685,80 @@
     flex: 0 0 auto;
     animation: uzu-spin 720ms linear infinite;
   }
-
+  
   .uzu-button-primary {
     border-color: var(--uzu-action-bg);
     background: var(--uzu-action-bg);
     color: var(--uzu-action-fg);
   }
-
+  
   .uzu-app a.uzu-button-primary,
   .uzu-scope a.uzu-button-primary {
     color: var(--uzu-action-fg);
   }
-
+  
   .uzu-button-primary:hover {
     border-color: var(--uzu-action-bg);
     background: color-mix(in srgb, var(--uzu-action-bg) 92%, var(--uzu-surface));
     color: var(--uzu-action-fg);
   }
-
+  
   .uzu-app a.uzu-button-primary:hover,
   .uzu-scope a.uzu-button-primary:hover {
     color: var(--uzu-action-fg);
   }
-
+  
   .uzu-button-ghost {
     border-color: transparent;
     background: transparent;
     color: var(--uzu-muted);
   }
-
+  
   .uzu-button-ghost:hover {
     border-color: color-mix(in srgb, var(--uzu-fg-strong) 18%, transparent);
     background: color-mix(in srgb, var(--uzu-surface-soft) 58%, transparent);
     color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-button-danger {
     border-color: color-mix(in srgb, var(--uzu-danger) 35%, var(--uzu-border));
     background: var(--uzu-danger-bg);
     color: var(--uzu-danger);
   }
-
+  
   .uzu-button-danger:hover {
     border-color: color-mix(in srgb, var(--uzu-danger) 52%, var(--uzu-border));
     background: color-mix(in srgb, var(--uzu-danger-bg) 74%, var(--uzu-surface));
     color: var(--uzu-danger);
   }
-
+  
   .uzu-button svg {
     width: 14px;
     height: 14px;
     display: block;
     flex: 0 0 auto;
   }
-
+  
   .uzu-app .uzu-button,
   .uzu-scope .uzu-button {
     font-size: 13px;
     line-height: 1;
   }
-
+  
   .uzu-app a.uzu-button-ghost,
   .uzu-scope a.uzu-button-ghost,
   .uzu-app a.uzu-button-ghost:hover,
   .uzu-scope a.uzu-button-ghost:hover {
     color: var(--uzu-muted);
   }
-
+  
   .uzu-app a.uzu-button-danger,
   .uzu-scope a.uzu-button-danger,
   .uzu-app a.uzu-button-danger:hover,
   .uzu-scope a.uzu-button-danger:hover {
     color: var(--uzu-danger);
   }
-
+  
   .uzu-text-link {
     color: var(--uzu-fg-strong);
     display: inline-flex;
@@ -770,11 +770,11 @@
     text-decoration-color: var(--uzu-soft);
     text-underline-offset: 3px;
   }
-
+  
   .uzu-text-link:hover {
     text-decoration-color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-icon-button {
     width: 36px;
     height: 36px;
@@ -791,18 +791,18 @@
     backdrop-filter: blur(10px);
     transition: color var(--uzu-motion-base) var(--uzu-ease-standard), border-color var(--uzu-motion-base) var(--uzu-ease-standard), background var(--uzu-motion-base) var(--uzu-ease-standard);
   }
-
+  
   .uzu-icon-button:hover {
     color: var(--uzu-fg-strong);
     border-color: var(--uzu-border-strong);
   }
-
+  
   .uzu-icon-button svg {
     width: 17px;
     height: 17px;
     display: block;
   }
-
+  
   .uzu-toolbar {
     padding: 10px;
     border: 1px solid var(--uzu-border);
@@ -814,14 +814,14 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-
+  
   .uzu-toolbar-group {
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
   }
-
+  
   .uzu-breadcrumb {
     margin: 0;
     padding: 0;
@@ -834,60 +834,60 @@
     line-height: 1.45;
     list-style: none;
   }
-
+  
   .uzu-breadcrumb li {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     min-width: 0;
   }
-
+  
   .uzu-breadcrumb li:not(:last-child)::after {
     content: "/";
     color: var(--uzu-soft);
   }
-
+  
   .uzu-breadcrumb a {
     color: var(--uzu-muted);
     text-decoration: none;
   }
-
+  
   .uzu-breadcrumb a:hover {
     color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-breadcrumb [aria-current="page"] {
     color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-theme-toggle .uzu-icon-sun,
   .uzu-theme-toggle.is-dark .uzu-icon-moon {
     display: none;
   }
-
+  
   .uzu-theme-toggle.is-dark .uzu-icon-sun {
     display: block;
   }
-
+  
   .uzu-theme-toggle.is-auto {
     gap: 0;
   }
-
+  
   .uzu-theme-toggle.is-auto .uzu-icon-moon,
   .uzu-theme-toggle.is-auto .uzu-icon-sun {
     width: 14px;
     height: 14px;
     display: block;
   }
-
+  
   .uzu-theme-toggle.is-auto .uzu-icon-moon {
     transform: translateX(3px);
   }
-
+  
   .uzu-theme-toggle.is-auto .uzu-icon-sun {
     transform: translateX(-3px);
   }
-
+  
   .uzu-floating-controls {
     position: fixed;
     top: 24px;
@@ -896,7 +896,7 @@
     display: flex;
     gap: 8px;
   }
-
+  
   .uzu-card {
     border: 1px solid var(--uzu-border);
     border-radius: var(--uzu-radius-micro);
@@ -904,11 +904,58 @@
     padding: 18px;
   }
 
+  .uzu-card-cover {
+    --uzu-cover-ratio: 16 / 9;
+    --uzu-cover-min-height: 0;
+    --uzu-cover-bg: var(--uzu-surface-soft);
+    --uzu-cover-align: stretch;
+    --uzu-cover-radius: var(--uzu-radius-micro);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .uzu-card-cover-media {
+    display: grid;
+    place-items: var(--uzu-cover-align);
+    min-height: var(--uzu-cover-min-height);
+    aspect-ratio: var(--uzu-cover-ratio);
+    overflow: hidden;
+    border-start-start-radius: var(--uzu-cover-radius);
+    border-start-end-radius: var(--uzu-cover-radius);
+    border-block-end: 1px solid var(--uzu-border);
+    background: var(--uzu-cover-bg);
+    color: var(--uzu-fg);
+  }
+
+  .uzu-card-cover-media > :is(img, video, svg, canvas, picture) {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .uzu-card-cover-media > picture {
+    display: block;
+  }
+
+  .uzu-card-cover-media > :is(img, video),
+  .uzu-card-cover-media > picture > img {
+    object-fit: cover;
+  }
+
+  .uzu-card-cover-body {
+    display: grid;
+    gap: var(--uzu-card-block-gap);
+    padding: 18px;
+  }
+
   .uzu-card-muted {
     border-color: var(--uzu-border-soft);
     background: var(--uzu-surface-soft);
   }
-
+  
   .uzu-stat {
     min-width: 0;
     padding: 16px 18px;
@@ -918,7 +965,7 @@
     display: grid;
     gap: 6px;
   }
-
+  
   .uzu-stat-label {
     margin: 0;
     color: var(--uzu-subtle);
@@ -926,14 +973,14 @@
     line-height: 1.35;
     text-transform: uppercase;
   }
-
+  
   .uzu-stat-value {
     margin: 0;
     color: var(--uzu-fg-strong);
     font-size: 34px;
     line-height: 1.05;
   }
-
+  
   .uzu-stat-note {
     margin: 0;
     color: var(--uzu-muted);
@@ -4640,20 +4687,20 @@
     margin: 0 auto;
     padding: 56px 0 60px;
   }
-
+  
   .uzu-page-narrow {
     width: min(var(--uzu-page-narrow-max-width, 960px), calc(100% - 48px));
   }
-
+  
   .uzu-section {
     padding: 72px 0;
     border-bottom: 1px solid var(--uzu-border);
   }
-
+  
   .uzu-section:last-child {
     border-bottom: 0;
   }
-
+  
   .uzu-section-head {
     max-width: 780px;
     margin-bottom: 34px;
@@ -4662,28 +4709,28 @@
     align-items: flex-start;
     gap: 8px;
   }
-
+  
   .uzu-section-centered {
     text-align: center;
   }
-
+  
   .uzu-section-centered .uzu-section-head {
     margin-left: auto;
     margin-right: auto;
   }
-
+  
   .uzu-section-centered .uzu-section-head {
     align-items: center;
   }
-
+  
   .uzu-section-centered .uzu-body-large {
     text-align: center;
   }
-
+  
   :where(.uzu-section-centered) > .uzu-flex {
     justify-content: center;
   }
-
+  
   .uzu-topbar {
     min-height: 38px;
     margin-bottom: var(--uzu-topbar-margin-bottom, 58px);
@@ -4694,15 +4741,15 @@
     color: var(--uzu-muted);
     font-size: 13px;
   }
-
+  
   .uzu-topbar > * {
     min-width: 0;
   }
-
+  
   .uzu-topbar > .uzu-nav {
     flex: 1 1 auto;
   }
-
+  
   .uzu-topbar-actions {
     display: flex;
     align-items: center;
@@ -4711,7 +4758,7 @@
     flex-wrap: wrap;
     gap: var(--uzu-topbar-actions-gap, 8px);
   }
-
+  
   .uzu-nav {
     display: flex;
     align-items: center;
@@ -4719,7 +4766,7 @@
     flex-wrap: wrap;
     gap: 20px 24px;
   }
-
+  
   .uzu-nav a {
     color: var(--uzu-muted);
     display: inline-flex;
@@ -4727,40 +4774,40 @@
     gap: 6px;
     text-decoration: none;
   }
-
+  
   .uzu-nav a:hover {
     color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-nav svg {
     width: 14px;
     height: 14px;
     flex: 0 0 auto;
     display: block;
   }
-
+  
   .uzu-grid {
     display: grid;
     align-content: start;
     gap: 18px;
   }
-
+  
   .uzu-grid > * {
     min-width: 0;
   }
-
+  
   .uzu-grid-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
+  
   .uzu-grid-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-
+  
   .uzu-grid-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
-
+  
   .uzu-sidebar-layout {
     --uzu-sidebar-layout-sidebar-width: 240px;
     --uzu-sidebar-layout-gap: 28px;
@@ -4771,36 +4818,36 @@
     align-items: start;
     gap: var(--uzu-sidebar-layout-gap);
   }
-
+  
   .uzu-sidebar-layout > * {
     min-width: 0;
     max-width: 100%;
   }
-
+  
   .uzu-sidebar-layout > .uzu-sidebar {
     --uzu-sidebar-width: var(--uzu-sidebar-layout-sidebar-width);
     width: 100%;
   }
-
+  
   .uzu-sidebar-layout > .uzu-sidebar.uzu-scroll-area {
     --uzu-scroll-area-max-height: calc(100vh - 180px);
   }
-
+  
   .uzu-stack {
     --uzu-stack-gap: var(--uzu-space-4);
     display: flex;
     flex-direction: column;
     gap: var(--uzu-stack-gap);
   }
-
+  
   .uzu-stack-tight {
     --uzu-stack-gap: var(--uzu-space-2);
   }
-
+  
   .uzu-stack-loose {
     --uzu-stack-gap: var(--uzu-space-6);
   }
-
+  
   .uzu-flex {
     --uzu-flex-gap: var(--uzu-space-3);
     display: flex;
@@ -4808,24 +4855,24 @@
     flex-wrap: wrap;
     gap: var(--uzu-flex-gap);
   }
-
+  
   .uzu-flex-between {
     justify-content: space-between;
   }
-
+  
   .uzu-spacer {
     flex: 1 1 auto;
     min-width: var(--uzu-space-4);
     min-height: var(--uzu-space-4);
   }
-
+  
   .uzu-aspect {
     --uzu-aspect-ratio: 16 / 9;
     aspect-ratio: var(--uzu-aspect-ratio);
     min-width: 0;
     overflow: hidden;
   }
-
+  
   .uzu-scroll-area {
     --uzu-scroll-area-max-height: 260px;
     max-height: var(--uzu-scroll-area-max-height);
@@ -4833,7 +4880,7 @@
     overflow: auto;
     scrollbar-gutter: stable;
   }
-
+  
   .uzu-sidebar {
     --uzu-sidebar-width: 240px;
     width: min(var(--uzu-sidebar-width), 100%);
@@ -4842,17 +4889,17 @@
     align-content: start;
     gap: var(--uzu-space-5);
   }
-
+  
   .uzu-sidebar.uzu-scroll-area {
     padding-inline-end: var(--uzu-space-3);
   }
-
+  
   .uzu-sidebar-section {
     min-width: 0;
     display: grid;
     gap: var(--uzu-space-2);
   }
-
+  
   .uzu-sidebar-nav {
     margin: 0;
     padding: 0;
@@ -4860,7 +4907,7 @@
     gap: var(--uzu-space-1);
     list-style: none;
   }
-
+  
   .uzu-sidebar-nav a,
   .uzu-sidebar-nav button {
     width: 100%;
@@ -4881,7 +4928,7 @@
     cursor: pointer;
     appearance: none;
   }
-
+  
   .uzu-sidebar-nav a:hover,
   .uzu-sidebar-nav button:hover,
   .uzu-sidebar-nav a:focus-visible,
@@ -4892,7 +4939,7 @@
     background: var(--uzu-surface-soft);
     color: var(--uzu-fg-strong);
   }
-
+  
   .uzu-hero-split {
     min-height: min(720px, calc(100vh - 110px));
     padding-bottom: 68px;
@@ -4902,7 +4949,7 @@
     gap: clamp(42px, 7vw, 92px);
     align-items: center;
   }
-
+  
   .uzu-footer {
     padding-top: 24px;
     border-top: 1px solid var(--uzu-border);
@@ -4915,7 +4962,7 @@
     font-size: 12px;
     letter-spacing: 0;
   }
-
+  
   .uzu-footer a {
     color: var(--uzu-muted);
     display: inline-flex;
@@ -4923,76 +4970,76 @@
     gap: 6px;
     text-decoration-color: transparent;
   }
-
+  
   .uzu-footer a:hover {
     color: var(--uzu-fg-strong);
     text-decoration-color: var(--uzu-soft);
   }
-
+  
   .uzu-footer svg {
     width: 14px;
     height: 14px;
     flex: 0 0 auto;
     display: block;
   }
-
+  
   .uzu-divider {
     color: var(--uzu-soft);
     opacity: .72;
   }
-
+  
   @media (max-width: 920px) {
     .uzu-page {
       width: min(var(--uzu-page-max-width, 760px), calc(100% - 48px));
     }
-
+  
     .uzu-hero-split,
     .uzu-grid-2,
     .uzu-grid-3,
     .uzu-grid-4 {
       grid-template-columns: 1fr;
     }
-
+  
     .uzu-sidebar-layout {
       grid-template-columns: 1fr;
     }
-
+  
     .uzu-sidebar-layout > .uzu-sidebar.uzu-scroll-area {
       --uzu-scroll-area-max-height: min(260px, calc(100vh - 220px));
     }
-
+  
     .uzu-hero-split {
       min-height: auto;
       gap: 46px;
     }
   }
-
+  
   @media (max-width: 640px) {
     .uzu-page {
       width: min(var(--uzu-page-max-width, calc(100% - 44px)), calc(100% - 44px));
       max-width: calc(100vw - 44px);
       padding: 56px 0 40px;
     }
-
+  
     .uzu-section {
       padding: 54px 0;
     }
-
+  
     .uzu-topbar {
       margin-bottom: var(--uzu-topbar-margin-bottom, 54px);
       align-items: flex-start;
       flex-direction: column;
       gap: 16px;
     }
-
+  
     .uzu-nav {
       justify-content: flex-start;
     }
-
+  
     .uzu-topbar-actions {
       justify-content: flex-start;
     }
-
+  
     .uzu-footer {
       justify-content: flex-start;
       line-height: 1.9;

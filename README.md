@@ -1,6 +1,6 @@
 # Usuzumi
 
-[中文](README.zh-CN.md)
+[中文](README.zh-CN.md) · [Changelog](CHANGELOG.md)
 
 Usuzumi is a CSS and JavaScript component library you can load directly in a page. It is aimed at personal pages, app introductions, documentation, and small product tools.
 
@@ -117,7 +117,7 @@ Single-instance adjustments:
 </article>
 ```
 
-Documented variables cover color roles, radius, spacing, motion, page width, card title rhythm, form field rhythm, slider track/thumb/step-dot styling, feedback sizing and colors, toast sizing, and disclosure panel spacing.
+Documented variables cover color roles, radius, spacing, motion, page width, card title rhythm, card cover media, form field rhythm, slider track/thumb/step-dot styling, feedback sizing and colors, toast sizing, and disclosure panel spacing.
 Color roles and motion timings are design tokens, not standalone UI components; document their scope, contrast behavior, and timing intent here instead of adding token demos to the component catalog.
 Use `--uzu-space-*` for layout primitives and project-level spacing. Component internals expose narrower rhythm variables such as `--uzu-card-block-gap`, `--uzu-field-gap`, and `--uzu-toast-inline-padding` when they are intended to be customized.
 
@@ -134,6 +134,11 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | `--uzu-card-subtitle-line` | `1.55` | `.uzu-title-pair` description | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-title-gap` | `6px` | title/description rhythm | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-block-gap` | `12px` | repeated card content spacing | `.uzu-app`, `.uzu-scope`, local card |
+| `--uzu-cover-ratio` | `16 / 9` | `.uzu-card-cover-media` aspect ratio | local cover card |
+| `--uzu-cover-min-height` | `0` | `.uzu-card-cover-media` minimum height | local cover card |
+| `--uzu-cover-bg` | `var(--uzu-surface-soft)` | `.uzu-card-cover-media` fallback background | local cover card |
+| `--uzu-cover-align` | `stretch` | `.uzu-card-cover-media` content alignment | local cover card |
+| `--uzu-cover-radius` | `var(--uzu-radius-micro)` | `.uzu-card-cover-media` top corner radius | local cover card |
 | `--uzu-field-gap` | `5px` | label/input/help spacing | `.uzu-app`, `.uzu-scope`, local form |
 | `--uzu-edit-focus-border` | mixed strong ink and strong border | input and editor focus border | `.uzu-app`, `.uzu-scope`, local form or editor |
 | `--uzu-slider-track-height` | `10px` | slider track height | local slider or form |
@@ -197,6 +202,8 @@ Script-written variables for tab indicators, segmented indicators, and measured 
 - JavaScript helpers for theme toggles, language selectors, custom selects, combobox filtering, data grid sorting/selection, tree navigation, split/resizable panels, JSON/diff rendering, editor surfaces, tabs, segmented controls, pagination, switches, search clearing, password visibility, steppers, dropdown and context menus, menubars, command filtering, tag selection and closing, disclosures, accordions, hover cards, popovers, dialogs, toast triggers/dismissal, step navigation, panel navigation, code copying, and a limited Markdown renderer.
 
 Public scroll surfaces use the same 6px scrollbar contract. Root scrollbars stay visible, while local scroll surfaces keep the gutter stable and reveal their thumb on hover, focus, focus-within, or active interaction. WebKit arrow buttons are hidden, and thumbs keep a stable minimum length so long content never turns the thumb into a triangular quick-scroll affordance.
+
+Cards can stay as plain `.uzu-card` surfaces or compose `.uzu-card-cover` when a repeated item needs a flush media region above its content. Put consumer-owned media or component markup in `.uzu-card-cover-media`, place the text and actions in `.uzu-card-cover-body`, and keep cover colors on `--uzu-*` tokens or `currentColor` so the card follows theme changes.
 
 Text inputs, textareas, command inputs, combobox inputs, steppers, and editor surfaces use `--uzu-edit-focus-border` for a calm hard focus border without blurred shadow or glow. Input groups and steppers draw that hard border on the outer shell only when the editable input is focused; add-ons, inline actions, selectable suffixes, and stepper buttons keep their own focus affordance without triggering the edit shell. Use `.uzu-input-addon` for fixed text and a nested `.uzu-select[data-uzu-select]` when the suffix should be chosen, such as currency or units.
 

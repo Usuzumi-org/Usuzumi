@@ -62,11 +62,15 @@ const jsBanner = '/* Usuzumi generated runtime. Edit ui/js/*.js, then run npm ru
 const minJsBanner = '/* Usuzumi generated minified JS. Edit ui/js/*.js, then run npm run build. */';
 
 function readText(filePath) {
-  return readFileSync(path.join(root, filePath), 'utf8').replace(/^\uFEFF/, '').trim();
+  return normalizeText(readFileSync(path.join(root, filePath), 'utf8')).replace(/^\uFEFF/, '').trim();
+}
+
+function normalizeText(text) {
+  return text.replace(/\r\n?/g, '\n');
 }
 
 function wrapLayer(text) {
-  return `@layer usuzumi {\n${text.split('\n').map((line) => (line ? `  ${line}` : line)).join('\n')}\n}`;
+  return `@layer usuzumi {\n${text.split('\n').map((line) => (line.trim() ? `  ${line}` : '')).join('\n')}\n}`;
 }
 
 function minifyCss(text) {
@@ -125,7 +129,7 @@ if (process.argv.includes('--check')) {
     [minCssPath, bundledMinCss],
     [minJsPath, bundledMinJs]
   ];
-  const drifted = outputs.filter(([filePath, expected]) => readFileSync(filePath, 'utf8') !== expected);
+  const drifted = outputs.filter(([filePath, expected]) => normalizeText(readFileSync(filePath, 'utf8')) !== expected);
   if (drifted.length) {
     console.error(`${drifted.map(([filePath]) => path.relative(root, filePath).replaceAll(path.sep, '/')).join(', ')} out of date. Run npm run build.`);
     process.exit(1);

@@ -87,7 +87,7 @@ const errorPageApiReturnMatches = window.Usuzumi.setErrorPage(errorPage, {
   message: 'Runtime error message',
   documentTitle: '418 - Runtime title',
   primaryAction: { label: 'Retry now', href: '#retry' },
-  secondaryAction: { label: 'Unsafe link ignored', href: 'javascript:alert(1)' }
+  secondaryAction: { label: 'Unsafe link ignored', href: 'vbscript:msgbox(1)' }
 }) === errorPage;
 const errorPageRuntimeState = {
   code: errorPageCode.textContent.trim(),

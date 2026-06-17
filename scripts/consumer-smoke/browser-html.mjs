@@ -29,7 +29,7 @@ export const consumerBrowserHtml = `<!doctype html>
       errorPrimaryLabel: 'Open home',
       errorPrimaryHref: '#home',
       errorSecondaryLabel: 'Read docs',
-      errorSecondaryHref: '#docs'
+      errorSecondaryHref: 'data:text/html,<p>unsafe</p>'
     });
     history.replaceState(null, '', '?' + errorParams.toString() + (location.hash || ''));
   } catch (_) {}</script>

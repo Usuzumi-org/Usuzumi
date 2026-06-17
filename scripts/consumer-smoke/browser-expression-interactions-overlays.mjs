@@ -146,4 +146,42 @@ const alertDialogRole = alertDialog.getAttribute('role');
 const alertDialogBorderLeftWidth = Math.round(Number.parseFloat(getComputedStyle(alertDialog).borderLeftWidth));
 const alertDialogAccentColor = getComputedStyle(alertDialog).borderLeftColor;
 click(alertDialog.querySelector('[data-uzu-dialog-close]'));
-await wait(80);`;
+await wait(80);
+const originalMatchMedia = window.matchMedia?.bind(window);
+let themePreferenceListener = null;
+let themePreferenceListenerAdds = 0;
+let themePreferenceListenerRemoves = 0;
+const fakeThemeMedia = {
+  matches: false,
+  media: '(prefers-color-scheme: dark)',
+  addEventListener(type, listener) {
+    if (type === 'change') {
+      themePreferenceListener = listener;
+      themePreferenceListenerAdds += 1;
+    }
+  },
+  removeEventListener(type, listener) {
+    if (type === 'change' && listener === themePreferenceListener) {
+      themePreferenceListenerRemoves += 1;
+    }
+  }
+};
+window.Usuzumi.destroy(document);
+document.documentElement.setAttribute('data-theme-mode', 'auto');
+document.documentElement.setAttribute('data-theme', 'light');
+document.documentElement.setAttribute('data-uzu-theme', 'light');
+window.matchMedia = (query) => query === '(prefers-color-scheme: dark)' ? fakeThemeMedia : originalMatchMedia?.(query);
+window.Usuzumi.init(document);
+const themeMediaReinitListenerRegistered = themePreferenceListenerAdds === 1
+  && document.documentElement.dataset.uzuThemeMediaListener === 'true'
+  && typeof themePreferenceListener === 'function';
+fakeThemeMedia.matches = true;
+if (themePreferenceListener) themePreferenceListener({ matches: true });
+const themeAfterReinitPreferenceChange = document.documentElement.getAttribute('data-theme');
+window.Usuzumi.destroy(document);
+const themeMediaReinitListenerRemoved = themePreferenceListenerRemoves === 1
+  && document.documentElement.dataset.uzuThemeMediaListener !== 'true';
+window.matchMedia = originalMatchMedia;
+document.documentElement.setAttribute('data-theme-mode', 'light');
+document.documentElement.setAttribute('data-theme', 'light');
+document.documentElement.setAttribute('data-uzu-theme', 'light');`;

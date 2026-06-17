@@ -176,6 +176,7 @@
       }
       themeMediaQuery = null;
     }
+    delete document.documentElement.dataset.uzuThemeMediaListener;
     if (resizeListener) {
       window.removeEventListener('resize', resizeListener);
       resizeListener = null;

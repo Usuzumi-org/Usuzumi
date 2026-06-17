@@ -16153,8 +16153,14 @@ function getErrorPageParam(params, names) {
   }
 
   function isSafeErrorPageHref(value) {
-    if (typeof value !== 'string' || value.trim() === '') return false;
-    return !/^\s*javascript:/i.test(value);
+    const href = String(value || '').trim();
+    if (!href) return false;
+    if (href.startsWith('#') || href.startsWith('/') || href.startsWith('./') || href.startsWith('../')) return true;
+    try {
+      return ['http:', 'https:', 'mailto:', 'tel:'].includes(new URL(href, window.location.href).protocol);
+    } catch (_) {
+      return false;
+    }
   }
 
   function getErrorPageSlot(page, selector) {
@@ -16918,6 +16924,7 @@ function handleDocumentClick(event) {
       }
       themeMediaQuery = null;
     }
+    delete document.documentElement.dataset.uzuThemeMediaListener;
     if (resizeListener) {
       window.removeEventListener('resize', resizeListener);
       resizeListener = null;

@@ -15,11 +15,12 @@
     queryAll(document, '[data-uzu-popover].is-open').forEach((popover) => {
       if (!popover.contains(event.target)) closePopover(popover);
     });
+    closeOpenSidebarLayouts(event.target);
   }
 
   function handleDocumentKeydown(event) {
     if (event.key !== 'Escape') return;
-    if (closeOpenLanguageSelects() || closeOpenMenus() || closeOpenPopovers()) {
+    if (closeOpenLanguageSelects() || closeOpenMenus() || closeOpenPopovers() || closeOpenSidebarLayouts()) {
       event.preventDefault();
     } else if (activeDialog) {
       event.preventDefault();
@@ -98,6 +99,7 @@
       window.removeEventListener('hashchange', listener);
       panelNavHashListeners.delete(nav);
     });
+    destroySidebarLayouts(root);
     queryAll(root, '[data-uzu-tooltip]').forEach((tooltip) => {
       const description = tooltipNodes.get(tooltip);
       if (description && description.parentNode) {
@@ -187,7 +189,7 @@
   function init(root = document) {
     syncRootClass();
     initGlobalListeners();
-    for (const fn of [initThemeToggles, initLanguageSelects, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initForms, initSearches, initPasswords, initSteppers, initSliders, initMenus, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initTrees, initDisclosures, initAccordions, initHoverCards, initPopovers, initTags, initSplitPanes, initResizables, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initMarkdown, initCodeHighlight, initCodeCopy]) {
+    for (const fn of [initThemeToggles, initLanguageSelects, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initForms, initSearches, initPasswords, initSteppers, initSliders, initMenus, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initTrees, initDisclosures, initAccordions, initHoverCards, initPopovers, initTags, initSplitPanes, initResizables, initSidebarLayouts, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initMarkdown, initCodeHighlight, initCodeCopy]) {
       try { fn(root); } catch (error) { console.error('[usuzumi]', error); }
     }
     initAutoInit(root);

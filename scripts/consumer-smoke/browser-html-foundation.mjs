@@ -3,7 +3,12 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
       <button id="consumer-theme-toggle" class="uzu-icon-button" type="button" data-uzu-theme-toggle data-uzu-theme-target="#consumer-theme-root" aria-label="Theme">T</button>
     </section>
     <header id="consumer-topbar" class="uzu-topbar" style="--uzu-topbar-margin-bottom: 0; --uzu-topbar-gap: 30px; --uzu-topbar-actions-gap: 10px">
-      <a class="uzu-brand-link" href="#brand">Usuzumi</a>
+      <div id="consumer-topbar-leading" class="uzu-topbar-leading">
+        <button class="uzu-icon-button uzu-sidebar-layout-toggle" type="button" id="consumer-topbar-sidebar-toggle" data-uzu-sidebar-toggle data-uzu-sidebar-target="#consumer-collapsible-sidebar-layout" aria-label="Toggle navigation">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="4.5" y="5" width="15" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 5v14M13 9.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <a class="uzu-brand-link" href="#brand">Usuzumi</a>
+      </div>
       <nav id="consumer-topbar-nav" class="uzu-nav" aria-label="Consumer topbar navigation">
         <a href="#home" aria-current="page">Home</a>
         <a href="#components">Components</a>

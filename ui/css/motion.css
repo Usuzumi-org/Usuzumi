@@ -187,6 +187,54 @@
   }
 }
 
+@keyframes uzu-sidebar-layout-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes uzu-sidebar-layout-out {
+  from {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+
+  to {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@keyframes uzu-sidebar-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes uzu-sidebar-dropdown-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(.98);
+  }
+}
+
 @media (max-width: 640px) {
   .uzu-floating-controls {
     top: 16px;
@@ -261,13 +309,20 @@
   .uzu-sheet[data-uzu-dialog].is-open,
   .uzu-sheet[data-uzu-dialog].is-closing,
   .uzu-toast[data-uzu-toast],
-  .uzu-toast[data-uzu-toast].is-dismissed {
+  .uzu-toast[data-uzu-toast].is-dismissed,
+  .uzu-sidebar-layout[data-uzu-sidebar-layout].is-open > .uzu-sidebar,
+  .uzu-sidebar-layout[data-uzu-sidebar-layout].is-closing > .uzu-sidebar {
     animation: none;
   }
 
   .uzu-progress-indeterminate .uzu-progress-bar,
   .uzu-progress-bar.is-indeterminate {
     transform: none;
+  }
+
+  .uzu-sidebar-layout[data-uzu-sidebar-layout],
+  .uzu-sidebar-layout[data-uzu-sidebar-layout] > .uzu-sidebar {
+    transition: none;
   }
 
   .uzu-tabs[data-uzu-tabs-indicator="true"]::after,

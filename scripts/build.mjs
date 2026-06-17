@@ -44,6 +44,7 @@ const jsFiles = [
   'ui/js/popovers.js',
   'ui/js/tags.js',
   'ui/js/resizable.js',
+  'ui/js/sidebar-layouts.js',
   'ui/js/editors.js',
   'ui/js/dialogs.js',
   'ui/js/toasts.js',

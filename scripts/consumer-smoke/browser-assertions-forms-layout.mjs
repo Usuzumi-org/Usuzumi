@@ -31,8 +31,9 @@ if (value.alertWarningAccentColor !== 'rgb(123, 104, 66)') throw new Error('Brow
 if (Math.round(value.alertWidth) !== 420) throw new Error('Browser consumer alert max-width variable did not apply');
 if (Math.round(value.alertSuccessWidth) !== 520) throw new Error('Browser consumer alert default max width did not apply');
 if (value.stackDisplay !== 'flex' || value.flexDisplay !== 'flex') throw new Error('Browser consumer layout primitives did not use flex layout');
-if (value.topbarDisplay !== 'flex' || value.topbarNavFlexGrow !== '1' || value.topbarActionsDisplay !== 'flex' || value.topbarActionsFlexShrink !== '0') throw new Error('Browser consumer topbar slots did not use the public flex contract');
+if (value.topbarDisplay !== 'flex' || value.topbarLeadingDisplay !== 'flex' || value.topbarNavFlexGrow !== '1' || value.topbarActionsDisplay !== 'flex' || value.topbarActionsFlexShrink !== '0') throw new Error('Browser consumer topbar slots did not use the public flex contract');
 if (value.topbarMarginBottom !== '0px' || value.topbarGap !== '30px' || value.topbarActionsGap !== '10px') throw new Error('Browser consumer topbar variables did not apply');
+if (value.topbarLeadingGap !== '8px') throw new Error('Browser consumer topbar leading slot gap is wrong');
 if (!value.topbarActionsAlignedRight) throw new Error('Browser consumer topbar actions should stay at the topbar end');
 if (value.centeredFlexJustify !== 'center') throw new Error('Browser consumer centered section did not center direct flex action rows');
 if (value.centeredFlexBetweenJustify !== 'space-between') throw new Error('Browser consumer centered section should not override explicit flex distribution utilities');

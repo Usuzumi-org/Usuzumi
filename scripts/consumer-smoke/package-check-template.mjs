@@ -71,6 +71,7 @@ assert(css.includes('var(--uzu-slider-step-ticks)'), 'Published CSS must include
 assert(css.includes('calc(var(--uzu-slider-thumb-size) / 2) 0'), 'Published CSS must keep stepped slider backgrounds inside the thumb travel range');
 assert(css.includes('calc(100% - var(--uzu-slider-thumb-size)) 100%'), 'Published CSS must keep stepped slider backgrounds from clipping at the track edges');
 assert(css.includes('.uzu-stack'), 'Published CSS is missing stack layout styles');
+assert(css.includes('.uzu-topbar-leading'), 'Published CSS is missing topbar leading slot styles');
 assert(css.includes('.uzu-topbar-actions'), 'Published CSS is missing topbar action slot styles');
 assert(css.includes('.uzu-language-select'), 'Published CSS is missing language selector styles');
 assert(css.includes('.uzu-language-menu'), 'Published CSS is missing language menu styles');
@@ -89,6 +90,9 @@ assert(css.includes('.uzu-diff-viewer'), 'Published CSS is missing diff viewer s
 assert(css.includes('.uzu-editor'), 'Published CSS is missing editor styles');
 assert(css.includes('.uzu-markdown-editor'), 'Published CSS is missing markdown editor styles');
 assert(css.includes('.uzu-sidebar'), 'Published CSS is missing sidebar styles');
+assert(css.includes('.uzu-sidebar-layout-controls'), 'Published CSS is missing collapsible sidebar layout controls');
+assert(css.includes('data-uzu-sidebar-mobile="inline"'), 'Published CSS is missing sidebar mobile inline opt-out styles');
+assert(css.includes('uzu-sidebar-dropdown-in'), 'Published CSS is missing sidebar dropdown animation styles');
 assert(css.includes('.uzu-list'), 'Published CSS is missing list styles');
 assert(css.includes('.uzu-avatar'), 'Published CSS is missing avatar styles');
 assert(css.includes('.uzu-tag'), 'Published CSS is missing tag styles');
@@ -142,6 +146,9 @@ assert(js.includes('data-uzu-tag'), 'Runtime is missing tag initialization suppo
 assert(js.includes('data-uzu-tag-list'), 'Runtime is missing tag list initialization support');
 assert(js.includes('data-uzu-tag-add'), 'Runtime is missing tag add initialization support');
 assert(js.includes('data-uzu-step-nav'), 'Runtime is missing step navigation initialization support');
+assert(js.includes('data-uzu-sidebar-layout'), 'Runtime is missing collapsible sidebar layout initialization support');
+assert(js.includes('uzuSidebarMobile'), 'Runtime is missing sidebar mobile mode support');
+assert(js.includes('closeOpenSidebarLayouts'), 'Runtime is missing sidebar dropdown close support');
 assert(js.includes('data-uzu-language-select'), 'Runtime is missing language selector initialization support');
 assert(!js.includes('data-uzu-language-toggle'), 'Runtime should not include the retired language toggle attribute');
 assert(js.includes('data-uzu-toast-trigger'), 'Runtime is missing toast trigger initialization support');

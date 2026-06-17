@@ -173,7 +173,10 @@ Usuzumi 通过 CSS 自定义属性提供样式接口。项目应优先在 `:root
 | `--uzu-menu-content-width` | `max-content` | 菜单内容宽度策略 | 局部 menu |
 | `--uzu-command-max-height` | `260px` | 命令菜单结果列表高度 | 局部 command menu |
 | `--uzu-avatar-size` | `36px` | 头像宽高 | 局部 avatar 或容器 |
+| `--uzu-topbar-leading-gap` | `8px` | 顶部栏起始槽间距 | 局部 topbar |
 | `--uzu-sidebar-width` | `240px` | 侧边栏宽度 | 局部 sidebar 或布局 |
+| `--uzu-sidebar-layout-sidebar-width` | `240px` | 侧栏布局列宽 | 局部 sidebar layout |
+| `--uzu-sidebar-layout-gap` | `28px` | 侧栏布局列间距 | 局部 sidebar layout |
 | `--uzu-step-nav-gap` | `8px` | 可点击步骤导航间距 | 局部 step nav |
 | `--uzu-popover-width` | `280px` | 触发式浮层宽度 | 局部 popover 外层 |
 | `--uzu-popover-offset` | `6px` | 触发式浮层与按钮距离 | 局部 popover 外层 |
@@ -211,11 +214,11 @@ Tabs 指示条、Segmented 指示条、Disclosure 实测高度、有级滑块档
 
 ## 文档页
 
-组件目录、API 参考和较长的文档页应由公开原语组合：`.uzu-page`、`.uzu-topbar`、`.uzu-nav`、`.uzu-topbar-actions`、`.uzu-sidebar-layout`、`.uzu-sidebar`、`.uzu-scroll-area`、`.uzu-scroll`、`.uzu-panel-nav`、`.uzu-panel`、`.uzu-section-head`、`.uzu-card`、`.uzu-table`、`.uzu-code-block` 和 `.uzu-prose`。站点仓库里的组件目录是这些公开能力的严格消费方，不依赖隐藏的文档选择器，也不依赖库内的文档生成器。目录条目应保留公开的预览/代码切换、可复制代码、具体接口说明，并用 `.uzu-code` 标记 class、attribute、ARIA、role 和 token 名称。多变体条目应把各变体的说明放在对应变体卡片里，底部只保留共享规则和接口表。相关的公开控件可以合并到一个面板里展示，例如顶部栏、主题切换和语言选择器模式。颜色角色、动效时间这类设计令牌应留在 README/DESIGN 文档里；动画示例应放在真正拥有该行为的组件面板中。
+组件目录、API 参考和较长的文档页应由公开原语组合：`.uzu-page`、`.uzu-topbar`、`.uzu-topbar-leading`、`.uzu-nav`、`.uzu-topbar-actions`、`.uzu-sidebar-layout`、`.uzu-sidebar`、`.uzu-scroll-area`、`.uzu-scroll`、`.uzu-panel-nav`、`.uzu-panel`、`.uzu-section-head`、`.uzu-card`、`.uzu-table`、`.uzu-code-block` 和 `.uzu-prose`。站点仓库里的组件目录是这些公开能力的严格消费方，不依赖隐藏的文档选择器，也不依赖库内的文档生成器。目录条目应保留公开的预览/代码切换、可复制代码、具体接口说明，并用 `.uzu-code` 标记 class、attribute、ARIA、role 和 token 名称。多变体条目应把各变体的说明放在对应变体卡片里，底部只保留共享规则和接口表。相关的公开控件可以合并到一个面板里展示，例如顶部栏、主题切换和语言选择器模式。颜色角色、动效时间这类设计令牌应留在 README/DESIGN 文档里；动画示例应放在真正拥有该行为的组件面板中。
 
 `.uzu-topbar` 把品牌、`.uzu-nav` 和 `.uzu-topbar-actions` 组织成页面顶部栏。导航槽会填充中间空间，`.uzu-topbar-actions` 固定在行末，用来放主题切换和语言选择器这类短操作。把 topbar 嵌入预览或卡片时，可设置 `--uzu-topbar-margin-bottom: 0` 去掉页面级底部间距。
 
-`.uzu-sidebar-layout` 提供可复用的“侧栏 + 主内容”网格，适合文档页和应用页。它用 `--uzu-sidebar-layout-sidebar-width` 控制侧栏宽度，通过 `--uzu-sidebar-layout-gap` 提供默认 28px 列间距，窄屏收成单列，并会限制子级 `.uzu-sidebar.uzu-scroll-area` 的高度，避免过长导航把当前内容推到首屏之外。`.uzu-scroll-area` 也可以用 `--uzu-scroll-area-max-height` 约束局部预览或标本区域，同时保留公开滚动条样式。`.uzu-section-centered` 会居中标题组、大正文和直接子级 `.uzu-flex` 操作行。`.uzu-grid-4` 是 `.uzu-grid` 的四列形态，窄屏会收成单列。`.uzu-break-anywhere` 用于表格或卡片里的长 CSS 变量、包名、URL，避免撑破容器。
+`.uzu-sidebar-layout` 提供可复用的“侧栏 + 主内容”网格，适合文档页和应用页。它用 `--uzu-sidebar-layout-sidebar-width` 控制侧栏宽度，通过 `--uzu-sidebar-layout-gap` 提供默认 28px 列间距，并会限制子级 `.uzu-sidebar.uzu-scroll-area` 的高度，避免过长导航把当前内容推到首屏之外。需要折叠时，在布局上添加 `data-uzu-sidebar-layout`，并用 `.uzu-sidebar-layout-toggle[data-uzu-sidebar-toggle]` 按钮控制它；按钮可以放进品牌前的 `.uzu-topbar-leading`，再用 `data-uzu-sidebar-target` 指向 layout。`data-uzu-sidebar-default="auto"` 会让宽屏默认展开、窄屏默认收起，窄屏默认以顶部弹出形式打开；如需保留旧的内联窄屏布局，可使用 `data-uzu-sidebar-mobile="inline"`。`data-uzu-sidebar-collapse-on-select="narrow"` 会在窄屏导航选择后收起侧栏。运行时会为展开和收起加过渡，在关闭动画结束后再写入 `hidden`，同步 `data-uzu-sidebar-collapsed`、`aria-expanded` / `aria-controls`，并派发 `uzu-sidebar-layout-change`。`.uzu-sidebar-layout-controls` 仍可作为 layout 内的紧凑控制行。`.uzu-scroll-area` 也可以用 `--uzu-scroll-area-max-height` 约束局部预览或标本区域，同时保留公开滚动条样式。`.uzu-section-centered` 会居中标题组、大正文和直接子级 `.uzu-flex` 操作行。`.uzu-grid-4` 是 `.uzu-grid` 的四列形态，窄屏会收成单列。`.uzu-break-anywhere` 用于表格或卡片里的长 CSS 变量、包名、URL，避免撑破容器。
 
 ## 交互脚本
 
@@ -234,6 +237,8 @@ window.Usuzumi.destroy(container);
 它会断开该区域内的自动初始化观察器，移除运行时生成的 tooltip 描述，并清理属于该区域的拖拽状态与弹窗隔离状态。
 
 代码片段使用 `.uzu-code-block`、`.uzu-code-block-body` 和带有 `data-uzu-code-copy` 的复制按钮。在 `code` 或 `pre` 上添加 `data-uzu-code-language="javascript"`，也可以使用 `language-js` 类名。`Usuzumi.init()` 会完成高亮，把纯文本源码保存在 `data-uzu-code-source`，复制按钮会继续读取这份源码。同一个代码块里有多份 `[data-lang]` 代码时，复制按钮会读取当前可见语言的代码。需要检查内置语言范围时，可以调用 `window.Usuzumi.listCodeLanguages()` 或 `window.Usuzumi.hasCodeLanguage("ts")`。需要调整颜色时，在 `.uzu-code-block` 或 `.uzu-code-block-body` 上设置 `--uzu-code-block-bg`、`--uzu-code-block-fg` 和 `--uzu-code-token-*` 变量。
+
+侧栏布局需要折叠行为时，在 `.uzu-sidebar-layout` 上添加 `data-uzu-sidebar-layout`，并用 `.uzu-sidebar-layout-toggle[data-uzu-sidebar-toggle]` 按钮通过 `data-uzu-sidebar-target="#layout-id"` 指向它。页面级导航建议把按钮放进品牌前的 `.uzu-topbar-leading`；局部布局也可以继续用 `.uzu-sidebar-layout-controls` 放在 layout 内。`data-uzu-sidebar-default` 接受 `auto`、`expanded` 或 `collapsed`；`data-uzu-sidebar-mobile` 接受 `dropdown` 或 `inline`，窄屏默认 `dropdown`；`data-uzu-sidebar-collapse-on-select` 接受 `false`、`narrow` 或 `always`。
 
 语言选择器使用 `.uzu-language-select` 外层和 `data-uzu-language-select`，触发按钮使用 `data-uzu-language-trigger`，菜单使用 `data-uzu-language-menu`，每个选项使用 `data-uzu-language-option` 和 `data-uzu-language-value`。选择器默认把 `data-language`、`data-uzu-lang` 和 `lang` 写到文档根；需要控制局部预览或嵌入式应用时，使用 `data-uzu-language-target="#id"` 指向局部容器。任意 `[data-lang]` 片段的值与当前语言不一致时会被隐藏；静态 HTML 应该给非初始语言片段预先加上 `data-uzu-language-hidden`，避免首屏同时闪出多种语言。
 
@@ -278,6 +283,7 @@ Dialog、drawer 和 sheet 共用 `data-uzu-dialog-*` 行为。从已打开的弹
 - `uzu-tree-select`：`{ tree, item, value }`
 - `uzu-split-resize`：`{ splitPane, size }`
 - `uzu-resizable-resize`：`{ resizable, width, height }`
+- `uzu-sidebar-layout-change`：`{ collapsed, expanded }`
 - `uzu-accordion-change`：`{ open, accordion, disclosure }`
 - `uzu-hover-card-open` / `uzu-hover-card-close`：`{ hoverCard, trigger, content }`
 - `uzu-popover-open` / `uzu-popover-close`：`{ popover, trigger, content }`

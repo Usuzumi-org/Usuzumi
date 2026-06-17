@@ -101,4 +101,50 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
     <div class="uzu-sidebar-layout" id="consumer-sidebar-layout">
       <aside class="uzu-sidebar" aria-label="Consumer layout sidebar"></aside>
       <main class="uzu-card">Main content</main>
+    </div>
+    <div class="uzu-sidebar-layout" id="consumer-collapsible-sidebar-layout" data-uzu-sidebar-layout data-uzu-sidebar-default="expanded" data-uzu-sidebar-collapse-on-select="false" data-uzu-sidebar-mobile="inline">
+      <div class="uzu-sidebar-layout-controls">
+        <span class="uzu-section-label">Navigation</span>
+        <button class="uzu-icon-button uzu-sidebar-layout-toggle" type="button" id="consumer-collapsible-sidebar-toggle" data-uzu-sidebar-toggle data-uzu-sidebar-target="#consumer-collapsible-sidebar-layout" aria-label="Toggle navigation">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><rect x="4.5" y="5" width="15" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 5v14M13 9.5l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <aside class="uzu-sidebar" id="consumer-collapsible-sidebar" aria-label="Consumer collapsible sidebar">
+        <section class="uzu-sidebar-section">
+          <ul class="uzu-sidebar-nav">
+            <li><button type="button">Overview</button></li>
+          </ul>
+        </section>
+      </aside>
+      <main class="uzu-card">Collapsible content</main>
+    </div>
+    <div class="uzu-sidebar-layout-controls">
+      <button class="uzu-icon-button uzu-sidebar-layout-toggle" type="button" id="consumer-auto-sidebar-toggle" data-uzu-sidebar-toggle data-uzu-sidebar-target="#consumer-auto-sidebar-layout" aria-label="Toggle auto navigation">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="uzu-sidebar-layout" id="consumer-auto-sidebar-layout" data-uzu-sidebar-layout data-uzu-sidebar-default="auto" data-uzu-sidebar-collapse-on-select="narrow">
+      <aside class="uzu-sidebar" id="consumer-auto-sidebar" aria-label="Consumer auto sidebar">
+        <section class="uzu-sidebar-section">
+          <ul class="uzu-sidebar-nav">
+            <li><button type="button" id="consumer-auto-sidebar-select">Open section</button></li>
+          </ul>
+        </section>
+      </aside>
+      <main class="uzu-card">Auto content</main>
+    </div>
+    <div class="uzu-sidebar-layout-controls">
+      <button class="uzu-icon-button uzu-sidebar-layout-toggle" type="button" id="consumer-inline-sidebar-toggle" data-uzu-sidebar-toggle data-uzu-sidebar-target="#consumer-inline-sidebar-layout" aria-label="Toggle inline navigation">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="uzu-sidebar-layout" id="consumer-inline-sidebar-layout" data-uzu-sidebar-layout data-uzu-sidebar-default="auto" data-uzu-sidebar-collapse-on-select="narrow" data-uzu-sidebar-mobile="inline">
+      <aside class="uzu-sidebar" id="consumer-inline-sidebar" aria-label="Consumer inline sidebar">
+        <section class="uzu-sidebar-section">
+          <ul class="uzu-sidebar-nav">
+            <li><button type="button" id="consumer-inline-sidebar-select">Inline section</button></li>
+          </ul>
+        </section>
+      </aside>
+      <main class="uzu-card" id="consumer-inline-sidebar-main">Inline content</main>
     </div>`;

@@ -42,7 +42,10 @@ function runNpm(args, options = {}) {
   if (npmCli && existsSync(npmCli)) {
     return run(process.execPath, [npmCli, ...args], npmOptions);
   }
-  return run(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, npmOptions);
+  if (process.platform === 'win32') {
+    return run('cmd.exe', ['/d', '/s', '/c', 'npm.cmd', ...args], npmOptions);
+  }
+  return run('npm', args, npmOptions);
 }
 
 function writeJson(filePath, value) {

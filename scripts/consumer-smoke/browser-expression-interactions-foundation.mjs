@@ -39,6 +39,14 @@ const languageHiddenStates = Array.from(document.querySelectorAll('#consumer-lan
   lang: element.getAttribute('data-lang'),
   hidden: element.hasAttribute('data-uzu-language-hidden')
 }));
+const standaloneLanguageRoot = document.querySelector('#consumer-standalone-language-root');
+const standaloneLanguageRootValue = standaloneLanguageRoot.getAttribute('data-language');
+const standaloneLanguageRootUzuValue = standaloneLanguageRoot.getAttribute('data-uzu-lang');
+const standaloneLanguageRootHtmlLang = standaloneLanguageRoot.getAttribute('lang');
+const standaloneLanguageHiddenStates = Array.from(standaloneLanguageRoot.querySelectorAll('[data-lang]')).map((element) => ({
+  lang: element.getAttribute('data-lang'),
+  hidden: element.hasAttribute('data-uzu-language-hidden')
+}));
 const languageManualDynamicRoot = document.querySelector('#consumer-language-dynamic-manual');
 const languageManualDynamicFragment = document.createElement('span');
 languageManualDynamicFragment.innerHTML = '<span data-lang="zh">Manual Chinese copy</span><span data-lang="en">Manual English copy</span><span data-lang="ja">Manual Japanese copy</span>';

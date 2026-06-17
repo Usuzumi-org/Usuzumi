@@ -1,7 +1,9 @@
 ﻿.uzu-page {
+  --uzu-page-padding-block-start: 56px;
+  --uzu-page-padding-block-end: 60px;
   width: min(var(--uzu-page-max-width, 1120px), calc(100% - 48px));
   margin: 0 auto;
-  padding: 56px 0 60px;
+  padding: var(--uzu-page-padding-block-start) 0 var(--uzu-page-padding-block-end);
 }
 
 .uzu-page-narrow {
@@ -501,7 +503,7 @@
   }
 
   .uzu-sidebar-layout[data-uzu-sidebar-layout]:not([data-uzu-sidebar-mobile="inline"]) > .uzu-sidebar {
-    --uzu-sidebar-dropdown-max-height: min(70vh, 420px);
+    --uzu-sidebar-dropdown-max-height: min(280px, calc(100vh - 220px));
     position: absolute;
     z-index: 30;
     inset-block-start: 0;
@@ -559,9 +561,9 @@
 
 @media (max-width: 640px) {
   .uzu-page {
+    --uzu-page-padding-block-end: 40px;
     width: min(var(--uzu-page-max-width, calc(100% - 44px)), calc(100% - 44px));
     max-width: calc(100vw - 44px);
-    padding: 56px 0 40px;
   }
 
   .uzu-section {

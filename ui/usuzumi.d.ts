@@ -235,6 +235,41 @@ declare global {
     trigger?: Element;
   }
 
+  interface UsuzumiErrorPageActionOptions {
+    label?: string;
+    href?: string;
+  }
+
+  interface UsuzumiErrorPageOptions {
+    code?: string;
+    title?: string;
+    message?: string;
+    documentTitle?: string;
+    primaryAction?: UsuzumiErrorPageActionOptions | null;
+    secondaryAction?: UsuzumiErrorPageActionOptions | null;
+    actions?: {
+      primary?: UsuzumiErrorPageActionOptions | null;
+      secondary?: UsuzumiErrorPageActionOptions | null;
+    } | Array<UsuzumiErrorPageActionOptions | null>;
+  }
+
+  interface UsuzumiErrorPageAppliedAction {
+    label: string;
+    href: string;
+  }
+
+  interface UsuzumiErrorPageChangeDetail {
+    page: HTMLElement;
+    code: string;
+    title: string;
+    message: string;
+    documentTitle: string;
+    actions: {
+      primary: UsuzumiErrorPageAppliedAction | null;
+      secondary: UsuzumiErrorPageAppliedAction | null;
+    };
+  }
+
   interface UsuzumiDialogDetail {
     dialog: HTMLElement;
     overlay: HTMLElement | null;
@@ -336,6 +371,7 @@ declare global {
     refreshCodeCopyLabels(root?: ParentNode): void;
     showToast(options?: UsuzumiShowToastOptions | string): HTMLElement | null;
     closeToast(toast: HTMLElement): void;
+    setErrorPage(pageOrSelector: HTMLElement | string, options?: UsuzumiErrorPageOptions): HTMLElement | null;
     openDialog(dialog: HTMLElement, trigger?: HTMLElement | null): void;
     closeDialog(dialog: HTMLElement): void;
   }
@@ -383,6 +419,7 @@ declare global {
     "uzu-tag-add": CustomEvent<UsuzumiTagAddDetail>;
     "uzu-toast-open": CustomEvent<UsuzumiToastOpenDetail>;
     "uzu-toast-close": CustomEvent<UsuzumiToastCloseDetail>;
+    "uzu-error-page-change": CustomEvent<UsuzumiErrorPageChangeDetail>;
     "uzu-dialog-open": CustomEvent<UsuzumiDialogDetail>;
     "uzu-dialog-close": CustomEvent<UsuzumiDialogDetail>;
     "uzu-step-nav-change": CustomEvent<UsuzumiStepNavChangeDetail>;

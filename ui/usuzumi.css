@@ -4398,6 +4398,60 @@
     color: var(--uzu-danger);
   }
 
+  .uzu-error-page {
+    --uzu-error-page-min-height: 420px;
+    --uzu-error-page-max-width: 680px;
+    --uzu-error-page-gap: 18px;
+    --uzu-error-page-code-size: 88px;
+    min-height: var(--uzu-error-page-min-height);
+    max-width: var(--uzu-error-page-max-width);
+    margin-inline: auto;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: var(--uzu-error-page-gap);
+    color: var(--uzu-muted);
+    text-align: center;
+  }
+
+  .uzu-error-page-screen {
+    --uzu-error-page-min-height: calc(100vh - var(--uzu-page-padding-block-start, 0px) - var(--uzu-page-padding-block-end, 0px));
+  }
+
+  @supports (min-height: 100dvh) {
+    .uzu-error-page-screen {
+      --uzu-error-page-min-height: calc(100dvh - var(--uzu-page-padding-block-start, 0px) - var(--uzu-page-padding-block-end, 0px));
+    }
+  }
+
+  .uzu-error-page > * {
+    margin-block: 0;
+  }
+
+  .uzu-error-page-code {
+    color: var(--uzu-fg-strong);
+    font-size: var(--uzu-error-page-code-size);
+    font-weight: 650;
+    line-height: .92;
+    letter-spacing: 0;
+  }
+
+  .uzu-error-page-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @media (max-width: 640px) {
+    .uzu-error-page {
+      --uzu-error-page-min-height: 360px;
+      --uzu-error-page-code-size: 68px;
+      --uzu-error-page-gap: 16px;
+    }
+  }
+
   /* ui/css/motion.css */
   @keyframes uzu-spin {
     to {
@@ -4738,9 +4792,11 @@
 
   /* ui/css/layout.css */
   .uzu-page {
+    --uzu-page-padding-block-start: 56px;
+    --uzu-page-padding-block-end: 60px;
     width: min(var(--uzu-page-max-width, 1120px), calc(100% - 48px));
     margin: 0 auto;
-    padding: 56px 0 60px;
+    padding: var(--uzu-page-padding-block-start) 0 var(--uzu-page-padding-block-end);
   }
 
   .uzu-page-narrow {
@@ -5240,7 +5296,7 @@
     }
 
     .uzu-sidebar-layout[data-uzu-sidebar-layout]:not([data-uzu-sidebar-mobile="inline"]) > .uzu-sidebar {
-      --uzu-sidebar-dropdown-max-height: min(70vh, 420px);
+      --uzu-sidebar-dropdown-max-height: min(280px, calc(100vh - 220px));
       position: absolute;
       z-index: 30;
       inset-block-start: 0;
@@ -5298,9 +5354,9 @@
 
   @media (max-width: 640px) {
     .uzu-page {
+      --uzu-page-padding-block-end: 40px;
       width: min(var(--uzu-page-max-width, calc(100% - 44px)), calc(100% - 44px));
       max-width: calc(100vw - 44px);
-      padding: 56px 0 40px;
     }
 
     .uzu-section {
@@ -5583,6 +5639,10 @@
   .uzu-break-anywhere {
     white-space: normal;
     overflow-wrap: anywhere;
+  }
+
+  .uzu-measure {
+    width: min(var(--uzu-measure-width, 680px), calc(100% - var(--uzu-measure-gutter, 0px)));
   }
 
   .uzu-center {

@@ -49,6 +49,56 @@ const cardCoverMediaStyle = getComputedStyle(cardCoverMedia);
 const cardCoverBodyStyle = getComputedStyle(cardCoverBody);
 const cardCoverMediaRect = cardCoverMedia.getBoundingClientRect();
 const cardCoverSvgRect = cardCoverSvg.getBoundingClientRect();
+const errorPage = document.querySelector('#consumer-error-page');
+const errorPageCode = document.querySelector('#consumer-error-page-code');
+const errorPageTitle = document.querySelector('#consumer-error-page-title');
+const errorPageMessage = document.querySelector('#consumer-error-page-message');
+const errorPageActions = document.querySelector('#consumer-error-page-actions');
+const errorPagePrimary = document.querySelector('#consumer-error-page-primary');
+const errorPageSecondary = document.querySelector('#consumer-error-page-secondary');
+const errorPageStyle = getComputedStyle(errorPage);
+const errorPageCodeStyle = getComputedStyle(errorPageCode);
+const errorPageActionsStyle = getComputedStyle(errorPageActions);
+const errorPageRect = errorPage.getBoundingClientRect();
+const errorPageQueryState = {
+  code: errorPageCode.textContent.trim(),
+  title: errorPageTitle.textContent.trim(),
+  message: errorPageMessage.textContent.trim(),
+  documentTitle: document.title,
+  primaryText: errorPagePrimary.textContent.trim(),
+  primaryHref: errorPagePrimary.getAttribute('href'),
+  secondaryText: errorPageSecondary.textContent.trim(),
+  secondaryHref: errorPageSecondary.getAttribute('href')
+};
+let errorPageEventDetail = null;
+errorPage.addEventListener('uzu-error-page-change', (event) => {
+  errorPageEventDetail = {
+    code: event.detail.code,
+    title: event.detail.title,
+    message: event.detail.message,
+    documentTitle: event.detail.documentTitle,
+    primaryLabel: event.detail.actions.primary?.label || '',
+    secondaryHref: event.detail.actions.secondary?.href || ''
+  };
+});
+const errorPageApiReturnMatches = window.Usuzumi.setErrorPage(errorPage, {
+  code: '418',
+  title: 'Runtime error title',
+  message: 'Runtime error message',
+  documentTitle: '418 - Runtime title',
+  primaryAction: { label: 'Retry now', href: '#retry' },
+  secondaryAction: { label: 'Unsafe link ignored', href: 'javascript:alert(1)' }
+}) === errorPage;
+const errorPageRuntimeState = {
+  code: errorPageCode.textContent.trim(),
+  title: errorPageTitle.textContent.trim(),
+  message: errorPageMessage.textContent.trim(),
+  documentTitle: document.title,
+  primaryText: errorPagePrimary.textContent.trim(),
+  primaryHref: errorPagePrimary.getAttribute('href'),
+  secondaryText: errorPageSecondary.textContent.trim(),
+  secondaryHref: errorPageSecondary.getAttribute('href')
+};
 const editorMount = document.querySelector('#consumer-editor-mount');
 const editorMountStyle = getComputedStyle(editorMount);
 const editorMountFirstBlock = getComputedStyle(editorMount.querySelector('p'));

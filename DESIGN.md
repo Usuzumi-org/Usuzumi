@@ -79,9 +79,9 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 - `.uzu-button`, `.uzu-button-primary`, `.uzu-button-ghost`, `.uzu-button-danger`
 - `.uzu-text-link`
 - `.uzu-icon-button`, `.uzu-theme-toggle`, `.uzu-language-select`, `.uzu-language-trigger`, `.uzu-language-menu`, `.uzu-language-option`, `.uzu-floating-controls`
-- `.uzu-topbar`, `.uzu-brand-link`, `.uzu-nav`, `.uzu-topbar-actions`
+- `.uzu-topbar`, `.uzu-topbar-leading`, `.uzu-brand-link`, `.uzu-nav`, `.uzu-topbar-actions`
 - `.uzu-toolbar`, `.uzu-toolbar-group`, `.uzu-breadcrumb`, `.uzu-pagination`, `.uzu-page-button`
-- `.uzu-card`, `.uzu-card-muted`, `.uzu-title-pair`, `.uzu-stat`, `.uzu-stat-label`, `.uzu-stat-value`, `.uzu-stat-note`
+- `.uzu-card`, `.uzu-card-muted`, `.uzu-card-cover`, `.uzu-card-cover-media`, `.uzu-card-cover-body`, `.uzu-title-pair`, `.uzu-stat`, `.uzu-stat-label`, `.uzu-stat-value`, `.uzu-stat-note`
 - `.uzu-list`, `.uzu-list-item`, `.uzu-list-meta`, `.uzu-list-action`, `.uzu-avatar`
 - `.uzu-form`, `.uzu-fieldset`, `.uzu-form-message`, `.uzu-form-error`
 - `.uzu-field`, `.uzu-label`, `.uzu-input`, `.uzu-textarea`, `.uzu-select`, `.uzu-input-group`, `.uzu-input-addon`, `.uzu-input-action`
@@ -92,10 +92,11 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 - `.uzu-progress`, `.uzu-progress-bar`, `.uzu-progress-indeterminate`, `.uzu-progress-circular`, `.uzu-progress-circular-track`, `.uzu-progress-circular-fill`, `.uzu-spinner`, `.uzu-skeleton`
 - `.uzu-activity`, `.uzu-activity-dot`, `.uzu-process`, `.uzu-process-step`, `.uzu-step-nav`, `.uzu-step-nav-item`, `.uzu-step-nav-button`
 - `.uzu-disclosure`, `.uzu-disclosure-trigger`, `.uzu-disclosure-panel`, `.uzu-accordion`, `.uzu-popover-trigger`, `.uzu-hover-card`, `.uzu-hover-card-content`, `.uzu-tooltip`
-- `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-grid-2`, `.uzu-grid-3`, `.uzu-grid-4`, `.uzu-sidebar-layout`, `.uzu-stack`, `.uzu-flex`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
+- `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-grid-2`, `.uzu-grid-3`, `.uzu-grid-4`, `.uzu-sidebar-layout`, `.uzu-sidebar-layout-controls`, `.uzu-sidebar-layout-toggle`, `.uzu-stack`, `.uzu-flex`, `.uzu-measure`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
 - `.uzu-section-centered`, `.uzu-panel`
 - `.uzu-panel-nav`, `.uzu-panel-nav-section`, `.uzu-panel-nav-title`, `.uzu-panel-nav-button`, `.uzu-panel-nav-meta`
 - `.uzu-code-block`, `.uzu-code-block-body`, `.uzu-code-block-copy`, `.uzu-prose`
+- `.uzu-error-page`, `.uzu-error-page-screen`, `.uzu-error-page-code`, `.uzu-error-page-actions`
 - `.uzu-break-anywhere`
 
 ### CSS Custom Property API
@@ -142,7 +143,7 @@ Stable global variables include:
 - Motion: `--uzu-motion-quick`, `--uzu-motion-base`, `--uzu-motion-slow`, `--uzu-ease-standard`
 - Radius: `--uzu-radius-micro`, `--uzu-radius-standard`, `--uzu-radius-medium`, `--uzu-radius-large`, `--uzu-radius-pill`
 - Spacing: `--uzu-space-1`, `--uzu-space-2`, `--uzu-space-3`, `--uzu-space-4`, `--uzu-space-5`, `--uzu-space-6`, `--uzu-space-8`, `--uzu-space-10`
-- Layout, card, and form rhythm: `--uzu-page-max-width`, `--uzu-page-narrow-max-width`, `--uzu-topbar-margin-bottom`, `--uzu-topbar-gap`, `--uzu-topbar-actions-gap`, `--uzu-card-title-size`, `--uzu-card-title-line`, `--uzu-card-subtitle-size`, `--uzu-card-subtitle-line`, `--uzu-card-title-gap`, `--uzu-card-block-gap`, `--uzu-field-gap`
+- Layout, card, and form rhythm: `--uzu-page-max-width`, `--uzu-page-narrow-max-width`, `--uzu-page-padding-block-start`, `--uzu-page-padding-block-end`, `--uzu-measure-width`, `--uzu-measure-gutter`, `--uzu-topbar-margin-bottom`, `--uzu-topbar-gap`, `--uzu-topbar-actions-gap`, `--uzu-topbar-leading-gap`, `--uzu-card-title-size`, `--uzu-card-title-line`, `--uzu-card-subtitle-size`, `--uzu-card-subtitle-line`, `--uzu-card-title-gap`, `--uzu-card-block-gap`, `--uzu-field-gap`
 - Local layout primitives: `--uzu-stack-gap`, `--uzu-flex-gap`, `--uzu-aspect-ratio`, `--uzu-scroll-area-max-height`
 
 Stable component variables include:
@@ -153,7 +154,9 @@ Stable component variables include:
 - Disclosure spacing: `--uzu-disclosure-panel-block-end-padding`
 - Form, upload, and slider sizing: `--uzu-form-gap`, `--uzu-file-upload-min-height`, `--uzu-slider-track-height`, `--uzu-slider-thumb-size`, `--uzu-slider-track`, `--uzu-slider-track-border`, `--uzu-slider-fill`, `--uzu-slider-thumb`, `--uzu-slider-thumb-border`, `--uzu-slider-step-dot`, `--uzu-slider-step-dot-active`, `--uzu-slider-step-dot-radius`
 - Menu and command sizing: `--uzu-menu-min-width`, `--uzu-menu-offset`, `--uzu-menu-content-width`, `--uzu-command-max-height`
-- Identity and navigation sizing: `--uzu-avatar-size`, `--uzu-sidebar-width`, `--uzu-step-nav-gap`
+- Card cover sizing: `--uzu-cover-ratio`, `--uzu-cover-min-height`, `--uzu-cover-bg`, `--uzu-cover-align`, `--uzu-cover-radius`
+- Page error sizing: `--uzu-error-page-min-height`, `--uzu-error-page-max-width`, `--uzu-error-page-gap`, `--uzu-error-page-code-size`
+- Identity and navigation sizing: `--uzu-avatar-size`, `--uzu-sidebar-width`, `--uzu-sidebar-layout-sidebar-width`, `--uzu-sidebar-layout-gap`, `--uzu-step-nav-gap`
 - Overlay sizing: `--uzu-popover-width`, `--uzu-popover-offset`, `--uzu-hover-card-width`, `--uzu-alert-dialog-accent-color`, `--uzu-drawer-width`, `--uzu-sheet-width`
 - Loading sizing: `--uzu-spinner-size`, `--uzu-spinner-stroke`
 
@@ -163,15 +166,29 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | --- | --- | --- | --- |
 | `--uzu-page-max-width` | `1120px` | `.uzu-page` width | `.uzu-app`, `.uzu-scope`, local page |
 | `--uzu-page-narrow-max-width` | `960px` | `.uzu-page-narrow` width | `.uzu-app`, `.uzu-scope`, local page |
+| `--uzu-page-padding-block-start` | `56px` | `.uzu-page` top padding | `.uzu-page`, local page |
+| `--uzu-page-padding-block-end` | `60px` desktop, `40px` narrow screens | `.uzu-page` bottom padding | `.uzu-page`, local page |
+| `--uzu-measure-width` | `680px` | `.uzu-measure` maximum width | local content block |
+| `--uzu-measure-gutter` | `0px` | `.uzu-measure` inline gutter reservation | local content block |
 | `--uzu-topbar-margin-bottom` | `58px` desktop, `54px` narrow screens | `.uzu-topbar` block-end spacing | local topbar or page |
 | `--uzu-topbar-gap` | `24px` | brand/nav/actions gap in `.uzu-topbar` | local topbar or page |
 | `--uzu-topbar-actions-gap` | `8px` | action button gap in `.uzu-topbar-actions` | local topbar or page |
+| `--uzu-topbar-leading-gap` | `8px` | leading controls/brand gap in `.uzu-topbar-leading` | local topbar |
 | `--uzu-card-title-size` | `18px` | `.uzu-title-pair` heading | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-title-line` | `1.25` | `.uzu-title-pair` heading | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-subtitle-size` | `13px` | `.uzu-title-pair` description | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-subtitle-line` | `1.55` | `.uzu-title-pair` description | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-title-gap` | `6px` | title/description rhythm | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-block-gap` | `12px` | repeated card content spacing | `.uzu-app`, `.uzu-scope`, local card |
+| `--uzu-cover-ratio` | `16 / 9` | `.uzu-card-cover-media` aspect ratio | local cover card |
+| `--uzu-cover-min-height` | `0` | `.uzu-card-cover-media` minimum height | local cover card |
+| `--uzu-cover-bg` | `var(--uzu-surface-soft)` | `.uzu-card-cover-media` fallback background | local cover card |
+| `--uzu-cover-align` | `stretch` | `.uzu-card-cover-media` content alignment | local cover card |
+| `--uzu-cover-radius` | `var(--uzu-radius-micro)` | `.uzu-card-cover-media` top corner radius | local cover card |
+| `--uzu-error-page-min-height` | `420px` | `.uzu-error-page` minimum height | local page error |
+| `--uzu-error-page-max-width` | `680px` | `.uzu-error-page` content width | local page error |
+| `--uzu-error-page-gap` | `18px` | `.uzu-error-page` vertical rhythm | local page error |
+| `--uzu-error-page-code-size` | `88px` | `.uzu-error-page-code` text size | local page error |
 | `--uzu-field-gap` | `5px` | label/input/help spacing | `.uzu-app`, `.uzu-scope`, local form |
 | `--uzu-edit-focus-border` | mixed strong ink and strong border | input and editor focus border | `.uzu-app`, `.uzu-scope`, local form or editor |
 | `--uzu-slider-track-height` | `10px` | slider track height | local slider or form |
@@ -207,6 +224,8 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | `--uzu-command-max-height` | `260px` | command list height | local command menu |
 | `--uzu-avatar-size` | `36px` | avatar size | local avatar or container |
 | `--uzu-sidebar-width` | `240px` | sidebar width | local sidebar or layout |
+| `--uzu-sidebar-layout-sidebar-width` | `240px` | sidebar layout column width | local sidebar layout |
+| `--uzu-sidebar-layout-gap` | `28px` | sidebar layout column gap | local sidebar layout |
 | `--uzu-step-nav-gap` | `8px` | step navigation gap | local step nav |
 | `--uzu-popover-width` | `280px` | triggered popover width | local popover wrapper |
 | `--uzu-popover-offset` | `6px` | triggered popover distance from trigger | local popover wrapper |
@@ -239,6 +258,7 @@ Every interactive component must define the states it exposes. Use native attrib
 - Invalid: use `.is-invalid` on the field wrapper or control, plus `aria-invalid="true"` on the input-like element.
 - Read-only: use `readonly` for text controls and keep the value readable.
 - Empty: use `.uzu-empty-state` for empty panels, lists, and tables.
+- Page error: use `.uzu-error-page` for full-page 404, 500, and maintenance states.
 - Open/closed: use `.is-open` with `aria-expanded` for disclosures and dialogs.
 
 Do not introduce a visual state without also defining the matching semantic attribute when one exists.
@@ -374,6 +394,22 @@ Cards use surfaces, borders, and spacing. They do not use default shadows.
 
 Cards are for repeated bounded objects, compact summaries, controls, static overlay content, and screen thumbnails. Do not use cards as the default wrapper for every section. If the content is primarily a list of projects or feature explanations, use the relevant page pattern instead of a card grid.
 
+Use `.uzu-card-cover` together with `.uzu-card` when a repeated object needs a flush media region above its body. The modifier removes the default card padding, stacks media and body vertically, and clips the top media region to the card radius. Put consumer-owned images, video, SVG, canvas, or component markup in `.uzu-card-cover-media`; put text and actions in `.uzu-card-cover-body`. Keep cover colors on `--uzu-*` tokens or `currentColor` so the composition follows theme changes.
+
+```html
+<article class="uzu-card uzu-card-cover" style="--uzu-cover-ratio: 4 / 3">
+  <div class="uzu-card-cover-media">
+    <img src="cover.jpg" alt="">
+  </div>
+  <div class="uzu-card-cover-body">
+    <div class="uzu-title-pair">
+      <h3>Cover card</h3>
+      <p>Flush media with regular card body rhythm.</p>
+    </div>
+  </div>
+</article>
+```
+
 ### Forms
 
 Fields must have real labels. Placeholders are hints, not labels.
@@ -428,6 +464,24 @@ Tabs and segmented controls are static visual primitives by default. Add `data-u
 ### Feedback
 
 Badges, alerts, callouts, toasts, and validation use the muted semantic families. State should be carried by text, ARIA, and layout as well as color. Badges are short status labels; do not use them for user-removable filters or categories. Alerts provide `.uzu-alert-info`, `.uzu-alert-success`, `.uzu-alert-warning`, and `.uzu-alert-danger` presets. Alerts and callouts also expose color custom properties for project-specific tones; prefer those variables over selector overrides. Toasts use `.uzu-toast-stack` and `.uzu-toast`; close buttons use icon-only `.uzu-icon-button` controls with `data-uzu-toast-close`. Use `data-uzu-toast-trigger`, `data-uzu-toast-template`, and `data-uzu-toast-stack` when a toast should be created after a user action. The runtime fills default `role="status"`, `aria-live="polite"`, and `aria-atomic="true"` when authors have not set them.
+
+Use `.uzu-error-state` for a failed region inside an otherwise usable view. Use `.uzu-error-page` when the whole route is blocked, such as a missing page, server failure, or maintenance notice. Add `.uzu-error-page-screen` when the error should occupy the available viewport height inside `.uzu-page`. Keep page errors unframed and spacious, put the short code or label in `.uzu-error-page-code`, and group recovery links or retry controls in `.uzu-error-page-actions`. `.uzu-error-page` is a page-level layout primitive, not a card; do not wrap it in another bordered error surface unless the product route itself requires a framed tool.
+
+Add `data-uzu-error-page` when a page error should accept parameters. Mark replaceable slots with `data-uzu-error-code`, `data-uzu-error-title`, `data-uzu-error-message`, and actions with `data-uzu-error-action="primary"` or `"secondary"`. With `data-uzu-error-page-source="query"`, the runtime reads URL parameters such as `errorCode`, `errorTitle`, `errorMessage`, `errorDocumentTitle`, `errorPrimaryLabel`, `errorPrimaryHref`, `errorSecondaryLabel`, and `errorSecondaryHref`. Language-specific variants like `errorTitleEn` or `errorTitleZh` are preferred over the unsuffixed value when the current language matches. Applications can also call `window.Usuzumi.setErrorPage(page, options)` with `{ code, title, message, documentTitle, primaryAction, secondaryAction }`. Parameter text is written as text, not HTML, and `javascript:` action links are ignored.
+
+```html
+<section class="uzu-error-page uzu-error-page-screen" data-uzu-error-page data-uzu-error-page-source="query" aria-labelledby="not-found-title">
+  <p class="uzu-error-page-code" data-uzu-error-code>404</p>
+  <div class="uzu-title-pair">
+    <h1 id="not-found-title" data-uzu-error-title>Page not found</h1>
+    <p data-uzu-error-message>The page may have moved or been removed.</p>
+  </div>
+  <div class="uzu-error-page-actions" data-uzu-error-actions>
+    <a class="uzu-button uzu-button-primary" href="/" data-uzu-error-action="primary">Go home</a>
+    <a class="uzu-button" href="/components.html" data-uzu-error-action="secondary">View components</a>
+  </div>
+</section>
+```
 
 Use `.uzu-callout` for editorial notes, constraints, and secondary context that belongs in the reading flow. Callouts are not alerts: they should not announce urgent errors, destructive states, or time-sensitive feedback. Use `.uzu-callout-note`, `.uzu-callout-info`, or `.uzu-callout-warning` to adjust the tone while keeping the message text-led.
 
@@ -580,7 +634,7 @@ Place the inline theme boot script before the stylesheet so it can resolve the p
 </span>
 ```
 
-The script writes `data-language`, `data-uzu-lang`, and `lang` on the target root. Use `data-uzu-language-target` when a selector should control a scoped container instead of the document root. Content can be marked with `data-lang="en"`, `data-lang="ja"`, or any other language value. Static markup should add `data-uzu-language-hidden` to fragments outside the initial language so deferred scripts do not reveal multiple languages on first paint.
+The script writes `data-language`, `data-uzu-lang`, and `lang` on the target root. Use `data-uzu-language-target` when a selector should control a scoped container instead of the document root. A language root can also carry `data-uzu-language-key` directly; when `usuzumi.js` initializes, it restores the saved language for that root even if the page does not include a visible selector. Use that pattern for static 404, 500, maintenance, and other one-off pages that should follow the user's existing site language. Content can be marked with `data-lang="en"`, `data-lang="ja"`, or any other language value. Static markup should add `data-uzu-language-hidden` to fragments outside the initial language so deferred scripts do not reveal multiple languages on first paint.
 
 ### Custom Select
 
@@ -639,6 +693,7 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 - `uzu-tree-select`: `{ tree, item, value }`
 - `uzu-split-resize`: `{ splitPane, size }`
 - `uzu-resizable-resize`: `{ resizable, width, height }`
+- `uzu-sidebar-layout-change`: `{ collapsed, expanded }`
 - `uzu-disclosure-change`: `{ open, disclosure }`
 - `uzu-accordion-change`: `{ open, accordion, disclosure }`
 - `uzu-hover-card-open` / `uzu-hover-card-close`: `{ hoverCard, trigger, content }`
@@ -648,6 +703,7 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 - `uzu-tag-add`: `{ list, tag, input, trigger, value, label }`
 - `uzu-toast-open`: `{ toast, stack }`
 - `uzu-toast-close`: `{ toast }`
+- `uzu-error-page-change`: `{ page, code, title, message, documentTitle, actions }`
 - `uzu-dialog-open` / `uzu-dialog-close`: `{ dialog, overlay, trigger }`
 - `uzu-step-nav-change`: `{ value, step, stepNav, index }`
 - `uzu-editor-command`: `{ editor, surface, button, command, value }`
@@ -702,7 +758,7 @@ The catalog page should demonstrate generic system primitives only. It must not 
 
 ### Documentation Page
 
-Use public primitives for component catalogs, API references, and long documentation pages that need persistent navigation plus one main reading column. Documentation pages should compose `.uzu-page`, `.uzu-topbar`, `.uzu-nav`, `.uzu-topbar-actions`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`.
+Use public primitives for component catalogs, API references, long documentation pages, and static error pages that need persistent navigation plus one main reading column. Documentation pages should compose `.uzu-page`, `.uzu-topbar`, `.uzu-topbar-leading`, `.uzu-nav`, `.uzu-topbar-actions`, `.uzu-sidebar-layout`, `.uzu-sidebar`, `.uzu-scroll-area`, `.uzu-scroll`, `.uzu-panel-nav`, `.uzu-panel`, `.uzu-section-head`, `.uzu-card`, `.uzu-error-page`, `.uzu-error-page-screen`, `.uzu-table`, `.uzu-code-block`, and `.uzu-prose`.
 
 Component catalogs are consumers of the library. They should not add catalog-only selectors, runtime hooks, or hidden documentation generators to `ui/`. Each component entry should keep a real preview/code switch, a copyable snippet, two concise guidance notes, and a concrete interface table. Multi-variant entries should put variant-specific guidance beside each variant preview/code group, while bottom notes stay limited to shared rules, events, accessibility, and interface tables. Use `.uzu-code` for inline class, attribute, ARIA, role, and token names; do not leave markdown backticks, ellipsis placeholders, or template categories such as "Base Interface" in visible docs. Merge closely related public controls into one panel when it improves comprehension, as with topbar, theme toggle, and language selector. Do not add standalone panels for design-token categories such as color roles or motion timings; put animated examples under the concrete component that owns the behavior.
 
@@ -726,7 +782,11 @@ Component catalogs are consumers of the library. They should not add catalog-onl
 </main>
 ```
 
-`.uzu-sidebar-layout` keeps the sidebar column at `--uzu-sidebar-layout-sidebar-width`, uses a 28px default `--uzu-sidebar-layout-gap` for the column gap, and stacks to one column on narrow screens. When the sidebar also has `.uzu-scroll-area`, the layout limits its height so long navigation remains locally scrollable instead of pushing the active panel below the first viewport. `.uzu-section-centered` centers its section head, large body copy, and direct `.uzu-flex` action row for intro, empty, and download sections. The documentation site can add page-local layout classes in its own repository when the generic primitives are not enough. Promote a rule into `ui/css/` only when it is reusable outside the example pages. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
+`.uzu-sidebar-layout` keeps the sidebar column at `--uzu-sidebar-layout-sidebar-width`, uses a 28px default `--uzu-sidebar-layout-gap` for the column gap, and stacks to one column on narrow screens. When the sidebar also has `.uzu-scroll-area`, the layout limits its height so long navigation remains locally scrollable instead of pushing the active panel below the first viewport.
+
+Add `data-uzu-sidebar-layout` when the sidebar should collapse. Pair it with an icon button using `.uzu-sidebar-layout-toggle[data-uzu-sidebar-toggle]`; page-level navigation should place that button in `.uzu-topbar-leading` before the brand, while local tools can use `.uzu-sidebar-layout-controls` inside the layout. `data-uzu-sidebar-default` accepts `auto`, `expanded`, or `collapsed`; `auto` opens on wide screens and starts collapsed on narrow screens. `data-uzu-sidebar-mobile` accepts `dropdown` or `inline`, with `dropdown` as the narrow-screen default. `data-uzu-sidebar-collapse-on-select` accepts `false`, `narrow`, or `always`. The runtime syncs `data-uzu-sidebar-collapsed`, `hidden`, `aria-expanded`, and `aria-controls`, animates open/close, delays `hidden` until the close animation ends, and emits `uzu-sidebar-layout-change` with `{ collapsed, expanded }`.
+
+`.uzu-section-centered` centers its section head, large body copy, and direct `.uzu-flex` action row for intro, empty, and download sections. Use `.uzu-measure` when a local content block needs a stable readable width; tune it with `--uzu-measure-width` and `--uzu-measure-gutter`. Usuzumi's own site root pages should not add page-local layout classes; promote reusable page patterns into `ui/css/` and consume them from the site through the vendored library. Use `.uzu-break-anywhere` on cells or inline text that may contain long variable names or URLs.
 
 ### Choosing The Right Surface
 

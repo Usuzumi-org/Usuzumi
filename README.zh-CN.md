@@ -1,10 +1,8 @@
 # Usuzumi
 
-[English](README.md) · [更新日志](CHANGELOG.zh-CN.md)
+[English](README.md) | [更新日志](CHANGELOG.zh-CN.md)
 
-Usuzumi 是一套可以直接引入的 CSS 和 JavaScript 组件库，适合个人页面、应用介绍页、文档页面和小型产品工具。
-
-它提供 `uzu-*` 类名、可覆盖的 CSS 变量、可选的签名字体，以及一组无依赖脚本，用来处理主题、语言、标签页、分页、选择器、弹窗等交互。
+Usuzumi 是一套零构建 CSS 和 JavaScript UI 库，适合个人站点、应用介绍页、文档页面和小型产品工具。你可以直接在 HTML 中加载它，也可以从 npm 引入，或把生成后的 `ui/` 文件放进自己的项目。
 
 ## 安装
 
@@ -17,7 +15,7 @@ import "usuzumi/usuzumi.css";
 import "usuzumi/usuzumi.js";
 ```
 
-只有在使用 `.uzu-signature` 或签名字体样张时，才需要额外引入：
+只有在使用 `.uzu-signature` 时，才需要额外引入签名字体：
 
 ```js
 import "usuzumi/usuzumi-signature.css";
@@ -30,28 +28,9 @@ CDN 用法：
 <script src="https://cdn.jsdelivr.net/npm/usuzumi/ui/usuzumi.min.js" defer></script>
 ```
 
-如果页面会记住暗色或自动主题，请在加载样式表之前先写入主题属性，这样首屏会直接使用正确颜色。需要从 localStorage 读取时，在根元素上设置 `data-uzu-theme-key`：
+## 快速开始
 
-```html
-<script>
-(() => {
-  const root = document.documentElement;
-  const key = root.getAttribute("data-uzu-theme-key") || "";
-  let mode = root.getAttribute("data-theme-mode") || root.getAttribute("data-theme") || "light";
-  try { if (key) mode = localStorage.getItem(key) || mode; } catch (_) {}
-  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const theme = mode === "auto" ? (prefersDark ? "dark" : "light") : (mode === "dark" ? "dark" : "light");
-  root.setAttribute("data-theme-mode", mode === "auto" ? "auto" : theme);
-  root.setAttribute("data-theme", theme);
-  root.setAttribute("data-uzu-theme", theme);
-})();
-</script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/usuzumi/ui/usuzumi.min.css">
-```
-
-## 使用
-
-完整页面可以使用 `uzu-root` 和 `uzu-app`：
+当 Usuzumi 接管整个页面时，使用 `uzu-root` 和 `uzu-app`：
 
 ```html
 <html class="uzu-root" lang="zh-CN" data-theme="light">
@@ -62,7 +41,7 @@ CDN 用法：
           <p class="uzu-section-label">Overview</p>
           <h1 class="uzu-page-title">Project notes</h1>
         </div>
-        <button class="uzu-button uzu-button-primary">Continue</button>
+        <button class="uzu-button uzu-button-primary" type="button">Continue</button>
       </section>
     </main>
   </body>
@@ -80,261 +59,71 @@ CDN 用法：
 </section>
 ```
 
-## 自定义样式接口
+## 自定义
 
-Usuzumi 通过 CSS 自定义属性提供样式接口。项目应优先在 `:root`、`.uzu-app`、`.uzu-scope` 或局部容器上覆盖已文档化的 `--uzu-*` 变量，而不是直接覆盖组件内部选择器。
-
-生成后的主样式表使用 `@layer usuzumi` 包裹，因此项目自己的普通 CSS 可以更容易覆盖库规则。
-
-全局调整：
+Usuzumi 通过已文档化的 `--uzu-*` CSS 自定义属性暴露样式接口，主样式表使用 `@layer usuzumi` 包裹，因此项目 CSS 可以在不提高选择器权重的情况下覆盖它。
 
 ```css
 :root {
   --uzu-radius-standard: 10px;
   --uzu-motion-base: 220ms;
 }
-```
 
-局部调整：
-
-```css
 .settings-panel {
   --uzu-card-block-gap: 16px;
   --uzu-field-gap: 8px;
-  --uzu-alert-max-width: 640px;
-  --uzu-alert-accent-color: #6b5855;
-  --uzu-alert-bg: #f4eeeb;
-  --uzu-toast-width: 420px;
-  --uzu-disclosure-panel-block-end-padding: 24px;
 }
 ```
 
-单个实例也可以直接设置变量：
+完整变量列表和组件使用规则见 [DESIGN.md](DESIGN.md)。
 
-```html
-<article class="uzu-toast" style="--uzu-toast-width: 420px; --uzu-toast-content-end-offset: 8px">
-  ...
-</article>
-```
+## 文档
 
-已文档化的变量覆盖颜色角色、圆角、间距、动效、页面宽度、卡片标题节奏、卡片封面媒体、表单字段间距、滑块轨道、thumb 和档位点样式、反馈卡片尺寸与颜色、Toast 尺寸和 Disclosure 内容边距。
-颜色角色和动效时间属于设计令牌，不是独立 UI 组件；在这里说明它们的作用域、对比度要求和时间节奏，不在组件目录里单独做令牌展示。
-`--uzu-space-*` 主要用于布局原语和项目级间距；组件内部节奏使用更具体的变量，例如 `--uzu-card-block-gap`、`--uzu-field-gap`、`--uzu-toast-inline-padding`。
+- [DESIGN.md](DESIGN.md)：组件契约、设计规则、CSS 变量、运行时属性、事件和编写指引。
+- [CHANGELOG.zh-CN.md](CHANGELOG.zh-CN.md)：从 2.0.1 开始记录的正式发布更新日志。
+- [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)：内置第三方资源的许可说明。
 
-| 变量 | 默认值 | 作用范围 | 建议设置位置 |
-| --- | --- | --- | --- |
-| `--uzu-page-max-width` | `1120px` | `.uzu-page` 宽度 | `.uzu-app`、`.uzu-scope`、局部页面 |
-| `--uzu-page-narrow-max-width` | `960px` | `.uzu-page-narrow` 宽度 | `.uzu-app`、`.uzu-scope`、局部页面 |
-| `--uzu-topbar-margin-bottom` | 桌面端 `58px`，窄屏 `54px` | `.uzu-topbar` 底部间距 | 局部 topbar 或页面 |
-| `--uzu-topbar-gap` | `24px` | `.uzu-topbar` 内品牌、导航、操作区间距 | 局部 topbar 或页面 |
-| `--uzu-topbar-actions-gap` | `8px` | `.uzu-topbar-actions` 内操作按钮间距 | 局部 topbar 或页面 |
-| `--uzu-card-title-size` | `18px` | `.uzu-title-pair` 标题 | `.uzu-app`、`.uzu-scope`、局部卡片 |
-| `--uzu-card-title-line` | `1.25` | `.uzu-title-pair` 标题行高 | `.uzu-app`、`.uzu-scope`、局部卡片 |
-| `--uzu-card-subtitle-size` | `13px` | `.uzu-title-pair` 说明文字 | `.uzu-app`、`.uzu-scope`、局部卡片 |
-| `--uzu-card-subtitle-line` | `1.55` | `.uzu-title-pair` 说明文字行高 | `.uzu-app`、`.uzu-scope`、局部卡片 |
-| `--uzu-card-title-gap` | `6px` | 标题和说明之间的距离 | `.uzu-app`、`.uzu-scope`、局部卡片 |
-| `--uzu-card-block-gap` | `12px` | 卡片内重复内容间距 | `.uzu-app`、`.uzu-scope`、局部卡片 |
-| `--uzu-cover-ratio` | `16 / 9` | `.uzu-card-cover-media` 宽高比 | 局部封面卡片 |
-| `--uzu-cover-min-height` | `0` | `.uzu-card-cover-media` 最小高度 | 局部封面卡片 |
-| `--uzu-cover-bg` | `var(--uzu-surface-soft)` | `.uzu-card-cover-media` 兜底背景 | 局部封面卡片 |
-| `--uzu-cover-align` | `stretch` | `.uzu-card-cover-media` 内容对齐 | 局部封面卡片 |
-| `--uzu-cover-radius` | `var(--uzu-radius-micro)` | `.uzu-card-cover-media` 顶部圆角 | 局部封面卡片 |
-| `--uzu-field-gap` | `5px` | label、输入框、帮助文字间距 | `.uzu-app`、`.uzu-scope`、局部表单 |
-| `--uzu-edit-focus-border` | 强文本色与强边框色混合 | 输入框和编辑器焦点边框 | `.uzu-app`、`.uzu-scope`、局部表单或编辑器 |
-| `--uzu-slider-track-height` | `10px` | 滑块轨道高度 | 局部 slider 或表单 |
-| `--uzu-slider-thumb-size` | `16px` | 滑块 thumb 宽高 | 局部 slider 或表单 |
-| `--uzu-slider-track` | `color-mix(in srgb, var(--uzu-surface-inset) 76%, var(--uzu-border))` | 滑块轨道背景 | 局部 slider 或表单 |
-| `--uzu-slider-track-border` | `color-mix(in srgb, var(--uzu-border-strong) 54%, transparent)` | 滑块轨道边框 | 局部 slider 或表单 |
-| `--uzu-slider-fill` | `color-mix(in srgb, var(--uzu-fg-strong) 82%, var(--uzu-border))` | 滑块已选择范围 | 局部 slider 或表单 |
-| `--uzu-slider-thumb` | `var(--uzu-fg-strong)` | 滑块 thumb 背景 | 局部 slider 或表单 |
-| `--uzu-slider-thumb-border` | `var(--uzu-surface)` | 滑块 thumb 边框 | 局部 slider 或表单 |
-| `--uzu-slider-step-dot` | `color-mix(in srgb, var(--uzu-fg) 20%, transparent)` | 有级滑块未选中的档位点 | 局部有级 slider |
-| `--uzu-slider-step-dot-active` | `color-mix(in srgb, var(--uzu-surface) 62%, var(--uzu-slider-fill))` | 有级滑块已选中的档位点 | 局部有级 slider |
-| `--uzu-slider-step-dot-radius` | `1px` | 有级滑块档位点半径 | 局部有级 slider |
-| `--uzu-slider-step-ticks` | `none`，有级滑块由运行时生成 | 有级滑块档位点背景 | 运行时 slider 状态 |
-| `--uzu-alert-max-width` | `520px` | Alert 最大宽度 | 局部 Alert 或外层容器 |
-| `--uzu-alert-border-color` | `var(--uzu-border)` | Alert 边框 | 局部 Alert 或外层容器 |
-| `--uzu-alert-accent-color` | `var(--uzu-border-strong)` | Alert 左侧强调线 | 局部 Alert 或外层容器 |
-| `--uzu-alert-bg` | `var(--uzu-surface)` | Alert 背景 | 局部 Alert 或外层容器 |
-| `--uzu-alert-title-color` | `var(--uzu-fg-strong)` | Alert 标题 | 局部 Alert 或外层容器 |
-| `--uzu-alert-text-color` | `var(--uzu-muted)` | Alert 正文 | 局部 Alert 或外层容器 |
-| `--uzu-callout-border-color` | `var(--uzu-border)` | Callout 边框 | 局部 Callout 或外层容器 |
-| `--uzu-callout-bg` | 混合弱化表面色 | Callout 背景 | 局部 Callout 或外层容器 |
-| `--uzu-callout-title-color` | `var(--uzu-fg-strong)` | Callout 标题 | 局部 Callout 或外层容器 |
-| `--uzu-callout-text-color` | `var(--uzu-muted)` | Callout 正文 | 局部 Callout 或外层容器 |
-| `--uzu-toast-width` | `360px` | Toast 宽度 | 局部 Toast 或 Toast stack |
-| `--uzu-toast-inline-padding` | `16px` | Toast 左右内边距 | 局部 Toast 或 Toast stack |
-| `--uzu-toast-content-end-offset` | `0px` | Toast 正文右边界和关闭按钮对齐 | 局部 Toast |
-| `--uzu-toast-action-size` | `28px` | Toast 关闭按钮尺寸 | 局部 Toast |
-| `--uzu-toast-action-gap` | `12px` | Toast 为关闭按钮预留的距离 | 局部 Toast |
-| `--uzu-disclosure-panel-block-end-padding` | `20px` | Disclosure 面板底部间距 | 局部 Disclosure 或外层容器 |
-| `--uzu-menu-min-width` | `180px` | 下拉菜单和右键菜单宽度 | 局部 menu |
-| `--uzu-menu-offset` | `4px` | 菜单和触发器之间的距离 | 局部 menu |
-| `--uzu-menu-content-width` | `max-content` | 菜单内容宽度策略 | 局部 menu |
-| `--uzu-command-max-height` | `260px` | 命令菜单结果列表高度 | 局部 command menu |
-| `--uzu-avatar-size` | `36px` | 头像宽高 | 局部 avatar 或容器 |
-| `--uzu-topbar-leading-gap` | `8px` | 顶部栏起始槽间距 | 局部 topbar |
-| `--uzu-sidebar-width` | `240px` | 侧边栏宽度 | 局部 sidebar 或布局 |
-| `--uzu-sidebar-layout-sidebar-width` | `240px` | 侧栏布局列宽 | 局部 sidebar layout |
-| `--uzu-sidebar-layout-gap` | `28px` | 侧栏布局列间距 | 局部 sidebar layout |
-| `--uzu-step-nav-gap` | `8px` | 可点击步骤导航间距 | 局部 step nav |
-| `--uzu-popover-width` | `280px` | 触发式浮层宽度 | 局部 popover 外层 |
-| `--uzu-popover-offset` | `6px` | 触发式浮层与按钮距离 | 局部 popover 外层 |
-| `--uzu-hover-card-width` | `260px` | 悬浮卡片宽度 | 局部 hover card |
-| `--uzu-combobox-list-max-height` | `240px` | 组合框弹出列表高度 | 局部 combobox |
-| `--uzu-split-primary-size` | `50%` | 分栏面板主区域尺寸 | 局部 split pane |
-| `--uzu-split-resizer-size` | `8px` | 分栏拖拽条尺寸 | 局部 split pane |
-| `--uzu-resizable-width` | `320px` | 可调整面板宽度 | 局部 resizable |
-| `--uzu-resizable-height` | `180px` | 可调整面板高度 | 局部 resizable |
-| `--uzu-viewer-max-height` | `360px` | JSON / Diff 查看器高度 | 局部 viewer |
-| `--uzu-json-indent` | `18px` | JSON 子级缩进 | 局部 JSON viewer |
-| `--uzu-editor-min-height` | `160px` | 编辑器表面最小高度 | 局部 editor |
-| `--uzu-alert-dialog-accent-color` | `var(--uzu-danger)` | 警告弹窗危险强调色 | 局部 alert dialog |
-| `--uzu-drawer-width` | `420px` | 抽屉宽度 | 局部 drawer |
-| `--uzu-sheet-width` | `520px` | 板式面板宽度 | 局部 sheet |
-| `--uzu-spinner-size` | `18px` | spinner 尺寸 | 局部 spinner |
-| `--uzu-spinner-stroke` | `2px` | spinner 线宽 | 局部 spinner |
+## 运行时
 
-Tabs 指示条、Segmented 指示条、Disclosure 实测高度、有级滑块档位背景等由脚本写入的变量属于内部状态，项目代码可以读取它们，但不把它们当作配置入口。项目反复需要某个新尺寸时，应在库里新增组件变量并更新文档。
-
-如果某个项目经常需要的尺寸或行为还没被这里覆盖，优先补到 `ui/css/*.css` 的公开变量，再重新构建并更新文档。
-
-## 包含内容
-
-- 颜色、字体、间距、边框、圆角、动效和暗色模式等设计 token。
-- 页面、章节、二/三/四列网格、Stack/Flex 布局、侧边栏、按钮、工具栏、面包屑、分页、卡片、指标、列表、头像、表单、输入组合、搜索框、密码输入、文件上传、滑块、步进器、标签页、选择器、组合框、菜单、菜单栏、命令菜单、数据网格、树形视图、分栏、可调整面板、JSON / Diff 查看器、编辑器表面、徽章、标签、分割线、代码、代码块、快捷键提示、Alert 预设、callout、表格、浮层、进度、spinner、骨架屏、toast、dialog、alert dialog、drawer、sheet、disclosure、accordion、hover card、panel navigation、prose 和 tooltip 等布局与组件原语。
-- 面向产品页、文档页和组件页的可复用布局辅助类。具体站点组合留在消费方站点里完成。
-- 主题切换、语言选择器、自定义 select、组合框过滤、数据网格排序/选择、树形导航、分栏/可调整面板、JSON / Diff 渲染、编辑器表面、标签页、分段控件、分页、switch、搜索清空、密码显示切换、stepper、下拉/右键菜单、菜单栏、命令过滤、标签选择/关闭、disclosure、accordion、hover card、popover、dialog、toast 触发/关闭、步骤导航、面板导航、代码复制和有限 Markdown 渲染等交互脚本。
-
-所有公开滚动区域共用同一套 6px 滚动条规范。根页面滚动条保持可见；局部滚动区域保留稳定滚动槽，并在 hover、focus、focus-within 或 active 交互时显示 thumb。WebKit 箭头按钮会被隐藏，滚动条 thumb 保持稳定的最小长度，避免长内容把 thumb 压成像三角形快速滚动按钮的形状。
-
-卡片可以保持为普通 `.uzu-card` 表面；当重复项需要顶部 flush 媒体区时，叠加 `.uzu-card-cover`。把消费方提供的媒体或组件组合放进 `.uzu-card-cover-media`，把文字与操作放进 `.uzu-card-cover-body`，封面颜色使用 `--uzu-*` token 或 `currentColor`，以便跟随主题变化。
-
-文本输入、文本域、命令输入、组合框输入、步进器和编辑器表面使用 `--uzu-edit-focus-border` 作为更安静的硬边框焦点，不使用虚化阴影或外发光。输入组合和步进器只在真实可编辑输入框获得焦点时，把焦点边框画在外层壳上；前缀、局部操作、可选择后缀和步进按钮保留自己的焦点反馈，不触发编辑外壳。固定文字使用 `.uzu-input-addon`；币种、单位这类可变后缀使用内嵌 `.uzu-select[data-uzu-select]`。
-
-## 文档页
-
-组件目录、API 参考和较长的文档页应由公开原语组合：`.uzu-page`、`.uzu-topbar`、`.uzu-topbar-leading`、`.uzu-nav`、`.uzu-topbar-actions`、`.uzu-sidebar-layout`、`.uzu-sidebar`、`.uzu-scroll-area`、`.uzu-scroll`、`.uzu-panel-nav`、`.uzu-panel`、`.uzu-section-head`、`.uzu-card`、`.uzu-table`、`.uzu-code-block` 和 `.uzu-prose`。站点仓库里的组件目录是这些公开能力的严格消费方，不依赖隐藏的文档选择器，也不依赖库内的文档生成器。目录条目应保留公开的预览/代码切换、可复制代码、具体接口说明，并用 `.uzu-code` 标记 class、attribute、ARIA、role 和 token 名称。多变体条目应把各变体的说明放在对应变体卡片里，底部只保留共享规则和接口表。相关的公开控件可以合并到一个面板里展示，例如顶部栏、主题切换和语言选择器模式。颜色角色、动效时间这类设计令牌应留在 README/DESIGN 文档里；动画示例应放在真正拥有该行为的组件面板中。
-
-`.uzu-topbar` 把品牌、`.uzu-nav` 和 `.uzu-topbar-actions` 组织成页面顶部栏。导航槽会填充中间空间，`.uzu-topbar-actions` 固定在行末，用来放主题切换和语言选择器这类短操作。把 topbar 嵌入预览或卡片时，可设置 `--uzu-topbar-margin-bottom: 0` 去掉页面级底部间距。
-
-`.uzu-sidebar-layout` 提供可复用的“侧栏 + 主内容”网格，适合文档页和应用页。它用 `--uzu-sidebar-layout-sidebar-width` 控制侧栏宽度，通过 `--uzu-sidebar-layout-gap` 提供默认 28px 列间距，并会限制子级 `.uzu-sidebar.uzu-scroll-area` 的高度，避免过长导航把当前内容推到首屏之外。需要折叠时，在布局上添加 `data-uzu-sidebar-layout`，并用 `.uzu-sidebar-layout-toggle[data-uzu-sidebar-toggle]` 按钮控制它；按钮可以放进品牌前的 `.uzu-topbar-leading`，再用 `data-uzu-sidebar-target` 指向 layout。`data-uzu-sidebar-default="auto"` 会让宽屏默认展开、窄屏默认收起，窄屏默认以顶部弹出形式打开；如需保留旧的内联窄屏布局，可使用 `data-uzu-sidebar-mobile="inline"`。`data-uzu-sidebar-collapse-on-select="narrow"` 会在窄屏导航选择后收起侧栏。运行时会为展开和收起加过渡，在关闭动画结束后再写入 `hidden`，同步 `data-uzu-sidebar-collapsed`、`aria-expanded` / `aria-controls`，并派发 `uzu-sidebar-layout-change`。`.uzu-sidebar-layout-controls` 仍可作为 layout 内的紧凑控制行。`.uzu-scroll-area` 也可以用 `--uzu-scroll-area-max-height` 约束局部预览或标本区域，同时保留公开滚动条样式。`.uzu-section-centered` 会居中标题组、大正文和直接子级 `.uzu-flex` 操作行。`.uzu-grid-4` 是 `.uzu-grid` 的四列形态，窄屏会收成单列。`.uzu-break-anywhere` 用于表格或卡片里的长 CSS 变量、包名、URL，避免撑破容器。
-
-## 交互脚本
-
-JavaScript 会在浏览器中自动初始化，也可以安全地在 SSR/Node 环境中 import。动态插入内容后可手动初始化：
+`usuzumi.js` 无依赖，会在浏览器中自动初始化。它也可以安全地在 SSR 或 Node 环境中 import，动态插入内容后可手动初始化：
 
 ```js
 window.Usuzumi.init(container);
-```
-
-当客户端路由移除某一块界面时，可以对被移除的根节点调用：
-
-```js
 window.Usuzumi.destroy(container);
 ```
 
-它会断开该区域内的自动初始化观察器，移除运行时生成的 tooltip 描述，并清理属于该区域的拖拽状态与弹窗隔离状态。
+运行时 data attribute 和自定义事件细节见 [DESIGN.md](DESIGN.md)。
 
-代码片段使用 `.uzu-code-block`、`.uzu-code-block-body` 和带有 `data-uzu-code-copy` 的复制按钮。在 `code` 或 `pre` 上添加 `data-uzu-code-language="javascript"`，也可以使用 `language-js` 类名。`Usuzumi.init()` 会完成高亮，把纯文本源码保存在 `data-uzu-code-source`，复制按钮会继续读取这份源码。同一个代码块里有多份 `[data-lang]` 代码时，复制按钮会读取当前可见语言的代码。需要检查内置语言范围时，可以调用 `window.Usuzumi.listCodeLanguages()` 或 `window.Usuzumi.hasCodeLanguage("ts")`。需要调整颜色时，在 `.uzu-code-block` 或 `.uzu-code-block-body` 上设置 `--uzu-code-block-bg`、`--uzu-code-block-fg` 和 `--uzu-code-token-*` 变量。
+## 包含内容
 
-侧栏布局需要折叠行为时，在 `.uzu-sidebar-layout` 上添加 `data-uzu-sidebar-layout`，并用 `.uzu-sidebar-layout-toggle[data-uzu-sidebar-toggle]` 按钮通过 `data-uzu-sidebar-target="#layout-id"` 指向它。页面级导航建议把按钮放进品牌前的 `.uzu-topbar-leading`；局部布局也可以继续用 `.uzu-sidebar-layout-controls` 放在 layout 内。`data-uzu-sidebar-default` 接受 `auto`、`expanded` 或 `collapsed`；`data-uzu-sidebar-mobile` 接受 `dropdown` 或 `inline`，窄屏默认 `dropdown`；`data-uzu-sidebar-collapse-on-select` 接受 `false`、`narrow` 或 `always`。
-
-语言选择器使用 `.uzu-language-select` 外层和 `data-uzu-language-select`，触发按钮使用 `data-uzu-language-trigger`，菜单使用 `data-uzu-language-menu`，每个选项使用 `data-uzu-language-option` 和 `data-uzu-language-value`。选择器默认把 `data-language`、`data-uzu-lang` 和 `lang` 写到文档根；需要控制局部预览或嵌入式应用时，使用 `data-uzu-language-target="#id"` 指向局部容器。任意 `[data-lang]` 片段的值与当前语言不一致时会被隐藏；静态 HTML 应该给非初始语言片段预先加上 `data-uzu-language-hidden`，避免首屏同时闪出多种语言。
-
-需要内置行为时，在组件外层使用对应的 `data-uzu-*` 属性：表单校验使用 `data-uzu-form`，菜单使用 `data-uzu-menu` 或 `data-uzu-context-menu`，命令菜单使用 `data-uzu-command`，accordion 使用 `data-uzu-accordion`，悬浮卡片使用 `data-uzu-hover-card`，浮层使用 `data-uzu-popover`，步骤导航使用 `data-uzu-step-nav`。`.uzu-tag` 用于分类标签、筛选 token 和可移除条件；只有需要运行时行为时才添加 `data-uzu-tag`。可选择标签使用 `data-uzu-tag-selectable="true"` 和 `aria-pressed`，可移除标签使用图标化 `.uzu-tag-close` 按钮和 `data-uzu-tag-close`。需要允许用户新增标签时，在标签组上添加 `data-uzu-tag-list`，并把 `.uzu-tag-add[data-uzu-tag-add]` 按钮放在最后一个标签后面；回车或失焦会提交非空输入并派发 `uzu-tag-add`。在 `uzu-tag-add` 上调用 `preventDefault()` 会保留输入态并阻止插入。Popover 使用 `data-uzu-popover` 外层、`data-uzu-popover-trigger` 按钮和 `.uzu-popover[data-uzu-popover-content]` 内容层；运行时会切换 `hidden`、`is-open`、`aria-expanded`，并支持 Escape 和外部点击关闭。Toast 需要由用户操作触发时，使用 `data-uzu-toast-trigger`、`data-uzu-toast-template="#template-id"` 和 `data-uzu-toast-stack="#stack-id"`；静态 `.uzu-toast[data-uzu-toast]` 仍会初始化关闭按钮和 live region 属性。`data-uzu-form` 初始加载时只保留已有的 `.is-invalid` 或 `aria-invalid="true"` 状态，不会立刻校验空的必填项；需要首屏立即校验时添加 `data-uzu-form-validate-on-init="true"`。
-
-组合框、轻量数据网格、树形视图、分栏和可调整面板分别使用 `data-uzu-combobox`、`data-uzu-data-grid`、`data-uzu-tree`、`data-uzu-split-pane`、`data-uzu-resizable`。数据网格可用 `data-uzu-grid-sort`、`data-uzu-grid-selection`、`data-uzu-grid-select-all`、`data-uzu-grid-empty`、`data-uzu-grid-align` 处理排序、多选、全选、空状态和列对齐。JSON / Diff 查看器和编辑器外壳使用 `data-uzu-json-viewer`、`data-uzu-diff-viewer`、`data-uzu-editor`、`data-uzu-markdown-editor`、`data-uzu-inline-editor`。
-
-Dialog、drawer 和 sheet 共用 `data-uzu-dialog-*` 行为。从已打开的弹窗内部再打开弹窗时，运行时会保持父弹窗挂载，关闭子弹窗后把焦点还给触发按钮，并在父弹窗关闭后释放滚动锁和背景隔离。
-
-编辑器外壳只负责 UI、事件和主题，不把完整编辑器引擎打包进核心库。`data-uzu-editor` 会通过公开外壳派发工具栏命令和内容区输入事件；需要文档模型、历史记录、快捷键、粘贴规则、协作或完整代码编辑时，把项目自己的编辑器引擎挂到 `.uzu-editor-mount`。`data-uzu-markdown-editor` 会派发源码变化事件；内置预览不够用时，由项目自己的 Markdown 流程负责渲染和安全策略。短代码片段可以继续使用原生 `textarea.uzu-code-editor`。
-
-异步插入组件时，可以在外层容器上加 `data-uzu-auto-init`，后续新增的组件会自动初始化；也可以继续手动调用 `window.Usuzumi.init(container)`。
-
-自定义事件：
-
-- `uzu-select-change`：`{ value, label, option, select }`
-- `uzu-language-change`：`{ language, previousLanguage, htmlLang, key, option, select, root }`
-- `uzu-tabs-change`：`{ value, tab, tabs, index, panel }`
-- `uzu-segmented-change`：`{ value, segment, segmented, index }`
-- `uzu-pagination-change`：`{ value, page, pagination, index, panel }`
-- `uzu-switch-change`：`{ checked, switch }`
-- `uzu-password-toggle`：`{ visible, password, input, toggle }`
-- `uzu-stepper-change`：`{ value, number, stepper, input }`
-- `uzu-field-validate`：`{ field, control, valid, invalid }`
-- `uzu-form-validate`：`{ form, valid, invalid }`
-- `uzu-disclosure-change`：`{ open, disclosure }`
-- `uzu-toast-open`：`{ toast, stack }`
-- `uzu-toast-close`：`{ toast }`
-- `uzu-dialog-open` / `uzu-dialog-close`：`{ dialog, overlay, trigger }`
-- `uzu-menu-open` / `uzu-menu-close`：`{ menu, trigger, content }`
-- `uzu-menu-select`：`{ menu, trigger, content, item, value }`
-- `uzu-menubar-change`：`{ value, item, menubar, index }`
-- `uzu-command-filter`：`{ value, command, visibleCount }`
-- `uzu-command-select`：`{ value, item, command }`
-- `uzu-combobox-open` / `uzu-combobox-close`：`{ combobox, input, list }`
-- `uzu-combobox-filter`：`{ value, combobox, visibleCount }`
-- `uzu-combobox-change`：`{ value, label, option, combobox, input }`
-- `uzu-data-grid-sort`：`{ grid, table, header, columnIndex, direction }`
-- `uzu-data-grid-select`：`{ grid, table, row, selected, value }`
-- `uzu-data-grid-select-all`：`{ grid, table, selected, rows }`
-- `uzu-tree-toggle`：`{ tree, item, expanded, value }`
-- `uzu-tree-select`：`{ tree, item, value }`
-- `uzu-split-resize`：`{ splitPane, size }`
-- `uzu-resizable-resize`：`{ resizable, width, height }`
-- `uzu-sidebar-layout-change`：`{ collapsed, expanded }`
-- `uzu-accordion-change`：`{ open, accordion, disclosure }`
-- `uzu-hover-card-open` / `uzu-hover-card-close`：`{ hoverCard, trigger, content }`
-- `uzu-popover-open` / `uzu-popover-close`：`{ popover, trigger, content }`
-- `uzu-tag-change`：`{ selected, tag, value }`
-- `uzu-tag-close`：`{ tag, closeButton, value }`
-- `uzu-tag-add`：`{ list, tag, input, trigger, value, label }`
-- `uzu-step-nav-change`：`{ value, step, stepNav, index }`
-- `uzu-editor-command`：`{ editor, surface, button, command, value }`
-- `uzu-editor-change`：`{ editor, surface, value }`
-- `uzu-markdown-editor-change`：`{ editor, source, preview, value }`
-- `uzu-markdown-editor-render`：`{ editor, source, preview, value }`
-- `uzu-inline-editor-change`：`{ editor, value }`
-- `uzu-panel-nav-change`：`{ target, control, panel, nav }`
-- `uzu-panel-show`：`{ target, control, panel, nav }`
-
-项目内置 TypeScript 类型声明。
-
-## 高阶组件
-
-原生库已经包含这些较大的组件族：
-
-- Combobox：本地过滤、键盘选择、ARIA 同步和可选隐藏表单值。
-- Data Grid：基于真实 table 的排序、单选/多选、全选、空状态、列对齐和键盘移动。
-- Tree View：层级焦点、选中、展开收起和 ARIA 层级位置同步。
-- Split Pane / Resizable Panel：拖拽和键盘调整尺寸，并可用 key 做本地持久化。
-- JSON Viewer / Diff Viewer：JSON 树渲染和统一 diff 风格行展示。
-- 编辑器表面：通用编辑器外壳、代码、Markdown、纯文本、行内编辑和工具栏按钮。它们是外壳和轻量辅助；需要完整编辑能力时，由项目接入自己的编辑器引擎。
+- 面向页面、章节、卡片、布局、表单、导航、反馈、浮层、数据视图、编辑器外壳和状态界面的主题化 CSS 原语。
+- 无框架、无运行时依赖的可选 JavaScript 交互。
+- 面向 npm 和 CDN 使用的生成版 CSS / JS bundle。
+- 浏览器 API 和自定义事件的类型声明。
 
 ## 站点与示例
 
 - [文档站仓库](https://github.com/Usuzumi-org/Usuzumi-site)
 - [UI 库仓库](https://github.com/Usuzumi-org/Usuzumi)
 
-官网、组件目录、编辑器接入演示和较大的示例页放在独立站点仓库里，避免文档专用依赖进入 UI 库本体。
+官网、组件目录、编辑器接入页和更大的示例放在站点仓库中，避免文档专用需求进入 UI 库本体。
 
-## 维护
-
-仓库维护命令：
+## 开发
 
 ```bash
 npm run build
 npm run validate
 ```
 
-源码拆在 `ui/css/` 和 `ui/js/`。`ui/usuzumi.css`、`ui/usuzumi.js`、`ui/usuzumi.min.css`、`ui/usuzumi.min.js` 是给 npm 和 CDN 使用的生成入口，不要手动修改它们，改源码后运行 `npm run build` 重新生成。`npm run build:css` 和 `npm run check:css` 仍保留为旧命令别名。
+源文件在 `ui/css/` 和 `ui/js/`。公开入口 `ui/usuzumi.css`、`ui/usuzumi.js`、`ui/usuzumi.min.css`、`ui/usuzumi.min.js` 是生成文件，请修改源文件后重新构建，不要手改。
 
-`npm run validate` 会检查生成文件是否同步和源码约束，然后将库打包并安装到临时外部项目中，验证 package exports、CSS 文件、类型声明、CDN 风格的 `ui/*` 路径、浏览器交互脚本和组件页面布局 smoke check。
+`npm run validate` 会检查生成文件同步、源码约束、package exports、浏览器行为和组件页冒烟覆盖。
 
-发布后的库没有运行时依赖。完整设计规范见 [DESIGN.md](DESIGN.md)。
+## 浏览器支持
 
-## 许可证
+Usuzumi 面向支持 CSS 自定义属性、`color-mix()`、`:has()` 和 `:focus-visible` 的现代浏览器。更旧的浏览器仍可使用，但部分视觉细节会退化。
+
+## 许可
 
 Usuzumi 代码使用 [MIT License](LICENSE) 发布。
 

@@ -15,6 +15,7 @@ if (!value.hasApi) throw new Error('Browser consumer page did not expose window.
 if (!value.rootClass) throw new Error('Browser consumer page did not keep uzu-root');
 if (value.restoredTheme !== 'dark' || !value.themeToggleDark) throw new Error('Browser consumer theme did not restore the saved mode');
 if (!(value.pageWidth > value.pageWidthCustom) || Math.round(value.pageWidthCustom) !== 520) throw new Error('Browser consumer page max-width variable did not apply');
+if (Math.round(value.measureWidth) !== 320) throw new Error(`Browser consumer measure width did not apply: ${value.measureWidth}`);
 if (value.tabValue !== 'two' || value.tabSelected !== 'true') throw new Error('Browser consumer tabs did not respond');
 if (value.tabsIndicator !== 'true' || value.tabsIndicatorWidth <= 0) throw new Error('Browser consumer tabs did not expose animated indicator metrics');
 if (value.tabsIndicatorTransform === 'none') throw new Error('Browser consumer tabs indicator did not move');
@@ -25,6 +26,8 @@ if (value.languageExpandedAfterOpen !== 'true' || value.languageExpandedAfterSel
 if (value.languageRootValue !== 'en' || value.languageRootUzuValue !== 'en' || value.languageRootHtmlLang !== 'en' || value.languageSelectValue !== 'en' || value.languageSelectedText !== 'English') throw new Error(`Browser consumer language selector did not sync root and option state: ${JSON.stringify({ language: value.languageRootValue, uzu: value.languageRootUzuValue, html: value.languageRootHtmlLang, select: value.languageSelectValue, selected: value.languageSelectedText })}`);
 if (!Array.isArray(value.languageInitialHiddenStates) || !value.languageInitialHiddenStates.some((item) => item.lang === 'zh' && !item.hidden) || !value.languageInitialHiddenStates.some((item) => item.lang === 'en' && item.hidden) || !value.languageInitialHiddenStates.some((item) => item.lang === 'ja' && item.hidden)) throw new Error(`Browser consumer initial language visibility did not sync: ${JSON.stringify(value.languageInitialHiddenStates)}`);
 assertEnglishLanguageVisibility(value.languageHiddenStates, 'static');
+if (value.standaloneLanguageRootValue !== 'en' || value.standaloneLanguageRootUzuValue !== 'en' || value.standaloneLanguageRootHtmlLang !== 'en') throw new Error(`Browser consumer standalone language root did not restore saved language: ${JSON.stringify({ language: value.standaloneLanguageRootValue, uzu: value.standaloneLanguageRootUzuValue, html: value.standaloneLanguageRootHtmlLang })}`);
+if (!Array.isArray(value.standaloneLanguageHiddenStates) || !value.standaloneLanguageHiddenStates.some((item) => item.lang === 'en' && !item.hidden) || !value.standaloneLanguageHiddenStates.some((item) => item.lang === 'zh' && item.hidden)) throw new Error(`Browser consumer standalone language root visibility did not match restored language: ${JSON.stringify(value.standaloneLanguageHiddenStates)}`);
 assertEnglishLanguageVisibility(value.languageManualDynamicHiddenStates, 'manual dynamic');
 assertEnglishLanguageVisibility(value.languageAutoDynamicHiddenStates, 'auto-init dynamic');
 if (!value.events.includes('language:en:zh:en')) throw new Error(`Browser consumer language selector did not emit uzu-language-change: ${JSON.stringify(value.events)}`);

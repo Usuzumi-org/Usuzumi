@@ -4,6 +4,14 @@
 
 All notable changes to Usuzumi are recorded here.
 
+## Unreleased
+
+## 2.0.3 - 2026-06-17
+
+### Added
+
+- Added page-level error layout primitives, parameterized error page runtime support, and a static site 404 page.
+
 ## 2.0.2 - 2026-06-17
 
 ### Changed

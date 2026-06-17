@@ -1,6 +1,6 @@
 {
   "name": "usuzumi",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Drop-in CSS and JavaScript components for personal sites, docs, and product pages.",
   "keywords": [
     "ui",
@@ -60,8 +60,6 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "check:build": "node scripts/build.mjs --check",
-    "build:css": "npm run build",
-    "check:css": "npm run check:build",
     "validate": "npm run check:build && node scripts/validate.mjs && node scripts/consumer-smoke.mjs",
     "validate:source": "node scripts/validate.mjs",
     "validate:consumer": "node scripts/consumer-smoke.mjs",

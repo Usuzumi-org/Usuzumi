@@ -27,6 +27,10 @@
   overflow-wrap: anywhere;
 }
 
+.uzu-measure {
+  width: min(var(--uzu-measure-width, 680px), calc(100% - var(--uzu-measure-gutter, 0px)));
+}
+
 .uzu-center {
   display: grid;
   place-items: center;

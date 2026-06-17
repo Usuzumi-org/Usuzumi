@@ -39,6 +39,7 @@ const pageWidthTarget = document.querySelector('#consumer-page-width');
 const pageWidth = pageWidthTarget.getBoundingClientRect().width;
 pageWidthTarget.style.setProperty('--uzu-page-max-width', '520px');
 const pageWidthCustom = pageWidthTarget.getBoundingClientRect().width;
+const measureWidth = document.querySelector('#consumer-measure').getBoundingClientRect().width;
 const tabs = document.querySelector('[data-uzu-tabs]');
 const segmented = document.querySelector('[data-uzu-segmented]');
 const paginationRoot = document.querySelector('#consumer-pagination');

@@ -276,6 +276,15 @@
     return candidates.find((value) => !optionValues.length || optionValues.includes(value)) || candidates[0] || 'zh';
   }
 
+  function getLanguageRootStorageKey(root) {
+    return root?.hasAttribute?.('data-uzu-language-key') ? root.dataset.uzuLanguageKey || '' : '';
+  }
+
+  function getInitialLanguageRootLanguage(root) {
+    const key = getLanguageRootStorageKey(root);
+    return normalizeLanguage((key ? storage.get(key) : '') || root.getAttribute('data-language') || root.getAttribute('data-uzu-lang'));
+  }
+
   function isNestedLanguageRoot(root, element) {
     const nestedRoot = element.closest('[data-uzu-language-root]');
     return Boolean(nestedRoot && nestedRoot !== root);
@@ -312,8 +321,8 @@
       if (languageRoot !== document.documentElement) languageRoot.setAttribute('data-uzu-language-root', '');
     });
     roots.forEach((languageRoot) => {
-      const language = normalizeLanguage(languageRoot.getAttribute('data-language') || languageRoot.getAttribute('data-uzu-lang'));
-      syncLanguageContent(languageRoot, language);
+      const language = getInitialLanguageRootLanguage(languageRoot);
+      applyLanguage(languageRoot, language, '', getDefaultLanguageHtmlLang(language));
     });
   }
 

@@ -1,4 +1,5 @@
 export const consumerFoundationHtml = `    <section id="consumer-page-width" class="uzu-page" style="--uzu-page-max-width: 640px">Scoped page width</section>
+    <section id="consumer-measure" class="uzu-measure" style="--uzu-measure-width: 320px; --uzu-measure-gutter: 40px">Measured content</section>
     <section id="consumer-theme-root" class="uzu-scope" data-theme="light" data-uzu-theme-key="consumer-theme">
       <button id="consumer-theme-toggle" class="uzu-icon-button" type="button" data-uzu-theme-toggle data-uzu-theme-target="#consumer-theme-root" aria-label="Theme">T</button>
     </section>
@@ -29,6 +30,7 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
       </div>
     </header>
     <p id="consumer-language-copy"><span data-lang="zh">Chinese copy</span><span data-lang="en" data-uzu-language-hidden>English copy</span><span data-lang="ja" data-uzu-language-hidden>Japanese copy</span></p>
+    <p id="consumer-standalone-language-root" data-language="zh" data-uzu-lang="zh" data-uzu-language-key="consumer-standalone-language"><span data-lang="zh">Standalone Chinese copy</span><span data-lang="en" data-uzu-language-hidden>Standalone English copy</span></p>
     <p id="consumer-language-dynamic-manual"></p>
     <p id="consumer-language-dynamic-auto" data-uzu-auto-init></p>
     <button id="consumer-button" class="uzu-button" type="button">Hover target</button>
@@ -73,6 +75,17 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
         </div>
       </div>
     </article>
+    <section class="uzu-error-page uzu-error-page-screen" id="consumer-error-page" data-uzu-error-page data-uzu-error-page-source="query" style="--uzu-error-page-max-width: 560px; --uzu-error-page-code-size: 72px">
+      <p class="uzu-error-page-code" id="consumer-error-page-code" data-uzu-error-code>404</p>
+      <div class="uzu-title-pair">
+        <h2 id="consumer-error-page-title" data-uzu-error-title>Page not found</h2>
+        <p id="consumer-error-page-message" data-uzu-error-message>The requested page might have moved.</p>
+      </div>
+      <div class="uzu-error-page-actions" id="consumer-error-page-actions" data-uzu-error-actions>
+        <a class="uzu-button uzu-button-primary" id="consumer-error-page-primary" href="#home" data-uzu-error-action="primary">Go home</a>
+        <a class="uzu-button" id="consumer-error-page-secondary" href="#components" data-uzu-error-action="secondary">View components</a>
+      </div>
+    </section>
     <p><code class="uzu-code" id="consumer-code">.uzu-scope</code> <kbd class="uzu-kbd" id="consumer-kbd">Ctrl</kbd></p>
     <p id="consumer-plain-backticks">Plain \`raw\` text should stay untouched.</p>
     <div class="uzu-code-block" id="consumer-code-block" style="--uzu-code-block-bg: rgb(250, 248, 240); --uzu-code-block-fg: rgb(32, 32, 30)">

@@ -313,3 +313,57 @@
   background: color-mix(in srgb, var(--uzu-danger-bg) 34%, var(--uzu-surface));
   color: var(--uzu-danger);
 }
+
+.uzu-error-page {
+  --uzu-error-page-min-height: 420px;
+  --uzu-error-page-max-width: 680px;
+  --uzu-error-page-gap: 18px;
+  --uzu-error-page-code-size: 88px;
+  min-height: var(--uzu-error-page-min-height);
+  max-width: var(--uzu-error-page-max-width);
+  margin-inline: auto;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--uzu-error-page-gap);
+  color: var(--uzu-muted);
+  text-align: center;
+}
+
+.uzu-error-page-screen {
+  --uzu-error-page-min-height: calc(100vh - var(--uzu-page-padding-block-start, 0px) - var(--uzu-page-padding-block-end, 0px));
+}
+
+@supports (min-height: 100dvh) {
+  .uzu-error-page-screen {
+    --uzu-error-page-min-height: calc(100dvh - var(--uzu-page-padding-block-start, 0px) - var(--uzu-page-padding-block-end, 0px));
+  }
+}
+
+.uzu-error-page > * {
+  margin-block: 0;
+}
+
+.uzu-error-page-code {
+  color: var(--uzu-fg-strong);
+  font-size: var(--uzu-error-page-code-size);
+  font-weight: 650;
+  line-height: .92;
+  letter-spacing: 0;
+}
+
+.uzu-error-page-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .uzu-error-page {
+    --uzu-error-page-min-height: 360px;
+    --uzu-error-page-code-size: 68px;
+    --uzu-error-page-gap: 16px;
+  }
+}

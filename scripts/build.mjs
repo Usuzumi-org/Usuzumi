@@ -50,6 +50,7 @@ const jsFiles = [
   'ui/js/toasts.js',
   'ui/js/panel-navigation.js',
   'ui/js/tooltips.js',
+  'ui/js/error-pages.js',
   'ui/js/code-highlight.js',
   'ui/js/markdown.js',
   'ui/js/code-copy.js',

@@ -362,6 +362,7 @@
     if (typeof refreshCodeCopyLabels === 'function') refreshCodeCopyLabels(root);
     refreshStateIndicators(root, true);
     queueIndicatorRefresh(root, true);
+    if (typeof queueTopbarOverflows === 'function') queueTopbarOverflows(root);
   }
 
   function focusLanguageOption(select, index) {

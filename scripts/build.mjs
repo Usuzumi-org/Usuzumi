@@ -34,6 +34,7 @@ const jsFiles = [
   'ui/js/switches.js',
   'ui/js/forms.js',
   'ui/js/menus-core.js',
+  'ui/js/topbar-overflow.js',
   'ui/js/menubars.js',
   'ui/js/commands.js',
   'ui/js/disclosures.js',

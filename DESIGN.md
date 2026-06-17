@@ -79,7 +79,7 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 - `.uzu-button`, `.uzu-button-primary`, `.uzu-button-ghost`, `.uzu-button-danger`
 - `.uzu-text-link`
 - `.uzu-icon-button`, `.uzu-theme-toggle`, `.uzu-language-select`, `.uzu-language-trigger`, `.uzu-language-menu`, `.uzu-language-option`, `.uzu-floating-controls`
-- `.uzu-topbar`, `.uzu-topbar-leading`, `.uzu-brand-link`, `.uzu-nav`, `.uzu-topbar-actions`
+- `.uzu-topbar`, `.uzu-topbar-leading`, `.uzu-brand-link`, `.uzu-nav`, `.uzu-topbar-actions`, `.uzu-topbar-overflow-menu`
 - `.uzu-toolbar`, `.uzu-toolbar-group`, `.uzu-breadcrumb`, `.uzu-pagination`, `.uzu-page-button`
 - `.uzu-card`, `.uzu-card-muted`, `.uzu-card-cover`, `.uzu-card-cover-media`, `.uzu-card-cover-body`, `.uzu-title-pair`, `.uzu-stat`, `.uzu-stat-label`, `.uzu-stat-value`, `.uzu-stat-note`
 - `.uzu-list`, `.uzu-list-item`, `.uzu-list-meta`, `.uzu-list-action`, `.uzu-avatar`
@@ -445,7 +445,7 @@ Sliders use `.uzu-slider` on native `input[type="range"]` so keyboard, min/max, 
 
 ### Navigation
 
-Top navigation uses `.uzu-topbar` for the row, `.uzu-brand-link` for the brand, `.uzu-nav` for links, and `.uzu-topbar-actions` for compact page controls. The nav slot grows through the center of the row, while `.uzu-topbar-actions` stays at the inline end for theme toggles and language selectors. Use `.uzu-tabs` for peer sections and `.uzu-segmented` for compact mode switches.
+Top navigation uses `.uzu-topbar` for the row, `.uzu-brand-link` for the brand, `.uzu-nav` for links, and `.uzu-topbar-actions` for compact page controls. The nav slot grows through the center of the row, while `.uzu-topbar-actions` stays at the inline end for theme toggles and language selectors. Add `data-uzu-topbar-overflow` to keep the topbar on one row and move trailing `.uzu-nav` links into a `.uzu-menu.uzu-topbar-overflow-menu[data-uzu-topbar-overflow-menu]` when width runs out; the menu trigger copy is supplied by the consumer, and `data-uzu-topbar-overflow-min-visible` can keep a minimum number of links outside the menu. Use `.uzu-tabs` for peer sections and `.uzu-segmented` for compact mode switches.
 
 Tabs and segmented controls are static visual primitives by default. Add `data-uzu-tabs` or `data-uzu-segmented` when the runtime should manage the active state, keyboard arrow navigation, ARIA state, animated active indicators, and change events.
 

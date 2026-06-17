@@ -100,6 +100,7 @@ window.Usuzumi.destroy(container);
 - 无框架、无运行时依赖的可选 JavaScript 交互。
 - 面向 npm 和 CDN 使用的生成版 CSS / JS bundle。
 - 浏览器 API 和自定义事件的类型声明。
+- 响应式顶部栏可通过 `data-uzu-topbar-overflow` 把溢出的导航链接折入公共“更多”菜单。
 
 ## 站点与示例
 

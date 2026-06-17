@@ -33,6 +33,27 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
     <p id="consumer-standalone-language-root" data-language="zh" data-uzu-lang="zh" data-uzu-language-key="consumer-standalone-language"><span data-lang="zh">Standalone Chinese copy</span><span data-lang="en" data-uzu-language-hidden>Standalone English copy</span></p>
     <p id="consumer-language-dynamic-manual"></p>
     <p id="consumer-language-dynamic-auto" data-uzu-auto-init></p>
+    <div id="consumer-topbar-overflow-wrap" style="width: 760px">
+      <header id="consumer-topbar-overflow" class="uzu-topbar" data-uzu-topbar-overflow style="--uzu-topbar-margin-bottom: 0">
+        <div class="uzu-topbar-leading">
+          <span class="uzu-brand-link">Usuzumi</span>
+        </div>
+        <nav class="uzu-nav" aria-label="Overflow navigation">
+          <a href="#overflow-home" aria-current="page" style="min-width: 112px">Home</a>
+          <a href="#overflow-components" style="min-width: 112px">Components</a>
+          <a href="#overflow-editor" style="min-width: 112px">Editor integration</a>
+          <a href="#overflow-github" style="min-width: 112px">Github</a>
+          <span class="uzu-menu uzu-topbar-overflow-menu" data-uzu-menu data-uzu-topbar-overflow-menu>
+            <button class="uzu-menu-trigger" type="button" data-uzu-menu-trigger>More</button>
+            <span class="uzu-menu-content" data-uzu-menu-content></span>
+          </span>
+        </nav>
+        <div class="uzu-topbar-actions" aria-label="Overflow settings">
+          <button class="uzu-icon-button" type="button" aria-label="Language">L</button>
+          <button class="uzu-icon-button" type="button" aria-label="Theme">T</button>
+        </div>
+      </header>
+    </div>
     <button id="consumer-button" class="uzu-button" type="button">Hover target</button>
     <button id="consumer-primary" class="uzu-button uzu-button-primary" type="button">Primary</button>
     <a id="consumer-ghost" class="uzu-button uzu-button-ghost" href="#ghost">Ghost</a>

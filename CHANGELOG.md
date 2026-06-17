@@ -6,6 +6,12 @@ All notable changes to Usuzumi are recorded here.
 
 ## Unreleased
 
+## 2.0.4 - 2026-06-18
+
+### Changed
+
+- Added responsive topbar overflow menus that keep the brand and page actions visible while moving trailing navigation links into a More menu.
+
 ## 2.0.3 - 2026-06-17
 
 ### Added

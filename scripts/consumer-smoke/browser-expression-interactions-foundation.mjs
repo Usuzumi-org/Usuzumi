@@ -65,6 +65,46 @@ const languageAutoDynamicHiddenStates = Array.from(languageAutoDynamicRoot.query
   lang: element.getAttribute('data-lang'),
   hidden: element.hasAttribute('data-uzu-language-hidden')
 }));
+const topbarOverflowWrap = document.querySelector('#consumer-topbar-overflow-wrap');
+const topbarOverflow = document.querySelector('#consumer-topbar-overflow');
+const topbarOverflowNav = topbarOverflow.querySelector('.uzu-nav');
+const topbarOverflowMenu = topbarOverflow.querySelector('[data-uzu-topbar-overflow-menu]');
+const topbarOverflowMenuTrigger = topbarOverflowMenu.querySelector('[data-uzu-menu-trigger]');
+const topbarOverflowMenuContent = topbarOverflowMenu.querySelector('[data-uzu-menu-content]');
+const readTopbarOverflowState = () => ({
+  directLinks: topbarOverflowNav.querySelectorAll(':scope > a').length,
+  menuItems: topbarOverflowMenuContent.querySelectorAll('.uzu-menu-item').length,
+  menuHidden: topbarOverflowMenu.hidden,
+  overflow: topbarOverflow.scrollWidth - topbarOverflow.clientWidth,
+  leadingTop: Math.round(topbarOverflow.querySelector('.uzu-topbar-leading').getBoundingClientRect().top),
+  actionsTop: Math.round(topbarOverflow.querySelector('.uzu-topbar-actions').getBoundingClientRect().top),
+  leadingCenter: Math.round(topbarOverflow.querySelector('.uzu-topbar-leading').getBoundingClientRect().top + topbarOverflow.querySelector('.uzu-topbar-leading').getBoundingClientRect().height / 2),
+  actionsCenter: Math.round(topbarOverflow.querySelector('.uzu-topbar-actions').getBoundingClientRect().top + topbarOverflow.querySelector('.uzu-topbar-actions').getBoundingClientRect().height / 2)
+});
+await wait(120);
+const topbarOverflowWideState = readTopbarOverflowState();
+topbarOverflowWrap.style.width = '520px';
+await wait(120);
+const topbarOverflowMediumState = readTopbarOverflowState();
+topbarOverflowWrap.style.width = '300px';
+await wait(120);
+const topbarOverflowNarrowState = readTopbarOverflowState();
+click(topbarOverflowMenuTrigger);
+await wait(80);
+const topbarOverflowMenuOpenState = {
+  open: topbarOverflowMenu.classList.contains('is-open'),
+  expanded: topbarOverflowMenuTrigger.getAttribute('aria-expanded'),
+  firstItemRole: topbarOverflowMenuContent.querySelector('.uzu-menu-item')?.getAttribute('role') || '',
+  firstItemTabindex: topbarOverflowMenuContent.querySelector('.uzu-menu-item')?.getAttribute('tabindex') || ''
+};
+click(topbarOverflowMenuContent.querySelector('.uzu-menu-item'));
+await wait(160);
+const topbarOverflowMenuClosedAfterSelect = !topbarOverflowMenu.classList.contains('is-open');
+topbarOverflowWrap.style.width = '760px';
+await wait(120);
+const topbarOverflowRestoredState = readTopbarOverflowState();
+window.Usuzumi.destroy(topbarOverflowWrap);
+const topbarOverflowDestroyState = readTopbarOverflowState();
 click(selectTrigger);
 await wait(60);
 const selectOpenAnimation = getComputedStyle(selectMenu).animationName;

@@ -73,6 +73,7 @@ assert(css.includes('calc(100% - var(--uzu-slider-thumb-size)) 100%'), 'Publishe
 assert(css.includes('.uzu-stack'), 'Published CSS is missing stack layout styles');
 assert(css.includes('.uzu-topbar-leading'), 'Published CSS is missing topbar leading slot styles');
 assert(css.includes('.uzu-topbar-actions'), 'Published CSS is missing topbar action slot styles');
+assert(css.includes('.uzu-topbar-overflow-menu'), 'Published CSS is missing topbar overflow menu styles');
 assert(css.includes('.uzu-language-select'), 'Published CSS is missing language selector styles');
 assert(css.includes('.uzu-language-menu'), 'Published CSS is missing language menu styles');
 assert(css.includes('.uzu-language-option'), 'Published CSS is missing language option styles');
@@ -126,6 +127,7 @@ assert(js.includes('data-uzu-search'), 'Runtime is missing search initialization
 assert(js.includes('data-uzu-password'), 'Runtime is missing password initialization support');
 assert(js.includes('data-uzu-stepper'), 'Runtime is missing stepper initialization support');
 assert(js.includes('data-uzu-menu'), 'Runtime is missing menu initialization support');
+assert(js.includes('data-uzu-topbar-overflow'), 'Runtime is missing topbar overflow initialization support');
 assert(js.includes('data-uzu-context-menu'), 'Runtime is missing context menu initialization support');
 assert(js.includes('data-uzu-menubar'), 'Runtime is missing menubar initialization support');
 assert(js.includes('data-uzu-command'), 'Runtime is missing command initialization support');

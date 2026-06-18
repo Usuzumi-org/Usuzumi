@@ -93,7 +93,7 @@
         autoInitObservers.delete(container);
       }
     });
-    queryAll(root, '[data-uzu-panel-nav]').forEach((nav) => {
+    queryAll(root, '[data-uzu-panel-nav], [data-uzu-panel-index]').forEach((nav) => {
       const listener = panelNavHashListeners.get(nav);
       if (!listener) return;
       window.removeEventListener('hashchange', listener);

@@ -290,6 +290,11 @@ declare global {
     index: number;
   }
 
+  interface UsuzumiSidebarLayoutChangeDetail {
+    collapsed: boolean;
+    expanded: boolean;
+  }
+
   interface UsuzumiEditorCommandDetail {
     editor: HTMLElement;
     surface: HTMLElement | null;
@@ -423,6 +428,7 @@ declare global {
     "uzu-dialog-open": CustomEvent<UsuzumiDialogDetail>;
     "uzu-dialog-close": CustomEvent<UsuzumiDialogDetail>;
     "uzu-step-nav-change": CustomEvent<UsuzumiStepNavChangeDetail>;
+    "uzu-sidebar-layout-change": CustomEvent<UsuzumiSidebarLayoutChangeDetail>;
     "uzu-editor-command": CustomEvent<UsuzumiEditorCommandDetail>;
     "uzu-editor-change": CustomEvent<UsuzumiEditorChangeDetail>;
     "uzu-markdown-editor-change": CustomEvent<UsuzumiMarkdownEditorChangeDetail>;

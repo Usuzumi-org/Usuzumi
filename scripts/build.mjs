@@ -123,6 +123,11 @@ const outputPath = path.join(root, 'ui/usuzumi.css');
 const jsPath = path.join(root, 'ui/usuzumi.js');
 const minCssPath = path.join(root, 'ui/usuzumi.min.css');
 const minJsPath = path.join(root, 'ui/usuzumi.min.js');
+const maxDriftDetails = 8;
+
+function toRelative(filePath) {
+  return path.relative(root, filePath).replaceAll(path.sep, '/');
+}
 
 if (process.argv.includes('--check')) {
   const outputs = [
@@ -133,7 +138,11 @@ if (process.argv.includes('--check')) {
   ];
   const drifted = outputs.filter(([filePath, expected]) => normalizeText(readFileSync(filePath, 'utf8')) !== expected);
   if (drifted.length) {
-    console.error(`${drifted.map(([filePath]) => path.relative(root, filePath).replaceAll(path.sep, '/')).join(', ')} out of date. Run npm run build.`);
+    const driftedFiles = drifted.map(([filePath]) => toRelative(filePath));
+    const details = driftedFiles.slice(0, maxDriftDetails);
+    const suffix = driftedFiles.length > details.length ? `, and ${driftedFiles.length - details.length} more` : '';
+    console.error(`${driftedFiles.join(', ')} out of date. Run npm run build.`);
+    console.error(`Drifted outputs: ${details.join(', ')}${suffix}.`);
     process.exit(1);
   }
   console.log('Generated CSS and JS bundles are in sync.');

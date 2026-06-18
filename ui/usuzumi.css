@@ -5570,25 +5570,29 @@
     display: none;
   }
 
-  .uzu-panel-nav {
+  .uzu-panel-nav,
+  .uzu-panel-index {
     border-bottom: 0;
     display: grid;
     gap: 22px;
   }
 
-  .uzu-panel-nav-section {
+  .uzu-panel-nav-section,
+  .uzu-panel-index-section {
     display: grid;
     gap: 4px;
   }
 
-  .uzu-panel-nav-title {
+  .uzu-panel-nav-title,
+  .uzu-panel-index-title {
     margin: 0 0 4px;
     color: var(--uzu-subtle);
     font-size: 13px;
     line-height: 1.35;
   }
 
-  .uzu-panel-nav-button {
+  .uzu-panel-nav-button,
+  .uzu-panel-index-button {
     width: 100%;
     min-height: 36px;
     padding: 7px 10px;
@@ -5608,14 +5612,19 @@
   }
 
   .uzu-panel-nav-button:hover,
+  .uzu-panel-index-button:hover,
   .uzu-panel-nav-button:focus-visible,
+  .uzu-panel-index-button:focus-visible,
   .uzu-panel-nav-button.is-active,
-  .uzu-panel-nav-button[aria-pressed="true"] {
+  .uzu-panel-index-button.is-active,
+  .uzu-panel-nav-button[aria-pressed="true"],
+  .uzu-panel-index-button[aria-pressed="true"] {
     background: var(--uzu-surface-soft);
     color: var(--uzu-fg-strong);
   }
 
-  .uzu-panel-nav-meta {
+  .uzu-panel-nav-meta,
+  .uzu-panel-index-meta {
     margin-left: auto;
     color: var(--uzu-soft);
     font-size: 12px;

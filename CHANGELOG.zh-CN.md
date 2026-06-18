@@ -6,6 +6,20 @@
 
 ## Unreleased
 
+## 2.0.5 - 2026-06-18
+
+### 新增
+
+- 新增推荐用于同页面板目录的 `.uzu-panel-index*` 类和 `data-uzu-panel-index` 入口，并继续兼容 `.uzu-panel-nav*`。
+
+### 变更
+
+- 优化组件目录可读性，统一区分实时展示和使用说明。
+
+### 修复
+
+- 补充 `uzu-sidebar-layout-change` 事件缺失的 TypeScript 类型。
+
 ## 2.0.4 - 2026-06-18
 
 ### 变更

@@ -6,6 +6,20 @@ All notable changes to Usuzumi are recorded here.
 
 ## Unreleased
 
+## 2.0.5 - 2026-06-18
+
+### Added
+
+- Added `.uzu-panel-index*` classes and `data-uzu-panel-index` as the recommended same-page panel catalog interface, while keeping `.uzu-panel-nav*` compatible.
+
+### Changed
+
+- Improved component catalog readability by consistently separating live demos from usage notes.
+
+### Fixed
+
+- Added the missing TypeScript event detail for `uzu-sidebar-layout-change`.
+
 ## 2.0.4 - 2026-06-18
 
 ### Changed

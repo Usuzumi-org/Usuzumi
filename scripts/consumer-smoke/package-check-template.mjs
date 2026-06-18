@@ -110,6 +110,7 @@ assert(css.includes('.uzu-spinner'), 'Published CSS is missing spinner styles');
 assert(css.includes('.uzu-step-nav'), 'Published CSS is missing step navigation styles');
 assert(css.includes('.uzu-empty-state'), 'Published CSS is missing empty state styles');
 assert(css.includes('.uzu-error-state'), 'Published CSS is missing error state styles');
+assert(css.includes('.uzu-panel-index'), 'Published CSS is missing panel index alias styles');
 
 const js = readPackageFile(packageRoot, 'ui/usuzumi.js');
 const minCss = readPackageFile(packageRoot, 'ui/usuzumi.min.css');
@@ -148,6 +149,7 @@ assert(js.includes('data-uzu-tag'), 'Runtime is missing tag initialization suppo
 assert(js.includes('data-uzu-tag-list'), 'Runtime is missing tag list initialization support');
 assert(js.includes('data-uzu-tag-add'), 'Runtime is missing tag add initialization support');
 assert(js.includes('data-uzu-step-nav'), 'Runtime is missing step navigation initialization support');
+assert(js.includes('data-uzu-panel-index'), 'Runtime is missing panel index alias initialization support');
 assert(js.includes('data-uzu-sidebar-layout'), 'Runtime is missing collapsible sidebar layout initialization support');
 assert(js.includes('uzuSidebarMobile'), 'Runtime is missing sidebar mobile mode support');
 assert(js.includes('closeOpenSidebarLayouts'), 'Runtime is missing sidebar dropdown close support');

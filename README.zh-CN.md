@@ -101,6 +101,7 @@ window.Usuzumi.destroy(container);
 - 面向 npm 和 CDN 使用的生成版 CSS / JS bundle。
 - 浏览器 API 和自定义事件的类型声明。
 - 响应式顶部栏可通过 `data-uzu-topbar-overflow` 把溢出的导航链接折入公共“更多”菜单。
+- 侧边导航区分普通应用侧栏 `.uzu-sidebar-nav` 和同页面板索引 `.uzu-panel-index`。
 
 ## 站点与示例
 

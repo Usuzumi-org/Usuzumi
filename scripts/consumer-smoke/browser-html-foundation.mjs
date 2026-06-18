@@ -132,11 +132,11 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
       </button>
     </div>
     <div class="consumer-panel-layout" id="consumer-panel-layout">
-      <nav class="uzu-panel-nav" id="consumer-panel-nav" data-uzu-panel-nav data-uzu-panel-selector=".consumer-panel" aria-label="Consumer panels">
-        <section class="uzu-panel-nav-section" aria-labelledby="consumer-panel-nav-title">
-          <p class="uzu-panel-nav-title" id="consumer-panel-nav-title">Docs</p>
-          <button class="uzu-panel-nav-button is-active" type="button" data-uzu-panel-target="#consumer-panel-one" aria-pressed="true">One<span class="uzu-panel-nav-meta">Intro</span></button>
-          <button class="uzu-panel-nav-button" type="button" data-uzu-panel-target="#consumer-panel-two" aria-pressed="false">Two<span class="uzu-panel-nav-meta">API</span></button>
+      <nav class="uzu-panel-index" id="consumer-panel-nav" data-uzu-panel-index data-uzu-panel-selector=".consumer-panel" aria-label="Consumer panels">
+        <section class="uzu-panel-index-section" aria-labelledby="consumer-panel-nav-title">
+          <p class="uzu-panel-index-title" id="consumer-panel-nav-title">Docs</p>
+          <button class="uzu-panel-index-button is-active" type="button" data-uzu-panel-target="#consumer-panel-one" aria-pressed="true">One<span class="uzu-panel-index-meta">Intro</span></button>
+          <button class="uzu-panel-index-button" type="button" data-uzu-panel-target="#consumer-panel-two" aria-pressed="false">Two<span class="uzu-panel-index-meta">API</span></button>
         </section>
       </nav>
       <div>

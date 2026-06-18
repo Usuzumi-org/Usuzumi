@@ -1,9 +1,11 @@
+  const panelNavRootSelector = '[data-uzu-panel-nav], [data-uzu-panel-index]';
+
   function getPanelNavTarget(control) {
     return control.dataset.uzuPanelTarget || '';
   }
 
   function getPanelNavControl(root, target) {
-    return getScopedControls(root, '[data-uzu-panel-target]', '[data-uzu-panel-nav]')
+    return getScopedControls(root, '[data-uzu-panel-target]', panelNavRootSelector)
       .find((control) => getPanelNavTarget(control) === target);
   }
 
@@ -17,7 +19,7 @@
   }
 
   function getPanelNavPanels(root, panel) {
-    const panels = getScopedControls(root, '[data-uzu-panel-target]', '[data-uzu-panel-nav]')
+    const panels = getScopedControls(root, '[data-uzu-panel-target]', panelNavRootSelector)
       .map((item) => getPanelNavPanel(getPanelNavTarget(item)))
       .filter(Boolean);
     if (panels.length) return [...new Set(panels)];
@@ -31,7 +33,7 @@
     if (!target || isControlDisabled(control)) return null;
     const panel = getPanelNavPanel(target);
     if (!panel) return null;
-    const controls = getScopedControls(root, '[data-uzu-panel-target]', '[data-uzu-panel-nav]');
+    const controls = getScopedControls(root, '[data-uzu-panel-target]', panelNavRootSelector);
     controls.forEach((item) => {
       const isActive = item === control;
       item.classList.toggle('is-active', isActive);
@@ -121,8 +123,8 @@
   }
 
   function initPanelNavs(root = document) {
-    queryAll(root, '[data-uzu-panel-nav]').forEach((nav) => {
-      const controls = getScopedControls(nav, '[data-uzu-panel-target]', '[data-uzu-panel-nav]');
+    queryAll(root, panelNavRootSelector).forEach((nav) => {
+      const controls = getScopedControls(nav, '[data-uzu-panel-target]', panelNavRootSelector);
       if (!controls.length) return;
       const openedFromHash = nav.dataset.uzuPanelHash === 'true' && showPanelNavFromHash(nav);
       if (!openedFromHash) {
@@ -132,7 +134,7 @@
 
       if (!markInitialized(nav, 'PanelNav')) return;
       nav.addEventListener('click', (event) => {
-        const control = getScopedEventControl(event, '[data-uzu-panel-target]', nav, '[data-uzu-panel-nav]');
+        const control = getScopedEventControl(event, '[data-uzu-panel-target]', nav, panelNavRootSelector);
         if (!control) return;
         showPanelNavTarget(nav, control, { updateHash: nav.dataset.uzuPanelHash === 'true' });
       });

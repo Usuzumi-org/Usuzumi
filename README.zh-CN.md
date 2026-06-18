@@ -98,6 +98,7 @@ window.Usuzumi.destroy(container);
 
 - 面向页面、章节、卡片、布局、表单、导航、反馈、浮层、数据视图、编辑器外壳和状态界面的主题化 CSS 原语。
 - 无框架、无运行时依赖的可选 JavaScript 交互。
+- 热力图通过 `data-uzu-heatmap` 支持紧凑日期数据、可点击格子和内置事件详情。
 - 面向 npm 和 CDN 使用的生成版 CSS / JS bundle。
 - 浏览器 API 和自定义事件的类型声明。
 - 响应式顶部栏可通过 `data-uzu-topbar-overflow` 把溢出的导航链接折入公共“更多”菜单。

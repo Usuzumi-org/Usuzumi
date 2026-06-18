@@ -83,6 +83,9 @@ assert(css.includes('.uzu-menubar'), 'Published CSS is missing menubar styles');
 assert(css.includes('.uzu-command'), 'Published CSS is missing command menu styles');
 assert(css.includes('.uzu-combobox'), 'Published CSS is missing combobox styles');
 assert(css.includes('.uzu-data-grid'), 'Published CSS is missing data grid styles');
+assert(css.includes('.uzu-heatmap'), 'Published CSS is missing heatmap styles');
+assert(css.includes('.uzu-heatmap-cell'), 'Published CSS is missing heatmap cell styles');
+assert(css.includes('--uzu-heatmap-cell-size'), 'Published CSS is missing heatmap size variables');
 assert(css.includes('.uzu-tree'), 'Published CSS is missing tree view styles');
 assert(css.includes('.uzu-split-pane'), 'Published CSS is missing split pane styles');
 assert(css.includes('.uzu-resizable'), 'Published CSS is missing resizable panel styles');
@@ -134,6 +137,9 @@ assert(js.includes('data-uzu-menubar'), 'Runtime is missing menubar initializati
 assert(js.includes('data-uzu-command'), 'Runtime is missing command initialization support');
 assert(js.includes('data-uzu-combobox'), 'Runtime is missing combobox initialization support');
 assert(js.includes('data-uzu-data-grid'), 'Runtime is missing data grid initialization support');
+assert(js.includes('data-uzu-heatmap'), 'Runtime is missing heatmap initialization support');
+assert(js.includes('setHeatmapData'), 'Runtime is missing heatmap data API support');
+assert(js.includes('selectHeatmapDate'), 'Runtime is missing heatmap selection API support');
 assert(js.includes('data-uzu-tree'), 'Runtime is missing tree initialization support');
 assert(js.includes('data-uzu-split-pane'), 'Runtime is missing split pane initialization support');
 assert(js.includes('data-uzu-resizable'), 'Runtime is missing resizable initialization support');
@@ -176,6 +182,8 @@ assert(dts.includes('"uzu-menu-select"'), 'Types are missing menu select event d
 assert(dts.includes('"uzu-command-select"'), 'Types are missing command select event declarations');
 assert(dts.includes('"uzu-combobox-change"'), 'Types are missing combobox event declarations');
 assert(dts.includes('"uzu-data-grid-sort"'), 'Types are missing data grid event declarations');
+assert(dts.includes('"uzu-heatmap-select"'), 'Types are missing heatmap event declarations');
+assert(dts.includes('setHeatmapData(heatmap: HTMLElement | string'), 'Types are missing setHeatmapData API');
 assert(dts.includes('"uzu-tree-select"'), 'Types are missing tree event declarations');
 assert(dts.includes('"uzu-split-resize"'), 'Types are missing split pane event declarations');
 assert(dts.includes('"uzu-resizable-resize"'), 'Types are missing resizable event declarations');

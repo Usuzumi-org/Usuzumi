@@ -34,6 +34,88 @@ const multiDataGridAlign = getComputedStyle(multiDataGrid.querySelector('[data-u
 const plainDataGridFirstValue = plainDataGrid.tBodies[0].rows[0].dataset.uzuGridRow || '';
 click(plainDataGrid.tBodies[0].rows[1]);
 const plainDataGridSelectedValue = plainDataGrid.querySelector('[aria-selected="true"]')?.dataset.uzuGridRow || '';
+const heatmapViewport = heatmap.querySelector('.uzu-heatmap-viewport');
+const heatmapGrid = heatmap.querySelector('[data-uzu-heatmap-grid]');
+const heatmapCells = [...heatmap.querySelectorAll('.uzu-heatmap-cell')];
+const heatmapInitialCellCount = heatmapCells.length;
+const heatmapInitialSelectedDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+const heatmapInitialDetailText = heatmap.querySelector('[data-uzu-heatmap-detail]')?.textContent.trim() || '';
+const heatmapExplicitLevel = heatmap.querySelector('[data-uzu-heatmap-offset="2"]')?.dataset.uzuHeatmapLevel || '';
+const heatmapViewportStyle = getComputedStyle(heatmapViewport);
+const heatmapGridStyle = getComputedStyle(heatmapGrid);
+const heatmapCellStyle = getComputedStyle(heatmapCells[0]);
+const heatmapInitialSelectedStyle = getComputedStyle(heatmap.querySelector('[aria-pressed="true"]'));
+const heatmapViewportOverflowX = heatmapViewportStyle.overflowX;
+const heatmapGridDisplay = heatmapGridStyle.display;
+const heatmapGridInsideViewport = heatmapGrid.parentElement === heatmapViewport;
+const heatmapGridHasClass = heatmapGrid.classList.contains('uzu-heatmap-grid');
+const heatmapGridRole = heatmapGrid.getAttribute('role') || '';
+const heatmapCellWidth = Math.round(heatmapCells[0].getBoundingClientRect().width);
+const heatmapCellHeight = Math.round(heatmapCells[0].getBoundingClientRect().height);
+const heatmapCellBackground = heatmapCellStyle.backgroundColor;
+const heatmapCellSizeVar = heatmapCellStyle.getPropertyValue('--uzu-heatmap-cell-size').trim();
+const heatmapInitialSelectedBoxShadow = heatmapInitialSelectedStyle.boxShadow;
+const heatmapInitialSelectedClass = heatmap.querySelector('[aria-pressed="true"]')?.classList.contains('is-selected') || false;
+const heatmapLegendCount = heatmap.querySelectorAll('.uzu-heatmap-legend-cell').length;
+let heatmapEventDetail = null;
+heatmap.addEventListener('uzu-heatmap-select', (event) => {
+  heatmapEventDetail = {
+    date: event.detail.date,
+    offset: event.detail.offset,
+    value: event.detail.value,
+    level: event.detail.level,
+    events: event.detail.events.map((item) => item.title).join(',')
+  };
+}, { once: true });
+click(heatmap.querySelector('[data-uzu-heatmap-offset="5"]'));
+await wait(40);
+const heatmapClickedSelectedDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+const heatmapClickedPressed = heatmap.querySelector('[data-uzu-heatmap-offset="5"]').getAttribute('aria-pressed');
+const heatmapClickedDetailText = heatmap.querySelector('[data-uzu-heatmap-detail]')?.textContent.trim() || '';
+const heatmapClickedEventLogged = newEvents.includes('heatmap:2025-06-23:1');
+const heatmapFocusedAfterClick = document.activeElement?.dataset.uzuHeatmapOffset || '';
+document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+await wait(0);
+const heatmapKeyboardFocusedOffset = document.activeElement?.dataset.uzuHeatmapOffset || '';
+document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+await wait(40);
+const heatmapKeyboardSelectedDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+const heatmapApiSelectReturn = window.Usuzumi.selectHeatmapDate(heatmap, 2, false);
+const heatmapApiSelectReturnMatches = heatmapApiSelectReturn === heatmap.querySelector('[data-uzu-heatmap-offset="2"]');
+const heatmapApiSelectedDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+const heatmapSetDataUsesSelReturn = window.Usuzumi.setHeatmapData(heatmap, {
+  s: '2025-06-19',
+  w: 1,
+  v: [1, 2, 3],
+  sel: 2
+}, false);
+const heatmapSetDataUsesSelDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+const heatmapSetDataReturn = window.Usuzumi.setHeatmapData(heatmap, {
+  s: '2025-07-01',
+  w: 1,
+  v: [1, [3, 4]],
+  sel: 1,
+  l: ['Low', 'High', 'Quiet'],
+  ev: [[1, [['API event', '10:00', 'Updated data']]]]
+}, false);
+const heatmapAfterSetCellCount = heatmap.querySelectorAll('.uzu-heatmap-cell').length;
+const heatmapAfterSetSelectedDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+const heatmapAfterSetExplicitLevel = heatmap.querySelector('[data-uzu-heatmap-offset="1"]')?.dataset.uzuHeatmapLevel || '';
+window.Usuzumi.selectHeatmapDate(heatmap, '2025-07-01', false);
+const heatmapApiSelectByDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+const heatmapRefreshReturn = window.Usuzumi.refreshHeatmap(heatmap);
+const heatmapRefreshCellCount = heatmap.querySelectorAll('.uzu-heatmap-cell').length;
+const heatmapRefreshSelectedDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+window.Usuzumi.selectHeatmapDate(heatmap, '2025-06-23', false);
+const heatmapRefreshPreserveReturn = window.Usuzumi.refreshHeatmap(heatmap);
+const heatmapRefreshPreservedDate = heatmap.dataset.uzuHeatmapSelectedDate || '';
+const staticHeatmapInitialSelectedDate = staticHeatmap.dataset.uzuHeatmapSelectedDate || '';
+const staticHeatmapCellCount = staticHeatmap.querySelectorAll('.uzu-heatmap-cell').length;
+click(staticHeatmap.querySelector('[data-uzu-heatmap-offset="2"]'));
+await wait(40);
+const staticHeatmapClickedSelectedDate = staticHeatmap.dataset.uzuHeatmapSelectedDate || '';
+const staticHeatmapClickedPressed = staticHeatmap.querySelector('[data-uzu-heatmap-offset="2"]').getAttribute('aria-pressed');
+const staticHeatmapDetailText = staticHeatmap.querySelector('[data-uzu-heatmap-detail]')?.textContent.trim() || '';
 const treeRowLabel = tree.querySelector('[data-uzu-tree-value="docs"] [data-uzu-tree-label]');
 click(treeRowLabel);
 await wait(60);

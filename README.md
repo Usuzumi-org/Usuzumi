@@ -98,6 +98,7 @@ See [DESIGN.md](DESIGN.md) for runtime data attributes and custom events.
 
 - Themeable CSS primitives for pages, sections, cards, layout, forms, navigation, feedback, overlays, data views, editor shells, and status states.
 - Optional JavaScript behavior for common UI interactions without framework or runtime dependencies.
+- Heatmaps support compact day-value data, clickable cells, and built-in event details with `data-uzu-heatmap`.
 - Responsive topbars can move trailing navigation links into a public "More" menu with `data-uzu-topbar-overflow`.
 - Side navigation distinguishes app sidebars with `.uzu-sidebar-nav` from same-page panel indexes with `.uzu-panel-index`.
 - Generated CSS and JS bundles for npm and CDN consumers.

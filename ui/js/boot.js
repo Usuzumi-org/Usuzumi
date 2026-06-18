@@ -191,7 +191,7 @@
   function init(root = document) {
     syncRootClass();
     initGlobalListeners();
-    for (const fn of [initThemeToggles, initLanguageSelects, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initForms, initSearches, initPasswords, initSteppers, initSliders, initMenus, initTopbarOverflows, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initTrees, initDisclosures, initAccordions, initHoverCards, initPopovers, initTags, initSplitPanes, initResizables, initSidebarLayouts, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initErrorPages, initMarkdown, initCodeHighlight, initCodeCopy]) {
+    for (const fn of [initThemeToggles, initLanguageSelects, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initForms, initSearches, initPasswords, initSteppers, initSliders, initMenus, initTopbarOverflows, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initHeatmaps, initTrees, initDisclosures, initAccordions, initHoverCards, initPopovers, initTags, initSplitPanes, initResizables, initSidebarLayouts, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initErrorPages, initMarkdown, initCodeHighlight, initCodeCopy]) {
       try { fn(root); } catch (error) { console.error('[usuzumi]', error); }
     }
     initAutoInit(root);
@@ -208,6 +208,9 @@
     setComboboxValue,
     setDataGridRowSelected,
     refreshDataGrid,
+    setHeatmapData,
+    selectHeatmapDate,
+    refreshHeatmap,
     setTagSelected,
     setSplitPaneSize,
     setResizableSize,

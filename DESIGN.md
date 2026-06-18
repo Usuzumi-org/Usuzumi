@@ -562,6 +562,30 @@ Tables use `.uzu-table-wrap` and `.uzu-table`. Horizontal scrolling is acceptabl
 
 Data grids start from the same table markup and add `data-uzu-data-grid` to the wrapper or table. Add `data-uzu-grid-sort` to sortable headers, `data-uzu-grid-selection` to row checkboxes, `data-uzu-grid-select-all` to a header checkbox, `data-uzu-grid-empty` to an empty-state row, and `data-uzu-grid-align="end"` or `.uzu-grid-align-end` for numeric columns. Call `window.Usuzumi.refreshDataGrid(grid)` after filtering rows so select-all and empty-state rows stay synchronized.
 
+Date heatmaps use `.uzu-heatmap` for sign-in streaks, contribution density, activity calendars, and other day-value summaries. They are not card surfaces by themselves; place them inside `.uzu-card` when the surrounding screen needs a framed module. Add `data-uzu-heatmap` when the runtime should build or normalize cells. The root may include `.uzu-heatmap-header`, `.uzu-heatmap-title`, `.uzu-heatmap-summary`, `.uzu-heatmap-viewport`, `.uzu-heatmap-months`, `.uzu-heatmap-weekdays`, `.uzu-heatmap-grid`, `.uzu-heatmap-legend`, and `.uzu-heatmap-detail`. Static cells can be authored with `.uzu-heatmap-cell`, `data-uzu-heatmap-date`, `data-uzu-heatmap-offset`, `data-uzu-heatmap-value`, and `data-uzu-heatmap-level`.
+
+Prefer the compact data script for generated heatmaps. The `s` date starts a continuous local-calendar range, `v` stores one entry per day, `w` sets week start, `sel` selects a default offset, `l` supplies `[less, more, empty]` labels, and `ev` stores per-day event tuples keyed by offset. A `v` item can be a number or `[value, level]`; explicit levels override automatic `0..4` mapping.
+
+```html
+<section class="uzu-heatmap" data-uzu-heatmap>
+  <script type="application/json" data-uzu-heatmap-data>{
+    "s": "2025-06-18",
+    "w": 1,
+    "v": [0, 0, 1, 3, 0, [2, 4]],
+    "sel": 3,
+    "l": ["Less", "More", "No events"],
+    "ev": [
+      [3, [["Midday check-in", "12:20", "18 day streak"]]],
+      [5, [["Review complete", "21:40"]]]
+    ]
+  }</script>
+</section>
+```
+
+The runtime creates button cells, writes `aria-pressed`, keeps `data-uzu-heatmap-selected-date` on the root, supports click, Enter, Space, Home, End, and arrow-key focus movement, and renders `.uzu-heatmap-detail` as text only. Set `data-uzu-heatmap-detail-render="manual"` when application code owns the detail region. Selection dispatches `uzu-heatmap-select` with `{ heatmap, cell, date, offset, value, level, events }` and then a plain `change` event. Use `window.Usuzumi.setHeatmapData(heatmap, data, emit)`, `window.Usuzumi.selectHeatmapDate(heatmap, dateOrOffset, emit)`, and `window.Usuzumi.refreshHeatmap(heatmap)` for dynamic data.
+
+Heatmap spacing and scale are controlled with `--uzu-heatmap-cell-size`, `--uzu-heatmap-cell-gap`, `--uzu-heatmap-cell-radius`, `--uzu-heatmap-min-width`, `--uzu-heatmap-level-0` through `--uzu-heatmap-level-4`, and `--uzu-heatmap-selected-ring`. Annual ranges should stay inside `.uzu-heatmap-viewport` so horizontal scrolling is local and follows the public 6px scrollbar contract.
+
 ### Overlays
 
 Use `.uzu-popover` and `.uzu-modal` for overlay surfaces. Overlay shadows are allowed, but standard cards should remain flat. Triggered popovers use a `data-uzu-popover` wrapper, a `data-uzu-popover-trigger` button, and a `.uzu-popover[data-uzu-popover-content]` layer. The wrapper provides the positioning scope, supports `data-uzu-popover-align="end"`, and the runtime toggles `hidden`, `is-open`, and `aria-expanded`, then closes on Escape or outside click. Dialog behavior uses `data-uzu-dialog-target`, `data-uzu-dialog-overlay`, `data-uzu-dialog`, and `data-uzu-dialog-close`. The runtime handles Escape, backdrop clicks, focus return, a small focus trap, background `inert` isolation, page scroll locking, and open/close animation timing.
@@ -690,6 +714,7 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 - `uzu-data-grid-sort`: `{ grid, table, header, columnIndex, direction }`
 - `uzu-data-grid-select`: `{ grid, table, row, selected, value }`
 - `uzu-data-grid-select-all`: `{ grid, table, selected, rows }`
+- `uzu-heatmap-select`: `{ heatmap, cell, date, offset, value, level, events }`
 - `uzu-tree-toggle`: `{ tree, item, expanded, value }`
 - `uzu-tree-select`: `{ tree, item, value }`
 - `uzu-split-resize`: `{ splitPane, size }`

@@ -360,6 +360,7 @@
     syncLanguageContent(root, nextLanguage);
     syncLanguageControls(root, nextLanguage);
     if (typeof refreshCodeCopyLabels === 'function') refreshCodeCopyLabels(root);
+    if (typeof refreshHeatmaps === 'function') refreshHeatmaps(root);
     refreshStateIndicators(root, true);
     queueIndicatorRefresh(root, true);
     if (typeof queueTopbarOverflows === 'function') queueTopbarOverflows(root);

@@ -6,6 +6,10 @@ All notable changes to Usuzumi are recorded here.
 
 ## Unreleased
 
+### Added
+
+- Added interactive `.uzu-heatmap` date heatmaps with compact tuple data, clickable day cells, built-in details, and selection events.
+
 ## 2.0.5 - 2026-06-18
 
 ### Added

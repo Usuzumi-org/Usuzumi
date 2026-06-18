@@ -36,6 +36,26 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
         </tbody>
       </table>
     </div>
+    <section class="uzu-heatmap" id="consumer-heatmap" data-uzu-heatmap aria-label="Consumer heatmap">
+      <div class="uzu-heatmap-header">
+        <div>
+          <h2 class="uzu-heatmap-title">Activity</h2>
+          <p class="uzu-heatmap-summary">8 compact days</p>
+        </div>
+      </div>
+      <script type="application/json" data-uzu-heatmap-data>{"s":"2025-06-18","w":1,"v":[0,2,[4,4],1,0,3,5,0],"sel":2,"l":["Less","More","No events"],"ev":[[2,[["Review","12:20","Explicit level"]]], [5,[["Ship","21:40"]]]]}</script>
+      <div data-uzu-heatmap-grid></div>
+    </section>
+    <section class="uzu-heatmap" id="consumer-static-heatmap" data-uzu-heatmap aria-label="Static heatmap">
+      <div class="uzu-heatmap-viewport">
+        <div class="uzu-heatmap-grid" data-uzu-heatmap-grid>
+          <button class="uzu-heatmap-cell" type="button" data-uzu-heatmap-date="2025-06-18" data-uzu-heatmap-offset="0" data-uzu-heatmap-value="0" data-uzu-heatmap-level="0" aria-label="2025-06-18"></button>
+          <button class="uzu-heatmap-cell is-selected" type="button" data-uzu-heatmap-date="2025-06-19" data-uzu-heatmap-offset="1" data-uzu-heatmap-value="2" data-uzu-heatmap-level="2" aria-label="2025-06-19"></button>
+          <button class="uzu-heatmap-cell" type="button" data-uzu-heatmap-date="2025-06-20" data-uzu-heatmap-offset="2" data-uzu-heatmap-value="4" data-uzu-heatmap-level="4" aria-label="2025-06-20"></button>
+        </div>
+      </div>
+      <div class="uzu-heatmap-detail" data-uzu-heatmap-detail></div>
+    </section>
     <ul class="uzu-tree" id="consumer-tree" data-uzu-tree aria-label="Consumer tree">
       <li class="uzu-tree-item is-open" data-uzu-tree-item data-uzu-tree-value="docs">
         <div class="uzu-tree-row"><button class="uzu-tree-toggle" type="button" data-uzu-tree-toggle aria-label="Toggle docs"></button><span class="uzu-tree-label" data-uzu-tree-label>docs</span></div>

@@ -47,6 +47,102 @@ if (value.comboboxHiddenDisclosureTargetHeight <= 260) throw new Error('Browser 
 if (value.dataGridFirstCellAfterSort !== 'Alpha' || value.dataGridSelectedValue !== 'alpha' || value.dataGridDisplay !== 'table') throw new Error('Browser consumer data grid did not sort/select');
 if (value.multiDataGridSelectedCount !== 2 || !value.multiDataGridSelectAllChecked || value.multiDataGridSelectAllMixedBeforeRefresh || value.multiDataGridRuntimeSelectedAfterCheckboxClick || value.multiDataGridRuntimeCheckboxAfterClick || !value.multiDataGridSelectAllMixedAfterCheckboxClick || !value.multiDataGridEmptyVisible || value.multiDataGridAlign !== 'right') throw new Error('Browser consumer data grid multi-select, checkbox sync, empty state, or alignment did not work');
 if (value.plainDataGridFirstValue !== '1' || value.plainDataGridSelectedValue !== '2') throw new Error('Browser consumer data grid did not initialize plain table rows');
+if (
+  value.heatmapInitialCellCount !== 8
+  || value.heatmapInitialSelectedDate !== '2025-06-20'
+  || !String(value.heatmapInitialDetailText).includes('Review')
+  || value.heatmapExplicitLevel !== '4'
+  || value.heatmapViewportOverflowX !== 'auto'
+  || value.heatmapGridDisplay !== 'grid'
+  || !value.heatmapGridInsideViewport
+  || !value.heatmapGridHasClass
+  || value.heatmapGridRole !== ''
+  || value.heatmapCellWidth !== 12
+  || value.heatmapCellHeight !== 12
+  || value.heatmapCellSizeVar !== '12px'
+  || value.heatmapInitialSelectedBoxShadow === 'none'
+  || !value.heatmapInitialSelectedClass
+  || value.heatmapLegendCount !== 5
+) throw new Error(`Browser consumer heatmap did not initialize compact data, styles, selected state, or legend: ${JSON.stringify({
+  count: value.heatmapInitialCellCount,
+  selected: value.heatmapInitialSelectedDate,
+  detail: value.heatmapInitialDetailText,
+  level: value.heatmapExplicitLevel,
+  overflow: value.heatmapViewportOverflowX,
+  display: value.heatmapGridDisplay,
+  gridInsideViewport: value.heatmapGridInsideViewport,
+  gridHasClass: value.heatmapGridHasClass,
+  gridRole: value.heatmapGridRole,
+  size: [value.heatmapCellWidth, value.heatmapCellHeight],
+  sizeVar: value.heatmapCellSizeVar,
+  shadow: value.heatmapInitialSelectedBoxShadow,
+  selectedClass: value.heatmapInitialSelectedClass,
+  legend: value.heatmapLegendCount
+})}`);
+if (
+  value.heatmapClickedSelectedDate !== '2025-06-23'
+  || value.heatmapClickedPressed !== 'true'
+  || !String(value.heatmapClickedDetailText).includes('Ship')
+  || !value.heatmapClickedEventLogged
+  || value.heatmapFocusedAfterClick !== '5'
+  || value.heatmapKeyboardFocusedOffset !== '6'
+  || value.heatmapKeyboardSelectedDate !== '2025-06-24'
+  || !value.heatmapEventDetail
+  || value.heatmapEventDetail.date !== '2025-06-23'
+  || value.heatmapEventDetail.offset !== 5
+  || value.heatmapEventDetail.value !== 3
+  || value.heatmapEventDetail.level !== 3
+  || value.heatmapEventDetail.events !== 'Ship'
+) throw new Error(`Browser consumer heatmap did not select, emit, render details, or support keyboard navigation: ${JSON.stringify({
+  clicked: value.heatmapClickedSelectedDate,
+  pressed: value.heatmapClickedPressed,
+  detail: value.heatmapClickedDetailText,
+  logged: value.heatmapClickedEventLogged,
+  focus: value.heatmapFocusedAfterClick,
+  keyboardFocus: value.heatmapKeyboardFocusedOffset,
+  keyboardSelected: value.heatmapKeyboardSelectedDate,
+  event: value.heatmapEventDetail
+})}`);
+if (
+  !value.heatmapApiSelectReturnMatches
+  || value.heatmapApiSelectedDate !== '2025-06-20'
+  || !value.heatmapSetDataUsesSelReturnMatches
+  || value.heatmapSetDataUsesSelDate !== '2025-06-21'
+  || !value.heatmapSetDataReturnMatches
+  || value.heatmapAfterSetCellCount !== 2
+  || value.heatmapAfterSetSelectedDate !== '2025-07-02'
+  || value.heatmapAfterSetExplicitLevel !== '4'
+  || value.heatmapApiSelectByDate !== '2025-07-01'
+  || !value.heatmapRefreshReturnMatches
+  || value.heatmapRefreshCellCount !== 8
+  || value.heatmapRefreshSelectedDate !== '2025-06-20'
+  || !value.heatmapRefreshPreserveReturnMatches
+  || value.heatmapRefreshPreservedDate !== '2025-06-23'
+) throw new Error(`Browser consumer heatmap public API did not update and refresh data: ${JSON.stringify({
+  apiReturn: value.heatmapApiSelectReturnMatches,
+  apiSelected: value.heatmapApiSelectedDate,
+  setUsesSelReturn: value.heatmapSetDataUsesSelReturnMatches,
+  setUsesSelDate: value.heatmapSetDataUsesSelDate,
+  setReturn: value.heatmapSetDataReturnMatches,
+  afterSetCount: value.heatmapAfterSetCellCount,
+  afterSetSelected: value.heatmapAfterSetSelectedDate,
+  afterSetLevel: value.heatmapAfterSetExplicitLevel,
+  byDate: value.heatmapApiSelectByDate,
+  refreshReturn: value.heatmapRefreshReturnMatches,
+  refreshCount: value.heatmapRefreshCellCount,
+  refreshSelected: value.heatmapRefreshSelectedDate,
+  refreshPreserveReturn: value.heatmapRefreshPreserveReturnMatches,
+  refreshPreservedDate: value.heatmapRefreshPreservedDate
+})}`);
+if (value.staticHeatmapInitialSelectedDate !== '2025-06-19' || value.staticHeatmapCellCount !== 3 || value.staticHeatmapClickedSelectedDate !== '2025-06-20' || value.staticHeatmapClickedPressed !== 'true' || !String(value.staticHeatmapDetailText).trim()) {
+  throw new Error(`Browser consumer static heatmap cells did not stay clickable and selectable: ${JSON.stringify({
+    initial: value.staticHeatmapInitialSelectedDate,
+    count: value.staticHeatmapCellCount,
+    clicked: value.staticHeatmapClickedSelectedDate,
+    pressed: value.staticHeatmapClickedPressed,
+    detail: value.staticHeatmapDetailText
+  })}`);
+}
 if (!value.treeClosed || !value.treeOpen || value.treeKeyboardFocusValue !== 'docs' || value.treeDisplay !== 'grid') throw new Error('Browser consumer tree did not toggle, focus, or style correctly');
 if (value.treeHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer tree reveal did not refresh nested open disclosure height');
 if (Number(value.splitSize) !== 58 || value.splitAriaValue !== '58' || value.splitPaneDisplay !== 'grid') throw new Error('Browser consumer split pane did not resize');

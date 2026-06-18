@@ -136,6 +136,34 @@ declare global {
     rows: HTMLTableRowElement[];
   }
 
+  type UsuzumiHeatmapValue = number | [number, number];
+  type UsuzumiHeatmapEventTuple = [string, string?, string?];
+
+  interface UsuzumiHeatmapData {
+    s: string;
+    w?: number;
+    v: UsuzumiHeatmapValue[];
+    sel?: number;
+    l?: [string, string, string];
+    ev?: Array<[number, UsuzumiHeatmapEventTuple[]]>;
+  }
+
+  interface UsuzumiHeatmapEventItem {
+    title: string;
+    meta: string;
+    description: string;
+  }
+
+  interface UsuzumiHeatmapSelectDetail {
+    heatmap: HTMLElement;
+    cell: HTMLElement;
+    date: string;
+    offset: number;
+    value: number;
+    level: number;
+    events: UsuzumiHeatmapEventItem[];
+  }
+
   interface UsuzumiFieldValidateDetail {
     field: HTMLElement;
     control: HTMLElement;
@@ -353,6 +381,9 @@ declare global {
     setComboboxValue(combobox: HTMLElement, optionOrValue: HTMLElement | string, emit?: boolean): void;
     setDataGridRowSelected(row: HTMLTableRowElement, selected: boolean, emit?: boolean): void;
     refreshDataGrid(gridOrTable: HTMLElement | HTMLTableElement): void;
+    setHeatmapData(heatmap: HTMLElement | string, data: UsuzumiHeatmapData | string, emit?: boolean): HTMLElement | null;
+    selectHeatmapDate(heatmap: HTMLElement | string, dateOrOffset: string | number, emit?: boolean): HTMLElement | null;
+    refreshHeatmap(heatmap: HTMLElement | string): HTMLElement | null;
     setTagSelected(tag: HTMLElement, selected: boolean, emit?: boolean): void;
     setSplitPaneSize(splitPane: HTMLElement, size: number, emit?: boolean): void;
     setResizableSize(resizable: HTMLElement, width: number, height: number, emit?: boolean): void;
@@ -407,6 +438,7 @@ declare global {
     "uzu-data-grid-sort": CustomEvent<UsuzumiDataGridSortDetail>;
     "uzu-data-grid-select": CustomEvent<UsuzumiDataGridSelectDetail>;
     "uzu-data-grid-select-all": CustomEvent<UsuzumiDataGridSelectAllDetail>;
+    "uzu-heatmap-select": CustomEvent<UsuzumiHeatmapSelectDetail>;
     "uzu-field-validate": CustomEvent<UsuzumiFieldValidateDetail>;
     "uzu-form-validate": CustomEvent<UsuzumiFormValidateDetail>;
     "uzu-tree-toggle": CustomEvent<UsuzumiTreeToggleDetail>;

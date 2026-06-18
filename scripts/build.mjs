@@ -40,6 +40,7 @@ const jsFiles = [
   'ui/js/disclosures.js',
   'ui/js/comboboxes.js',
   'ui/js/data-grids.js',
+  'ui/js/heatmaps.js',
   'ui/js/trees.js',
   'ui/js/accordions-hover-cards.js',
   'ui/js/popovers.js',

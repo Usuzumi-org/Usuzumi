@@ -9,6 +9,7 @@ All notable changes to Usuzumi are recorded here.
 ### Added
 
 - Added interactive `.uzu-heatmap` date heatmaps with compact tuple data, clickable day cells, built-in details, and selection events.
+- Added split runtime entries with `usuzumi-core.js`, `usuzumi-highlight.js`, and `data-uzu-code-highlight="visible"` for lighter pages and deferred syntax highlighting.
 
 ## 2.0.5 - 2026-06-18
 

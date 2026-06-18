@@ -92,6 +92,8 @@ window.Usuzumi.init(container);
 window.Usuzumi.destroy(container);
 ```
 
+Use `usuzumi-core.js` for pages that do not need syntax highlighting. Code-heavy pages can pair it with `usuzumi-highlight.js`, and set `data-uzu-code-highlight="visible"` to defer highlighting until code blocks approach the viewport.
+
 See [DESIGN.md](DESIGN.md) for runtime data attributes and custom events.
 
 ## Included
@@ -101,6 +103,7 @@ See [DESIGN.md](DESIGN.md) for runtime data attributes and custom events.
 - Heatmaps support compact day-value data, clickable cells, and built-in event details with `data-uzu-heatmap`.
 - Responsive topbars can move trailing navigation links into a public "More" menu with `data-uzu-topbar-overflow`.
 - Side navigation distinguishes app sidebars with `.uzu-sidebar-nav` from same-page panel indexes with `.uzu-panel-index`.
+- Optional core and syntax-highlight runtime entries for lighter pages.
 - Generated CSS and JS bundles for npm and CDN consumers.
 - Type declarations for the browser API and custom events.
 
@@ -118,7 +121,7 @@ npm run build
 npm run validate
 ```
 
-Edit source partials in `ui/css/` and `ui/js/`. The public entry files `ui/usuzumi.css`, `ui/usuzumi.js`, `ui/usuzumi.min.css`, and `ui/usuzumi.min.js` are generated bundles, so rebuild them instead of editing them by hand.
+Edit source partials in `ui/css/` and `ui/js/`. The public entry files in `ui/`, including the full, core, and syntax-highlight bundles, are generated, so rebuild them instead of editing them by hand.
 
 `npm run validate` checks generated bundle sync, source guardrails, package exports, browser behavior, and component page smoke coverage.
 

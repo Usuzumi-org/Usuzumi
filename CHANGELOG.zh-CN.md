@@ -9,6 +9,7 @@
 ### 新增
 
 - 新增可交互 `.uzu-heatmap` 日期热力图，支持紧凑元组数据、可点击日期格子、内置详情和选择事件。
+- 新增拆分运行时入口 `usuzumi-core.js`、`usuzumi-highlight.js`，以及用于延迟语法高亮的 `data-uzu-code-highlight="visible"`。
 
 ## 2.0.5 - 2026-06-18
 

@@ -168,6 +168,7 @@
       const trigger = getPopoverTrigger(popover);
       if (trigger) trigger.setAttribute('aria-expanded', 'false');
     });
+    destroyCodeHighlight(root);
     if (!isWholeDocumentRoot(root)) return;
     if (themeMediaQuery) {
       if (themeMediaQuery.removeEventListener) {

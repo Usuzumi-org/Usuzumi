@@ -8,6 +8,63 @@ import { assertConsumerBrowserResult, assertReducedMotionResult } from './browse
 import { consumerBrowserExpression, reducedMotionExpression } from './browser-expressions.mjs';
 import { consumerBrowserHtml } from './browser-html.mjs';
 
+const coreOnlyBrowserHtml = `<!doctype html>
+<html class="uzu-root" lang="en" data-theme="light" data-uzu-code-highlight="auto">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./node_modules/usuzumi/ui/usuzumi.css">
+  <script src="./node_modules/usuzumi/ui/usuzumi-core.js" defer></script>
+</head>
+<body class="uzu-app">
+  <main class="uzu-page">
+    <pre class="uzu-code-block-body uzu-scroll"><code class="language-javascript">const label = 'Usuzumi';</code></pre>
+  </main>
+</body>
+</html>
+`;
+
+const coreWithLateHighlightBrowserHtml = `<!doctype html>
+<html class="uzu-root" lang="en" data-theme="light" data-uzu-code-highlight="auto">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./node_modules/usuzumi/ui/usuzumi.css">
+  <script src="./node_modules/usuzumi/ui/usuzumi-core.js" defer></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      window.setTimeout(() => {
+        window.__beforeHighlightSignature = document.querySelector('code')?.dataset.uzuSyntaxHighlighted || '';
+        const script = document.createElement('script');
+        script.src = './node_modules/usuzumi/ui/usuzumi-highlight.js';
+        document.head.append(script);
+      }, 120);
+    });
+  </script>
+</head>
+<body class="uzu-app">
+  <main class="uzu-page">
+    <pre class="uzu-code-block-body uzu-scroll"><code class="language-javascript">const label = 'Usuzumi';</code></pre>
+  </main>
+</body>
+</html>
+`;
+
+const visibleHighlightBrowserHtml = `<!doctype html>
+<html class="uzu-root" lang="en" data-theme="light" data-uzu-code-highlight="visible">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./node_modules/usuzumi/ui/usuzumi.css">
+  <script src="./node_modules/usuzumi/ui/usuzumi.js" defer></script>
+</head>
+<body class="uzu-app">
+  <main class="uzu-page">
+    <pre class="uzu-code-block-body uzu-scroll"><code id="near-code" class="language-javascript">const near = true;</code></pre>
+    <div style="height: 2200px"></div>
+    <pre class="uzu-code-block-body uzu-scroll"><code id="far-code" class="language-javascript">const far = true;</code></pre>
+  </main>
+</body>
+</html>
+`;
+
 function getBrowserCandidates() {
   const candidates = [
     process.env.CHROME_PATH,
@@ -80,7 +137,13 @@ export async function browserSmoke(appDir) {
   }
 
   const htmlPath = path.join(appDir, 'browser-check.html');
+  const coreOnlyHtmlPath = path.join(appDir, 'browser-core-check.html');
+  const coreHighlightHtmlPath = path.join(appDir, 'browser-core-highlight-check.html');
+  const visibleHighlightHtmlPath = path.join(appDir, 'browser-visible-highlight-check.html');
   writeFileSync(htmlPath, consumerBrowserHtml, 'utf8');
+  writeFileSync(coreOnlyHtmlPath, coreOnlyBrowserHtml, 'utf8');
+  writeFileSync(coreHighlightHtmlPath, coreWithLateHighlightBrowserHtml, 'utf8');
+  writeFileSync(visibleHighlightHtmlPath, visibleHighlightBrowserHtml, 'utf8');
 
   const profile = path.join(appDir, 'browser-profile');
   const activePortFile = path.join(profile, 'DevToolsActivePort');
@@ -118,6 +181,32 @@ export async function browserSmoke(appDir) {
   });
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const exceptionDetailsToText = (details) => {
+    if (!details) return '';
+    const frames = details.stackTrace?.callFrames
+      ?.map((frame) => `${frame.functionName || '<anonymous>'}@${frame.url}:${frame.lineNumber}:${frame.columnNumber}`)
+      .join('\n') || '';
+    return [
+      details.text,
+      details.exception?.description || details.exception?.value,
+      frames
+    ].filter(Boolean).join('\n');
+  };
+  const evaluate = async (cdp, label, expression) => {
+    const result = await cdp.send('Runtime.evaluate', {
+      expression,
+      returnByValue: true,
+      awaitPromise: true
+    });
+    if (result.exceptionDetails) {
+      throw new Error(`${label} failed:\n${exceptionDetailsToText(result.exceptionDetails)}`);
+    }
+    return result.result.value;
+  };
+  const navigate = async (cdp, url, waitMs = 800) => {
+    await cdp.send('Page.navigate', { url });
+    await delay(waitMs);
+  };
   const browserDiagnostics = () => {
     const lines = [`Browser executable: ${browser}`, `Browser args: ${launchArgs.join(' ')}`];
     if (childExit) lines.push(`Browser exit: code=${childExit.code ?? 'null'} signal=${childExit.signal ?? 'null'}`);
@@ -155,18 +244,112 @@ export async function browserSmoke(appDir) {
     await delay(800);
 
 
-    const evaluation = await cdp.send('Runtime.evaluate', { expression: consumerBrowserExpression, returnByValue: true, awaitPromise: true });
-    if (evaluation.exceptionDetails) throw new Error(evaluation.exceptionDetails.text);
-    const value = evaluation.result.value;
+    const value = await evaluate(cdp, 'full runtime browser smoke', consumerBrowserExpression);
     assertConsumerBrowserResult(value);
 
     await cdp.send('Emulation.setEmulatedMedia', {
       features: [{ name: 'prefers-reduced-motion', value: 'reduce' }]
     });
 
-    const reducedMotionEvaluation = await cdp.send('Runtime.evaluate', { expression: reducedMotionExpression, returnByValue: true, awaitPromise: true });
-    if (reducedMotionEvaluation.exceptionDetails) throw new Error(reducedMotionEvaluation.exceptionDetails.text);
-    assertReducedMotionResult(reducedMotionEvaluation.result.value);
+    const reducedMotionResult = await evaluate(cdp, 'reduced motion browser smoke', reducedMotionExpression);
+    assertReducedMotionResult(reducedMotionResult);
+
+    await navigate(cdp, pathToFileURL(coreOnlyHtmlPath).href);
+    const coreOnlyResult = await evaluate(cdp, 'core-only syntax highlight smoke', `(() => {
+      const code = document.querySelector('code');
+      const direct = window.Usuzumi.highlightCode("const value = 1;", "javascript");
+      return {
+        hasApi: Boolean(window.Usuzumi?.highlightCodeBlocks),
+        hasEngine: Boolean(window.UsuzumiHighlightEngine),
+        directHighlighted: Boolean(direct.highlighted),
+        directText: direct.fragment.textContent,
+        tokenCount: code.querySelectorAll('.uzu-code-token').length,
+        signature: code.dataset.uzuSyntaxHighlighted || '',
+        text: code.textContent
+      };
+    })()`);
+    if (!coreOnlyResult.hasApi || coreOnlyResult.hasEngine || coreOnlyResult.directHighlighted || coreOnlyResult.directText !== 'const value = 1;' || coreOnlyResult.tokenCount !== 0 || !coreOnlyResult.signature.startsWith('plain:javascript:') || coreOnlyResult.text !== "const label = 'Usuzumi';") {
+      throw new Error(`Core-only highlight fallback failed: ${JSON.stringify(coreOnlyResult)}`);
+    }
+
+    await navigate(cdp, pathToFileURL(coreHighlightHtmlPath).href, 300);
+    const lateHighlightResult = await evaluate(cdp, 'late highlight runtime smoke', `(async () => {
+      const code = document.querySelector('code');
+      const beforeSignature = window.__beforeHighlightSignature || '';
+      for (let index = 0; index < 40; index += 1) {
+        if (code.querySelectorAll('.uzu-code-token').length > 0 && (code.dataset.uzuSyntaxHighlighted || '').startsWith('engine:')) break;
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      return {
+        hasApi: Boolean(window.Usuzumi?.highlightCodeBlocks),
+        hasEngine: Boolean(window.UsuzumiHighlightEngine),
+        beforeSignature,
+        afterSignature: code.dataset.uzuSyntaxHighlighted || '',
+        tokenCount: code.querySelectorAll('.uzu-code-token').length,
+        languageCount: window.Usuzumi.listCodeLanguages().length,
+        hasTypescript: window.Usuzumi.hasCodeLanguage('typescript')
+      };
+    })()`);
+    if (!lateHighlightResult.hasApi || !lateHighlightResult.hasEngine || !lateHighlightResult.beforeSignature.startsWith('plain:javascript:') || !lateHighlightResult.afterSignature.startsWith('engine:javascript:') || lateHighlightResult.tokenCount <= 0 || lateHighlightResult.languageCount <= 0 || !lateHighlightResult.hasTypescript) {
+      throw new Error(`Late highlight runtime failed: ${JSON.stringify(lateHighlightResult)}`);
+    }
+    const destroyHighlightResult = await evaluate(cdp, 'highlight destroy cleanup smoke', `(async () => {
+      const code = document.querySelector('code');
+      window.Usuzumi.destroy(document);
+      code.dataset.uzuCodeSource = 'const destroyed = true;';
+      delete code.dataset.uzuSyntaxHighlighted;
+      code.replaceChildren(document.createTextNode('const destroyed = true;'));
+      window.dispatchEvent(new CustomEvent('uzu-code-highlight-engine-ready', { detail: { engine: window.UsuzumiHighlightEngine || null } }));
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      await new Promise((resolve) => setTimeout(resolve, 80));
+      const afterDestroyTokens = code.querySelectorAll('.uzu-code-token').length;
+      const afterDestroySignature = code.dataset.uzuSyntaxHighlighted || '';
+      window.Usuzumi.init(document);
+      for (let index = 0; index < 30; index += 1) {
+        if (code.querySelectorAll('.uzu-code-token').length > 0 && (code.dataset.uzuSyntaxHighlighted || '').startsWith('engine:')) break;
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      return {
+        afterDestroyTokens,
+        afterDestroySignature,
+        afterInitTokens: code.querySelectorAll('.uzu-code-token').length,
+        afterInitSignature: code.dataset.uzuSyntaxHighlighted || ''
+      };
+    })()`);
+    if (destroyHighlightResult.afterDestroyTokens !== 0 || destroyHighlightResult.afterDestroySignature || destroyHighlightResult.afterInitTokens <= 0 || !destroyHighlightResult.afterInitSignature.startsWith('engine:javascript:')) {
+      throw new Error(`Highlight destroy cleanup failed: ${JSON.stringify(destroyHighlightResult)}`);
+    }
+
+    await navigate(cdp, pathToFileURL(visibleHighlightHtmlPath).href);
+    const visibleInitialResult = await evaluate(cdp, 'visible highlight initial smoke', `(() => {
+      const near = document.querySelector('#near-code');
+      const far = document.querySelector('#far-code');
+      return {
+        nearTokens: near.querySelectorAll('.uzu-code-token').length,
+        farTokens: far.querySelectorAll('.uzu-code-token').length,
+        nearSignature: near.dataset.uzuSyntaxHighlighted || '',
+        farSignature: far.dataset.uzuSyntaxHighlighted || '',
+        horizontalOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+      };
+    })()`);
+    if (visibleInitialResult.nearTokens <= 0 || visibleInitialResult.farTokens !== 0 || !visibleInitialResult.nearSignature.startsWith('engine:javascript:') || visibleInitialResult.farSignature || visibleInitialResult.horizontalOverflow > 1) {
+      throw new Error(`Visible highlight initial state failed: ${JSON.stringify(visibleInitialResult)}`);
+    }
+    const visibleScrolledResult = await evaluate(cdp, 'visible highlight scroll smoke', `(async () => {
+      const far = document.querySelector('#far-code');
+      far.scrollIntoView({ block: 'center' });
+      for (let index = 0; index < 30; index += 1) {
+        if (far.querySelectorAll('.uzu-code-token').length > 0) break;
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      return {
+        farTokens: far.querySelectorAll('.uzu-code-token').length,
+        farSignature: far.dataset.uzuSyntaxHighlighted || ''
+      };
+    })()`);
+    if (visibleScrolledResult.farTokens <= 0 || !visibleScrolledResult.farSignature.startsWith('engine:javascript:')) {
+      throw new Error(`Visible highlight scroll state failed: ${JSON.stringify(visibleScrolledResult)}`);
+    }
     cdp.close();
     console.log('Consumer browser smoke passed.');
   } finally {

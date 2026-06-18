@@ -1,6 +1,6 @@
 {
   "name": "usuzumi",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "Drop-in CSS and JavaScript components for personal sites, docs, and product pages.",
   "keywords": [
     "ui",
@@ -35,6 +35,10 @@
     "./ui/usuzumi.css",
     "./ui/usuzumi.min.css",
     "./ui/usuzumi.min.js",
+    "./ui/usuzumi-core.js",
+    "./ui/usuzumi-core.min.js",
+    "./ui/usuzumi-highlight.js",
+    "./ui/usuzumi-highlight.min.js",
     "./ui/usuzumi-signature.css",
     "./ui/css/*.css",
     "./ui/usuzumi.js"
@@ -55,12 +59,26 @@
     "./usuzumi.min.js": {
       "default": "./ui/usuzumi.min.js"
     },
+    "./usuzumi-core.js": {
+      "types": "./ui/usuzumi.d.ts",
+      "default": "./ui/usuzumi-core.js"
+    },
+    "./usuzumi-core.min.js": {
+      "default": "./ui/usuzumi-core.min.js"
+    },
+    "./usuzumi-highlight.js": {
+      "default": "./ui/usuzumi-highlight.js"
+    },
+    "./usuzumi-highlight.min.js": {
+      "default": "./ui/usuzumi-highlight.min.js"
+    },
     "./ui/*": "./ui/*"
   },
   "scripts": {
     "build": "node scripts/build.mjs",
     "check:build": "node scripts/build.mjs --check",
-    "validate": "npm run check:build && node scripts/validate.mjs && node scripts/consumer-smoke.mjs",
+    "perf:budget": "node scripts/perf-budget.mjs",
+    "validate": "npm run check:build && node scripts/validate.mjs && node scripts/consumer-smoke.mjs && npm run perf:budget",
     "validate:source": "node scripts/validate.mjs",
     "validate:consumer": "node scripts/consumer-smoke.mjs",
     "prepublishOnly": "npm run validate"

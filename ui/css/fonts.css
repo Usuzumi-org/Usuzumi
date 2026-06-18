@@ -1,6 +1,8 @@
 @font-face {
   font-family: "Meddon Custom";
-  src: url("../assets/Meddon-Regular.ttf") format("truetype");
+  src:
+    url("../assets/Meddon-Regular.woff2") format("woff2"),
+    url("../assets/Meddon-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;

@@ -363,11 +363,27 @@ declare global {
     highlighted: boolean;
   }
 
+  interface UsuzumiCodeHighlightEngineResult {
+    value: string;
+    language: string;
+    relevance: number;
+  }
+
+  interface UsuzumiCodeHighlightEngine {
+    highlight(source: string, language?: string): UsuzumiCodeHighlightEngineResult;
+    hasLanguage(language: string): boolean;
+    listLanguages(): string[];
+  }
+
   interface UsuzumiCodeHighlightDetail {
     code: HTMLElement;
     language: string;
     source: string;
     highlighted: boolean;
+  }
+
+  interface UsuzumiCodeHighlightEngineReadyDetail {
+    engine: UsuzumiCodeHighlightEngine | null;
   }
 
   interface UsuzumiApi {
@@ -414,6 +430,11 @@ declare global {
 
   interface Window {
     Usuzumi: UsuzumiApi;
+    UsuzumiHighlightEngine?: UsuzumiCodeHighlightEngine;
+  }
+
+  interface WindowEventMap {
+    "uzu-code-highlight-engine-ready": CustomEvent<UsuzumiCodeHighlightEngineReadyDetail>;
   }
 
   interface HTMLElementEventMap {

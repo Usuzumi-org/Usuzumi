@@ -15,12 +15,43 @@ function readPackageFile(packageRoot, relativePath) {
 
 await import('usuzumi');
 await import('usuzumi/usuzumi.js');
+await import('usuzumi/usuzumi-core.js');
+
+const previousWindow = globalThis.window;
+const previousCustomEvent = globalThis.CustomEvent;
+let highlightReadyDetail = null;
+globalThis.window = {
+  dispatchEvent(event) {
+    if (event?.type === 'uzu-code-highlight-engine-ready') {
+      highlightReadyDetail = event.detail;
+    }
+  }
+};
+globalThis.CustomEvent = class CustomEvent {
+  constructor(type, init = {}) {
+    this.type = type;
+    this.detail = init.detail;
+  }
+};
+await import('usuzumi/usuzumi-highlight.js');
+assert(globalThis.UsuzumiHighlightEngine && typeof globalThis.UsuzumiHighlightEngine.highlight === 'function', 'Highlight ESM import must expose the global engine');
+assert(globalThis.window.UsuzumiHighlightEngine === globalThis.UsuzumiHighlightEngine, 'Highlight ESM import must mirror the engine to window');
+assert(highlightReadyDetail?.engine === globalThis.UsuzumiHighlightEngine, 'Highlight ready event must include the exposed engine');
+if (previousWindow === undefined) delete globalThis.window;
+else globalThis.window = previousWindow;
+if (previousCustomEvent === undefined) delete globalThis.CustomEvent;
+else globalThis.CustomEvent = previousCustomEvent;
+delete globalThis.UsuzumiHighlightEngine;
 
 const rootEntry = fileURLToPath(await import.meta.resolve('usuzumi'));
 const jsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi.js'));
 const cssEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi.css'));
 const minJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi.min.js'));
 const minCssEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi.min.css'));
+const coreJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-core.js'));
+const minCoreJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-core.min.js'));
+const highlightJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-highlight.js'));
+const minHighlightJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-highlight.min.js'));
 const signatureEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-signature.css'));
 const cdnCssEntry = fileURLToPath(await import.meta.resolve('usuzumi/ui/usuzumi.css'));
 const cdnMinCssEntry = fileURLToPath(await import.meta.resolve('usuzumi/ui/usuzumi.min.css'));
@@ -31,6 +62,10 @@ assert(rootEntry === jsEntry, 'Root package import does not resolve to ui/usuzum
 assert(cssEntry === path.join(packageRoot, 'ui', 'usuzumi.css'), 'CSS export resolves to an unexpected file');
 assert(minCssEntry === path.join(packageRoot, 'ui', 'usuzumi.min.css'), 'Minified CSS export resolves to an unexpected file');
 assert(minJsEntry === path.join(packageRoot, 'ui', 'usuzumi.min.js'), 'Minified JS export resolves to an unexpected file');
+assert(coreJsEntry === path.join(packageRoot, 'ui', 'usuzumi-core.js'), 'Core JS export resolves to an unexpected file');
+assert(minCoreJsEntry === path.join(packageRoot, 'ui', 'usuzumi-core.min.js'), 'Minified core JS export resolves to an unexpected file');
+assert(highlightJsEntry === path.join(packageRoot, 'ui', 'usuzumi-highlight.js'), 'Highlight JS export resolves to an unexpected file');
+assert(minHighlightJsEntry === path.join(packageRoot, 'ui', 'usuzumi-highlight.min.js'), 'Minified highlight JS export resolves to an unexpected file');
 assert(signatureEntry === path.join(packageRoot, 'ui', 'usuzumi-signature.css'), 'Signature CSS export resolves to an unexpected file');
 assert(cdnCssEntry === cssEntry, 'CDN-style ui/usuzumi.css path does not resolve to the published CSS file');
 assert(cdnMinCssEntry === minCssEntry, 'CDN-style ui/usuzumi.min.css path does not resolve to the published minified CSS file');
@@ -44,6 +79,10 @@ assert(packageJson.types === './ui/usuzumi.d.ts', 'package.json types field must
 assert(packageJson.exports['./usuzumi.css'] === './ui/usuzumi.css', 'Missing usuzumi/usuzumi.css export');
 assert(packageJson.exports['./usuzumi.min.css'] === './ui/usuzumi.min.css', 'Missing usuzumi/usuzumi.min.css export');
 assert(packageJson.exports['./usuzumi.min.js'].default === './ui/usuzumi.min.js', 'Missing usuzumi/usuzumi.min.js export');
+assert(packageJson.exports['./usuzumi-core.js'].default === './ui/usuzumi-core.js', 'Missing usuzumi/usuzumi-core.js export');
+assert(packageJson.exports['./usuzumi-core.min.js'].default === './ui/usuzumi-core.min.js', 'Missing usuzumi/usuzumi-core.min.js export');
+assert(packageJson.exports['./usuzumi-highlight.js'].default === './ui/usuzumi-highlight.js', 'Missing usuzumi/usuzumi-highlight.js export');
+assert(packageJson.exports['./usuzumi-highlight.min.js'].default === './ui/usuzumi-highlight.min.js', 'Missing usuzumi/usuzumi-highlight.min.js export');
 assert(packageJson.exports['./usuzumi-signature.css'] === './ui/usuzumi-signature.css', 'Missing usuzumi/usuzumi-signature.css export');
 
 const css = readPackageFile(packageRoot, 'ui/usuzumi.css');
@@ -116,12 +155,25 @@ assert(css.includes('.uzu-error-state'), 'Published CSS is missing error state s
 assert(css.includes('.uzu-panel-index'), 'Published CSS is missing panel index alias styles');
 
 const js = readPackageFile(packageRoot, 'ui/usuzumi.js');
+const coreJs = readPackageFile(packageRoot, 'ui/usuzumi-core.js');
+const highlightJs = readPackageFile(packageRoot, 'ui/usuzumi-highlight.js');
 const minCss = readPackageFile(packageRoot, 'ui/usuzumi.min.css');
 const minJs = readPackageFile(packageRoot, 'ui/usuzumi.min.js');
+const minCoreJs = readPackageFile(packageRoot, 'ui/usuzumi-core.min.js');
+const minHighlightJs = readPackageFile(packageRoot, 'ui/usuzumi-highlight.min.js');
 assert(minCss.includes('@layer usuzumi'), 'Minified CSS must keep the public cascade layer');
 assert(minCss.length < css.length, 'Minified CSS should be smaller than the readable CSS bundle');
 assert(minJs.includes('window.Usuzumi'), 'Minified runtime must expose window.Usuzumi');
 assert(minJs.length < js.length, 'Minified JS should be smaller than the readable runtime');
+assert(coreJs.includes('window.Usuzumi'), 'Core runtime must expose window.Usuzumi');
+assert(coreJs.includes('data-uzu-code-highlight'), 'Core runtime is missing code highlight mode support');
+assert(!coreJs.includes('UsuzumiHighlightEngine ='), 'Core runtime should not bundle the highlight engine');
+assert(minCoreJs.includes('window.Usuzumi'), 'Minified core runtime must expose window.Usuzumi');
+assert(minCoreJs.length < coreJs.length, 'Minified core JS should be smaller than the readable core runtime');
+assert(highlightJs.includes('UsuzumiHighlightEngine'), 'Highlight runtime must expose UsuzumiHighlightEngine');
+assert(highlightJs.includes('uzu-code-highlight-engine-ready'), 'Highlight runtime must announce when the engine is available');
+assert(!highlightJs.includes('window.Usuzumi ='), 'Highlight runtime should not include the core Usuzumi API');
+assert(minHighlightJs.length < highlightJs.length, 'Minified highlight JS should be smaller than the readable highlight runtime');
 assert(js.includes('window.Usuzumi'), 'Runtime does not expose window.Usuzumi');
 assert(js.includes('destroy(root = document)'), 'Runtime is missing destroy API support');
 assert(js.includes('data-uzu-tabs'), 'Runtime is missing tabs initialization support');
@@ -163,10 +215,13 @@ assert(js.includes('data-uzu-language-select'), 'Runtime is missing language sel
 assert(!js.includes('data-uzu-language-toggle'), 'Runtime should not include the retired language toggle attribute');
 assert(js.includes('data-uzu-toast-trigger'), 'Runtime is missing toast trigger initialization support');
 assert(js.includes('showToast'), 'Runtime is missing showToast API support');
+assert(js.includes('UsuzumiHighlightEngine'), 'Full runtime should keep the bundled highlight engine for compatibility');
+assert(js.includes('data-uzu-code-highlight'), 'Runtime is missing code highlight mode support');
 
 const dts = readPackageFile(packageRoot, 'ui/usuzumi.d.ts');
 assert(dts.includes('destroy(root?: ParentNode): void'), 'Type declarations are missing destroy()');
 assert(dts.includes('interface UsuzumiApi'), 'Types are missing UsuzumiApi');
+assert(dts.includes('UsuzumiHighlightEngine'), 'Types are missing the optional highlight engine global');
 const apiExportBlock = js.match(/window\.Usuzumi = \{([\s\S]*?)\n  \};/)?.[1] || '';
 const dtsApiBlock = dts.match(/interface UsuzumiApi \{([\s\S]*?)\n  \}/)?.[1] || '';
 const exportedApiNames = [...apiExportBlock.matchAll(/^\s*([A-Za-z_$][\w$]*)(?:\s*:)?/gm)].map((match) => match[1]);
@@ -203,7 +258,9 @@ const signatureCss = readPackageFile(packageRoot, 'ui/usuzumi-signature.css');
 assert(signatureCss.includes('./css/fonts.css'), 'Signature CSS must import packaged fonts.css');
 
 const fontsCss = readPackageFile(packageRoot, 'ui/css/fonts.css');
+assert(fontsCss.includes('../assets/Meddon-Regular.woff2'), 'Fonts CSS must reference the packaged signature font WOFF2');
 assert(fontsCss.includes('../assets/Meddon-Regular.ttf'), 'Fonts CSS must reference the packaged signature font');
+assert(existsSync(path.join(packageRoot, 'ui/assets/Meddon-Regular.woff2')), 'Packaged signature WOFF2 font is missing');
 assert(existsSync(path.join(packageRoot, 'ui/assets/Meddon-Regular.ttf')), 'Packaged signature font is missing');
 
 console.log('Consumer import smoke passed.');

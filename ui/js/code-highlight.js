@@ -70,6 +70,30 @@
     yml: 'yaml',
     zsh: 'bash'
   };
+  let codeHighlightObserver = null;
+  let codeHighlightEventsInitialized = false;
+  let codeHighlightEngineReadyListener = null;
+  let codeHighlightTabsChangeListener = null;
+  let codeHighlightPanelShowListener = null;
+
+  function getHighlightEngine() {
+    if (typeof UsuzumiHighlightEngine !== 'undefined') return UsuzumiHighlightEngine;
+    const globalTarget = typeof globalThis !== 'undefined' ? globalThis : null;
+    return globalTarget?.UsuzumiHighlightEngine || (typeof window !== 'undefined' ? window.UsuzumiHighlightEngine : null) || null;
+  }
+
+  function normalizeCodeHighlightMode(value) {
+    const mode = String(value || '').trim().toLowerCase();
+    return ['auto', 'visible', 'manual'].includes(mode) ? mode : '';
+  }
+
+  function getCodeHighlightMode(target) {
+    const localRoot = target instanceof Element ? target.closest('[data-uzu-code-highlight]') : null;
+    return normalizeCodeHighlightMode(localRoot?.dataset.uzuCodeHighlight)
+      || normalizeCodeHighlightMode(document.body?.dataset.uzuCodeHighlight)
+      || normalizeCodeHighlightMode(document.documentElement.dataset.uzuCodeHighlight)
+      || 'auto';
+  }
 
   function normalizeCodeLanguage(value) {
     const language = String(value || '').trim().toLowerCase().replace(/^language-/, '');
@@ -121,7 +145,7 @@
   function highlightCode(source, language = '') {
     const code = String(source ?? '');
     const normalizedLanguage = normalizeCodeLanguage(language);
-    const engine = typeof UsuzumiHighlightEngine !== 'undefined' ? UsuzumiHighlightEngine : null;
+    const engine = getHighlightEngine();
     if (!engine || typeof engine.highlight !== 'function') {
       const span = document.createElement('span');
       span.textContent = code;
@@ -153,7 +177,8 @@
     if (!(target instanceof HTMLElement)) return false;
     const source = target.dataset.uzuCodeSource ?? target.textContent ?? '';
     const language = getCodeLanguage(target, source);
-    const signature = `${language || 'auto'}:${source}`;
+    const engine = getHighlightEngine();
+    const signature = `${engine && typeof engine.highlight === 'function' ? 'engine' : 'plain'}:${language || 'auto'}:${source}`;
     if (target.dataset.uzuSyntaxHighlighted === signature) return false;
     const result = highlightCode(source, language);
     target.dataset.uzuCodeSource = source;
@@ -176,20 +201,107 @@
     return true;
   }
 
-  function highlightCodeBlocks(root = document) {
+  function isCodeTargetNearViewport(target) {
+    if (!target.isConnected || !target.getClientRects().length) return false;
+    const rect = target.getBoundingClientRect();
+    const width = window.innerWidth || document.documentElement.clientWidth || 0;
+    const height = window.innerHeight || document.documentElement.clientHeight || 0;
+    const margin = 360;
+    return rect.bottom >= -margin
+      && rect.right >= -margin
+      && rect.top <= height + margin
+      && rect.left <= width + margin;
+  }
+
+  function getCodeHighlightObserver() {
+    if (typeof IntersectionObserver === 'undefined') return null;
+    if (!codeHighlightObserver) {
+      codeHighlightObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && entry.intersectionRatio <= 0) return;
+          codeHighlightObserver.unobserve(entry.target);
+          highlightCodeBlock(entry.target);
+        });
+      }, { rootMargin: '360px 0px' });
+    }
+    return codeHighlightObserver;
+  }
+
+  function queueVisibleCodeHighlight(target) {
+    if (isCodeTargetNearViewport(target)) return highlightCodeBlock(target);
+    const observer = getCodeHighlightObserver();
+    if (!observer) return highlightCodeBlock(target);
+    observer.observe(target);
+    return false;
+  }
+
+  function highlightCodeBlocks(root = document, options = {}) {
     let count = 0;
     getCodeTargets(root).forEach((target) => {
-      if (highlightCodeBlock(target)) count += 1;
+      const mode = getCodeHighlightMode(target);
+      if (options.respectMode && mode === 'manual') return;
+      const changed = options.respectMode && mode === 'visible'
+        ? queueVisibleCodeHighlight(target)
+        : highlightCodeBlock(target);
+      if (changed) count += 1;
     });
     return count;
   }
 
+  function refreshAutomaticCodeHighlights(root = document) {
+    window.requestAnimationFrame(() => {
+      highlightCodeBlocks(root, { respectMode: true });
+    });
+  }
+
+  function initCodeHighlightEvents() {
+    if (codeHighlightEventsInitialized) return;
+    codeHighlightEngineReadyListener = () => refreshAutomaticCodeHighlights(document);
+    codeHighlightTabsChangeListener = (event) => {
+      if (event.detail?.panel) refreshAutomaticCodeHighlights(event.detail.panel);
+    };
+    codeHighlightPanelShowListener = (event) => {
+      if (event.detail?.panel) refreshAutomaticCodeHighlights(event.detail.panel);
+    };
+    window.addEventListener('uzu-code-highlight-engine-ready', codeHighlightEngineReadyListener);
+    document.addEventListener('uzu-tabs-change', codeHighlightTabsChangeListener);
+    document.addEventListener('uzu-panel-show', codeHighlightPanelShowListener);
+    codeHighlightEventsInitialized = true;
+  }
+
   function initCodeHighlight(root = document) {
-    highlightCodeBlocks(root);
+    initCodeHighlightEvents();
+    highlightCodeBlocks(root, { respectMode: true });
+  }
+
+  function destroyCodeHighlight(root = document) {
+    const isWholeRoot = root === document || root === document.documentElement || root === document.body;
+    if (codeHighlightObserver) {
+      getCodeTargets(root).forEach((target) => codeHighlightObserver.unobserve(target));
+    }
+    if (isWholeRoot && codeHighlightObserver) {
+      codeHighlightObserver.disconnect();
+      codeHighlightObserver = null;
+    }
+    if (isWholeRoot && codeHighlightEventsInitialized) {
+      if (codeHighlightEngineReadyListener) {
+        window.removeEventListener('uzu-code-highlight-engine-ready', codeHighlightEngineReadyListener);
+      }
+      if (codeHighlightTabsChangeListener) {
+        document.removeEventListener('uzu-tabs-change', codeHighlightTabsChangeListener);
+      }
+      if (codeHighlightPanelShowListener) {
+        document.removeEventListener('uzu-panel-show', codeHighlightPanelShowListener);
+      }
+      codeHighlightEngineReadyListener = null;
+      codeHighlightTabsChangeListener = null;
+      codeHighlightPanelShowListener = null;
+      codeHighlightEventsInitialized = false;
+    }
   }
 
   function listCodeLanguages() {
-    const engine = typeof UsuzumiHighlightEngine !== 'undefined' ? UsuzumiHighlightEngine : null;
+    const engine = getHighlightEngine();
     if (!engine || typeof engine.listLanguages !== 'function') return [];
     return engine.listLanguages().map(normalizeCodeLanguage).filter(Boolean);
   }
@@ -197,7 +309,7 @@
   function hasCodeLanguage(language) {
     const normalizedLanguage = normalizeCodeLanguage(language);
     if (!normalizedLanguage) return false;
-    const engine = typeof UsuzumiHighlightEngine !== 'undefined' ? UsuzumiHighlightEngine : null;
+    const engine = getHighlightEngine();
     if (!engine || typeof engine.hasLanguage !== 'function') return false;
     return engine.hasLanguage(normalizedLanguage);
   }

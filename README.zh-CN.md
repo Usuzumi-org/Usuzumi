@@ -92,6 +92,8 @@ window.Usuzumi.init(container);
 window.Usuzumi.destroy(container);
 ```
 
+不需要语法高亮的页面可以使用 `usuzumi-core.js`。代码较多的页面可以再配合 `usuzumi-highlight.js`，并通过 `data-uzu-code-highlight="visible"` 将高亮延迟到代码块接近视口时执行。
+
 运行时 data attribute 和自定义事件细节见 [DESIGN.md](DESIGN.md)。
 
 ## 包含内容
@@ -103,6 +105,7 @@ window.Usuzumi.destroy(container);
 - 浏览器 API 和自定义事件的类型声明。
 - 响应式顶部栏可通过 `data-uzu-topbar-overflow` 把溢出的导航链接折入公共“更多”菜单。
 - 侧边导航区分普通应用侧栏 `.uzu-sidebar-nav` 和同页面板索引 `.uzu-panel-index`。
+- 可选 core 与语法高亮运行时入口，用于降低轻量页面加载成本。
 
 ## 站点与示例
 
@@ -118,7 +121,7 @@ npm run build
 npm run validate
 ```
 
-源文件在 `ui/css/` 和 `ui/js/`。公开入口 `ui/usuzumi.css`、`ui/usuzumi.js`、`ui/usuzumi.min.css`、`ui/usuzumi.min.js` 是生成文件，请修改源文件后重新构建，不要手改。
+源文件在 `ui/css/` 和 `ui/js/`。`ui/` 中的公开入口，包括完整、core 和语法高亮 bundle，都是生成文件，请修改源文件后重新构建，不要手改。
 
 `npm run validate` 会检查生成文件同步、源码约束、package exports、浏览器行为和组件页冒烟覆盖。
 

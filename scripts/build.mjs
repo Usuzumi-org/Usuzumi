@@ -63,6 +63,10 @@ const cssBanner = '/* Usuzumi generated CSS. Edit ui/css/*.css, then run npm run
 const minCssBanner = '/* Usuzumi generated minified CSS. Edit ui/css/*.css, then run npm run build. */';
 const jsBanner = '/* Usuzumi generated runtime. Edit ui/js/*.js, then run npm run build. */';
 const minJsBanner = '/* Usuzumi generated minified JS. Edit ui/js/*.js, then run npm run build. */';
+const coreJsBanner = '/* Usuzumi generated core runtime. Edit ui/js/*.js, then run npm run build. */';
+const minCoreJsBanner = '/* Usuzumi generated minified core runtime. Edit ui/js/*.js, then run npm run build. */';
+const highlightJsBanner = '/* Usuzumi generated syntax highlight engine. Edit scripts/code-highlight-engine.entry.js, then run npm run build. */';
+const minHighlightJsBanner = '/* Usuzumi generated minified syntax highlight engine. Edit scripts/code-highlight-engine.entry.js, then run npm run build. */';
 
 function readText(filePath) {
   return normalizeText(readFileSync(path.join(root, filePath), 'utf8')).replace(/^\uFEFF/, '').trim();
@@ -109,21 +113,36 @@ function bundleHighlightEngine() {
   return result.outputFiles[0].text.trim();
 }
 
+function wrapRuntime(source) {
+  return `(function () {\n${source}\n})();\n`;
+}
+
+function wrapHighlightEngine(source) {
+  return `${source}\nconst usuzumiHighlightGlobal = typeof globalThis !== 'undefined' ? globalThis : (typeof window !== 'undefined' ? window : null);\nif (usuzumiHighlightGlobal && typeof UsuzumiHighlightEngine !== 'undefined') {\n  usuzumiHighlightGlobal.UsuzumiHighlightEngine = UsuzumiHighlightEngine;\n}\nif (typeof window !== 'undefined' && typeof UsuzumiHighlightEngine !== 'undefined') {\n  window.UsuzumiHighlightEngine = UsuzumiHighlightEngine;\n}\nif (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof CustomEvent === 'function') {\n  const usuzumiHighlightEngine = window.UsuzumiHighlightEngine || usuzumiHighlightGlobal?.UsuzumiHighlightEngine || null;\n  window.dispatchEvent(new CustomEvent('uzu-code-highlight-engine-ready', { detail: { engine: usuzumiHighlightEngine } }));\n}\n`;
+}
+
 const cssSource = cssFiles.map((file) => `/* ${file} */\n${readText(file)}`).join('\n\n');
 const layeredCss = wrapLayer(cssSource);
 const bundledCss = `${cssBanner}\n\n${layeredCss}\n`;
 const bundledMinCss = `${minCssBanner}\n${minifyCss(layeredCss)}\n`;
-const jsSource = [
-  `/* highlight.js engine */\n${bundleHighlightEngine()}`,
-  ...jsFiles.map((file) => `/* ${file} */\n${readText(file)}`)
-].join('\n\n');
-const bundledJs = `${jsBanner}\n(function () {\n${jsSource}\n})();\n`;
+const highlightEngineSource = `/* highlight.js engine */\n${bundleHighlightEngine()}`;
+const coreJsSource = jsFiles.map((file) => `/* ${file} */\n${readText(file)}`).join('\n\n');
+const jsSource = [highlightEngineSource, coreJsSource].join('\n\n');
+const bundledJs = `${jsBanner}\n${wrapRuntime(jsSource)}`;
 const bundledMinJs = `${minJsBanner}\n${minifyJs(bundledJs)}\n`;
+const bundledCoreJs = `${coreJsBanner}\n${wrapRuntime(coreJsSource)}`;
+const bundledMinCoreJs = `${minCoreJsBanner}\n${minifyJs(bundledCoreJs)}\n`;
+const bundledHighlightJs = `${highlightJsBanner}\n${wrapHighlightEngine(highlightEngineSource)}`;
+const bundledMinHighlightJs = `${minHighlightJsBanner}\n${minifyJs(bundledHighlightJs)}\n`;
 
 const outputPath = path.join(root, 'ui/usuzumi.css');
 const jsPath = path.join(root, 'ui/usuzumi.js');
 const minCssPath = path.join(root, 'ui/usuzumi.min.css');
 const minJsPath = path.join(root, 'ui/usuzumi.min.js');
+const coreJsPath = path.join(root, 'ui/usuzumi-core.js');
+const minCoreJsPath = path.join(root, 'ui/usuzumi-core.min.js');
+const highlightJsPath = path.join(root, 'ui/usuzumi-highlight.js');
+const minHighlightJsPath = path.join(root, 'ui/usuzumi-highlight.min.js');
 const maxDriftDetails = 8;
 
 function toRelative(filePath) {
@@ -135,7 +154,11 @@ if (process.argv.includes('--check')) {
     [outputPath, bundledCss],
     [jsPath, bundledJs],
     [minCssPath, bundledMinCss],
-    [minJsPath, bundledMinJs]
+    [minJsPath, bundledMinJs],
+    [coreJsPath, bundledCoreJs],
+    [minCoreJsPath, bundledMinCoreJs],
+    [highlightJsPath, bundledHighlightJs],
+    [minHighlightJsPath, bundledMinHighlightJs]
   ];
   const drifted = outputs.filter(([filePath, expected]) => normalizeText(readFileSync(filePath, 'utf8')) !== expected);
   if (drifted.length) {
@@ -154,4 +177,8 @@ writeFileSync(outputPath, bundledCss, 'utf8');
 writeFileSync(jsPath, bundledJs, 'utf8');
 writeFileSync(minCssPath, bundledMinCss, 'utf8');
 writeFileSync(minJsPath, bundledMinJs, 'utf8');
-console.log('Built ui/usuzumi.css, ui/usuzumi.js, ui/usuzumi.min.css, and ui/usuzumi.min.js');
+writeFileSync(coreJsPath, bundledCoreJs, 'utf8');
+writeFileSync(minCoreJsPath, bundledMinCoreJs, 'utf8');
+writeFileSync(highlightJsPath, bundledHighlightJs, 'utf8');
+writeFileSync(minHighlightJsPath, bundledMinHighlightJs, 'utf8');
+console.log('Built Usuzumi CSS, full runtime, core runtime, and highlight runtime outputs');

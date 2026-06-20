@@ -56,6 +56,24 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
       </div>
       <div class="uzu-heatmap-detail" data-uzu-heatmap-detail></div>
     </section>
+    <section class="uzu-gallery" id="consumer-gallery" data-uzu-gallery data-uzu-gallery-layout="justified" data-uzu-gallery-row-height="150" data-uzu-gallery-gap="8" data-uzu-gallery-caption="hover" aria-label="Consumer gallery">
+      <a class="uzu-gallery-item" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22640%22%20height%3D%22360%22%3E%3Crect%20width%3D%22640%22%20height%3D%22360%22%20fill%3D%22%23d4d4d8%22/%3E%3Ccircle%20cx%3D%22320%22%20cy%3D%22180%22%20r%3D%2280%22%20fill%3D%22%2371717a%22/%3E%3C/svg%3E" data-width="640" data-height="360">
+        <img class="uzu-gallery-image" alt="Wide demo" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22640%22%20height%3D%22360%22%3E%3Crect%20width%3D%22640%22%20height%3D%22360%22%20fill%3D%22%23d4d4d8%22/%3E%3Ccircle%20cx%3D%22320%22%20cy%3D%22180%22%20r%3D%2280%22%20fill%3D%22%2371717a%22/%3E%3C/svg%3E">
+        <span class="uzu-gallery-caption">Wide demo</span>
+      </a>
+      <a class="uzu-gallery-item" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22360%22%20height%3D%22540%22%3E%3Crect%20width%3D%22360%22%20height%3D%22540%22%20fill%3D%22%23e5e7eb%22/%3E%3Cpath%20d%3D%22M70%20440L180%20120l110%20320Z%22%20fill%3D%22%2352525b%22/%3E%3C/svg%3E" data-width="360" data-height="540">
+        <img class="uzu-gallery-image" alt="Tall demo" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22360%22%20height%3D%22540%22%3E%3Crect%20width%3D%22360%22%20height%3D%22540%22%20fill%3D%22%23e5e7eb%22/%3E%3Cpath%20d%3D%22M70%20440L180%20120l110%20320Z%22%20fill%3D%22%2352525b%22/%3E%3C/svg%3E">
+      </a>
+      <a class="uzu-gallery-item" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22480%22%20height%3D%22480%22%3E%3Crect%20width%3D%22480%22%20height%3D%22480%22%20fill%3D%22%23f4f4f5%22/%3E%3Cpath%20d%3D%22M120%20260h240v80H120z%22%20fill%3D%22%233f3f46%22/%3E%3C/svg%3E" data-width="480" data-height="480">
+        <img class="uzu-gallery-image" alt="Square demo" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22480%22%20height%3D%22480%22%3E%3Crect%20width%3D%22480%22%20height%3D%22480%22%20fill%3D%22%23f4f4f5%22/%3E%3Cpath%20d%3D%22M120%20260h240v80H120z%22%20fill%3D%22%233f3f46%22/%3E%3C/svg%3E">
+      </a>
+    </section>
+    <script type="application/json" id="consumer-gallery-data">[
+      {"src":"data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22420%22%20height%3D%22320%22%3E%3Crect%20width%3D%22420%22%20height%3D%22320%22%20fill%3D%22%23e2e8f0%22/%3E%3Ccircle%20cx%3D%22160%22%20cy%3D%22140%22%20r%3D%2260%22%20fill%3D%22%23475569%22/%3E%3C/svg%3E","alt":"JSON demo","caption":"JSON image","width":420,"height":320},
+      {"src":"data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22320%22%20height%3D%22420%22%3E%3Crect%20width%3D%22320%22%20height%3D%22420%22%20fill%3D%22%23f1f5f9%22/%3E%3Cpath%20d%3D%22M80%20320h160V100H80z%22%20fill%3D%22%23334155%22/%3E%3C/svg%3E","alt":"JSON portrait","caption":"JSON portrait","width":320,"height":420}
+    ]</script>
+    <section class="uzu-gallery" id="consumer-json-gallery" data-uzu-gallery data-uzu-gallery-source="#consumer-gallery-data" data-uzu-gallery-layout="grid" data-uzu-gallery-viewer="none" aria-label="JSON gallery"></section>
+    <section class="uzu-gallery" id="consumer-directory-gallery" data-uzu-gallery data-uzu-gallery-source="data:text/html,%3Ca%20href%3D%22https://example.invalid/directory-image.png%22%3Edirectory-image.png%3C/a%3E" data-uzu-gallery-layout="grid" data-uzu-gallery-viewer="none" aria-label="Directory gallery"></section>
     <ul class="uzu-tree" id="consumer-tree" data-uzu-tree aria-label="Consumer tree">
       <li class="uzu-tree-item is-open" data-uzu-tree-item data-uzu-tree-value="docs">
         <div class="uzu-tree-row"><button class="uzu-tree-toggle" type="button" data-uzu-tree-toggle aria-label="Toggle docs"></button><span class="uzu-tree-label" data-uzu-tree-label>docs</span></div>
@@ -91,17 +109,9 @@ export const consumerDataEditorsHtml = `    <ul class="uzu-list" id="consumer-li
 + new</pre>
     <textarea class="uzu-code-editor" id="consumer-code-editor">const editable = true;</textarea>
     <textarea class="uzu-plain-editor" id="consumer-plain-editor">Plain editable text</textarea>
-    <section class="uzu-editor" id="consumer-editor" data-uzu-editor>
-      <div class="uzu-editor-toolbar" role="toolbar" aria-label="Editor tools"><button class="uzu-toolbar-button" type="button" data-uzu-editor-command="bold" data-uzu-editor-toggle>B</button><input class="uzu-input uzu-toolbar-link-input" id="consumer-toolbar-link-input" aria-label="Link URL" value="https://example.com"></div>
-      <div class="uzu-editor-surface" data-uzu-editor-surface contenteditable="true" role="textbox" aria-multiline="true">Editable text</div>
-    </section>
-    <div class="uzu-editor-surface" id="consumer-standalone-editor-surface" contenteditable="true" role="textbox" aria-multiline="true">Standalone editable surface</div>
-    <section class="uzu-editor uzu-markdown-editor" id="consumer-markdown-editor" data-uzu-markdown-editor data-uzu-markdown-render>
+
+    <section class="uzu-markdown-editor" id="consumer-markdown-editor" data-uzu-markdown-editor data-uzu-markdown-render>
       <textarea class="uzu-markdown-source" data-uzu-markdown-source># Editor markdown</textarea>
-      <div class="uzu-markdown-preview" data-uzu-markdown-preview></div>
-    </section>
-    <section class="uzu-editor uzu-markdown-editor" id="consumer-markdown-editor-shell" data-uzu-markdown-editor>
-      <textarea class="uzu-markdown-source" data-uzu-markdown-source># Shell only</textarea>
       <div class="uzu-markdown-preview" data-uzu-markdown-preview></div>
     </section>
     <span class="uzu-inline-editor" id="consumer-inline-editor" data-uzu-inline-editor data-placeholder="Untitled">Inline text</span>

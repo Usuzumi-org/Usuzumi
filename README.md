@@ -98,9 +98,10 @@ See [DESIGN.md](DESIGN.md) for runtime data attributes and custom events.
 
 ## Included
 
-- Themeable CSS primitives for pages, sections, cards, layout, forms, navigation, feedback, overlays, data views, editor shells, and status states.
+- Themeable CSS primitives for pages, sections, cards, layout, forms, navigation, feedback, overlays, data views, Markdown editing, and status states.
 - Optional JavaScript behavior for common UI interactions without framework or runtime dependencies.
 - Heatmaps support compact day-value data, clickable cells, and built-in event details with `data-uzu-heatmap`.
+- Gallery and Image Viewer components support progressive image links, JSON or directory sources, and focused preview controls.
 - Responsive topbars can move trailing navigation links into a public "More" menu with `data-uzu-topbar-overflow`.
 - Side navigation distinguishes app sidebars with `.uzu-sidebar-nav` from same-page panel indexes with `.uzu-panel-index`.
 - Optional core and syntax-highlight runtime entries for lighter pages.
@@ -112,7 +113,7 @@ See [DESIGN.md](DESIGN.md) for runtime data attributes and custom events.
 - [Documentation site repository](https://github.com/Usuzumi-org/Usuzumi-site)
 - [UI library repository](https://github.com/Usuzumi-org/Usuzumi)
 
-The homepage, component catalog, editor integration page, and larger examples live in the site repository so documentation-only needs do not become library dependencies.
+The homepage, component catalog, Markdown editor page, and larger examples live in the site repository so documentation-only needs do not become library dependencies.
 
 ## Development
 

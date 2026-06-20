@@ -191,9 +191,9 @@ pre.uzu-code-block-body {
 
 .uzu-json-viewer,
 .uzu-diff-viewer,
-.uzu-editor,
 .uzu-code-editor,
-.uzu-plain-editor {
+.uzu-plain-editor,
+.uzu-markdown-editor {
   min-width: 0;
   max-width: 100%;
   border: 1px solid var(--uzu-border);
@@ -426,122 +426,8 @@ pre.uzu-code-block-body {
   color: var(--uzu-muted);
 }
 
-.uzu-editor {
-  --uzu-editor-min-height: 160px;
-  background: var(--uzu-surface);
-  display: grid;
-  overflow: hidden;
-}
-
-.uzu-editor:focus,
-.uzu-editor:focus-visible,
-.uzu-editor:focus-within {
-  border-color: var(--uzu-edit-focus-border);
-  box-shadow: none;
-}
-
-.uzu-editor-toolbar {
-  padding: 8px;
-  border-bottom: 1px solid var(--uzu-border-soft);
-  background: var(--uzu-surface);
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.uzu-editor-toolbar-grouped {
-  align-items: stretch;
-  gap: 8px;
-}
-
-.uzu-editor-toolbar-grouped .uzu-toolbar-group {
-  padding: 3px;
-  border: 1px solid var(--uzu-border-soft);
-  border-radius: var(--uzu-radius-micro);
-  background: color-mix(in srgb, var(--uzu-surface-soft) 46%, transparent);
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.uzu-toolbar-link-field {
-  min-width: 0;
-  display: inline-flex;
-  align-items: stretch;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-
-.uzu-toolbar-link-input {
-  width: var(--uzu-toolbar-link-input-width, 220px);
-  min-width: min(var(--uzu-toolbar-link-input-min-width, 180px), 100%);
-  min-height: 32px;
-  padding: 6px 9px;
-  font-size: 13px;
-}
-
-.uzu-toolbar-link-input:focus,
-.uzu-toolbar-link-input:focus-visible {
-  border-color: var(--uzu-edit-focus-border);
-  box-shadow: none;
-}
-
-.uzu-toolbar-button {
-  min-width: 32px;
-  min-height: 32px;
-  padding: 5px 9px;
-  border: 1px solid var(--uzu-border);
-  border-radius: var(--uzu-radius-micro);
-  background: var(--uzu-surface);
-  color: var(--uzu-fg);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font: inherit;
-  font-size: 13px;
-  line-height: 1;
-  cursor: pointer;
-  appearance: none;
-}
-
-.uzu-toolbar-button:hover,
-.uzu-toolbar-button:focus-visible,
-.uzu-toolbar-button.is-active,
-.uzu-toolbar-button[aria-pressed="true"] {
-  border-color: var(--uzu-border-strong);
-  background: var(--uzu-surface-soft);
-  color: var(--uzu-fg-strong);
-}
-
-.uzu-editor-toolbar-grouped .uzu-toolbar-button {
-  min-width: 34px;
-  border-color: transparent;
-  background: transparent;
-  white-space: nowrap;
-}
-
-.uzu-editor-toolbar-grouped .uzu-toolbar-link-field .uzu-toolbar-button {
-  min-width: 0;
-}
-
-.uzu-editor-toolbar-grouped .uzu-toolbar-button:hover,
-.uzu-editor-toolbar-grouped .uzu-toolbar-button:focus-visible,
-.uzu-editor-toolbar-grouped .uzu-toolbar-button.is-active,
-.uzu-editor-toolbar-grouped .uzu-toolbar-button[aria-pressed="true"] {
-  background: var(--uzu-surface);
-}
-
-.uzu-editor-toolbar-grouped .uzu-toolbar-button:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.uzu-editor-surface,
-.uzu-plain-editor,
 .uzu-code-editor,
+.uzu-plain-editor,
 .uzu-markdown-source,
 .uzu-markdown-preview,
 .uzu-inline-editor {
@@ -551,20 +437,6 @@ pre.uzu-code-block-body {
   padding: 14px;
   color: var(--uzu-fg);
   outline: none;
-}
-
-.uzu-editor-surface {
-  border: 1px solid transparent;
-  background: var(--uzu-surface);
-  font-family: var(--uzu-font-serif);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.uzu-editor-surface:focus,
-.uzu-editor-surface:focus-visible {
-  border-color: var(--uzu-edit-focus-border);
-  box-shadow: none;
 }
 
 .uzu-code-editor,
@@ -599,8 +471,18 @@ textarea.uzu-plain-editor {
 }
 
 .uzu-markdown-editor {
+  --uzu-editor-min-height: 160px;
+  background: var(--uzu-surface);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.uzu-markdown-editor:focus,
+.uzu-markdown-editor:focus-visible,
+.uzu-markdown-editor:focus-within {
+  border-color: var(--uzu-edit-focus-border);
+  box-shadow: none;
 }
 
 .uzu-markdown-source,
@@ -625,6 +507,8 @@ textarea.uzu-markdown-source {
 }
 
 .uzu-markdown-preview {
+  min-height: var(--uzu-editor-min-height, 160px);
+  align-content: start;
   background: var(--uzu-surface);
   font-family: var(--uzu-font-serif);
   font-size: 14px;
@@ -640,50 +524,33 @@ textarea.uzu-markdown-source {
   margin-bottom: 0;
 }
 
-.uzu-editor-mount {
-  min-height: var(--uzu-editor-mount-min-height, 190px);
-  align-content: start;
-  background: var(--uzu-editor-mount-bg, var(--uzu-surface));
-  overflow: auto;
-}
-
-.uzu-editor-mount > :first-child,
-.uzu-markdown-preview.uzu-editor-mount > :first-child {
-  margin-top: 0;
-}
-
-.uzu-editor-mount > :last-child,
-.uzu-markdown-preview.uzu-editor-mount > :last-child {
-  margin-bottom: 0;
-}
-
-.uzu-editor-mount :where(p, ul, ol, blockquote, pre) {
+.uzu-markdown-preview :where(p, ul, ol, blockquote, pre) {
   margin: 0 0 .85em;
 }
 
-.uzu-editor-mount :where(ul, ol) {
+.uzu-markdown-preview :where(ul, ol) {
   padding-left: 1.35em;
 }
 
-.uzu-editor-mount :where(h1, h2, h3) {
+.uzu-markdown-preview :where(h1, h2, h3) {
   margin: 0 0 .7em;
   line-height: 1.22;
 }
 
-.uzu-editor-mount mark {
+.uzu-markdown-preview mark {
   padding: .04em .2em;
   border-radius: .2em;
   background: color-mix(in srgb, var(--uzu-warning-bg) 82%, var(--uzu-surface));
   color: var(--uzu-fg-strong);
 }
 
-.uzu-editor-mount a {
+.uzu-markdown-preview a {
   color: var(--uzu-fg-strong);
   text-decoration-thickness: 1px;
   text-underline-offset: .2em;
 }
 
-.uzu-editor-mount code {
+.uzu-markdown-preview code {
   padding: .12em .35em;
   border: 1px solid var(--uzu-border-soft);
   border-radius: var(--uzu-radius-micro);
@@ -692,7 +559,7 @@ textarea.uzu-markdown-source {
   font-size: .92em;
 }
 
-.uzu-editor-mount pre {
+.uzu-markdown-preview pre {
   padding: 12px;
   overflow: auto;
   border: 1px solid var(--uzu-border-soft);
@@ -700,68 +567,63 @@ textarea.uzu-markdown-source {
   background: var(--uzu-surface-soft);
 }
 
-.uzu-editor-mount pre code {
+.uzu-markdown-preview pre code {
   padding: 0;
   border: 0;
   background: transparent;
 }
 
-.uzu-editor-mount blockquote {
+.uzu-markdown-preview blockquote {
   padding-left: 12px;
   border-left: 3px solid var(--uzu-border-strong);
   color: var(--uzu-muted);
 }
 
-.uzu-editor-mount table {
+.uzu-markdown-preview table {
   width: 100%;
   margin: 0 0 .85em;
   border-collapse: collapse;
 }
 
-.uzu-editor-mount th,
-.uzu-editor-mount td {
+.uzu-markdown-preview th,
+.uzu-markdown-preview td {
   padding: 8px 10px;
   border: 1px solid var(--uzu-border);
   vertical-align: top;
 }
 
-.uzu-editor-mount th {
+.uzu-markdown-preview th {
   background: var(--uzu-surface-soft);
   text-align: left;
 }
 
-.uzu-editor-mount hr {
+.uzu-markdown-preview hr {
   margin: 1em 0;
   border: 0;
   border-top: 1px solid var(--uzu-border);
 }
 
-.uzu-editor-mount .uzu-title-pair {
+.uzu-markdown-preview .uzu-title-pair {
   max-width: 620px;
 }
 
-.uzu-editor-mount .uzu-code-block-body {
+.uzu-markdown-preview .uzu-code-block-body {
   width: 100%;
-  max-height: var(--uzu-editor-mount-code-max-height, 120px);
+  max-height: var(--uzu-markdown-preview-code-max-height, 120px);
   margin: 4px 0 0;
 }
 
-.uzu-markdown-preview.uzu-editor-mount {
-  padding: var(--uzu-markdown-preview-mount-padding, 18px);
-}
-
-.uzu-markdown-preview.uzu-editor-mount:empty::before {
+.uzu-markdown-preview:empty::before {
   content: "";
 }
 
-.uzu-editor-status {
-  margin: 0;
-  padding: 8px 12px;
-  border-top: 1px solid var(--uzu-border-soft);
-  color: var(--uzu-muted);
-  font-family: var(--uzu-font-serif);
-  font-size: 12px;
-  line-height: 1.45;
+.uzu-inline-editor {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: var(--uzu-editor-min-height, 160px);
+  padding: 14px;
+  color: var(--uzu-fg);
+  outline: none;
 }
 
 .uzu-inline-editor {

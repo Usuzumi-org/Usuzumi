@@ -52,7 +52,7 @@ body.uzu-app {
   }
 
   .uzu-scroll,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface) {
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview) {
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
   }
@@ -61,10 +61,10 @@ body.uzu-app {
   .uzu-scroll:focus,
   .uzu-scroll:focus-within,
   .uzu-scroll:active,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):hover,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):focus,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):focus-within,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):active {
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):hover,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):focus,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):focus-within,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):active {
     scrollbar-color: var(--uzu-border) transparent;
   }
 }
@@ -76,7 +76,7 @@ body.uzu-app {
 }
 
 .uzu-scroll,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface) {
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview) {
   --uzu-scrollbar-thumb-bg: transparent;
   --uzu-scrollbar-thumb-hover-bg: transparent;
 }
@@ -85,10 +85,10 @@ body.uzu-app {
 .uzu-scroll:focus,
 .uzu-scroll:focus-within,
 .uzu-scroll:active,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):hover,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):focus,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):focus-within,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):active {
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):hover,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):focus,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):focus-within,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):active {
   --uzu-scrollbar-thumb-bg: var(--uzu-border);
   --uzu-scrollbar-thumb-hover-bg: var(--uzu-soft);
 }
@@ -107,8 +107,7 @@ body.uzu-app::-webkit-scrollbar,
 .uzu-code-editor::-webkit-scrollbar,
 .uzu-plain-editor::-webkit-scrollbar,
 .uzu-markdown-source::-webkit-scrollbar,
-.uzu-markdown-preview::-webkit-scrollbar,
-.uzu-editor-surface::-webkit-scrollbar {
+.uzu-markdown-preview::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
@@ -116,7 +115,7 @@ body.uzu-app::-webkit-scrollbar,
 html.uzu-root::-webkit-scrollbar-button,
 body.uzu-app::-webkit-scrollbar-button,
 .uzu-scroll::-webkit-scrollbar-button,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button {
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
@@ -209,24 +208,24 @@ body.uzu-app::-webkit-scrollbar-button:horizontal:end:increment,
 .uzu-heatmap-viewport::-webkit-scrollbar-button:horizontal:start:increment,
 .uzu-heatmap-viewport::-webkit-scrollbar-button:horizontal:end:decrement,
 .uzu-heatmap-viewport::-webkit-scrollbar-button:horizontal:end:increment,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:single-button,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:double-button,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:start:decrement,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:start:increment,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:end:decrement,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:end:increment,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:decrement,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:increment,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:start:decrement,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:start:increment,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:end:decrement,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:end:increment,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:decrement,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:increment,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:start:decrement,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:start:increment,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:end:decrement,
-:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:end:increment {
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:single-button,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:double-button,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:start:decrement,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:start:increment,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:end:decrement,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:end:increment,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:decrement,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:increment,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:start:decrement,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:start:increment,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:end:decrement,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:end:increment,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:decrement,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:increment,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:start:decrement,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:start:increment,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:end:decrement,
+:where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:end:increment {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
@@ -258,8 +257,7 @@ body.uzu-app::-webkit-scrollbar-track,
 .uzu-code-editor::-webkit-scrollbar-track,
 .uzu-plain-editor::-webkit-scrollbar-track,
 .uzu-markdown-source::-webkit-scrollbar-track,
-.uzu-markdown-preview::-webkit-scrollbar-track,
-.uzu-editor-surface::-webkit-scrollbar-track {
+.uzu-markdown-preview::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -277,8 +275,7 @@ body.uzu-app::-webkit-scrollbar-corner,
 .uzu-code-editor::-webkit-scrollbar-corner,
 .uzu-plain-editor::-webkit-scrollbar-corner,
 .uzu-markdown-source::-webkit-scrollbar-corner,
-.uzu-markdown-preview::-webkit-scrollbar-corner,
-.uzu-editor-surface::-webkit-scrollbar-corner {
+.uzu-markdown-preview::-webkit-scrollbar-corner {
   background: transparent;
 }
 
@@ -296,8 +293,7 @@ body.uzu-app::-webkit-scrollbar-thumb,
 .uzu-code-editor::-webkit-scrollbar-thumb,
 .uzu-plain-editor::-webkit-scrollbar-thumb,
 .uzu-markdown-source::-webkit-scrollbar-thumb,
-.uzu-markdown-preview::-webkit-scrollbar-thumb,
-.uzu-editor-surface::-webkit-scrollbar-thumb {
+.uzu-markdown-preview::-webkit-scrollbar-thumb {
   background: var(--uzu-scrollbar-thumb-bg, var(--uzu-border));
   border-radius: var(--uzu-radius-micro);
   min-width: 24px;
@@ -318,8 +314,7 @@ body.uzu-app::-webkit-scrollbar-thumb:hover,
 .uzu-code-editor::-webkit-scrollbar-thumb:hover,
 .uzu-plain-editor::-webkit-scrollbar-thumb:hover,
 .uzu-markdown-source::-webkit-scrollbar-thumb:hover,
-.uzu-markdown-preview::-webkit-scrollbar-thumb:hover,
-.uzu-editor-surface::-webkit-scrollbar-thumb:hover {
+.uzu-markdown-preview::-webkit-scrollbar-thumb:hover {
   background: var(--uzu-scrollbar-thumb-hover-bg, var(--uzu-soft));
 }
 

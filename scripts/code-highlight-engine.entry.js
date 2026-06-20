@@ -1,101 +1,321 @@
-import hljs from 'highlight.js/lib/core';
-import bash from 'highlight.js/lib/languages/bash';
-import c from 'highlight.js/lib/languages/c';
-import cpp from 'highlight.js/lib/languages/cpp';
-import csharp from 'highlight.js/lib/languages/csharp';
-import css from 'highlight.js/lib/languages/css';
-import diff from 'highlight.js/lib/languages/diff';
-import dockerfile from 'highlight.js/lib/languages/dockerfile';
-import go from 'highlight.js/lib/languages/go';
-import http from 'highlight.js/lib/languages/http';
-import ini from 'highlight.js/lib/languages/ini';
-import java from 'highlight.js/lib/languages/java';
-import javascript from 'highlight.js/lib/languages/javascript';
-import json from 'highlight.js/lib/languages/json';
-import less from 'highlight.js/lib/languages/less';
-import markdown from 'highlight.js/lib/languages/markdown';
-import nginx from 'highlight.js/lib/languages/nginx';
-import php from 'highlight.js/lib/languages/php';
-import powershell from 'highlight.js/lib/languages/powershell';
-import python from 'highlight.js/lib/languages/python';
-import ruby from 'highlight.js/lib/languages/ruby';
-import rust from 'highlight.js/lib/languages/rust';
-import scss from 'highlight.js/lib/languages/scss';
-import shell from 'highlight.js/lib/languages/shell';
-import sql from 'highlight.js/lib/languages/sql';
-import typescript from 'highlight.js/lib/languages/typescript';
-import xml from 'highlight.js/lib/languages/xml';
-import yaml from 'highlight.js/lib/languages/yaml';
+const languageAliases = {
+  cjs: 'javascript',
+  conf: 'ini',
+  console: 'shell',
+  cs: 'csharp',
+  docker: 'dockerfile',
+  golang: 'go',
+  htm: 'xml',
+  html: 'xml',
+  js: 'javascript',
+  jsx: 'javascript',
+  jsonc: 'json',
+  less: 'scss',
+  mjs: 'javascript',
+  md: 'markdown',
+  patch: 'diff',
+  ps: 'powershell',
+  ps1: 'powershell',
+  py: 'python',
+  rb: 'ruby',
+  rs: 'rust',
+  sh: 'bash',
+  svg: 'xml',
+  terminal: 'shell',
+  toml: 'ini',
+  ts: 'typescript',
+  tsx: 'typescript',
+  xhtml: 'xml',
+  yml: 'yaml',
+  zsh: 'bash'
+};
 
-const languageModules = [
-  ['bash', bash, ['sh', 'zsh']],
-  ['c', c, ['h']],
-  ['cpp', cpp, ['cc', 'c++', 'cxx', 'hpp']],
-  ['csharp', csharp, ['cs']],
-  ['css', css],
-  ['diff', diff, ['patch']],
-  ['dockerfile', dockerfile, ['docker']],
-  ['go', go, ['golang']],
-  ['http', http],
-  ['ini', ini, ['conf', 'toml']],
-  ['java', java],
-  ['javascript', javascript, ['js', 'jsx', 'mjs', 'cjs']],
-  ['json', json, ['jsonc']],
-  ['less', less],
-  ['markdown', markdown, ['md']],
-  ['nginx', nginx],
-  ['php', php],
-  ['powershell', powershell, ['ps', 'ps1']],
-  ['python', python, ['py']],
-  ['ruby', ruby, ['rb']],
-  ['rust', rust, ['rs']],
-  ['scss', scss],
-  ['shell', shell, ['console', 'terminal']],
-  ['sql', sql],
-  ['typescript', typescript, ['ts', 'tsx']],
-  ['xml', xml, ['html', 'xhtml', 'svg']],
-  ['yaml', yaml, ['yml']]
+const languages = [
+  'bash',
+  'c',
+  'cpp',
+  'csharp',
+  'css',
+  'diff',
+  'dockerfile',
+  'go',
+  'http',
+  'ini',
+  'java',
+  'javascript',
+  'json',
+  'markdown',
+  'nginx',
+  'php',
+  'powershell',
+  'python',
+  'ruby',
+  'rust',
+  'scss',
+  'shell',
+  'sql',
+  'typescript',
+  'xml',
+  'yaml'
 ];
 
-const registeredLanguages = [];
+const keywordSets = {
+  bash: 'if then else elif fi for while until do done case esac in function select time coproc export local readonly return shift break continue exit true false sudo npm pnpm yarn node git cd mkdir cp mv rm curl grep rg cat sed awk echo test'.split(' '),
+  c: 'auto break case char const continue default do double else enum extern float for goto if inline int long register restrict return short signed sizeof static struct switch typedef union unsigned void volatile while bool true false null'.split(' '),
+  cpp: 'alignas alignof asm auto bool break case catch char class const constexpr const_cast continue decltype default delete do double dynamic_cast else enum explicit export extern false float for friend goto if inline int long mutable namespace new noexcept nullptr operator private protected public register reinterpret_cast return short signed sizeof static static_assert static_cast struct switch template this thread_local throw true try typedef typeid typename union unsigned using virtual void volatile while'.split(' '),
+  csharp: 'abstract as base bool break byte case catch char checked class const continue decimal default delegate do double else enum event explicit extern false finally fixed float for foreach goto if implicit in int interface internal is lock long namespace new null object operator out override params private protected public readonly ref return sbyte sealed short sizeof stackalloc static string struct switch this throw true try typeof uint ulong unchecked unsafe ushort using virtual void volatile while var async await'.split(' '),
+  css: '@media @supports @container @keyframes @font-face @layer @import @scope important var calc color-mix repeat minmax clamp'.split(' '),
+  dockerfile: 'FROM RUN CMD LABEL MAINTAINER EXPOSE ENV ADD COPY ENTRYPOINT VOLUME USER WORKDIR ARG ONBUILD STOPSIGNAL HEALTHCHECK SHELL'.split(' '),
+  go: 'break default func interface select case defer go map struct chan else goto package switch const fallthrough if range type continue for import return var true false nil iota'.split(' '),
+  http: 'GET POST PUT PATCH DELETE HEAD OPTIONS HTTP Host Content-Type Accept Authorization Cache-Control'.split(' '),
+  ini: 'true false yes no on off null'.split(' '),
+  java: 'abstract assert boolean break byte case catch char class const continue default do double else enum extends final finally float for goto if implements import instanceof int interface long native new null package private protected public return short static strictfp super switch synchronized this throw throws transient true try void volatile while var'.split(' '),
+  javascript: 'as async await break case catch class const continue debugger default delete do else export extends false finally for from function get if import in instanceof let new null of return set static super switch this throw true try typeof undefined var void while with yield document window'.split(' '),
+  json: 'true false null'.split(' '),
+  markdown: ''.split(' '),
+  nginx: 'server location upstream listen root index proxy_pass include try_files return rewrite access_log error_log'.split(' '),
+  php: 'abstract and array as break callable case catch class clone const continue declare default die do echo else elseif empty enddeclare endfor endforeach endif endswitch endwhile eval exit extends final finally fn for foreach function global goto if implements include include_once instanceof insteadof interface isset list namespace new null or print private protected public require require_once return static switch throw trait try unset use var while xor true false'.split(' '),
+  powershell: 'begin break catch class continue data define do dynamicparam else elseif end enum exit filter finally for foreach from function if in param process return switch throw trap try until using var while true false null'.split(' '),
+  python: 'and as assert async await break class continue def del elif else except False finally for from global if import in is lambda None nonlocal not or pass raise return True try while with yield self'.split(' '),
+  ruby: 'BEGIN END alias and begin break case class def defined do else elsif end ensure false for if in module next nil not or redo rescue retry return self super then true undef unless until when while yield'.split(' '),
+  rust: 'as async await break const continue crate dyn else enum extern false fn for if impl in let loop match mod move mut pub ref return self Self static struct super trait true type unsafe use where while'.split(' '),
+  scss: '@use @forward @mixin @include @function @return @if @else @for @each @while @extend @media @supports var calc color-mix'.split(' '),
+  shell: 'if then else elif fi for while until do done case esac in function select time export local readonly return shift break continue exit true false'.split(' '),
+  sql: 'select from where join left right inner outer full on group by order having limit offset insert into update delete create alter drop table view index values set and or not null true false is like in exists between union all distinct as case when then else end primary key foreign references'.split(' '),
+  typescript: 'abstract any as async await boolean break case catch class const constructor continue debugger declare default delete do else enum export extends false finally for from function get if implements import in infer instanceof interface keyof let module namespace never new null number object of private protected public readonly return set static string super switch symbol this throw true try type typeof undefined unknown var void while with yield'.split(' '),
+  xml: ''.split(' '),
+  yaml: 'true false yes no on off null'.split(' ')
+};
 
-languageModules.forEach(([name, language, aliases = []]) => {
-  hljs.registerLanguage(name, language);
-  registeredLanguages.push(name);
-  if (aliases.length) hljs.registerAliases(aliases, { languageName: name });
-});
+function normalizeLanguage(value) {
+  const language = String(value || '').trim().toLowerCase().replace(/^language-/, '');
+  if (!language || language === 'text' || language === 'txt' || language === 'plain' || language === 'plaintext') return '';
+  return languageAliases[language] || language;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function token(type, value) {
+  return `<span class="uzu-code-token uzu-code-token-${type}">${escapeHtml(value)}</span>`;
+}
+
+function plain(value) {
+  return escapeHtml(value);
+}
+
+function sticky(pattern, flags = '') {
+  return new RegExp(pattern.source, flags.includes('y') ? flags : `${flags}y`);
+}
+
+function applyRules(source, rules) {
+  const code = String(source ?? '');
+  let output = '';
+  let index = 0;
+  while (index < code.length) {
+    let matched = false;
+    for (const rule of rules) {
+      rule.pattern.lastIndex = index;
+      const match = rule.pattern.exec(code);
+      if (!match) continue;
+      const value = match[0];
+      if (!value) continue;
+      output += typeof rule.render === 'function' ? rule.render(value, match) : token(rule.type, value);
+      index += value.length;
+      matched = true;
+      break;
+    }
+    if (!matched) {
+      output += plain(code[index]);
+      index += 1;
+    }
+  }
+  return output;
+}
+
+function keywordRule(language) {
+  const words = [...new Set(keywordSets[language] || [])].filter(Boolean).sort((a, b) => b.length - a.length);
+  if (!words.length) return null;
+  const symbolic = words.filter((word) => word.startsWith('@')).map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const regular = words.filter((word) => !word.startsWith('@')).map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const parts = [];
+  if (symbolic.length) parts.push(`(?:${symbolic.join('|')})\\b?`);
+  if (regular.length) parts.push(`\\b(?:${regular.join('|')})\\b`);
+  return { pattern: sticky(new RegExp(parts.join('|'))), type: 'keyword' };
+}
+
+function commonRules(language, options = {}) {
+  const rules = [];
+  if (options.hashComments) rules.push({ pattern: sticky(/#[^\n]*/), type: 'comment' });
+  if (options.sqlComments) rules.push({ pattern: sticky(/--[^\n]*/), type: 'comment' });
+  if (options.slashComments !== false) {
+    rules.push({ pattern: sticky(/\/\*[\s\S]*?\*\//), type: 'comment' });
+    rules.push({ pattern: sticky(/\/\/[^\n]*/), type: 'comment' });
+  }
+  rules.push({ pattern: sticky(/`(?:\\[\s\S]|[^`\\])*`/), type: 'string' });
+  rules.push({ pattern: sticky(/"(?:\\[\s\S]|[^"\\])*"/), type: 'string' });
+  rules.push({ pattern: sticky(/'(?:\\[\s\S]|[^'\\])*'/), type: 'string' });
+  rules.push({ pattern: sticky(/\b0x[\da-fA-F]+\b|\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i), type: 'number' });
+  const keywords = keywordRule(language);
+  if (keywords) rules.push(keywords);
+  if (options.variables) rules.push({ pattern: sticky(/[$@][A-Za-z_][\w:-]*/), type: 'variable' });
+  rules.push({ pattern: sticky(/[{}()[\].,;:]/), type: 'punctuation' });
+  rules.push({ pattern: sticky(/[+\-*\/%=!<>|&~^?]+/), type: 'operator' });
+  return rules;
+}
+
+function highlightGeneric(source, language) {
+  const hashLanguages = new Set(['bash', 'dockerfile', 'ini', 'nginx', 'powershell', 'python', 'ruby', 'shell', 'yaml']);
+  const sqlLanguages = new Set(['sql']);
+  const variableLanguages = new Set(['bash', 'php', 'powershell', 'ruby', 'shell']);
+  return applyRules(source, commonRules(language, {
+    hashComments: hashLanguages.has(language),
+    sqlComments: sqlLanguages.has(language),
+    variables: variableLanguages.has(language)
+  }));
+}
+
+function highlightJson(source) {
+  return applyRules(source, [
+    { pattern: sticky(/"(?:\\[\s\S]|[^"\\])*"(?=\s*:)/), type: 'property' },
+    { pattern: sticky(/"(?:\\[\s\S]|[^"\\])*"/), type: 'string' },
+    { pattern: sticky(/\b(?:true|false|null)\b/), type: 'keyword' },
+    { pattern: sticky(/-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i), type: 'number' },
+    { pattern: sticky(/[{}[\],:]/), type: 'punctuation' }
+  ]);
+}
+
+function highlightDiff(source) {
+  return String(source ?? '').split(/(\n)/).map((line) => {
+    if (line === '\n') return line;
+    if (line.startsWith('+++') || line.startsWith('---') || line.startsWith('@@')) return token('property', line);
+    if (line.startsWith('+')) return token('string', line);
+    if (line.startsWith('-')) return token('invalid', line);
+    return plain(line);
+  }).join('');
+}
+
+function renderAttributes(value) {
+  return applyRules(value, [
+    { pattern: sticky(/\s+/), render: plain },
+    { pattern: sticky(/[A-Za-z_:][\w:.-]*(?=\s*=)/), type: 'attr' },
+    { pattern: sticky(/"(?:\\[\s\S]|[^"\\])*"/), type: 'string' },
+    { pattern: sticky(/'(?:\\[\s\S]|[^'\\])*'/), type: 'string' },
+    { pattern: sticky(/[=\/]/), type: 'operator' },
+    { pattern: sticky(/[<>]/), type: 'punctuation' }
+  ]);
+}
+
+function highlightXml(source) {
+  const code = String(source ?? '');
+  let output = '';
+  let index = 0;
+  const pattern = /<!--[\s\S]*?-->|<!\[[\s\S]*?\]>|<\/?[A-Za-z][\s\S]*?>/g;
+  for (const match of code.matchAll(pattern)) {
+    output += plain(code.slice(index, match.index));
+    const tag = match[0];
+    if (tag.startsWith('<!--')) output += token('comment', tag);
+    else {
+      const tagMatch = tag.match(/^(<\/?)([A-Za-z][\w:.-]*)([\s\S]*?)(\/?>)$/);
+      if (!tagMatch) output += plain(tag);
+      else output += token('punctuation', tagMatch[1]) + token('tag', tagMatch[2]) + renderAttributes(tagMatch[3]) + token('punctuation', tagMatch[4]);
+    }
+    index = match.index + tag.length;
+  }
+  output += plain(code.slice(index));
+  return output;
+}
+
+function highlightCss(source, language = 'css') {
+  return applyRules(source, [
+    { pattern: sticky(/\/\*[\s\S]*?\*\//), type: 'comment' },
+    { pattern: sticky(/"(?:\\[\s\S]|[^"\\])*"/), type: 'string' },
+    { pattern: sticky(/'(?:\\[\s\S]|[^'\\])*'/), type: 'string' },
+    { pattern: sticky(/#[\da-fA-F]{3,8}\b/), type: 'number' },
+    { pattern: sticky(/\b\d+(?:\.\d+)?(?:%|[a-z]+)?\b/i), type: 'number' },
+    { pattern: sticky(/--[A-Za-z_][\w-]*(?=\s*:)/), type: 'property' },
+    { pattern: sticky(/[A-Za-z-]+(?=\s*:)/), type: 'property' },
+    { pattern: sticky(/[.#][A-Za-z_][\w-]*/), type: 'selector' },
+    { pattern: sticky(/@[A-Za-z-]+/), type: 'keyword' },
+    keywordRule(language) || { pattern: sticky(/\bvar\b/), type: 'keyword' },
+    { pattern: sticky(/[{}()[\].,;:]/), type: 'punctuation' },
+    { pattern: sticky(/[+\-*\/%=!<>|&~^?]+/), type: 'operator' }
+  ]);
+}
+
+function highlightMarkdown(source) {
+  const lines = String(source ?? '').split(/(\n)/);
+  let inFence = false;
+  return lines.map((line) => {
+    if (line === '\n') return line;
+    if (/^\s*```/.test(line)) {
+      inFence = !inFence;
+      return token('string', line);
+    }
+    if (inFence) return token('string', line);
+    if (/^\s{0,3}#{1,6}\s/.test(line)) return token('selector', line.match(/^\s{0,3}#{1,6}/)[0]) + plain(line.replace(/^\s{0,3}#{1,6}/, ''));
+    if (/^\s*[-*+]\s/.test(line)) return token('operator', line.match(/^\s*[-*+]/)[0]) + plain(line.replace(/^\s*[-*+]/, ''));
+    return applyRules(line, [
+      { pattern: sticky(/`[^`]+`/), type: 'string' },
+      { pattern: sticky(/!?\[[^\]]+\]\([^)]+\)/), type: 'property' },
+      { pattern: sticky(/\*\*[^*]+\*\*/), type: 'keyword' },
+      { pattern: sticky(/\*[^*]+\*/), type: 'string' }
+    ]);
+  }).join('');
+}
+
+function inferLanguage(source) {
+  const code = String(source || '').trim();
+  if (!code) return '';
+  if (/^\s*</.test(code)) return 'xml';
+  if (/^\s*(?:\{|\[)/.test(code)) return 'json';
+  if (/^\s*(?:FROM|RUN|COPY|CMD|ENTRYPOINT)\b/m.test(code)) return 'dockerfile';
+  if (/^\s*(?:select|insert|update|delete|create)\b/i.test(code)) return 'sql';
+  if (/^\s*(?:--[\w-]+|[.#]?[\w-]+\s*\{|@media|@supports|:root)/m.test(code)) return 'css';
+  if (/^\s*(?:npm|pnpm|yarn|node|git|cd|mkdir|cp|mv|rm|curl|sudo|export)\b/m.test(code)) return 'bash';
+  if (/^\s*(?:#|- |\* |\d+\. )/m.test(code)) return 'markdown';
+  if (/\b(?:import|export|const|let|var|function|return|document|window|class|await|async)\b/.test(code)) return 'javascript';
+  return '';
+}
 
 function highlight(source, language = '') {
   const code = String(source ?? '');
-  if (!code) {
-    return { value: '', language: language || '', relevance: 0 };
-  }
+  if (!code) return { value: '', language: normalizeLanguage(language) || '', relevance: 0 };
+  const requestedLanguage = normalizeLanguage(language);
+  const inferredLanguage = requestedLanguage && hasLanguage(requestedLanguage) ? requestedLanguage : inferLanguage(code);
+  const knownLanguage = hasLanguage(inferredLanguage) ? inferredLanguage : '';
+  const activeLanguage = knownLanguage || 'text';
+  let value = '';
   try {
-    if (language && hljs.getLanguage(language)) {
-      const result = hljs.highlight(code, { language, ignoreIllegals: true });
-      return {
-        value: result.value,
-        language: result.language || language,
-        relevance: result.relevance || 0
-      };
-    }
-    const result = hljs.highlightAuto(code, registeredLanguages);
-    return {
-      value: result.value,
-      language: result.language || '',
-      relevance: result.relevance || 0
-    };
+    if (activeLanguage === 'json') value = highlightJson(code);
+    else if (activeLanguage === 'xml') value = highlightXml(code);
+    else if (activeLanguage === 'css' || activeLanguage === 'scss') value = highlightCss(code, activeLanguage);
+    else if (activeLanguage === 'markdown') value = highlightMarkdown(code);
+    else if (activeLanguage === 'diff') value = highlightDiff(code);
+    else if (activeLanguage === 'text') value = plain(code);
+    else value = highlightGeneric(code, activeLanguage);
   } catch (_) {
-    return { value: '', language: language || '', relevance: 0 };
+    value = plain(code);
   }
+  return {
+    value,
+    language: knownLanguage,
+    relevance: value === plain(code) ? 0 : 1
+  };
 }
 
 function hasLanguage(language) {
-  return Boolean(language && hljs.getLanguage(language));
+  return languages.includes(normalizeLanguage(language));
 }
 
 function listLanguages() {
-  return [...registeredLanguages];
+  return [...languages];
 }
 
 export { hasLanguage, highlight, listLanguages };

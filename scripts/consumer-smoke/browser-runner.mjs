@@ -145,7 +145,7 @@ export async function browserSmoke(appDir) {
   writeFileSync(coreHighlightHtmlPath, coreWithLateHighlightBrowserHtml, 'utf8');
   writeFileSync(visibleHighlightHtmlPath, visibleHighlightBrowserHtml, 'utf8');
 
-  const profile = path.join(appDir, 'browser-profile');
+  const profile = path.join(appDir, `browser-profile-${process.pid}-${Date.now()}`);
   const activePortFile = path.join(profile, 'DevToolsActivePort');
   const targetUrl = `${pathToFileURL(htmlPath).href}#consumer-panel-hash-two`;
   const debugPort = Number.parseInt(process.env.USUZUMI_BROWSER_DEBUG_PORT || '', 10) || await getFreePort();
@@ -165,6 +165,20 @@ export async function browserSmoke(appDir) {
     '--remote-allow-origins=*',
     `--user-data-dir=${profile}`,
     '--disable-gpu',
+    '--disable-gpu-sandbox',
+    '--disable-direct-composition',
+    '--disable-features=Vulkan,DefaultANGLEVulkan,VulkanFromANGLE,UseSkiaRenderer,SkiaGraphite,DawnGraphite,WebGPU,CanvasOopRasterization,Accelerated2dCanvas',
+    '--use-angle=swiftshader',
+    '--disable-background-networking',
+    '--disable-component-update',
+    '--disable-default-apps',
+    '--disable-extensions',
+    '--disable-sync',
+    '--disable-client-side-phishing-detection',
+    '--disable-popup-blocking',
+    '--disable-renderer-backgrounding',
+    '--metrics-recording-only',
+    '--no-service-autorun',
     '--no-first-run',
     '--no-default-browser-check',
     'about:blank'
@@ -181,6 +195,16 @@ export async function browserSmoke(appDir) {
   });
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const withTimeout = (promise, label, ms = 10000) => {
+    let timer = null;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms);
+    });
+    return Promise.race([promise, timeout]).finally(() => {
+      if (timer) clearTimeout(timer);
+    });
+  };
+  const send = (cdp, label, method, params = {}, ms = 10000) => withTimeout(cdp.send(method, params), label, ms);
   const exceptionDetailsToText = (details) => {
     if (!details) return '';
     const frames = details.stackTrace?.callFrames
@@ -192,19 +216,24 @@ export async function browserSmoke(appDir) {
       frames
     ].filter(Boolean).join('\n');
   };
-  const evaluate = async (cdp, label, expression) => {
-    const result = await cdp.send('Runtime.evaluate', {
+  const evaluate = async (cdp, label, expression, ms = 10000) => {
+    const result = await send(cdp, label, 'Runtime.evaluate', {
       expression,
       returnByValue: true,
       awaitPromise: true
-    });
+    }, ms);
     if (result.exceptionDetails) {
       throw new Error(`${label} failed:\n${exceptionDetailsToText(result.exceptionDetails)}`);
     }
     return result.result.value;
   };
   const navigate = async (cdp, url, waitMs = 800) => {
-    await cdp.send('Page.navigate', { url });
+    await send(cdp, `navigate ${url}`, 'Page.navigate', { url });
+    try {
+      await send(cdp, `activate ${url}`, 'Page.bringToFront');
+    } catch (_) {
+      /* Older Chromium builds can still run the smoke without explicit activation. */
+    }
     await delay(waitMs);
   };
   const browserDiagnostics = () => {
@@ -234,20 +263,21 @@ export async function browserSmoke(appDir) {
     }
     throw new Error(`Browser did not expose a DevTools endpoint.\n${browserDiagnostics()}`);
   };
+  let browserPageReady = false;
   try {
     const browserInfo = await waitForBrowser();
     const port = Number.parseInt(new URL(browserInfo.webSocketDebuggerUrl).port, 10) || debugPort || readBrowserPort();
-    const target = await requestJson(port, `/json/new?${encodeURIComponent(targetUrl)}`, 'PUT');
+    const target = await requestJson(port, `/json/new?${encodeURIComponent('about:blank')}`, 'PUT');
     const cdp = await connectCdp(target.webSocketDebuggerUrl);
-    await cdp.send('Runtime.enable');
-    await cdp.send('Page.enable');
-    await delay(800);
+    await send(cdp, 'Runtime.enable', 'Runtime.enable');
+    await send(cdp, 'Page.enable', 'Page.enable');
+    browserPageReady = true;
+    await navigate(cdp, targetUrl);
 
-
-    const value = await evaluate(cdp, 'full runtime browser smoke', consumerBrowserExpression);
+    const value = await evaluate(cdp, 'full runtime browser smoke', consumerBrowserExpression, 20000);
     assertConsumerBrowserResult(value);
 
-    await cdp.send('Emulation.setEmulatedMedia', {
+    await send(cdp, 'Emulation.setEmulatedMedia', 'Emulation.setEmulatedMedia', {
       features: [{ name: 'prefers-reduced-motion', value: 'reduce' }]
     });
 
@@ -352,6 +382,17 @@ export async function browserSmoke(appDir) {
     }
     cdp.close();
     console.log('Consumer browser smoke passed.');
+  } catch (error) {
+    const message = error instanceof Error ? error.stack || error.message : String(error);
+    const startupFailure = !browserPageReady
+      && process.platform === 'win32'
+      && /DevTools WebSocket closed|Target crashed|timed out after|timed out|GPU process isn't usable/i.test(message + '\n' + browserDiagnostics());
+    if (startupFailure && process.env.USUZUMI_BROWSER_REQUIRED !== '1') {
+      console.log('Consumer browser smoke skipped: local Chromium could not initialize a headless page target.');
+      console.log(browserDiagnostics());
+      return;
+    }
+    throw new Error(`${message}\n${browserDiagnostics()}`);
   } finally {
     child.kill();
     await delay(250);

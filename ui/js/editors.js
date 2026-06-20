@@ -162,36 +162,6 @@
     });
   }
 
-  function initEditorShells(root = document) {
-    queryAll(root, '[data-uzu-editor]').forEach((editor) => {
-      const surface = editor.querySelector('[data-uzu-editor-surface], .uzu-editor-surface');
-      if (!markInitialized(editor, 'EditorShell')) return;
-      queryAll(editor, '[data-uzu-editor-command]').forEach((button) => {
-        const command = button.dataset.uzuEditorCommand || '';
-        const value = button.dataset.uzuEditorValue || '';
-        if (button.hasAttribute('data-uzu-editor-toggle') && !button.hasAttribute('aria-pressed')) {
-          button.setAttribute('aria-pressed', button.getAttribute('aria-pressed') || 'false');
-        }
-        button.addEventListener('click', () => {
-          if (surface && typeof surface.focus === 'function') surface.focus({ preventScroll: true });
-          editor.dispatchEvent(new CustomEvent('uzu-editor-command', {
-            bubbles: true,
-            detail: { editor, surface, button, command, value }
-          }));
-        });
-      });
-      if (surface) {
-        surface.addEventListener('input', () => {
-          const value = 'value' in surface ? surface.value : surface.innerHTML;
-          editor.dispatchEvent(new CustomEvent('uzu-editor-change', {
-            bubbles: true,
-            detail: { editor, surface, value }
-          }));
-        });
-      }
-    });
-  }
-
   function shouldRenderMarkdownEditor(editor) {
     const value = editor.getAttribute('data-uzu-markdown-render');
     return value !== null && value !== 'false';
@@ -252,7 +222,6 @@
   }
 
   function initEditors(root = document) {
-    initEditorShells(root);
     initMarkdownEditors(root);
     initInlineEditors(root);
   }

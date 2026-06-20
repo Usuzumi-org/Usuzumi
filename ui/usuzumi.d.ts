@@ -164,6 +164,47 @@ declare global {
     events: UsuzumiHeatmapEventItem[];
   }
 
+  interface UsuzumiGalleryItem {
+    src: string;
+    alt?: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+    download?: string | boolean;
+  }
+
+  interface UsuzumiGalleryLoadDetail {
+    gallery: HTMLElement;
+    items: UsuzumiGalleryItem[];
+    source: string;
+  }
+
+  interface UsuzumiGalleryErrorDetail {
+    gallery: HTMLElement;
+    source: string;
+    error: unknown;
+  }
+
+  interface UsuzumiGallerySelectDetail {
+    gallery: HTMLElement;
+    item: UsuzumiGalleryItem;
+    index: number;
+    trigger: HTMLElement | null;
+    viewer: HTMLElement | null;
+  }
+
+  interface UsuzumiImageViewerDetail {
+    viewer: HTMLElement;
+    item: UsuzumiGalleryItem | null;
+    trigger: HTMLElement | null;
+  }
+
+  interface UsuzumiImageViewerZoomDetail {
+    viewer: HTMLElement;
+    item: UsuzumiGalleryItem | null;
+    scale: number;
+  }
+
   interface UsuzumiFieldValidateDetail {
     field: HTMLElement;
     control: HTMLElement;
@@ -323,19 +364,6 @@ declare global {
     expanded: boolean;
   }
 
-  interface UsuzumiEditorCommandDetail {
-    editor: HTMLElement;
-    surface: HTMLElement | null;
-    button: HTMLElement;
-    command: string;
-    value: string;
-  }
-
-  interface UsuzumiEditorChangeDetail {
-    editor: HTMLElement;
-    surface: HTMLElement;
-    value: string;
-  }
 
   interface UsuzumiMarkdownEditorChangeDetail {
     editor: HTMLElement;
@@ -400,6 +428,10 @@ declare global {
     setHeatmapData(heatmap: HTMLElement | string, data: UsuzumiHeatmapData | string, emit?: boolean): HTMLElement | null;
     selectHeatmapDate(heatmap: HTMLElement | string, dateOrOffset: string | number, emit?: boolean): HTMLElement | null;
     refreshHeatmap(heatmap: HTMLElement | string): HTMLElement | null;
+    setGalleryItems(gallery: HTMLElement | string, items: UsuzumiGalleryItem[] | { items: UsuzumiGalleryItem[] }, emit?: boolean): HTMLElement | null;
+    refreshGallery(gallery: HTMLElement | string): HTMLElement | null;
+    openImageViewer(viewer: HTMLElement | string, item: UsuzumiGalleryItem, trigger?: HTMLElement | null): HTMLElement | null;
+    closeImageViewer(viewer: HTMLElement | string): HTMLElement | null;
     setTagSelected(tag: HTMLElement, selected: boolean, emit?: boolean): void;
     setSplitPaneSize(splitPane: HTMLElement, size: number, emit?: boolean): void;
     setResizableSize(resizable: HTMLElement, width: number, height: number, emit?: boolean): void;
@@ -460,6 +492,12 @@ declare global {
     "uzu-data-grid-select": CustomEvent<UsuzumiDataGridSelectDetail>;
     "uzu-data-grid-select-all": CustomEvent<UsuzumiDataGridSelectAllDetail>;
     "uzu-heatmap-select": CustomEvent<UsuzumiHeatmapSelectDetail>;
+    "uzu-gallery-load": CustomEvent<UsuzumiGalleryLoadDetail>;
+    "uzu-gallery-error": CustomEvent<UsuzumiGalleryErrorDetail>;
+    "uzu-gallery-select": CustomEvent<UsuzumiGallerySelectDetail>;
+    "uzu-image-viewer-open": CustomEvent<UsuzumiImageViewerDetail>;
+    "uzu-image-viewer-close": CustomEvent<UsuzumiImageViewerDetail>;
+    "uzu-image-viewer-zoom": CustomEvent<UsuzumiImageViewerZoomDetail>;
     "uzu-field-validate": CustomEvent<UsuzumiFieldValidateDetail>;
     "uzu-form-validate": CustomEvent<UsuzumiFormValidateDetail>;
     "uzu-tree-toggle": CustomEvent<UsuzumiTreeToggleDetail>;
@@ -482,8 +520,6 @@ declare global {
     "uzu-dialog-close": CustomEvent<UsuzumiDialogDetail>;
     "uzu-step-nav-change": CustomEvent<UsuzumiStepNavChangeDetail>;
     "uzu-sidebar-layout-change": CustomEvent<UsuzumiSidebarLayoutChangeDetail>;
-    "uzu-editor-command": CustomEvent<UsuzumiEditorCommandDetail>;
-    "uzu-editor-change": CustomEvent<UsuzumiEditorChangeDetail>;
     "uzu-markdown-editor-change": CustomEvent<UsuzumiMarkdownEditorChangeDetail>;
     "uzu-markdown-editor-render": CustomEvent<UsuzumiMarkdownEditorRenderDetail>;
     "uzu-inline-editor-change": CustomEvent<UsuzumiInlineEditorChangeDetail>;

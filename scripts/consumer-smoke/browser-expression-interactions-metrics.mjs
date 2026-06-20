@@ -99,10 +99,10 @@ const errorPageRuntimeState = {
   secondaryText: errorPageSecondary.textContent.trim(),
   secondaryHref: errorPageSecondary.getAttribute('href')
 };
-const editorMount = document.querySelector('#consumer-editor-mount');
-const editorMountStyle = getComputedStyle(editorMount);
-const editorMountFirstBlock = getComputedStyle(editorMount.querySelector('p'));
-const editorMountCode = getComputedStyle(editorMount.querySelector('code'));
+const markdownPreviewSurface = document.querySelector('#consumer-markdown-preview-surface');
+const markdownPreviewSurfaceStyle = getComputedStyle(markdownPreviewSurface);
+const markdownPreviewSurfaceFirstBlock = getComputedStyle(markdownPreviewSurface.querySelector('p'));
+const markdownPreviewSurfaceCode = getComputedStyle(markdownPreviewSurface.querySelector('code'));
 const codeStyle = getComputedStyle(document.querySelector('#consumer-code'));
 const codeBlock = document.querySelector('#consumer-code-block');
 const codeBlockStyle = getComputedStyle(codeBlock.querySelector('.uzu-code-block-body'));

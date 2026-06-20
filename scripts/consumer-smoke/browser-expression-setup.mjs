@@ -60,6 +60,9 @@ const multiDataGridSelectAll = multiDataGrid.querySelector('[data-uzu-grid-selec
 const multiDataGridEmpty = multiDataGrid.querySelector('[data-uzu-grid-empty]');
 const heatmap = document.querySelector('#consumer-heatmap');
 const staticHeatmap = document.querySelector('#consumer-static-heatmap');
+const gallery = document.querySelector('#consumer-gallery');
+const jsonGallery = document.querySelector('#consumer-json-gallery');
+const directoryGallery = document.querySelector('#consumer-directory-gallery');
 const tree = document.querySelector('#consumer-tree');
 const splitPane = document.querySelector('#consumer-split-pane');
 const splitResizer = splitPane.querySelector('[data-uzu-split-resizer]');
@@ -68,21 +71,14 @@ const resizableHandle = resizable.querySelector('[data-uzu-resizable-handle]');
 const jsonViewer = document.querySelector('#consumer-json-viewer');
 const jsonEscapedKeyViewer = document.querySelector('#consumer-json-escaped-key-viewer');
 const diffViewer = document.querySelector('#consumer-diff-viewer');
-const editorShell = document.querySelector('#consumer-editor');
 const markdownEditor = document.querySelector('#consumer-markdown-editor');
 const markdownEditorSource = markdownEditor.querySelector('[data-uzu-markdown-source]');
 const markdownEditorPreview = markdownEditor.querySelector('[data-uzu-markdown-preview]');
-const markdownEditorShell = document.querySelector('#consumer-markdown-editor-shell');
-const markdownEditorShellSource = markdownEditorShell.querySelector('[data-uzu-markdown-source]');
-const markdownEditorShellPreview = markdownEditorShell.querySelector('[data-uzu-markdown-preview]');
 const inlineEditor = document.querySelector('#consumer-inline-editor');
 const consumerPlainInput = document.querySelector('#consumer-field');
 const consumerNotesTextarea = document.querySelector('#consumer-notes-textarea');
 const consumerCodeEditor = document.querySelector('#consumer-code-editor');
 const consumerPlainEditor = document.querySelector('#consumer-plain-editor');
-const editorSurface = editorShell.querySelector('[data-uzu-editor-surface]');
-const standaloneEditorSurface = document.querySelector('#consumer-standalone-editor-surface');
-const toolbarLinkInput = editorShell.querySelector('#consumer-toolbar-link-input');
 const disclosure = document.querySelector('#consumer-disclosure');
 const disclosureTrigger = disclosure.querySelector('[data-uzu-disclosure-trigger]');
 const disclosurePanel = disclosure.querySelector('[data-uzu-disclosure-panel]');
@@ -146,6 +142,12 @@ const readFocusProbe = async (target, surface = target, borderProperty = 'border
   const beforeBorderColor = beforeStyle[borderProperty];
   const editFocusBorderColor = readResolvedBorderToken('--uzu-edit-focus-border', surface);
   const fgStrongColor = readResolvedBorderToken('--uzu-fg-strong', surface);
+  try {
+    window.focus();
+  } catch (_) {
+    /* Ignore focus restoration limits in headless browsers. */
+  }
+  await wait(0);
   target.focus();
   await wait(0);
   const surfaceStyle = getComputedStyle(surface);
@@ -159,7 +161,11 @@ const readFocusProbe = async (target, surface = target, borderProperty = 'border
     boxShadow: surfaceStyle.boxShadow,
     targetBoxShadow: targetStyle.boxShadow,
     editFocusBorderColor,
-    fgStrongColor
+    fgStrongColor,
+    inertAncestor: Boolean(target.closest('[inert]')),
+    ariaHiddenAncestor: Boolean(target.closest('[aria-hidden="true"]')),
+    documentHasFocus: document.hasFocus(),
+    matchesFocus: target.matches(':focus')
   };
   target.blur();
   await wait(0);
@@ -184,14 +190,18 @@ dataGrid.addEventListener('uzu-data-grid-select', (event) => newEvents.push('gri
 multiDataGrid.addEventListener('uzu-data-grid-select-all', (event) => newEvents.push('grid-all:' + event.detail.rows.length));
 plainDataGrid.addEventListener('uzu-data-grid-select', (event) => newEvents.push('plain-grid-select:' + event.detail.value));
 heatmap.addEventListener('uzu-heatmap-select', (event) => newEvents.push('heatmap:' + event.detail.date + ':' + event.detail.events.length));
+gallery.addEventListener('uzu-gallery-load', (event) => newEvents.push('gallery-load:' + event.detail.items.length + ':' + event.detail.source));
+gallery.addEventListener('uzu-gallery-select', (event) => newEvents.push('gallery-select:' + event.detail.index + ':' + Boolean(event.detail.viewer)));
+jsonGallery.addEventListener('uzu-gallery-load', (event) => newEvents.push('json-gallery-load:' + event.detail.items.length));
+directoryGallery.addEventListener('uzu-gallery-load', (event) => newEvents.push('directory-gallery-load:' + event.detail.items.length));
+document.addEventListener('uzu-image-viewer-open', (event) => newEvents.push('viewer-open:' + (event.detail.item?.caption || '')));
+document.addEventListener('uzu-image-viewer-close', (event) => newEvents.push('viewer-close:' + (event.detail.item?.caption || '')));
+document.addEventListener('uzu-image-viewer-zoom', (event) => newEvents.push('viewer-zoom:' + Number(event.detail.scale).toFixed(2)));
 tree.addEventListener('uzu-tree-toggle', (event) => newEvents.push('tree-toggle:' + event.detail.expanded));
 splitPane.addEventListener('uzu-split-resize', (event) => newEvents.push('split:' + Math.round(event.detail.size)));
 resizable.addEventListener('uzu-resizable-resize', () => newEvents.push('resizable'));
-editorShell.addEventListener('uzu-editor-command', (event) => newEvents.push('editor:' + event.detail.command));
-editorShell.addEventListener('uzu-editor-change', () => newEvents.push('editor-change'));
 markdownEditor.addEventListener('uzu-markdown-editor-change', () => newEvents.push('markdown-editor-change'));
 markdownEditor.addEventListener('uzu-markdown-editor-render', () => newEvents.push('markdown-editor'));
-markdownEditorShell.addEventListener('uzu-markdown-editor-change', () => newEvents.push('markdown-shell-change'));
 inlineEditor.addEventListener('uzu-inline-editor-change', () => newEvents.push('inline-editor'));
 accordion.addEventListener('uzu-accordion-change', (event) => newEvents.push('accordion:' + event.detail.open));
 stepNav.addEventListener('uzu-step-nav-change', (event) => newEvents.push('step-nav:' + event.detail.value));

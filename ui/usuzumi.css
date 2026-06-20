@@ -155,7 +155,7 @@
     }
 
     .uzu-scroll,
-    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface) {
+    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview) {
       scrollbar-width: thin;
       scrollbar-color: transparent transparent;
     }
@@ -164,10 +164,10 @@
     .uzu-scroll:focus,
     .uzu-scroll:focus-within,
     .uzu-scroll:active,
-    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):hover,
-    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):focus,
-    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):focus-within,
-    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):active {
+    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):hover,
+    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):focus,
+    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):focus-within,
+    :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):active {
       scrollbar-color: var(--uzu-border) transparent;
     }
   }
@@ -179,7 +179,7 @@
   }
 
   .uzu-scroll,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface) {
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview) {
     --uzu-scrollbar-thumb-bg: transparent;
     --uzu-scrollbar-thumb-hover-bg: transparent;
   }
@@ -188,10 +188,10 @@
   .uzu-scroll:focus,
   .uzu-scroll:focus-within,
   .uzu-scroll:active,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):hover,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):focus,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):focus-within,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface):active {
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):hover,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):focus,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):focus-within,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview):active {
     --uzu-scrollbar-thumb-bg: var(--uzu-border);
     --uzu-scrollbar-thumb-hover-bg: var(--uzu-soft);
   }
@@ -210,8 +210,7 @@
   .uzu-code-editor::-webkit-scrollbar,
   .uzu-plain-editor::-webkit-scrollbar,
   .uzu-markdown-source::-webkit-scrollbar,
-  .uzu-markdown-preview::-webkit-scrollbar,
-  .uzu-editor-surface::-webkit-scrollbar {
+  .uzu-markdown-preview::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
@@ -219,7 +218,7 @@
   html.uzu-root::-webkit-scrollbar-button,
   body.uzu-app::-webkit-scrollbar-button,
   .uzu-scroll::-webkit-scrollbar-button,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button {
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-heatmap-viewport, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
@@ -312,24 +311,24 @@
   .uzu-heatmap-viewport::-webkit-scrollbar-button:horizontal:start:increment,
   .uzu-heatmap-viewport::-webkit-scrollbar-button:horizontal:end:decrement,
   .uzu-heatmap-viewport::-webkit-scrollbar-button:horizontal:end:increment,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:single-button,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:double-button,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:start:decrement,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:start:increment,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:end:decrement,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:end:increment,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:decrement,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:increment,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:start:decrement,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:start:increment,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:end:decrement,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:vertical:end:increment,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:decrement,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:increment,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:start:decrement,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:start:increment,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:end:decrement,
-  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview, .uzu-editor-surface)::-webkit-scrollbar-button:horizontal:end:increment {
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:single-button,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:double-button,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:start:decrement,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:start:increment,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:end:decrement,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:end:increment,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:decrement,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:increment,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:start:decrement,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:start:increment,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:end:decrement,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:vertical:end:increment,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:decrement,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:increment,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:start:decrement,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:start:increment,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:end:decrement,
+  :where(.uzu-scroll-area, .uzu-command-list, .uzu-combobox-list, .uzu-table-wrap, .uzu-data-grid-wrap, .uzu-json-viewer, .uzu-diff-viewer, .uzu-code-editor, .uzu-plain-editor, .uzu-markdown-source, .uzu-markdown-preview)::-webkit-scrollbar-button:horizontal:end:increment {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
@@ -361,8 +360,7 @@
   .uzu-code-editor::-webkit-scrollbar-track,
   .uzu-plain-editor::-webkit-scrollbar-track,
   .uzu-markdown-source::-webkit-scrollbar-track,
-  .uzu-markdown-preview::-webkit-scrollbar-track,
-  .uzu-editor-surface::-webkit-scrollbar-track {
+  .uzu-markdown-preview::-webkit-scrollbar-track {
     background: transparent;
   }
 
@@ -380,8 +378,7 @@
   .uzu-code-editor::-webkit-scrollbar-corner,
   .uzu-plain-editor::-webkit-scrollbar-corner,
   .uzu-markdown-source::-webkit-scrollbar-corner,
-  .uzu-markdown-preview::-webkit-scrollbar-corner,
-  .uzu-editor-surface::-webkit-scrollbar-corner {
+  .uzu-markdown-preview::-webkit-scrollbar-corner {
     background: transparent;
   }
 
@@ -399,8 +396,7 @@
   .uzu-code-editor::-webkit-scrollbar-thumb,
   .uzu-plain-editor::-webkit-scrollbar-thumb,
   .uzu-markdown-source::-webkit-scrollbar-thumb,
-  .uzu-markdown-preview::-webkit-scrollbar-thumb,
-  .uzu-editor-surface::-webkit-scrollbar-thumb {
+  .uzu-markdown-preview::-webkit-scrollbar-thumb {
     background: var(--uzu-scrollbar-thumb-bg, var(--uzu-border));
     border-radius: var(--uzu-radius-micro);
     min-width: 24px;
@@ -421,8 +417,7 @@
   .uzu-code-editor::-webkit-scrollbar-thumb:hover,
   .uzu-plain-editor::-webkit-scrollbar-thumb:hover,
   .uzu-markdown-source::-webkit-scrollbar-thumb:hover,
-  .uzu-markdown-preview::-webkit-scrollbar-thumb:hover,
-  .uzu-editor-surface::-webkit-scrollbar-thumb:hover {
+  .uzu-markdown-preview::-webkit-scrollbar-thumb:hover {
     background: var(--uzu-scrollbar-thumb-hover-bg, var(--uzu-soft));
   }
 
@@ -493,7 +488,9 @@
     font-weight: 400;
     line-height: 1.42;
     letter-spacing: 0;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: keep-all;
   }
 
   .uzu-signature + .uzu-body-large {
@@ -628,13 +625,13 @@
 
   @media (max-width: 430px) {
     .uzu-signature {
-      font-size: 60px;
+      font-size: 48px;
     }
   }
 
   @media (max-width: 340px) {
     .uzu-signature {
-      font-size: 42px;
+      font-size: 38px;
     }
   }
 
@@ -2532,9 +2529,9 @@
 
   .uzu-json-viewer,
   .uzu-diff-viewer,
-  .uzu-editor,
   .uzu-code-editor,
-  .uzu-plain-editor {
+  .uzu-plain-editor,
+  .uzu-markdown-editor {
     min-width: 0;
     max-width: 100%;
     border: 1px solid var(--uzu-border);
@@ -2767,122 +2764,8 @@
     color: var(--uzu-muted);
   }
 
-  .uzu-editor {
-    --uzu-editor-min-height: 160px;
-    background: var(--uzu-surface);
-    display: grid;
-    overflow: hidden;
-  }
-
-  .uzu-editor:focus,
-  .uzu-editor:focus-visible,
-  .uzu-editor:focus-within {
-    border-color: var(--uzu-edit-focus-border);
-    box-shadow: none;
-  }
-
-  .uzu-editor-toolbar {
-    padding: 8px;
-    border-bottom: 1px solid var(--uzu-border-soft);
-    background: var(--uzu-surface);
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .uzu-editor-toolbar-grouped {
-    align-items: stretch;
-    gap: 8px;
-  }
-
-  .uzu-editor-toolbar-grouped .uzu-toolbar-group {
-    padding: 3px;
-    border: 1px solid var(--uzu-border-soft);
-    border-radius: var(--uzu-radius-micro);
-    background: color-mix(in srgb, var(--uzu-surface-soft) 46%, transparent);
-    display: inline-flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  .uzu-toolbar-link-field {
-    min-width: 0;
-    display: inline-flex;
-    align-items: stretch;
-    gap: 4px;
-    flex-wrap: wrap;
-  }
-
-  .uzu-toolbar-link-input {
-    width: var(--uzu-toolbar-link-input-width, 220px);
-    min-width: min(var(--uzu-toolbar-link-input-min-width, 180px), 100%);
-    min-height: 32px;
-    padding: 6px 9px;
-    font-size: 13px;
-  }
-
-  .uzu-toolbar-link-input:focus,
-  .uzu-toolbar-link-input:focus-visible {
-    border-color: var(--uzu-edit-focus-border);
-    box-shadow: none;
-  }
-
-  .uzu-toolbar-button {
-    min-width: 32px;
-    min-height: 32px;
-    padding: 5px 9px;
-    border: 1px solid var(--uzu-border);
-    border-radius: var(--uzu-radius-micro);
-    background: var(--uzu-surface);
-    color: var(--uzu-fg);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font: inherit;
-    font-size: 13px;
-    line-height: 1;
-    cursor: pointer;
-    appearance: none;
-  }
-
-  .uzu-toolbar-button:hover,
-  .uzu-toolbar-button:focus-visible,
-  .uzu-toolbar-button.is-active,
-  .uzu-toolbar-button[aria-pressed="true"] {
-    border-color: var(--uzu-border-strong);
-    background: var(--uzu-surface-soft);
-    color: var(--uzu-fg-strong);
-  }
-
-  .uzu-editor-toolbar-grouped .uzu-toolbar-button {
-    min-width: 34px;
-    border-color: transparent;
-    background: transparent;
-    white-space: nowrap;
-  }
-
-  .uzu-editor-toolbar-grouped .uzu-toolbar-link-field .uzu-toolbar-button {
-    min-width: 0;
-  }
-
-  .uzu-editor-toolbar-grouped .uzu-toolbar-button:hover,
-  .uzu-editor-toolbar-grouped .uzu-toolbar-button:focus-visible,
-  .uzu-editor-toolbar-grouped .uzu-toolbar-button.is-active,
-  .uzu-editor-toolbar-grouped .uzu-toolbar-button[aria-pressed="true"] {
-    background: var(--uzu-surface);
-  }
-
-  .uzu-editor-toolbar-grouped .uzu-toolbar-button:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
-
-  .uzu-editor-surface,
-  .uzu-plain-editor,
   .uzu-code-editor,
+  .uzu-plain-editor,
   .uzu-markdown-source,
   .uzu-markdown-preview,
   .uzu-inline-editor {
@@ -2892,20 +2775,6 @@
     padding: 14px;
     color: var(--uzu-fg);
     outline: none;
-  }
-
-  .uzu-editor-surface {
-    border: 1px solid transparent;
-    background: var(--uzu-surface);
-    font-family: var(--uzu-font-serif);
-    font-size: 14px;
-    line-height: 1.7;
-  }
-
-  .uzu-editor-surface:focus,
-  .uzu-editor-surface:focus-visible {
-    border-color: var(--uzu-edit-focus-border);
-    box-shadow: none;
   }
 
   .uzu-code-editor,
@@ -2940,8 +2809,18 @@
   }
 
   .uzu-markdown-editor {
+    --uzu-editor-min-height: 160px;
+    background: var(--uzu-surface);
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  .uzu-markdown-editor:focus,
+  .uzu-markdown-editor:focus-visible,
+  .uzu-markdown-editor:focus-within {
+    border-color: var(--uzu-edit-focus-border);
+    box-shadow: none;
   }
 
   .uzu-markdown-source,
@@ -2966,6 +2845,8 @@
   }
 
   .uzu-markdown-preview {
+    min-height: var(--uzu-editor-min-height, 160px);
+    align-content: start;
     background: var(--uzu-surface);
     font-family: var(--uzu-font-serif);
     font-size: 14px;
@@ -2981,50 +2862,33 @@
     margin-bottom: 0;
   }
 
-  .uzu-editor-mount {
-    min-height: var(--uzu-editor-mount-min-height, 190px);
-    align-content: start;
-    background: var(--uzu-editor-mount-bg, var(--uzu-surface));
-    overflow: auto;
-  }
-
-  .uzu-editor-mount > :first-child,
-  .uzu-markdown-preview.uzu-editor-mount > :first-child {
-    margin-top: 0;
-  }
-
-  .uzu-editor-mount > :last-child,
-  .uzu-markdown-preview.uzu-editor-mount > :last-child {
-    margin-bottom: 0;
-  }
-
-  .uzu-editor-mount :where(p, ul, ol, blockquote, pre) {
+  .uzu-markdown-preview :where(p, ul, ol, blockquote, pre) {
     margin: 0 0 .85em;
   }
 
-  .uzu-editor-mount :where(ul, ol) {
+  .uzu-markdown-preview :where(ul, ol) {
     padding-left: 1.35em;
   }
 
-  .uzu-editor-mount :where(h1, h2, h3) {
+  .uzu-markdown-preview :where(h1, h2, h3) {
     margin: 0 0 .7em;
     line-height: 1.22;
   }
 
-  .uzu-editor-mount mark {
+  .uzu-markdown-preview mark {
     padding: .04em .2em;
     border-radius: .2em;
     background: color-mix(in srgb, var(--uzu-warning-bg) 82%, var(--uzu-surface));
     color: var(--uzu-fg-strong);
   }
 
-  .uzu-editor-mount a {
+  .uzu-markdown-preview a {
     color: var(--uzu-fg-strong);
     text-decoration-thickness: 1px;
     text-underline-offset: .2em;
   }
 
-  .uzu-editor-mount code {
+  .uzu-markdown-preview code {
     padding: .12em .35em;
     border: 1px solid var(--uzu-border-soft);
     border-radius: var(--uzu-radius-micro);
@@ -3033,7 +2897,7 @@
     font-size: .92em;
   }
 
-  .uzu-editor-mount pre {
+  .uzu-markdown-preview pre {
     padding: 12px;
     overflow: auto;
     border: 1px solid var(--uzu-border-soft);
@@ -3041,68 +2905,63 @@
     background: var(--uzu-surface-soft);
   }
 
-  .uzu-editor-mount pre code {
+  .uzu-markdown-preview pre code {
     padding: 0;
     border: 0;
     background: transparent;
   }
 
-  .uzu-editor-mount blockquote {
+  .uzu-markdown-preview blockquote {
     padding-left: 12px;
     border-left: 3px solid var(--uzu-border-strong);
     color: var(--uzu-muted);
   }
 
-  .uzu-editor-mount table {
+  .uzu-markdown-preview table {
     width: 100%;
     margin: 0 0 .85em;
     border-collapse: collapse;
   }
 
-  .uzu-editor-mount th,
-  .uzu-editor-mount td {
+  .uzu-markdown-preview th,
+  .uzu-markdown-preview td {
     padding: 8px 10px;
     border: 1px solid var(--uzu-border);
     vertical-align: top;
   }
 
-  .uzu-editor-mount th {
+  .uzu-markdown-preview th {
     background: var(--uzu-surface-soft);
     text-align: left;
   }
 
-  .uzu-editor-mount hr {
+  .uzu-markdown-preview hr {
     margin: 1em 0;
     border: 0;
     border-top: 1px solid var(--uzu-border);
   }
 
-  .uzu-editor-mount .uzu-title-pair {
+  .uzu-markdown-preview .uzu-title-pair {
     max-width: 620px;
   }
 
-  .uzu-editor-mount .uzu-code-block-body {
+  .uzu-markdown-preview .uzu-code-block-body {
     width: 100%;
-    max-height: var(--uzu-editor-mount-code-max-height, 120px);
+    max-height: var(--uzu-markdown-preview-code-max-height, 120px);
     margin: 4px 0 0;
   }
 
-  .uzu-markdown-preview.uzu-editor-mount {
-    padding: var(--uzu-markdown-preview-mount-padding, 18px);
-  }
-
-  .uzu-markdown-preview.uzu-editor-mount:empty::before {
+  .uzu-markdown-preview:empty::before {
     content: "";
   }
 
-  .uzu-editor-status {
-    margin: 0;
-    padding: 8px 12px;
-    border-top: 1px solid var(--uzu-border-soft);
-    color: var(--uzu-muted);
-    font-family: var(--uzu-font-serif);
-    font-size: 12px;
-    line-height: 1.45;
+  .uzu-inline-editor {
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: var(--uzu-editor-min-height, 160px);
+    padding: 14px;
+    color: var(--uzu-fg);
+    outline: none;
   }
 
   .uzu-inline-editor {
@@ -3729,6 +3588,124 @@
     }
   }
 
+  .uzu-gallery {
+    --uzu-gallery-gap: 12px;
+    --uzu-gallery-row-height: 260px;
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr));
+    gap: var(--uzu-gallery-gap);
+    color: var(--uzu-fg);
+  }
+
+  .uzu-gallery.is-justified {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .uzu-gallery-item {
+    position: relative;
+    min-width: 0;
+    min-height: 124px;
+    padding: 0;
+    border: 1px solid var(--uzu-border-soft);
+    border-radius: var(--uzu-radius-micro);
+    background: color-mix(in srgb, var(--uzu-surface-soft) 70%, var(--uzu-surface));
+    color: inherit;
+    display: grid;
+    overflow: hidden;
+    text-decoration: none;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color var(--uzu-motion-quick) var(--uzu-ease-standard), opacity var(--uzu-motion-quick) var(--uzu-ease-standard);
+  }
+
+  button.uzu-gallery-item {
+    font: inherit;
+    text-align: start;
+  }
+
+  .uzu-gallery.is-justified .uzu-gallery-item {
+    flex: 0 0 var(--uzu-gallery-item-width, 180px);
+    inline-size: var(--uzu-gallery-item-width, 180px);
+    block-size: var(--uzu-gallery-item-height, var(--uzu-gallery-row-height));
+    min-block-size: 0;
+  }
+
+  .uzu-gallery-item:hover,
+  .uzu-gallery-item:focus-visible {
+    border-color: var(--uzu-border-strong);
+  }
+
+  .uzu-gallery-item:focus-visible {
+    outline: 0;
+    box-shadow: var(--uzu-focus-ring);
+  }
+
+  .uzu-gallery-image {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: 124px;
+    aspect-ratio: var(--uzu-gallery-item-ratio, 4 / 3);
+    object-fit: cover;
+    display: block;
+    background: var(--uzu-surface-soft);
+  }
+
+  .uzu-gallery.is-justified .uzu-gallery-image {
+    min-block-size: 0;
+    aspect-ratio: auto;
+  }
+
+  .uzu-gallery-caption {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    min-width: 0;
+    padding: 22px 10px 9px;
+    background: linear-gradient(to top, color-mix(in srgb, var(--uzu-bg) 86%, transparent), transparent);
+    color: var(--uzu-fg-strong);
+    font-size: 13px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    transition: opacity var(--uzu-motion-quick) var(--uzu-ease-standard);
+  }
+
+  .uzu-gallery[data-uzu-gallery-caption="none"] .uzu-gallery-caption {
+    display: none;
+  }
+
+  .uzu-gallery[data-uzu-gallery-caption="hover"] .uzu-gallery-caption {
+    opacity: 0;
+  }
+
+  .uzu-gallery[data-uzu-gallery-caption="hover"] .uzu-gallery-item:hover .uzu-gallery-caption,
+  .uzu-gallery[data-uzu-gallery-caption="hover"] .uzu-gallery-item:focus-visible .uzu-gallery-caption,
+  .uzu-gallery[data-uzu-gallery-caption="hover"] .uzu-gallery-item:focus-within .uzu-gallery-caption {
+    opacity: 1;
+  }
+
+  .uzu-gallery-empty,
+  .uzu-gallery-error {
+    grid-column: 1 / -1;
+    min-width: 0;
+    padding: 24px;
+    border: 1px dashed var(--uzu-border);
+    border-radius: var(--uzu-radius-micro);
+    background: color-mix(in srgb, var(--uzu-surface-soft) 56%, transparent);
+    color: var(--uzu-muted);
+    font-size: 14px;
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  .uzu-gallery-error {
+    color: var(--uzu-danger);
+    border-color: color-mix(in srgb, var(--uzu-danger) 48%, var(--uzu-border));
+  }
+
   .uzu-tree {
     margin: 0;
     padding: 0;
@@ -4213,6 +4190,178 @@
 
   .uzu-modal:focus {
     outline: none;
+  }
+
+  .uzu-image-viewer-overlay,
+  .uzu-image-viewer {
+    --uzu-image-viewer-backdrop: color-mix(in srgb, var(--uzu-fg-strong) 92%, var(--uzu-bg));
+    --uzu-image-viewer-control-fg: var(--uzu-action-fg);
+    --uzu-image-viewer-control-muted: color-mix(in srgb, var(--uzu-action-fg) 74%, transparent);
+    --uzu-image-viewer-control-bg: color-mix(in srgb, var(--uzu-action-fg) 10%, transparent);
+    --uzu-image-viewer-control-border: color-mix(in srgb, var(--uzu-action-fg) 20%, transparent);
+  }
+
+  .uzu-image-viewer-overlay {
+    padding: 0;
+    background: var(--uzu-image-viewer-backdrop);
+    place-items: stretch;
+  }
+
+  .uzu-image-viewer {
+    --uzu-image-viewer-edge: clamp(14px, 2vw, 28px);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    padding: var(--uzu-image-viewer-edge);
+    border: 0;
+    background: transparent;
+    color: var(--uzu-image-viewer-control-fg);
+    box-shadow: none;
+    position: relative;
+    display: grid;
+    grid-template: "stage" minmax(0, 1fr) / minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  :root[data-theme="dark"] .uzu-image-viewer-overlay,
+  :root[data-theme="dark"] .uzu-image-viewer,
+  .uzu-app[data-theme="dark"] .uzu-image-viewer-overlay,
+  .uzu-app[data-theme="dark"] .uzu-image-viewer,
+  .uzu-scope[data-theme="dark"] .uzu-image-viewer-overlay,
+  .uzu-scope[data-theme="dark"] .uzu-image-viewer,
+  [data-theme="dark"] .uzu-app .uzu-image-viewer-overlay,
+  [data-theme="dark"] .uzu-app .uzu-image-viewer,
+  [data-theme="dark"] .uzu-scope .uzu-image-viewer-overlay,
+  [data-theme="dark"] .uzu-scope .uzu-image-viewer,
+  [data-theme="dark"] .uzu-image-viewer-overlay,
+  [data-theme="dark"] .uzu-image-viewer {
+    --uzu-image-viewer-backdrop: color-mix(in srgb, var(--uzu-bg) 92%, var(--uzu-surface-inset));
+    --uzu-image-viewer-control-fg: var(--uzu-fg-strong);
+    --uzu-image-viewer-control-muted: color-mix(in srgb, var(--uzu-fg-strong) 74%, transparent);
+    --uzu-image-viewer-control-bg: color-mix(in srgb, var(--uzu-fg-strong) 10%, transparent);
+    --uzu-image-viewer-control-border: color-mix(in srgb, var(--uzu-fg-strong) 20%, transparent);
+  }
+
+  .uzu-image-viewer[data-uzu-dialog].is-open {
+    animation: uzu-dialog-surface-in var(--uzu-motion-quick) var(--uzu-ease-standard);
+  }
+
+  .uzu-image-viewer[data-uzu-dialog].is-closing {
+    animation: uzu-dialog-surface-out var(--uzu-motion-quick) var(--uzu-ease-standard) forwards;
+  }
+
+  .uzu-image-viewer:focus {
+    outline: none;
+  }
+
+  .uzu-image-viewer-toolbar {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: var(--uzu-image-viewer-edge);
+    inset-inline-end: var(--uzu-image-viewer-edge);
+    min-width: 0;
+    max-width: min(440px, calc(100% - 32px));
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .uzu-image-viewer-toolbar .uzu-icon-button {
+    border-color: var(--uzu-image-viewer-control-border);
+    background: var(--uzu-image-viewer-control-bg);
+    color: var(--uzu-image-viewer-control-fg);
+  }
+
+  .uzu-image-viewer-toolbar .uzu-icon-button:hover {
+    border-color: color-mix(in srgb, var(--uzu-image-viewer-control-fg) 42%, transparent);
+    background: color-mix(in srgb, var(--uzu-image-viewer-control-fg) 16%, transparent);
+    color: var(--uzu-image-viewer-control-fg);
+  }
+
+  .uzu-image-viewer-stage {
+    grid-area: stage;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding-block: clamp(72px, 12vh, 128px);
+    border: 0;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .uzu-image-viewer-stage.is-panning {
+    cursor: grabbing;
+  }
+
+  .uzu-image-viewer-image {
+    max-inline-size: 100%;
+    max-block-size: 100%;
+    inline-size: auto;
+    block-size: auto;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    transform: translate3d(var(--uzu-image-viewer-x, 0px), var(--uzu-image-viewer-y, 0px), 0) scale(var(--uzu-image-viewer-scale, 1));
+    transform-origin: center;
+    transition: transform var(--uzu-motion-quick) var(--uzu-ease-standard), opacity var(--uzu-motion-quick) var(--uzu-ease-standard);
+  }
+
+  .uzu-image-viewer-stage.is-panning .uzu-image-viewer-image {
+    transition: none;
+  }
+
+  .uzu-image-viewer-caption {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: var(--uzu-image-viewer-edge);
+    inset-inline-start: var(--uzu-image-viewer-edge);
+    max-width: min(560px, calc(100% - 320px));
+    margin: 0;
+    color: var(--uzu-image-viewer-control-fg);
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .uzu-image-viewer-caption:empty {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .uzu-image-viewer {
+      --uzu-image-viewer-edge: 12px;
+    }
+
+    .uzu-image-viewer-toolbar {
+      max-width: calc(100% - 24px);
+    }
+
+    .uzu-image-viewer-caption {
+      inset-block-start: 58px;
+      max-width: calc(100% - 24px);
+      color: var(--uzu-image-viewer-control-muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .uzu-image-viewer-stage {
+      padding-block: 72px;
+    }
   }
 
   .uzu-dialog-actions {
@@ -6085,14 +6234,20 @@
     .uzu-data-grid,
     .uzu-heatmap-cell,
     .uzu-heatmap-legend-cell,
+    .uzu-gallery-item,
+    .uzu-gallery-empty,
+    .uzu-gallery-error,
     .uzu-tree-row,
     .uzu-split-pane,
     .uzu-resizable,
+    .uzu-image-viewer,
+    .uzu-image-viewer-overlay,
+    .uzu-image-viewer-stage,
     .uzu-json-viewer,
     .uzu-diff-viewer,
-    .uzu-editor,
     .uzu-code-editor,
     .uzu-plain-editor,
+    .uzu-markdown-editor,
     .uzu-list,
     .uzu-tag,
     .uzu-tag-input,
@@ -6123,7 +6278,6 @@
     .uzu-split-resizer,
     .uzu-resizable-handle,
     .uzu-json-toggle,
-    .uzu-toolbar-button,
     .uzu-markdown-source,
     .uzu-step-nav-button,
     .uzu-input-group,

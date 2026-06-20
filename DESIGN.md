@@ -1,4 +1,4 @@
-﻿# Usuzumi Design System
+# Usuzumi Design System
 
 Usuzumi is a direct-use CSS and JavaScript component library for personal sites, app introduction pages, documentation pages, and small product tools. It ships reusable HTML/CSS/JS patterns built around warm gray surfaces, charcoal text, serif typography, low-contrast borders, and motion for state changes.
 
@@ -36,11 +36,11 @@ The published `ui/usuzumi.css`, `ui/usuzumi.js`, `ui/usuzumi.min.css`, `ui/usuzu
 - `ui/css/forms.css`: input groups, search, password, file upload, sliders, steppers, and form states.
 - `ui/css/menus.css`: menus, menubars, command surfaces, custom select, and combobox surfaces.
 - `ui/css/indicators.css`: progress, spinners, skeletons, and lightweight state indicators.
-- `ui/css/code-editors.css`: code blocks, JSON/diff viewers, editor shells, and Markdown surfaces.
+- `ui/css/code-editors.css`: code blocks, JSON/diff viewers, Markdown editor, code/plain/inline editors, and Markdown surfaces.
 - `ui/css/feedback.css`: alerts, callouts, toasts, and validation feedback.
 - `ui/css/navigation.css`: tabs, segmented controls, breadcrumbs, pagination, sidebars, and step navigation.
-- `ui/css/data-layout.css`: lists, data grids, tree views, split panes, resizable panels, scroll areas, and ratio/layout helpers.
-- `ui/css/overlays.css`: dialogs, drawers, sheets, popovers, hover cards, tooltips, and overlay animation.
+- `ui/css/data-layout.css`: lists, data grids, heatmaps, galleries, tree views, split panes, resizable panels, scroll areas, and ratio/layout helpers.
+- `ui/css/overlays.css`: dialogs, image viewers, drawers, sheets, popovers, hover cards, tooltips, and overlay animation.
 - `ui/css/status.css`: empty, error, and loading states.
 - `ui/css/motion.css`: shared process animation primitives.
 - `ui/css/layout.css`: page containers, sections, top bars, grids, sidebars, hero split, footer.
@@ -49,7 +49,7 @@ The published `ui/usuzumi.css`, `ui/usuzumi.js`, `ui/usuzumi.min.css`, `ui/usuzu
 - `ui/css/forced-colors.css`: high-contrast mode visibility rules.
 - `ui/usuzumi-signature.css`: optional signature font entry for `.uzu-signature` and signature specimens.
 - `ui/js/*.js`: maintainable runtime source modules. They are concatenated into the generated full and core runtime entries.
-- `ui/usuzumi.js`: generated full runtime entry for theme toggles, language selectors, custom selects, tabs, segmented controls, pagination, switches, search, password, steppers, menus, comboboxes, data grids, trees, split/resizable panels, JSON/diff viewers, editor shells, tags, disclosures, accordions, hover cards, popovers, dialogs, step navigation, panel navigation, toast dismissal, code highlighting, code copying, and limited Markdown rendering.
+- `ui/usuzumi.js`: generated full runtime entry for theme toggles, language selectors, custom selects, tabs, segmented controls, pagination, switches, search, password, steppers, menus, comboboxes, data grids, heatmaps, galleries, image viewers, trees, split/resizable panels, JSON/diff viewers, Markdown editor, code/plain/inline editors, tags, disclosures, accordions, hover cards, popovers, dialogs, step navigation, panel navigation, toast dismissal, code highlighting, code copying, and limited Markdown rendering.
 - `ui/usuzumi-core.js`: generated runtime entry with the same public `window.Usuzumi` API, but without the bundled syntax highlight engine.
 - `ui/usuzumi-highlight.js`: generated syntax highlight engine entry. It exposes `window.UsuzumiHighlightEngine` and dispatches `uzu-code-highlight-engine-ready` after loading.
 - `ui/usuzumi.d.ts`: TypeScript declarations for the browser API and custom events.
@@ -246,7 +246,7 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | `--uzu-resizable-height` | `180px` | resizable panel height | local resizable |
 | `--uzu-viewer-max-height` | `360px` | JSON / diff viewer height | local viewer |
 | `--uzu-json-indent` | `18px` | JSON child indentation | local JSON viewer |
-| `--uzu-editor-min-height` | `160px` | editor surface minimum height | local editor |
+| `--uzu-editor-min-height` | `160px` | Markdown, code, plain, and inline editor minimum height | local editor |
 | `--uzu-alert-dialog-accent-color` | `var(--uzu-danger)` | alert dialog accent | local alert dialog |
 | `--uzu-drawer-width` | `420px` | drawer width | local drawer |
 | `--uzu-sheet-width` | `520px` | sheet width | local sheet |
@@ -281,7 +281,7 @@ The native runtime includes lightweight versions of the complex component famili
 - Tree view manages hierarchical focus, selection, expand/collapse state, and matching ARIA level/position attributes.
 - Split pane and resizable panel support pointer and keyboard resizing. Optional persistence keys use local storage.
 - JSON viewer parses JSON into a collapsible tree. Diff viewer renders unified-diff style text into readable rows.
-- Editor surfaces provide generic shells, toolbar buttons, source/preview regions, plain/code text surfaces, inline editing, and event hooks. They are not full editor engines. Projects that need document models, history, shortcuts, paste rules, collaboration, complete Markdown policy, or full code editing should mount their own editing or rendering engine inside the shell. Add `data-uzu-markdown-render` only for Usuzumi's small built-in preview helper.
+- Usuzumi editor surfaces are self-owned Markdown, code, plain text, and inline editing primitives. `.uzu-markdown-editor` pairs a source field with a preview region, emits change/render events, and can render Usuzumi's lightweight Markdown subset with `data-uzu-markdown-render`. It is not a full document model: projects that need history, collaboration, paste rules, plugin ecosystems, or complete CommonMark behavior should keep that policy in application code and update the preview through the public slots.
 
 ## Visual Principles
 
@@ -359,7 +359,7 @@ Use animation for process states and state transitions: loading, syncing, indete
 
 | Role | Class | Size | Line Height | Notes |
 |------|-------|------|-------------|-------|
-| Signature | `.uzu-signature` | 124px desktop, 76px mobile, 42px ultra-narrow | 1.05 to 1.18 | Requires optional `usuzumi-signature.css` |
+| Signature | `.uzu-signature` | 120px desktop, 82px mobile, 48px narrow, 38px ultra-narrow | 1.42 | Single-line identity mark; requires optional `usuzumi-signature.css` |
 | Hero Title | `.uzu-hero-title` | 132px desktop, 82px mobile | 0.86 | Product or offer name |
 | Page Title | `.uzu-page-title` | 56px desktop, 40px mobile | 1.02 | Documentation or catalog title |
 | Section Title | `.uzu-section-title` | 44px desktop, 34px mobile | 1.08 | Major content sections |
@@ -369,7 +369,7 @@ Use animation for process states and state transitions: loading, syncing, indete
 
 Letter spacing is 0 by default. Section labels may be uppercase, but they should remain quiet and compact.
 
-Use display-size classes only in their intended page context. `.uzu-signature` belongs in open identity areas such as a homepage hero, and `.uzu-hero-title` belongs in product or offer heroes. In design catalogs, inspect type roles with public layout primitives such as `.uzu-grid`, `.uzu-card`, `.uzu-title-pair`, `.uzu-scroll-area`, `.uzu-section-title`, `.uzu-body-large`, and `.uzu-text`; bound page-scale specimens with `.uzu-scroll-area` instead of adding catalog-only specimen classes to the library.
+Use display-size classes only in their intended page context. `.uzu-signature` belongs in open identity areas such as a homepage hero, stays on one line, and should contain short identity text rather than long headings. `.uzu-hero-title` belongs in product or offer heroes. In design catalogs, inspect type roles with public layout primitives such as `.uzu-grid`, `.uzu-card`, `.uzu-title-pair`, `.uzu-scroll-area`, `.uzu-section-title`, `.uzu-body-large`, and `.uzu-text`; bound page-scale specimens with `.uzu-scroll-area` instead of adding catalog-only specimen classes to the library.
 
 ## Components
 
@@ -423,7 +423,7 @@ Use `.uzu-card-cover` together with `.uzu-card` when a repeated object needs a f
 
 Fields must have real labels. Placeholders are hints, not labels.
 
-Text inputs, textareas, command inputs, combobox inputs, steppers, and editor surfaces use `--uzu-edit-focus-border` for a hard focus border with no blurred shadow or glow. The token is mixed from strong ink and strong border so dark mode does not flash a near-white edit border. Input groups and steppers are one control surface: `.uzu-input-group` and `.uzu-stepper` own the rounded outer border and show the edit focus border only when their editable input is focused, while add-ons, selectable suffixes, local actions, and stepper buttons stay as attached inner segments with their own focus affordance. Use `.uzu-input-addon` only for fixed text; when a suffix can vary, compose a nested `.uzu-select[data-uzu-select]` inside the input group.
+Text inputs, textareas, command inputs, combobox inputs, steppers, Markdown editors, code editors, plain editors, and inline editors use `--uzu-edit-focus-border` for a hard focus border with no blurred shadow or glow. The token is mixed from strong ink and strong border so dark mode does not flash a near-white edit border. Input groups and steppers are one control surface: `.uzu-input-group` and `.uzu-stepper` own the rounded outer border and show the edit focus border only when their editable input is focused, while add-ons, selectable suffixes, local actions, and stepper buttons stay as attached inner segments with their own focus affordance. Use `.uzu-input-addon` only for fixed text; when a suffix can vary, compose a nested `.uzu-select[data-uzu-select]` inside the input group.
 
 ```html
 <label class="uzu-field">
@@ -505,9 +505,9 @@ Use `.uzu-callout` for editorial notes, constraints, and secondary context that 
 
 Use `.uzu-breadcrumb` for page hierarchy, `.uzu-toolbar` with `.uzu-toolbar-group` for local actions, and `.uzu-pagination` with `.uzu-page-button` for paged lists. Page buttons are fixed square controls with rounded corners, so keep the visible label to a page number, ellipsis, or compact symbol and put longer meaning in `aria-label`. Mark the current breadcrumb or page with `aria-current="page"`. Add `data-uzu-pagination` when the runtime should manage active page state, previous/next buttons, and optional `data-uzu-page-panel` content. Toolbars may use native buttons, links styled as `.uzu-button`, or icon buttons when the action has an accessible name.
 
-Use `.uzu-panel-index` with `data-uzu-panel-index` for same-page catalogs that switch `.uzu-panel` sections, such as a component list, documentation index, or settings panel index. `.uzu-panel-nav` with `data-uzu-panel-nav` remains a compatible older alias, but new catalogs should prefer the clearer Panel Index name. Use `.uzu-code-block` for copyable code snippets: add `data-uzu-code-language` or a `language-*` class to the `code` or `pre` element, let `Usuzumi.init()` write Usuzumi token spans, and keep `data-uzu-code-source` as the plain copy value. If one code block carries multiple `[data-lang]` snippets, the copy control should follow the currently visible language. Use `window.Usuzumi.listCodeLanguages()` and `window.Usuzumi.hasCodeLanguage(language)` when a page needs to expose or validate the bundled language set. Set `--uzu-code-block-bg`, `--uzu-code-block-fg`, and `--uzu-code-token-*` variables on the block when a page needs different code colors. Use `.uzu-prose[data-uzu-markdown]` for the built-in Markdown subset. The Markdown renderer intentionally supports only headings, paragraphs, unordered lists, links, inline code, and fenced code blocks; full Markdown documents should still be generated by a dedicated documentation pipeline.
+Use `.uzu-panel-index` with `data-uzu-panel-index` for same-page catalogs that switch `.uzu-panel` sections, such as a component list, documentation index, or settings panel index. `.uzu-panel-nav` with `data-uzu-panel-nav` remains a compatible older alias, but new catalogs should prefer the clearer Panel Index name. Use `.uzu-code-block` for copyable code snippets: add `data-uzu-code-language` or a `language-*` class to the `code` or `pre` element, let `Usuzumi.init()` write Usuzumi token spans, and keep `data-uzu-code-source` as the plain copy value. If one code block carries multiple `[data-lang]` snippets, the copy control should follow the currently visible language. Use `window.Usuzumi.listCodeLanguages()` and `window.Usuzumi.hasCodeLanguage(language)` when a page needs to expose or validate the bundled language set. Set `--uzu-code-block-bg`, `--uzu-code-block-fg`, and `--uzu-code-token-*` variables on the block when a page needs different code colors. Use `.uzu-prose[data-uzu-markdown]` for the built-in Markdown subset, or `.uzu-markdown-editor[data-uzu-markdown-editor]` when users should edit source and see a live preview. The Markdown renderer is Usuzumi-owned and intentionally limited to headings, paragraphs, unordered lists, safe links, inline code, and fenced code blocks; full Markdown documents should still be generated by a dedicated documentation pipeline when policy needs to be exact.
 
-Syntax highlighting can be controlled with `data-uzu-code-highlight` on the document root, body, or a local container. `auto` is the default and highlights matching code blocks during initialization. `visible` highlights blocks immediately when they are near the viewport and observes the rest with `IntersectionObserver`, falling back to immediate highlighting when the browser lacks that API. `manual` disables automatic code highlighting for that scope; call `window.Usuzumi.highlightCodeBlocks(root)` to process it explicitly. `window.Usuzumi.highlightCode(source, language)`, `highlightCodeBlock(code)`, and `highlightCodeBlocks(root)` stay available in both full and core entries. In core-only mode they safely return or render plain text with `highlighted: false`. Loading `ui/usuzumi-highlight.js` after `ui/usuzumi-core.js` exposes `window.UsuzumiHighlightEngine`, dispatches `uzu-code-highlight-engine-ready`, and allows automatic code blocks to be highlighted again with the real engine.
+Usuzumi ships its own lightweight tokenizer-based syntax highlighter. Syntax highlighting can be controlled with `data-uzu-code-highlight` on the document root, body, or a local container. `auto` is the default and highlights matching code blocks during initialization. `visible` highlights blocks immediately when they are near the viewport and observes the rest with `IntersectionObserver`, falling back to immediate highlighting when the browser lacks that API. `manual` disables automatic code highlighting for that scope; call `window.Usuzumi.highlightCodeBlocks(root)` to process it explicitly. `window.Usuzumi.highlightCode(source, language)`, `highlightCodeBlock(code)`, and `highlightCodeBlocks(root)` stay available in both full and core entries. In core-only mode they safely return or render plain text with `highlighted: false`. Loading `ui/usuzumi-highlight.js` after `ui/usuzumi-core.js` exposes `window.UsuzumiHighlightEngine`, dispatches `uzu-code-highlight-engine-ready`, and allows automatic code blocks to be highlighted again with the Usuzumi engine.
 
 ```html
 <nav aria-label="Breadcrumb">
@@ -595,6 +595,35 @@ Prefer the compact data script for generated heatmaps. The `s` date starts a con
 The runtime creates button cells, writes `aria-pressed`, keeps `data-uzu-heatmap-selected-date` on the root, supports click, Enter, Space, Home, End, and arrow-key focus movement, and renders `.uzu-heatmap-detail` as text only. Set `data-uzu-heatmap-detail-render="manual"` when application code owns the detail region. Selection dispatches `uzu-heatmap-select` with `{ heatmap, cell, date, offset, value, level, events }` and then a plain `change` event. Use `window.Usuzumi.setHeatmapData(heatmap, data, emit)`, `window.Usuzumi.selectHeatmapDate(heatmap, dateOrOffset, emit)`, and `window.Usuzumi.refreshHeatmap(heatmap)` for dynamic data.
 
 Heatmap spacing and scale are controlled with `--uzu-heatmap-cell-size`, `--uzu-heatmap-cell-gap`, `--uzu-heatmap-cell-radius`, `--uzu-heatmap-min-width`, `--uzu-heatmap-level-0` through `--uzu-heatmap-level-4`, and `--uzu-heatmap-selected-ring`. Annual ranges should stay inside `.uzu-heatmap-viewport` so horizontal scrolling is local and follows the public 6px scrollbar contract.
+
+Image collections use `.uzu-gallery`. The root is not a card by itself; place it inside `.uzu-card` only when the surrounding page needs a framed module. Static galleries should keep progressive links:
+
+```html
+<section class="uzu-gallery" data-uzu-gallery data-uzu-gallery-layout="justified">
+  <a class="uzu-gallery-item" href="/images/wide.jpg" data-width="1600" data-height="900">
+    <img class="uzu-gallery-image" src="/images/wide.jpg" alt="Wide image">
+    <span class="uzu-gallery-caption">Wide image</span>
+  </a>
+</section>
+```
+
+Without JavaScript the link opens the image. With `data-uzu-gallery`, the runtime reads `.uzu-gallery-item` children, preserves their link structure, writes stable justified sizes when `data-uzu-gallery-layout="justified"`, and opens an Image Viewer when `data-uzu-gallery-viewer` is `auto` or points at a viewer selector. Set `data-uzu-gallery-viewer="none"` when items should remain plain links or buttons. `data-uzu-gallery-caption="auto|always|hover|none"` controls caption visibility, `data-uzu-gallery-row-height` and `data-uzu-gallery-gap` tune justified layout, `data-uzu-gallery-download="false"` disables viewer downloads, and `data-uzu-gallery-state` is synchronized as `idle`, `loading`, `ready`, `empty`, or `error`.
+
+Generated galleries can load compact item arrays from `data-uzu-gallery-source`. A `#id` source reads a local `script[type="application/json"]`; a `.json` URL or JSON response reads an array or `{ "items": [...] }`; any other URL is treated as a server directory index and parses image links from returned HTML. Directory mode depends on the server exposing linkable directory HTML and is not guaranteed on static hosts that hide directory listings.
+
+```html
+<script type="application/json" id="gallery-data">[
+  { "src": "/images/a.jpg", "alt": "A", "caption": "A", "width": 1200, "height": 800 },
+  { "src": "/images/b.jpg", "alt": "B", "caption": "B", "width": 800, "height": 1200 }
+]</script>
+<section class="uzu-gallery" data-uzu-gallery data-uzu-gallery-source="#gallery-data"></section>
+```
+
+Each data item uses `{ src, alt, caption, width, height, download }`. `src` is required. `alt` defaults to an empty string, `caption` defaults to a readable file name, `download` defaults to `src`, and missing dimensions are filled from the image natural size when it loads. Use `window.Usuzumi.setGalleryItems(gallery, items, emit)` and `window.Usuzumi.refreshGallery(gallery)` for application-owned updates. Loading emits `uzu-gallery-load`, failures emit `uzu-gallery-error`, and viewer selection emits `uzu-gallery-select` with `{ gallery, item, index, trigger, viewer }`.
+
+Image Viewer uses `.uzu-image-viewer-overlay`, `.uzu-image-viewer`, `.uzu-image-viewer-toolbar`, `.uzu-image-viewer-stage`, `.uzu-image-viewer-image`, and `.uzu-image-viewer-caption`. It is a full-viewport focused preview by default: the image stage fills the screen, the caption sits at the top-left, and zoom/download/close controls sit at the top-right. When `data-uzu-gallery-viewer="auto"`, the gallery runtime creates a public dialog overlay at the end of `body`. Pages that need localized toolbar labels should author the viewer explicitly with `.uzu-dialog-overlay.uzu-image-viewer-overlay[data-uzu-dialog-overlay]`, `.uzu-image-viewer[data-uzu-image-viewer][data-uzu-dialog]`, `data-uzu-image-viewer-stage`, `data-uzu-image-viewer-image`, `data-uzu-image-viewer-caption`, `data-uzu-image-viewer-zoom-in`, `data-uzu-image-viewer-zoom-out`, `data-uzu-image-viewer-reset`, `data-uzu-image-viewer-download`, and a normal `data-uzu-dialog-close` control. The dialog runtime supplies Escape close, close controls, focus return, isolation, scroll locking, and animation timing.
+
+The viewer supports `+` / `=` zoom in, `-` zoom out, `0` reset, wheel zoom by default, and left-button drag panning inside the stage. Set `data-uzu-image-viewer-wheel-zoom="false"` to disable wheel zoom, and use `data-uzu-image-viewer-min-scale` / `data-uzu-image-viewer-max-scale` to bound zoom. Use `window.Usuzumi.openImageViewer(viewer, item, trigger)` and `window.Usuzumi.closeImageViewer(viewer)` for direct control. Viewer events are `uzu-image-viewer-open`, `uzu-image-viewer-close`, and `uzu-image-viewer-zoom`. Layout variables include `--uzu-gallery-gap`, `--uzu-gallery-row-height`, `--uzu-gallery-item-ratio`, `--uzu-gallery-item-width`, `--uzu-gallery-item-height`, `--uzu-image-viewer-scale`, `--uzu-image-viewer-x`, and `--uzu-image-viewer-y`. Visual variables include `--uzu-image-viewer-backdrop`, `--uzu-image-viewer-control-fg`, `--uzu-image-viewer-control-muted`, `--uzu-image-viewer-control-bg`, and `--uzu-image-viewer-control-border`; their defaults derive from `--uzu-*` tokens.
 
 ### Overlays
 
@@ -727,6 +756,11 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 - `uzu-data-grid-select`: `{ grid, table, row, selected, value }`
 - `uzu-data-grid-select-all`: `{ grid, table, selected, rows }`
 - `uzu-heatmap-select`: `{ heatmap, cell, date, offset, value, level, events }`
+- `uzu-gallery-load`: `{ gallery, items, source }`
+- `uzu-gallery-error`: `{ gallery, source, error }`
+- `uzu-gallery-select`: `{ gallery, item, index, trigger, viewer }`
+- `uzu-image-viewer-open` / `uzu-image-viewer-close`: `{ viewer, item, trigger }`
+- `uzu-image-viewer-zoom`: `{ viewer, item, scale }`
 - `uzu-tree-toggle`: `{ tree, item, expanded, value }`
 - `uzu-tree-select`: `{ tree, item, value }`
 - `uzu-split-resize`: `{ splitPane, size }`
@@ -744,8 +778,6 @@ Pagination uses `data-uzu-pagination` and page buttons with `data-uzu-page`. Pre
 - `uzu-error-page-change`: `{ page, code, title, message, documentTitle, actions }`
 - `uzu-dialog-open` / `uzu-dialog-close`: `{ dialog, overlay, trigger }`
 - `uzu-step-nav-change`: `{ value, step, stepNav, index }`
-- `uzu-editor-command`: `{ editor, surface, button, command, value }`
-- `uzu-editor-change`: `{ editor, surface, value }`
 - `uzu-markdown-editor-change`: `{ editor, source, preview, value }`
 - `uzu-markdown-editor-render`: `{ editor, source, preview, value }`
 - `uzu-code-highlight`: `{ code, language, source, highlighted }`
@@ -859,7 +891,7 @@ The documentation site and large examples live in `Usuzumi-org/Usuzumi-site`. Ke
 
 Usuzumi defines:
 
-- 6px scrollbars with hidden WebKit arrow buttons for the root viewport and every public scroll surface, including `.uzu-scroll`, `.uzu-scroll-area`, `.uzu-table-wrap`, data/editor viewers, command lists, and combobox lists.
+- 6px scrollbars with hidden WebKit arrow buttons for the root viewport and every public scroll surface, including `.uzu-scroll`, `.uzu-scroll-area`, `.uzu-table-wrap`, data viewers, editor surfaces, command lists, and combobox lists.
 - Root scrollbar thumbs stay visible; local scroll surface thumbs are transparent while idle and become paper-toned on hover, focus, focus-within, or active interaction without changing the reserved 6px gutter.
 - Paper-toned scrollbar thumbs keep a stable minimum length so short thumbs do not read as triangular quick-scroll buttons.
 - Firefox-only standard scrollbar styling uses `scrollbar-width` / `scrollbar-color` inside `@supports (-moz-appearance: none)`. Chromium and Edge must stay on the `::-webkit-scrollbar*` path so classic arrow buttons are not drawn.

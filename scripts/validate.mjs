@@ -13,7 +13,8 @@ const forbiddenRootDependencyPattern = new RegExp([
   '^@' + 'codemirror' + '/',
   '^' + 'codemirror' + '$',
   '^' + 'markdown' + '-it$',
-  '^' + 'shiki' + '$'
+  '^' + 'shiki' + '$',
+  '^highlight\\.js$'
 ].join('|'), 'i');
 const forbiddenUiEditorPattern = new RegExp([
   '@' + 'tiptap',
@@ -45,8 +46,7 @@ const scrollbarSurfaces = [
   '.uzu-code-editor',
   '.uzu-plain-editor',
   '.uzu-markdown-source',
-  '.uzu-markdown-preview',
-  '.uzu-editor-surface'
+  '.uzu-markdown-preview'
 ];
 const scrollbarButtonStates = [
   '',
@@ -259,7 +259,7 @@ function checkMarkdownReferences(filePath, text) {
 
 function checkGuardrails(filePath, text) {
   if (retiredEditorApiPattern.test(text)) {
-    report(filePath, 'retired editor API is not allowed; use data-uzu-editor and neutral editor shell classes');
+    report(filePath, 'retired external editor shell API is not allowed; use the public Markdown, inline, code, JSON, or diff editor primitives');
   }
   if (/href=["']#["']/i.test(text)) {
     report(filePath, 'placeholder href="#" is not allowed');
@@ -339,7 +339,7 @@ function validatePublicUiSources() {
     if (!textExtensions.has(extension)) continue;
     const text = readText(filePath);
     if (forbiddenUiEditorPattern.test(text)) {
-      report(filePath, 'ui/ must expose editor shells only, not bundled external editor/highlighter engines');
+      report(filePath, 'ui/ must use Usuzumi-owned Markdown and syntax highlighting, not external editor/highlighter engines');
     }
     if (/\.(?:uzu-home|uzu-project|uzu-app-preview|uzu-app-window|uzu-window-|uzu-mock|uzu-today|uzu-timeline|uzu-task|uzu-metric|uzu-doc|uzu-guide)-/i.test(text)) {
       report(filePath, 'ui/ must not contain site-only page shell selectors');

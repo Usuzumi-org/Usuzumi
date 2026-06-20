@@ -6,6 +6,24 @@ All notable changes to Usuzumi are recorded here.
 
 ## Unreleased
 
+## 2.2.0 - 2026-06-21
+
+### Added
+
+- Added public Gallery and Image Viewer components for progressive image collections, JSON or directory sources, and focused preview controls.
+
+### Changed
+
+- Replaced the bundled third-party syntax highlighter with a Usuzumi-owned lightweight tokenizer engine.
+- Repositioned editor documentation around the self-owned Markdown Editor and retired the generic editor bridge concept.
+- Refined Image Viewer into a full-screen focused preview layout.
+
+### Fixed
+
+- Kept `.uzu-signature` identity text on one line at narrow viewport widths.
+
+## 2.1.0 - 2026-06-18
+
 ### Added
 
 - Added interactive `.uzu-heatmap` date heatmaps with compact tuple data, clickable day cells, built-in details, and selection events.

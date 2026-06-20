@@ -125,12 +125,16 @@ assert(css.includes('.uzu-data-grid'), 'Published CSS is missing data grid style
 assert(css.includes('.uzu-heatmap'), 'Published CSS is missing heatmap styles');
 assert(css.includes('.uzu-heatmap-cell'), 'Published CSS is missing heatmap cell styles');
 assert(css.includes('--uzu-heatmap-cell-size'), 'Published CSS is missing heatmap size variables');
+assert(css.includes('.uzu-gallery'), 'Published CSS is missing gallery styles');
+assert(css.includes('.uzu-gallery-item'), 'Published CSS is missing gallery item styles');
+assert(css.includes('.uzu-image-viewer'), 'Published CSS is missing image viewer styles');
+assert(css.includes('.uzu-image-viewer-stage'), 'Published CSS is missing image viewer stage styles');
 assert(css.includes('.uzu-tree'), 'Published CSS is missing tree view styles');
 assert(css.includes('.uzu-split-pane'), 'Published CSS is missing split pane styles');
 assert(css.includes('.uzu-resizable'), 'Published CSS is missing resizable panel styles');
 assert(css.includes('.uzu-json-viewer'), 'Published CSS is missing JSON viewer styles');
 assert(css.includes('.uzu-diff-viewer'), 'Published CSS is missing diff viewer styles');
-assert(css.includes('.uzu-editor'), 'Published CSS is missing editor styles');
+assert(!css.includes('.uzu-editor {'), 'Published CSS should not expose the retired generic editor shell class');
 assert(css.includes('.uzu-markdown-editor'), 'Published CSS is missing markdown editor styles');
 assert(css.includes('.uzu-sidebar'), 'Published CSS is missing sidebar styles');
 assert(css.includes('.uzu-sidebar-layout-controls'), 'Published CSS is missing collapsible sidebar layout controls');
@@ -192,12 +196,17 @@ assert(js.includes('data-uzu-data-grid'), 'Runtime is missing data grid initiali
 assert(js.includes('data-uzu-heatmap'), 'Runtime is missing heatmap initialization support');
 assert(js.includes('setHeatmapData'), 'Runtime is missing heatmap data API support');
 assert(js.includes('selectHeatmapDate'), 'Runtime is missing heatmap selection API support');
+assert(js.includes('data-uzu-gallery'), 'Runtime is missing gallery initialization support');
+assert(js.includes('setGalleryItems'), 'Runtime is missing gallery data API support');
+assert(js.includes('openImageViewer'), 'Runtime is missing image viewer API support');
 assert(js.includes('data-uzu-tree'), 'Runtime is missing tree initialization support');
 assert(js.includes('data-uzu-split-pane'), 'Runtime is missing split pane initialization support');
 assert(js.includes('data-uzu-resizable'), 'Runtime is missing resizable initialization support');
 assert(js.includes('data-uzu-json-viewer'), 'Runtime is missing JSON viewer initialization support');
 assert(js.includes('data-uzu-diff-viewer'), 'Runtime is missing diff viewer initialization support');
-assert(js.includes('data-uzu-editor'), 'Runtime is missing editor shell initialization support');
+assert(!js.includes('data-uzu-editor'), 'Runtime should not expose retired generic editor shell initialization support');
+assert(!js.includes('uzu-editor-command'), 'Runtime should not expose retired editor command events');
+assert(!js.includes('uzu-editor-change'), 'Runtime should not expose retired editor change events');
 assert(!js.includes('data-uzu-' + 'r' + 'ich-editor'), 'Runtime should not include the retired editor attribute');
 assert(js.includes('data-uzu-markdown-editor'), 'Runtime is missing markdown editor initialization support');
 assert(js.includes('data-uzu-accordion'), 'Runtime is missing accordion initialization support');
@@ -217,6 +226,10 @@ assert(js.includes('data-uzu-toast-trigger'), 'Runtime is missing toast trigger 
 assert(js.includes('showToast'), 'Runtime is missing showToast API support');
 assert(js.includes('UsuzumiHighlightEngine'), 'Full runtime should keep the bundled highlight engine for compatibility');
 assert(js.includes('data-uzu-code-highlight'), 'Runtime is missing code highlight mode support');
+const externalHighlightImportPattern = /(?:from\s*['"]highlight\.js|require\(['"]highlight\.js|highlight\.js\/lib)/;
+assert(!externalHighlightImportPattern.test(js), 'Full runtime should use the Usuzumi-owned syntax highlight engine');
+assert(!externalHighlightImportPattern.test(highlightJs), 'Highlight entry should use the Usuzumi-owned syntax highlight engine');
+assert(!highlightJs.includes('hljs'), 'Highlight entry should not emit highlight.js token classes');
 
 const dts = readPackageFile(packageRoot, 'ui/usuzumi.d.ts');
 assert(dts.includes('destroy(root?: ParentNode): void'), 'Type declarations are missing destroy()');
@@ -239,6 +252,9 @@ assert(dts.includes('"uzu-combobox-change"'), 'Types are missing combobox event 
 assert(dts.includes('"uzu-data-grid-sort"'), 'Types are missing data grid event declarations');
 assert(dts.includes('"uzu-heatmap-select"'), 'Types are missing heatmap event declarations');
 assert(dts.includes('setHeatmapData(heatmap: HTMLElement | string'), 'Types are missing setHeatmapData API');
+assert(dts.includes('"uzu-gallery-select"'), 'Types are missing gallery event declarations');
+assert(dts.includes('setGalleryItems(gallery: HTMLElement | string'), 'Types are missing setGalleryItems API');
+assert(dts.includes('openImageViewer(viewer: HTMLElement | string'), 'Types are missing openImageViewer API');
 assert(dts.includes('"uzu-tree-select"'), 'Types are missing tree event declarations');
 assert(dts.includes('"uzu-split-resize"'), 'Types are missing split pane event declarations');
 assert(dts.includes('"uzu-resizable-resize"'), 'Types are missing resizable event declarations');

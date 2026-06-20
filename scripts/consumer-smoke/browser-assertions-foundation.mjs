@@ -143,6 +143,183 @@ if (value.staticHeatmapInitialSelectedDate !== '2025-06-19' || value.staticHeatm
     detail: value.staticHeatmapDetailText
   })}`);
 }
+if (
+  value.galleryInitialState !== 'ready'
+  || value.galleryInitialItemCount !== 3
+  || !value.galleryInitialAnchorsPreserved
+  || value.galleryInitialDisplay !== 'flex'
+  || !value.galleryInitialJustified
+  || !value.galleryInitialOverflowStable
+  || value.galleryFirstItemWidth <= 80
+  || value.galleryFirstItemHeight <= 90
+  || !String(value.galleryFirstItemCssWidth).endsWith('px')
+  || value.galleryFirstImageObjectFit !== 'cover'
+  || value.galleryCaptionOpacity !== '0'
+  || value.galleryGapVar !== '8px'
+  || value.galleryRowHeightVar !== '150px'
+  || value.galleryFirstItemFocusBoxShadow === 'none'
+  || value.galleryFirstItemFocusOutlineStyle !== 'none'
+) throw new Error(`Browser consumer gallery did not initialize static justified layout or preserve link fallback: ${JSON.stringify({
+  state: value.galleryInitialState,
+  count: value.galleryInitialItemCount,
+  anchors: value.galleryInitialAnchorsPreserved,
+  display: value.galleryInitialDisplay,
+  justified: value.galleryInitialJustified,
+  overflow: value.galleryInitialOverflowStable,
+  size: [value.galleryFirstItemWidth, value.galleryFirstItemHeight],
+  cssWidth: value.galleryFirstItemCssWidth,
+  objectFit: value.galleryFirstImageObjectFit,
+  captionOpacity: value.galleryCaptionOpacity,
+  gap: value.galleryGapVar,
+  rowHeight: value.galleryRowHeightVar,
+  focusShadow: value.galleryFirstItemFocusBoxShadow,
+  focusOutline: value.galleryFirstItemFocusOutlineStyle
+})}`);
+if (
+  value.jsonGalleryState !== 'ready'
+  || value.jsonGalleryItemCount !== 2
+  || !value.jsonGalleryGeneratedLinks
+  || !String(value.jsonGalleryViewerNoneHref).startsWith('data:image/svg+xml')
+  || value.jsonGalleryDisplay !== 'grid'
+  || value.directoryGalleryState !== 'ready'
+  || value.directoryGalleryItemCount !== 1
+  || value.directoryGalleryCaption !== 'directory-image.png'
+  || value.viewerCountBeforeJsonClick !== 0
+  || value.viewerCountAfterJsonClick !== 0
+  || !value.delayedGalleryLoadingBeforeDestroy
+  || value.delayedGalleryItemCountAfterDestroy !== 0
+  || value.delayedGalleryLoadAfterDestroy
+  || !value.apiOverrideGalleryLoadingBeforeSet
+  || !value.apiOverrideSetReturnMatches
+  || value.apiOverrideGalleryCaptionBeforeResolve !== 'API override image'
+  || value.apiOverrideGalleryCaptionAfterResolve !== 'API override image'
+  || value.apiOverrideGalleryItemCountAfterResolve !== 1
+  || value.apiOverrideGalleryStateAfterResolve !== 'ready'
+  || !value.staticRefreshGalleryLoadingBeforeRefresh
+  || !value.staticRefreshReturnMatches
+  || value.staticRefreshGalleryCaptionBeforeResolve !== 'Static refresh image'
+  || value.staticRefreshGalleryCaptionAfterResolve !== 'Static refresh image'
+  || value.staticRefreshGalleryItemCountAfterResolve !== 1
+  || value.staticRefreshGalleryStateAfterResolve !== 'ready'
+) throw new Error(`Browser consumer gallery JSON, directory, or viewer-none behavior did not match: ${JSON.stringify({
+  jsonState: value.jsonGalleryState,
+  jsonCount: value.jsonGalleryItemCount,
+  jsonLinks: value.jsonGalleryGeneratedLinks,
+  jsonHref: value.jsonGalleryViewerNoneHref,
+  jsonDisplay: value.jsonGalleryDisplay,
+  directoryState: value.directoryGalleryState,
+  directoryCount: value.directoryGalleryItemCount,
+  directoryCaption: value.directoryGalleryCaption,
+  viewerBefore: value.viewerCountBeforeJsonClick,
+  viewerAfter: value.viewerCountAfterJsonClick,
+  delayedLoading: value.delayedGalleryLoadingBeforeDestroy,
+  delayedCount: value.delayedGalleryItemCountAfterDestroy,
+  delayedLoad: value.delayedGalleryLoadAfterDestroy,
+  apiOverrideLoading: value.apiOverrideGalleryLoadingBeforeSet,
+  apiOverrideReturn: value.apiOverrideSetReturnMatches,
+  apiOverrideBefore: value.apiOverrideGalleryCaptionBeforeResolve,
+  apiOverrideAfter: value.apiOverrideGalleryCaptionAfterResolve,
+  apiOverrideCount: value.apiOverrideGalleryItemCountAfterResolve,
+  apiOverrideState: value.apiOverrideGalleryStateAfterResolve,
+  staticRefreshLoading: value.staticRefreshGalleryLoadingBeforeRefresh,
+  staticRefreshReturn: value.staticRefreshReturnMatches,
+  staticRefreshBefore: value.staticRefreshGalleryCaptionBeforeResolve,
+  staticRefreshAfter: value.staticRefreshGalleryCaptionAfterResolve,
+  staticRefreshCount: value.staticRefreshGalleryItemCountAfterResolve,
+  staticRefreshState: value.staticRefreshGalleryStateAfterResolve
+})}`);
+if (
+  !value.gallerySelectDetail
+  || value.gallerySelectDetail.index !== 0
+  || value.gallerySelectDetail.caption !== 'Wide demo'
+  || !value.gallerySelectDetail.viewer
+  || value.gallerySelectDetail.triggerTag !== 'A'
+  || !value.viewerOpenDetail
+  || value.viewerOpenDetail.caption !== 'Wide demo'
+  || value.viewerOpenDetail.triggerTag !== 'A'
+  || !value.galleryViewerOpenReturnMatches
+  || !value.galleryViewerOpenVisible
+  || value.galleryViewerRole !== 'dialog'
+  || value.galleryViewerModal !== 'true'
+  || !String(value.galleryViewerImageSrc).startsWith('data:image/svg+xml')
+  || value.galleryViewerImageDraggable
+  || value.galleryViewerCaption !== 'Wide demo'
+  || !String(value.galleryViewerDownloadHref).startsWith('data:image/svg+xml')
+  || !value.galleryViewerFocusInside
+  || !value.galleryViewerBodyScrollLocked
+) throw new Error(`Browser consumer image viewer did not open from gallery with dialog semantics: ${JSON.stringify({
+  select: value.gallerySelectDetail,
+  open: value.viewerOpenDetail,
+  returnMatches: value.galleryViewerOpenReturnMatches,
+  visible: value.galleryViewerOpenVisible,
+  role: value.galleryViewerRole,
+  modal: value.galleryViewerModal,
+  src: value.galleryViewerImageSrc,
+  draggable: value.galleryViewerImageDraggable,
+  caption: value.galleryViewerCaption,
+  download: value.galleryViewerDownloadHref,
+  focusInside: value.galleryViewerFocusInside,
+  scrollLocked: value.galleryViewerBodyScrollLocked
+})}`);
+if (
+  !value.viewerZoomDetail
+  || value.viewerZoomDetail.caption !== 'Wide demo'
+  || value.viewerZoomDetail.scale <= 1
+  || value.galleryViewerScaleAfterButton <= 1
+  || value.galleryViewerScaleAfterResetKey !== 1
+  || value.galleryViewerScaleAfterWheel <= 1
+  || value.galleryViewerPanX !== '30px'
+  || value.galleryViewerPanY !== '24px'
+  || !value.viewerCloseDetail
+  || value.viewerCloseDetail.caption !== 'Wide demo'
+  || value.viewerCloseDetail.triggerTag !== 'A'
+  || !value.galleryViewerClosedHidden
+  || !value.galleryViewerFocusRestored
+  || !value.galleryViewerBodyScrollRestored
+  || !value.galleryDownloadOffHidden
+  || value.galleryDownloadOffHref
+  || !value.galleryDestroyScrollLockedBefore
+  || !value.galleryDestroyAutoViewerRemoved
+  || !value.galleryDestroyScrollRestored
+  || !value.galleryDestroyNoInert
+) throw new Error(`Browser consumer image viewer controls, pan, close, or focus restore failed: ${JSON.stringify({
+  zoomEvent: value.viewerZoomDetail,
+  scaleButton: value.galleryViewerScaleAfterButton,
+  scaleReset: value.galleryViewerScaleAfterResetKey,
+  scaleWheel: value.galleryViewerScaleAfterWheel,
+  pan: [value.galleryViewerPanX, value.galleryViewerPanY],
+  close: value.viewerCloseDetail,
+  closed: value.galleryViewerClosedHidden,
+  focusRestored: value.galleryViewerFocusRestored,
+  scrollRestored: value.galleryViewerBodyScrollRestored,
+  downloadOffHidden: value.galleryDownloadOffHidden,
+  downloadOffHref: value.galleryDownloadOffHref,
+  destroyLockedBefore: value.galleryDestroyScrollLockedBefore,
+  destroyRemoved: value.galleryDestroyAutoViewerRemoved,
+  destroyScrollRestored: value.galleryDestroyScrollRestored,
+  destroyNoInert: value.galleryDestroyNoInert
+})}`);
+if (
+  !value.galleryApiSetReturnMatches
+  || value.galleryApiSetCount !== 1
+  || value.galleryApiSetButton !== 'BUTTON'
+  || !value.galleryApiRefreshReturnMatches
+  || value.galleryApiRefreshCount !== 1
+  || !value.galleryApiOpenReturnMatches
+  || value.galleryApiViewerCaption !== 'API viewer'
+  || !value.galleryApiCloseReturnMatches
+  || !value.galleryApiCloseHidden
+) throw new Error(`Browser consumer gallery and image viewer public APIs did not remain reusable: ${JSON.stringify({
+  setReturn: value.galleryApiSetReturnMatches,
+  setCount: value.galleryApiSetCount,
+  setButton: value.galleryApiSetButton,
+  refreshReturn: value.galleryApiRefreshReturnMatches,
+  refreshCount: value.galleryApiRefreshCount,
+  openReturn: value.galleryApiOpenReturnMatches,
+  caption: value.galleryApiViewerCaption,
+  closeReturn: value.galleryApiCloseReturnMatches,
+  closeHidden: value.galleryApiCloseHidden
+})}`);
 if (!value.treeClosed || !value.treeOpen || value.treeKeyboardFocusValue !== 'docs' || value.treeDisplay !== 'grid') throw new Error('Browser consumer tree did not toggle, focus, or style correctly');
 if (value.treeHiddenDisclosureTargetHeight <= 260) throw new Error('Browser consumer tree reveal did not refresh nested open disclosure height');
 if (Number(value.splitSize) !== 58 || value.splitAriaValue !== '58' || value.splitPaneDisplay !== 'grid') throw new Error('Browser consumer split pane did not resize');
@@ -178,16 +355,13 @@ if (
   || value.jsonViewerBorderStyle === 'none'
 ) throw new Error('Browser consumer JSON viewer did not render collapsible highlighted JSON');
 if (value.diffAddRows !== 1 || value.diffRemoveRows !== 1 || value.diffViewerDisplay !== 'block') throw new Error('Browser consumer diff viewer did not classify rows');
-if (value.editorDisplay !== 'grid' || value.markdownEditorDisplay !== 'grid' || value.markdownEditorHeading !== 'Updated' || value.markdownEditorCleared !== '' || !value.markdownEditorCopyInitialized || !value.markdownEditorShellPreviewEmpty || value.inlineEditorValue !== 'Changed inline') throw new Error('Browser consumer editor helpers did not initialize');
+if (value.markdownEditorDisplay !== 'grid' || value.markdownEditorHeading !== 'Updated' || value.markdownEditorCleared !== '' || !value.markdownEditorCopyInitialized || value.inlineEditorValue !== 'Changed inline') throw new Error('Browser consumer editor helpers did not initialize');
 if (!value.markdownEditorCodeCopyZh || value.markdownEditorCodeCopyZh.aria !== '\u590d\u5236\u4ee3\u7801' || value.markdownEditorCodeCopyZh.label !== '\u590d\u5236' || value.markdownEditorCodeCopyZh.zhHidden || !value.markdownEditorCodeCopyZh.enHidden) throw new Error(`Browser consumer markdown preview code copy should initialize with Chinese labels: ${JSON.stringify(value.markdownEditorCodeCopyZh)}`);
 if (!value.markdownEditorCodeCopyEn || value.markdownEditorCodeCopyEn.aria !== 'Copy code' || value.markdownEditorCodeCopyEn.label !== 'Copy' || !value.markdownEditorCodeCopyEn.zhHidden || value.markdownEditorCodeCopyEn.enHidden) throw new Error(`Browser consumer markdown preview code copy should switch to English labels: ${JSON.stringify(value.markdownEditorCodeCopyEn)}`);
 if (!value.markdownEditorCodeCopyEnAfterRender || value.markdownEditorCodeCopyEnAfterRender.aria !== 'Copy code' || value.markdownEditorCodeCopyEnAfterRender.label !== 'Copy' || !value.markdownEditorCodeCopyEnAfterRender.zhHidden || value.markdownEditorCodeCopyEnAfterRender.enHidden) throw new Error(`Browser consumer markdown preview code copy should keep English labels after rerender: ${JSON.stringify(value.markdownEditorCodeCopyEnAfterRender)}`);
 for (const [label, probe] of [
   ['code editor', value.codeEditorFocusProbe],
   ['plain editor', value.plainEditorFocusProbe],
-  ['toolbar link input', value.toolbarLinkInputFocusProbe],
-  ['editor surface', value.editorSurfaceFocusProbe],
-  ['standalone editor surface', value.standaloneEditorSurfaceFocusProbe],
   ['markdown source', value.markdownSourceFocusProbe],
   ['stacked markdown source bottom border', value.markdownSourceStackedFocusProbe],
   ['inline editor', value.inlineEditorFocusProbe]

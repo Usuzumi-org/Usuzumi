@@ -116,6 +116,277 @@ await wait(40);
 const staticHeatmapClickedSelectedDate = staticHeatmap.dataset.uzuHeatmapSelectedDate || '';
 const staticHeatmapClickedPressed = staticHeatmap.querySelector('[data-uzu-heatmap-offset="2"]').getAttribute('aria-pressed');
 const staticHeatmapDetailText = staticHeatmap.querySelector('[data-uzu-heatmap-detail]')?.textContent.trim() || '';
+const codeEditorFocusProbe = await readFocusProbe(consumerCodeEditor);
+const plainEditorFocusProbe = await readFocusProbe(consumerPlainEditor);
+const markdownSourceFocusProbe = await readFocusProbe(markdownEditorSource, markdownEditor);
+const markdownSourceStackedStyle = document.createElement('style');
+markdownSourceStackedStyle.textContent = '@layer usuzumi{.consumer-stacked-markdown-source-probe,textarea.consumer-stacked-markdown-source-probe{border-right:0;border-bottom:1px solid var(--uzu-border-soft)}}';
+document.head.append(markdownSourceStackedStyle);
+markdownEditorSource.classList.add('consumer-stacked-markdown-source-probe');
+const markdownSourceStackedFocusProbe = await readFocusProbe(markdownEditorSource, markdownEditorSource, 'borderBottomColor');
+const markdownSourceStackedBorderBottomWidth = getComputedStyle(markdownEditorSource).borderBottomWidth;
+markdownEditorSource.classList.remove('consumer-stacked-markdown-source-probe');
+markdownSourceStackedStyle.remove();
+const inlineEditorFocusProbe = await readFocusProbe(inlineEditor);
+const waitForGallery = async (condition, timeout = 600) => {
+  const started = performance.now();
+  while (performance.now() - started < timeout) {
+    if (condition()) return true;
+    await wait(20);
+  }
+  return condition();
+};
+await waitForGallery(() => jsonGallery.dataset.uzuGalleryState === 'ready' && directoryGallery.dataset.uzuGalleryState !== 'loading');
+const galleryInitialState = gallery.dataset.uzuGalleryState || '';
+const galleryInitialItemCount = gallery.querySelectorAll('.uzu-gallery-item').length;
+const galleryInitialAnchorsPreserved = [...gallery.querySelectorAll('.uzu-gallery-item')].every((item) => item.tagName === 'A' && item.hasAttribute('href'));
+const galleryInitialDisplay = getComputedStyle(gallery).display;
+const galleryInitialJustified = gallery.classList.contains('is-justified');
+const galleryInitialOverflowStable = gallery.scrollWidth <= gallery.clientWidth + 1;
+const galleryFirstItem = gallery.querySelector('.uzu-gallery-item');
+const galleryFirstItemStyle = getComputedStyle(galleryFirstItem);
+const galleryFirstItemWidth = Math.round(galleryFirstItem.getBoundingClientRect().width);
+const galleryFirstItemHeight = Math.round(galleryFirstItem.getBoundingClientRect().height);
+const galleryFirstItemCssWidth = galleryFirstItem.style.getPropertyValue('--uzu-gallery-item-width').trim();
+const galleryFirstImageObjectFit = getComputedStyle(galleryFirstItem.querySelector('.uzu-gallery-image')).objectFit;
+const galleryCaptionOpacity = getComputedStyle(galleryFirstItem.querySelector('.uzu-gallery-caption')).opacity;
+const galleryGapVar = getComputedStyle(gallery).getPropertyValue('--uzu-gallery-gap').trim();
+const galleryRowHeightVar = getComputedStyle(gallery).getPropertyValue('--uzu-gallery-row-height').trim();
+const jsonGalleryState = jsonGallery.dataset.uzuGalleryState || '';
+const jsonGalleryItemCount = jsonGallery.querySelectorAll('.uzu-gallery-item').length;
+const jsonGalleryGeneratedLinks = [...jsonGallery.querySelectorAll('.uzu-gallery-item')].every((item) => item.tagName === 'A' && item.hasAttribute('href'));
+const jsonGalleryFirstItem = jsonGallery.querySelector('.uzu-gallery-item');
+const jsonGalleryViewerNoneHref = jsonGalleryFirstItem?.getAttribute('href') || '';
+const jsonGalleryDisplay = getComputedStyle(jsonGallery).display;
+const directoryGalleryState = directoryGallery.dataset.uzuGalleryState || '';
+const directoryGalleryItemCount = directoryGallery.querySelectorAll('.uzu-gallery-item').length;
+const directoryGalleryCaption = directoryGallery.querySelector('.uzu-gallery-caption')?.textContent.trim() || '';
+const viewerCountBeforeJsonClick = document.querySelectorAll('[data-uzu-gallery-auto-viewer]').length;
+jsonGalleryFirstItem?.addEventListener('click', (event) => event.preventDefault(), { once: true });
+click(jsonGalleryFirstItem);
+await wait(0);
+const viewerCountAfterJsonClick = document.querySelectorAll('[data-uzu-gallery-auto-viewer]').length;
+const originalFetchForDelayedGallery = window.fetch.bind(window);
+let resolveDelayedGalleryFetch = null;
+let delayedGalleryLoadAfterDestroy = false;
+window.fetch = (input, init) => {
+  if (String(input).includes('consumer-delayed-gallery.json')) {
+    return new Promise((resolve) => {
+      resolveDelayedGalleryFetch = resolve;
+    });
+  }
+  return originalFetchForDelayedGallery(input, init);
+};
+const delayedGallery = document.createElement('section');
+delayedGallery.className = 'uzu-gallery';
+delayedGallery.dataset.uzuGallery = '';
+delayedGallery.dataset.uzuGallerySource = 'consumer-delayed-gallery.json';
+delayedGallery.dataset.uzuGalleryLayout = 'grid';
+delayedGallery.addEventListener('uzu-gallery-load', () => {
+  delayedGalleryLoadAfterDestroy = true;
+});
+document.body.append(delayedGallery);
+window.Usuzumi.init(delayedGallery);
+await wait(0);
+const delayedGalleryLoadingBeforeDestroy = delayedGallery.dataset.uzuGalleryState === 'loading';
+window.Usuzumi.destroy(delayedGallery);
+if (resolveDelayedGalleryFetch) {
+  resolveDelayedGalleryFetch(new Response('[{"src":"data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22100%22%20height%3D%22100%22%3E%3C/svg%3E","width":100,"height":100}]', {
+    status: 200,
+    headers: { 'content-type': 'application/json' }
+  }));
+}
+await wait(40);
+const delayedGalleryItemCountAfterDestroy = delayedGallery.querySelectorAll('.uzu-gallery-item').length;
+window.fetch = originalFetchForDelayedGallery;
+delayedGallery.remove();
+const originalFetchForApiOverrideGallery = window.fetch.bind(window);
+let resolveApiOverrideGalleryFetch = null;
+window.fetch = (input, init) => {
+  if (String(input).includes('consumer-api-override-gallery.json')) {
+    return new Promise((resolve) => {
+      resolveApiOverrideGalleryFetch = resolve;
+    });
+  }
+  return originalFetchForApiOverrideGallery(input, init);
+};
+const apiOverrideGallery = document.createElement('section');
+apiOverrideGallery.className = 'uzu-gallery';
+apiOverrideGallery.dataset.uzuGallery = '';
+apiOverrideGallery.dataset.uzuGallerySource = 'consumer-api-override-gallery.json';
+apiOverrideGallery.dataset.uzuGalleryLayout = 'grid';
+document.body.append(apiOverrideGallery);
+window.Usuzumi.init(apiOverrideGallery);
+await wait(0);
+const apiOverrideGalleryLoadingBeforeSet = apiOverrideGallery.dataset.uzuGalleryState === 'loading';
+const apiOverrideSetReturn = window.Usuzumi.setGalleryItems(apiOverrideGallery, [{
+  src: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22120%22%20height%3D%2280%22%3E%3Crect%20width%3D%22120%22%20height%3D%2280%22%20fill%3D%22%23e4e4e7%22/%3E%3C/svg%3E',
+  alt: 'API override',
+  caption: 'API override image',
+  width: 120,
+  height: 80
+}], false);
+const apiOverrideGalleryCaptionBeforeResolve = apiOverrideGallery.querySelector('.uzu-gallery-caption')?.textContent.trim() || '';
+if (resolveApiOverrideGalleryFetch) {
+  resolveApiOverrideGalleryFetch(new Response('[{"src":"data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2290%22%20height%3D%2290%22%3E%3Crect%20width%3D%2290%22%20height%3D%2290%22%20fill%3D%22%23d4d4d8%22/%3E%3C/svg%3E","alt":"Remote stale","caption":"Remote stale image","width":90,"height":90}]', {
+    status: 200,
+    headers: { 'content-type': 'application/json' }
+  }));
+}
+await wait(40);
+const apiOverrideGalleryCaptionAfterResolve = apiOverrideGallery.querySelector('.uzu-gallery-caption')?.textContent.trim() || '';
+const apiOverrideGalleryItemCountAfterResolve = apiOverrideGallery.querySelectorAll('.uzu-gallery-item').length;
+const apiOverrideGalleryStateAfterResolve = apiOverrideGallery.dataset.uzuGalleryState || '';
+window.fetch = originalFetchForApiOverrideGallery;
+apiOverrideGallery.remove();
+const originalFetchForStaticRefreshGallery = window.fetch.bind(window);
+let resolveStaticRefreshGalleryFetch = null;
+window.fetch = (input, init) => {
+  if (String(input).includes('consumer-static-refresh-gallery.json')) {
+    return new Promise((resolve) => {
+      resolveStaticRefreshGalleryFetch = resolve;
+    });
+  }
+  return originalFetchForStaticRefreshGallery(input, init);
+};
+const staticRefreshGallery = document.createElement('section');
+staticRefreshGallery.className = 'uzu-gallery';
+staticRefreshGallery.dataset.uzuGallery = '';
+staticRefreshGallery.dataset.uzuGallerySource = 'consumer-static-refresh-gallery.json';
+staticRefreshGallery.dataset.uzuGalleryLayout = 'grid';
+staticRefreshGallery.innerHTML = '<a class="uzu-gallery-item" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22140%22%20height%3D%2280%22%3E%3Crect%20width%3D%22140%22%20height%3D%2280%22%20fill%3D%22%23e5e7eb%22/%3E%3C/svg%3E" data-width="140" data-height="80"><img class="uzu-gallery-image" alt="Static refresh" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22140%22%20height%3D%2280%22%3E%3Crect%20width%3D%22140%22%20height%3D%2280%22%20fill%3D%22%23e5e7eb%22/%3E%3C/svg%3E"><span class="uzu-gallery-caption">Static refresh image</span></a>';
+document.body.append(staticRefreshGallery);
+window.Usuzumi.init(staticRefreshGallery);
+await wait(0);
+const staticRefreshGalleryLoadingBeforeRefresh = staticRefreshGallery.dataset.uzuGalleryState === 'loading';
+staticRefreshGallery.removeAttribute('data-uzu-gallery-source');
+const staticRefreshReturn = window.Usuzumi.refreshGallery(staticRefreshGallery);
+const staticRefreshGalleryCaptionBeforeResolve = staticRefreshGallery.querySelector('.uzu-gallery-caption')?.textContent.trim() || '';
+if (resolveStaticRefreshGalleryFetch) {
+  resolveStaticRefreshGalleryFetch(new Response('[{"src":"data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2290%22%20height%3D%2290%22%3E%3Crect%20width%3D%2290%22%20height%3D%2290%22%20fill%3D%22%23d4d4d8%22/%3E%3C/svg%3E","alt":"Remote refresh stale","caption":"Remote refresh stale image","width":90,"height":90}]', {
+    status: 200,
+    headers: { 'content-type': 'application/json' }
+  }));
+}
+await wait(40);
+const staticRefreshGalleryCaptionAfterResolve = staticRefreshGallery.querySelector('.uzu-gallery-caption')?.textContent.trim() || '';
+const staticRefreshGalleryItemCountAfterResolve = staticRefreshGallery.querySelectorAll('.uzu-gallery-item').length;
+const staticRefreshGalleryStateAfterResolve = staticRefreshGallery.dataset.uzuGalleryState || '';
+window.fetch = originalFetchForStaticRefreshGallery;
+staticRefreshGallery.remove();
+let gallerySelectDetail = null;
+gallery.addEventListener('uzu-gallery-select', (event) => {
+  gallerySelectDetail = {
+    index: event.detail.index,
+    caption: event.detail.item.caption,
+    viewer: Boolean(event.detail.viewer),
+    triggerTag: event.detail.trigger?.tagName || ''
+  };
+}, { once: true });
+let viewerOpenDetail = null;
+let viewerCloseDetail = null;
+let viewerZoomDetail = null;
+document.addEventListener('uzu-image-viewer-open', (event) => {
+  viewerOpenDetail = {
+    caption: event.detail.item?.caption || '',
+    triggerTag: event.detail.trigger?.tagName || ''
+  };
+}, { once: true });
+document.addEventListener('uzu-image-viewer-close', (event) => {
+  viewerCloseDetail = {
+    caption: event.detail.item?.caption || '',
+    triggerTag: event.detail.trigger?.tagName || ''
+  };
+}, { once: true });
+document.addEventListener('uzu-image-viewer-zoom', (event) => {
+  viewerZoomDetail = {
+    caption: event.detail.item?.caption || '',
+    scale: Number(event.detail.scale)
+  };
+}, { once: true });
+focusVisible(galleryFirstItem);
+await wait(0);
+const galleryFirstItemFocusBoxShadow = getComputedStyle(galleryFirstItem).boxShadow;
+const galleryFirstItemFocusOutlineStyle = getComputedStyle(galleryFirstItem).outlineStyle;
+click(galleryFirstItem);
+await wait(0);
+const galleryViewer = document.querySelector('.uzu-image-viewer[data-uzu-image-viewer]');
+const galleryViewerOverlay = galleryViewer?.closest('[data-uzu-dialog-overlay]');
+const galleryViewerOpenReturn = galleryViewer;
+const galleryViewerOpenVisible = Boolean(galleryViewer && !galleryViewer.hidden && galleryViewerOverlay && !galleryViewerOverlay.hidden);
+const galleryViewerRole = galleryViewer?.getAttribute('role') || '';
+const galleryViewerModal = galleryViewer?.getAttribute('aria-modal') || '';
+const galleryViewerImageSrc = galleryViewer?.querySelector('[data-uzu-image-viewer-image]')?.getAttribute('src') || '';
+const galleryViewerImageDraggable = galleryViewer?.querySelector('[data-uzu-image-viewer-image]')?.draggable;
+const galleryViewerCaption = galleryViewer?.querySelector('[data-uzu-image-viewer-caption]')?.textContent.trim() || '';
+const galleryViewerDownloadHref = galleryViewer?.querySelector('[data-uzu-image-viewer-download]')?.getAttribute('href') || '';
+const galleryViewerFocusInside = Boolean(galleryViewer && galleryViewer.contains(document.activeElement));
+const galleryViewerBodyScrollLocked = getComputedStyle(document.documentElement).overflow === 'hidden' || getComputedStyle(document.body).overflow === 'hidden';
+click(galleryViewer.querySelector('[data-uzu-image-viewer-zoom-in]'));
+await wait(0);
+const galleryViewerScaleAfterButton = Number.parseFloat(galleryViewer.style.getPropertyValue('--uzu-image-viewer-scale') || '1');
+galleryViewer.dispatchEvent(new KeyboardEvent('keydown', { key: '0', bubbles: true }));
+await wait(0);
+const galleryViewerScaleAfterResetKey = Number.parseFloat(galleryViewer.style.getPropertyValue('--uzu-image-viewer-scale') || '1');
+const galleryViewerStage = galleryViewer.querySelector('[data-uzu-image-viewer-stage]');
+galleryViewerStage.dispatchEvent(new WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: -120 }));
+await wait(0);
+const galleryViewerScaleAfterWheel = Number.parseFloat(galleryViewer.style.getPropertyValue('--uzu-image-viewer-scale') || '1');
+galleryViewerStage.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, pointerId: 41, clientX: 120, clientY: 120 }));
+galleryViewerStage.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, pointerId: 41, clientX: 150, clientY: 144 }));
+galleryViewerStage.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, pointerId: 41, clientX: 150, clientY: 144 }));
+await wait(0);
+const galleryViewerPanX = galleryViewer.style.getPropertyValue('--uzu-image-viewer-x').trim();
+const galleryViewerPanY = galleryViewer.style.getPropertyValue('--uzu-image-viewer-y').trim();
+click(galleryViewer.querySelector('[data-uzu-dialog-close]'));
+await waitForGallery(() => galleryViewer.hidden && galleryViewerOverlay.hidden);
+const galleryViewerClosedHidden = galleryViewer.hidden && galleryViewerOverlay.hidden;
+const galleryViewerFocusRestored = document.activeElement === galleryFirstItem;
+const galleryViewerBodyScrollRestored = getComputedStyle(document.documentElement).overflow !== 'hidden' && getComputedStyle(document.body).overflow !== 'hidden';
+const downloadOffGallery = document.createElement('section');
+downloadOffGallery.className = 'uzu-gallery';
+downloadOffGallery.dataset.uzuGallery = '';
+downloadOffGallery.dataset.uzuGalleryDownload = 'false';
+downloadOffGallery.innerHTML = '<a class="uzu-gallery-item" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22180%22%20height%3D%22120%22%3E%3Crect%20width%3D%22180%22%20height%3D%22120%22%20fill%3D%22%23d4d4d8%22/%3E%3C/svg%3E" data-width="180" data-height="120"><img class="uzu-gallery-image" alt="No download" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22180%22%20height%3D%22120%22%3E%3Crect%20width%3D%22180%22%20height%3D%22120%22%20fill%3D%22%23d4d4d8%22/%3E%3C/svg%3E"></a>';
+document.body.append(downloadOffGallery);
+window.Usuzumi.init(downloadOffGallery);
+click(downloadOffGallery.querySelector('.uzu-gallery-item'));
+await wait(40);
+const downloadOffOverlay = [...document.querySelectorAll('[data-uzu-gallery-auto-viewer]')].find((overlay) => !overlay.hidden);
+const downloadOffViewer = downloadOffOverlay?.querySelector('[data-uzu-image-viewer]');
+const downloadOffControl = downloadOffViewer?.querySelector('[data-uzu-image-viewer-download]');
+const galleryDownloadOffHidden = downloadOffControl?.hidden === true;
+const galleryDownloadOffHref = downloadOffControl?.getAttribute('href') || '';
+const galleryDestroyScrollLockedBefore = getComputedStyle(document.documentElement).overflow === 'hidden' || getComputedStyle(document.body).overflow === 'hidden';
+window.Usuzumi.destroy(downloadOffGallery);
+await wait(0);
+const galleryDestroyAutoViewerRemoved = downloadOffOverlay ? !downloadOffOverlay.isConnected : false;
+const galleryDestroyScrollRestored = getComputedStyle(document.documentElement).overflow !== 'hidden' && getComputedStyle(document.body).overflow !== 'hidden';
+const galleryDestroyNoInert = ![...document.body.children].some((child) => child.hasAttribute('inert'));
+downloadOffGallery.remove();
+const galleryApiSetReturn = window.Usuzumi.setGalleryItems(gallery, [{
+  src: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22320%22%20height%3D%22200%22%3E%3Crect%20width%3D%22320%22%20height%3D%22200%22%20fill%3D%22%23e4e4e7%22/%3E%3C/svg%3E',
+  alt: 'API demo',
+  caption: 'API image',
+  width: 320,
+  height: 200
+}], false);
+const galleryApiSetCount = gallery.querySelectorAll('.uzu-gallery-item').length;
+const galleryApiSetButton = gallery.querySelector('.uzu-gallery-item')?.tagName || '';
+const galleryApiRefreshReturn = window.Usuzumi.refreshGallery(gallery);
+const galleryApiRefreshCount = gallery.querySelectorAll('.uzu-gallery-item').length;
+const galleryApiOpenReturn = window.Usuzumi.openImageViewer(galleryViewer, {
+  src: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22280%22%20height%3D%22180%22%3E%3Crect%20width%3D%22280%22%20height%3D%22180%22%20fill%3D%22%23d1d5db%22/%3E%3C/svg%3E',
+  alt: 'Opened by API',
+  caption: 'API viewer',
+  width: 280,
+  height: 180
+}, gallery.querySelector('.uzu-gallery-item'));
+await wait(0);
+const galleryApiViewerCaption = galleryViewer.querySelector('[data-uzu-image-viewer-caption]')?.textContent.trim() || '';
+const galleryApiCloseReturn = window.Usuzumi.closeImageViewer(galleryViewer);
+await waitForGallery(() => galleryViewer.hidden);
+const galleryApiCloseHidden = galleryViewer.hidden;
 const treeRowLabel = tree.querySelector('[data-uzu-tree-value="docs"] [data-uzu-tree-label]');
 click(treeRowLabel);
 await wait(60);
@@ -289,24 +560,6 @@ const jsonCollapsedSummaryVisible = getComputedStyle(jsonViewer.querySelector('.
 const jsonCollapsedSummaryText = jsonViewer.querySelector('.uzu-json-summary')?.textContent.trim() || '';
 const diffAddRows = diffViewer.querySelectorAll('.uzu-diff-line-add').length;
 const diffRemoveRows = diffViewer.querySelectorAll('.uzu-diff-line-remove').length;
-const codeEditorFocusProbe = await readFocusProbe(consumerCodeEditor);
-const plainEditorFocusProbe = await readFocusProbe(consumerPlainEditor);
-const toolbarLinkInputFocusProbe = await readFocusProbe(toolbarLinkInput);
-const editorSurfaceFocusProbe = await readFocusProbe(editorSurface, editorShell);
-const standaloneEditorSurfaceFocusProbe = await readFocusProbe(standaloneEditorSurface);
-const markdownSourceFocusProbe = await readFocusProbe(markdownEditorSource, markdownEditor);
-const markdownSourceStackedStyle = document.createElement('style');
-markdownSourceStackedStyle.textContent = '@layer usuzumi{.consumer-stacked-markdown-source-probe,textarea.consumer-stacked-markdown-source-probe{border-right:0;border-bottom:1px solid var(--uzu-border-soft)}}';
-document.head.append(markdownSourceStackedStyle);
-markdownEditorSource.classList.add('consumer-stacked-markdown-source-probe');
-const markdownSourceStackedFocusProbe = await readFocusProbe(markdownEditorSource, markdownEditorSource, 'borderBottomColor');
-const markdownSourceStackedBorderBottomWidth = getComputedStyle(markdownEditorSource).borderBottomWidth;
-markdownEditorSource.classList.remove('consumer-stacked-markdown-source-probe');
-markdownSourceStackedStyle.remove();
-const inlineEditorFocusProbe = await readFocusProbe(inlineEditor);
-click(editorShell.querySelector('[data-uzu-editor-command]'));
-editorSurface.textContent = 'Editable text changed';
-editorSurface.dispatchEvent(new Event('input', { bubbles: true }));
 markdownEditorSource.value = '## Updated';
 markdownEditorSource.dispatchEvent(new Event('input', { bubbles: true }));
 markdownEditorSource.value = '';
@@ -354,7 +607,4 @@ const markdownEditorCodeCopyEnAfterRender = {
 };
 window.Usuzumi.applyLanguage(document.documentElement, 'zh', '', 'zh-CN');
 await wait(60);
-markdownEditorShellSource.value = '## Shell only updated';
-markdownEditorShellSource.dispatchEvent(new Event('input', { bubbles: true }));
-const markdownEditorShellPreviewEmpty = markdownEditorShellPreview.textContent.trim() === '';
 const inlineEditorValue = inlineEditor.textContent;`;

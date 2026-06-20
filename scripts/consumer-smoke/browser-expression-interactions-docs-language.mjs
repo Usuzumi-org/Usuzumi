@@ -106,7 +106,6 @@ const splitPaneStyle = getComputedStyle(splitPane);
 const resizableStyle = getComputedStyle(resizable);
 const jsonViewerStyle = getComputedStyle(jsonViewer);
 const diffViewerStyle = getComputedStyle(diffViewer);
-const editorStyle = getComputedStyle(editorShell);
 const markdownEditorStyle = getComputedStyle(markdownEditor);
 const tagStaticStyle = getComputedStyle(document.querySelector('#consumer-tag-static'));
 const emptyStateStyle = getComputedStyle(document.querySelector('#consumer-empty-state'));

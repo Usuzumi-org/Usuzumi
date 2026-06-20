@@ -1,45 +1,3 @@
-  const codeHighlightClassMap = new Map([
-    ['comment', 'comment'],
-    ['quote', 'comment'],
-    ['doctag', 'property'],
-    ['keyword', 'keyword'],
-    ['built_in', 'keyword'],
-    ['type', 'tag'],
-    ['literal', 'keyword'],
-    ['number', 'number'],
-    ['operator', 'operator'],
-    ['punctuation', 'punctuation'],
-    ['regexp', 'string'],
-    ['string', 'string'],
-    ['subst', 'variable'],
-    ['symbol', 'variable'],
-    ['class', 'tag'],
-    ['function', 'variable'],
-    ['title', 'variable'],
-    ['params', 'variable'],
-    ['attr', 'attr'],
-    ['attribute', 'attr'],
-    ['variable', 'variable'],
-    ['property', 'property'],
-    ['selector-tag', 'selector'],
-    ['selector-id', 'selector'],
-    ['selector-class', 'selector'],
-    ['selector-attr', 'selector'],
-    ['selector-pseudo', 'selector'],
-    ['tag', 'tag'],
-    ['name', 'tag'],
-    ['section', 'selector'],
-    ['bullet', 'operator'],
-    ['code', 'string'],
-    ['emphasis', 'string'],
-    ['strong', 'keyword'],
-    ['formula', 'string'],
-    ['link', 'string'],
-    ['meta', 'property'],
-    ['deletion', 'invalid'],
-    ['addition', 'string']
-  ]);
-
   const codeLanguageAliases = {
     cjs: 'javascript',
     conf: 'ini',
@@ -127,20 +85,6 @@
     return [...nestedCode, ...plainPre];
   }
 
-  function mapHighlightClass(className) {
-    if (!className.startsWith('hljs-')) return '';
-    const token = className.replace(/^hljs-/, '');
-    return codeHighlightClassMap.get(token) || '';
-  }
-
-  function mapCodeHighlightTokens(root) {
-    queryAll(root, '[class*="hljs-"]').forEach((node) => {
-      const mapped = [...node.classList].map(mapHighlightClass).filter(Boolean);
-      node.className = mapped.length
-        ? `uzu-code-token ${[...new Set(mapped)].map((token) => `uzu-code-token-${token}`).join(' ')}`
-        : 'uzu-code-token';
-    });
-  }
 
   function highlightCode(source, language = '') {
     const code = String(source ?? '');
@@ -164,7 +108,6 @@
     if (!template.content.childNodes.length) {
       template.content.append(document.createTextNode(code));
     }
-    mapCodeHighlightTokens(template.content);
     return {
       fragment: template.content,
       html: template.innerHTML,

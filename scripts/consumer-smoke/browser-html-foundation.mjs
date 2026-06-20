@@ -41,7 +41,7 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
         <nav class="uzu-nav" aria-label="Overflow navigation">
           <a href="#overflow-home" aria-current="page" style="min-width: 112px">Home</a>
           <a href="#overflow-components" style="min-width: 112px">Components</a>
-          <a href="#overflow-editor" style="min-width: 112px">Editor integration</a>
+          <a href="#overflow-editor" style="min-width: 112px">Markdown editor</a>
           <a href="#overflow-github" style="min-width: 112px">Github</a>
           <span class="uzu-menu uzu-topbar-overflow-menu" data-uzu-menu data-uzu-topbar-overflow-menu>
             <button class="uzu-menu-trigger" type="button" data-uzu-menu-trigger>More</button>
@@ -165,16 +165,9 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
         <section class="uzu-panel consumer-panel-secondary" id="consumer-panel-four" hidden>Panel four</section>
       </div>
     </div>
-    <section class="uzu-editor" id="consumer-editor-mount-shell">
-      <div class="uzu-editor-toolbar uzu-editor-toolbar-grouped">
-        <span class="uzu-toolbar-group">
-          <button class="uzu-toolbar-button" type="button">B</button>
-        </span>
-      </div>
-      <div class="uzu-editor-surface uzu-editor-mount" id="consumer-editor-mount">
-        <p>Mounted editor content</p><pre><code>const mounted = true;</code></pre>
-      </div>
-    </section>
+    <div class="uzu-markdown-preview" id="consumer-markdown-preview-surface">
+      <p>Rendered Markdown preview content</p><pre><code>const preview = true;</code></pre>
+    </div>
     <div class="consumer-panel-layout" id="consumer-panel-layout-hash">
       <nav class="uzu-panel-nav" id="consumer-panel-nav-hash" data-uzu-panel-nav data-uzu-panel-hash="true" data-uzu-panel-selector=".consumer-panel-hash" aria-label="Hash consumer panels">
         <section class="uzu-panel-nav-section" aria-labelledby="consumer-panel-nav-title-hash">

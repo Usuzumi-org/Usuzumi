@@ -41,6 +41,7 @@ const jsFiles = [
   'ui/js/comboboxes.js',
   'ui/js/data-grids.js',
   'ui/js/heatmaps.js',
+  'ui/js/galleries.js',
   'ui/js/trees.js',
   'ui/js/accordions-hover-cards.js',
   'ui/js/popovers.js',
@@ -125,7 +126,7 @@ const cssSource = cssFiles.map((file) => `/* ${file} */\n${readText(file)}`).joi
 const layeredCss = wrapLayer(cssSource);
 const bundledCss = `${cssBanner}\n\n${layeredCss}\n`;
 const bundledMinCss = `${minCssBanner}\n${minifyCss(layeredCss)}\n`;
-const highlightEngineSource = `/* highlight.js engine */\n${bundleHighlightEngine()}`;
+const highlightEngineSource = `/* Usuzumi lightweight syntax highlight engine */\n${bundleHighlightEngine()}`;
 const coreJsSource = jsFiles.map((file) => `/* ${file} */\n${readText(file)}`).join('\n\n');
 const jsSource = [highlightEngineSource, coreJsSource].join('\n\n');
 const bundledJs = `${jsBanner}\n${wrapRuntime(jsSource)}`;

@@ -6,6 +6,12 @@ All notable changes to Usuzumi are recorded here.
 
 ## Unreleased
 
+## 2.2.1 - 2026-06-23
+
+### Changed
+
+- Refined Heatmap layout, legend placement, and selected-date details for a calmer component preview.
+
 ### Fixed
 
 - Fixed Image Viewer default fitting so opened images stay fully inside the viewport.

@@ -101,6 +101,7 @@
     });
     destroySidebarLayouts(root);
     destroyTopbarOverflows(root);
+    destroyHeatmaps(root);
     destroyGalleries(root);
     queryAll(root, '[data-uzu-tooltip]').forEach((tooltip) => {
       const description = tooltipNodes.get(tooltip);

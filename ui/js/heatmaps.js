@@ -1,6 +1,10 @@
   const heatmapState = new WeakMap();
+  const heatmapLayoutObservers = new WeakMap();
   const heatmapCellSelector = '.uzu-heatmap-cell, [data-uzu-heatmap-date]';
   const heatmapRootSelector = '[data-uzu-heatmap]';
+  const heatmapSplitMinWidth = 720;
+  const heatmapSplitDetailMinWidth = 132;
+  const heatmapSplitColumnGap = 20;
 
   function clampHeatmapNumber(value, min, max) {
     const number = Number(value);
@@ -191,12 +195,12 @@
     const existing = getHeatmapScoped(heatmap, '.uzu-heatmap-legend')[0];
     if (existing) {
       existing.classList.add('uzu-heatmap-legend');
-      if (existing.parentElement !== heatmap) viewport.after(existing);
+      if (existing.parentElement !== viewport) viewport.append(existing);
       return existing;
     }
     const legend = document.createElement('ol');
     legend.className = 'uzu-heatmap-legend';
-    viewport.after(legend);
+    viewport.append(legend);
     return legend;
   }
 
@@ -284,6 +288,43 @@
     more.textContent = labels[1];
     fragment.append(more);
     legend.replaceChildren(fragment);
+  }
+
+  function updateHeatmapFlow(heatmap) {
+    const viewport = getHeatmapScoped(heatmap, '.uzu-heatmap-viewport')[0];
+    const detail = getHeatmapScoped(heatmap, '.uzu-heatmap-detail')[0];
+    if (!viewport || !detail) return;
+    const chartParts = getHeatmapScoped(heatmap, '.uzu-heatmap-months, .uzu-heatmap-weekdays, .uzu-heatmap-grid, .uzu-heatmap-legend');
+    const chartBounds = chartParts.reduce((bounds, part) => {
+      const rect = part.getBoundingClientRect();
+      return {
+        left: Math.min(bounds.left, rect.left),
+        right: Math.max(bounds.right, rect.right)
+      };
+    }, { left: Infinity, right: -Infinity });
+    const available = heatmap.clientWidth;
+    const chartWidth = Number.isFinite(chartBounds.left) && Number.isFinite(chartBounds.right)
+      ? Math.ceil(chartBounds.right - chartBounds.left)
+      : viewport.scrollWidth;
+    const canSplit = available >= heatmapSplitMinWidth && chartWidth + heatmapSplitDetailMinWidth + heatmapSplitColumnGap <= available;
+    heatmap.dataset.uzuHeatmapFlow = canSplit ? 'split' : 'stacked';
+  }
+
+  function observeHeatmapFlow(heatmap) {
+    if (heatmapLayoutObservers.has(heatmap)) return;
+    if (typeof ResizeObserver === 'function') {
+      const observer = new ResizeObserver(() => updateHeatmapFlow(heatmap));
+      observer.observe(heatmap);
+      heatmapLayoutObservers.set(heatmap, observer);
+      return;
+    }
+    const handleResize = () => updateHeatmapFlow(heatmap);
+    window.addEventListener('resize', handleResize);
+    heatmapLayoutObservers.set(heatmap, {
+      disconnect() {
+        window.removeEventListener('resize', handleResize);
+      }
+    });
   }
 
   function renderHeatmap(heatmap, data) {
@@ -453,6 +494,7 @@
     });
     heatmap.dataset.uzuHeatmapSelectedDate = day.date;
     renderHeatmapDetail(heatmap, day);
+    updateHeatmapFlow(heatmap);
     if (emit) emitHeatmapSelect(heatmap, cell, day);
     return cell;
   }
@@ -526,6 +568,7 @@
     queryAll(root, heatmapRootSelector).forEach((heatmap) => {
       refreshHeatmap(heatmap);
       if (!markInitialized(heatmap, 'Heatmap')) return;
+      observeHeatmapFlow(heatmap);
       heatmap.addEventListener('click', (event) => {
         const cell = getScopedEventControl(event, heatmapCellSelector, heatmap, heatmapRootSelector);
         if (!cell || isControlDisabled(cell)) return;
@@ -538,5 +581,15 @@
         if (!cell || isControlDisabled(cell)) return;
         handleHeatmapKeydown(event, heatmap, cell);
       });
+    });
+  }
+
+  function destroyHeatmaps(root = document) {
+    queryAll(root, heatmapRootSelector).forEach((heatmap) => {
+      const observer = heatmapLayoutObservers.get(heatmap);
+      if (observer) {
+        observer.disconnect();
+        heatmapLayoutObservers.delete(heatmap);
+      }
     });
   }

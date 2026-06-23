@@ -343,6 +343,23 @@ await waitForGallery(() => galleryViewer.hidden && galleryViewerOverlay.hidden);
 const galleryViewerClosedHidden = galleryViewer.hidden && galleryViewerOverlay.hidden;
 const galleryViewerFocusRestored = document.activeElement === galleryFirstItem;
 const galleryViewerBodyScrollRestored = getComputedStyle(document.documentElement).overflow !== 'hidden' && getComputedStyle(document.body).overflow !== 'hidden';
+const gallerySquareItem = gallery.querySelectorAll('.uzu-gallery-item')[2];
+click(gallerySquareItem);
+await waitForGallery(() => galleryViewer && !galleryViewer.hidden && galleryViewerOverlay && !galleryViewerOverlay.hidden);
+const gallerySquareImage = galleryViewer?.querySelector('[data-uzu-image-viewer-image]');
+await waitForGallery(() => gallerySquareImage?.complete && gallerySquareImage.getBoundingClientRect().width > 0);
+const gallerySquareStageRect = galleryViewerStage.getBoundingClientRect();
+const gallerySquareImageRect = gallerySquareImage.getBoundingClientRect();
+const gallerySquareViewerFitsStage = gallerySquareImageRect.left >= gallerySquareStageRect.left - 1
+  && gallerySquareImageRect.top >= gallerySquareStageRect.top - 1
+  && gallerySquareImageRect.right <= gallerySquareStageRect.right + 1
+  && gallerySquareImageRect.bottom <= gallerySquareStageRect.bottom + 1
+  && gallerySquareImageRect.left >= -1
+  && gallerySquareImageRect.top >= -1
+  && gallerySquareImageRect.right <= window.innerWidth + 1
+  && gallerySquareImageRect.bottom <= window.innerHeight + 1;
+click(galleryViewer.querySelector('[data-uzu-dialog-close]'));
+await waitForGallery(() => galleryViewer.hidden && galleryViewerOverlay.hidden);
 const downloadOffGallery = document.createElement('section');
 downloadOffGallery.className = 'uzu-gallery';
 downloadOffGallery.dataset.uzuGallery = '';

@@ -212,6 +212,7 @@ return {
   galleryViewerClosedHidden,
   galleryViewerFocusRestored,
   galleryViewerBodyScrollRestored,
+  gallerySquareViewerFitsStage,
   galleryDownloadOffHidden,
   galleryDownloadOffHref,
   galleryDestroyScrollLockedBefore,

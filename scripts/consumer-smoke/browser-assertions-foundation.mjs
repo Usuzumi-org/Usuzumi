@@ -276,6 +276,7 @@ if (
   || !value.galleryViewerClosedHidden
   || !value.galleryViewerFocusRestored
   || !value.galleryViewerBodyScrollRestored
+  || !value.gallerySquareViewerFitsStage
   || !value.galleryDownloadOffHidden
   || value.galleryDownloadOffHref
   || !value.galleryDestroyScrollLockedBefore
@@ -292,6 +293,7 @@ if (
   closed: value.galleryViewerClosedHidden,
   focusRestored: value.galleryViewerFocusRestored,
   scrollRestored: value.galleryViewerBodyScrollRestored,
+  squareFits: value.gallerySquareViewerFitsStage,
   downloadOffHidden: value.galleryDownloadOffHidden,
   downloadOffHref: value.galleryDownloadOffHref,
   destroyLockedBefore: value.galleryDestroyScrollLockedBefore,

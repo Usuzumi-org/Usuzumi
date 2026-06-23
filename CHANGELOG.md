@@ -6,6 +6,10 @@ All notable changes to Usuzumi are recorded here.
 
 ## Unreleased
 
+### Fixed
+
+- Fixed Image Viewer default fitting so opened images stay fully inside the viewport.
+
 ## 2.2.0 - 2026-06-21
 
 ### Added

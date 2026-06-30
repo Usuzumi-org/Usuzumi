@@ -65,6 +65,88 @@ const visibleHighlightBrowserHtml = `<!doctype html>
 </html>
 `;
 
+const liteManualBrowserHtml = `<!doctype html>
+<html class="uzu-root" lang="en" data-theme="light" data-uzu-init="manual">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./node_modules/usuzumi/ui/usuzumi.css">
+  <script src="./node_modules/usuzumi/ui/usuzumi-lite.js" defer></script>
+</head>
+<body class="uzu-app">
+  <main class="uzu-page">
+    <button id="lite-theme" type="button" data-uzu-theme-toggle aria-label="Theme">Theme</button>
+    <section id="lite-language-root" data-language="zh" data-uzu-lang="zh">
+      <span class="uzu-language-select" data-uzu-language-select data-uzu-language-target="#lite-language-root" data-uzu-language-url-mode="assign">
+        <button id="lite-language-trigger" type="button" data-uzu-language-trigger>Language</button>
+        <span data-uzu-language-menu>
+          <button type="button" data-uzu-language-option data-uzu-language-value="zh" data-uzu-language-html-lang="zh-CN">Chinese</button>
+          <button id="lite-language-en" type="button" data-uzu-language-option data-uzu-language-value="en" data-uzu-language-html-lang="en" data-uzu-language-url="#lite-en">English</button>
+        </span>
+      </span>
+    </section>
+    <section id="lite-route-language-root" data-language="en" data-uzu-lang="en" data-uzu-language-key="lite-route-language" data-uzu-language-url-mode="assign">
+      <span class="uzu-language-select" data-uzu-language-select data-uzu-language-target="#lite-route-language-root" data-uzu-language-key="lite-route-language" data-uzu-language-url-mode="assign">
+        <button id="lite-route-language-trigger" type="button" data-uzu-language-trigger>Route language</button>
+        <span data-uzu-language-menu>
+          <button type="button" data-uzu-language-option data-uzu-language-value="zh" data-uzu-language-html-lang="zh-CN" data-uzu-language-url="#route-zh">Chinese</button>
+          <button type="button" class="is-selected" data-uzu-language-option data-uzu-language-value="en" data-uzu-language-html-lang="en" data-uzu-language-url="#route-en">English</button>
+        </span>
+      </span>
+    </section>
+    <span class="uzu-menu" id="lite-menu" data-uzu-menu>
+      <button id="lite-menu-trigger" type="button" data-uzu-menu-trigger>Menu</button>
+      <span data-uzu-menu-content>
+        <button class="uzu-menu-item" type="button">First</button>
+      </span>
+    </span>
+    <div id="lite-topbar-wrap" style="width: 260px">
+      <header id="lite-topbar" class="uzu-topbar" data-uzu-topbar-overflow>
+        <div class="uzu-topbar-leading"><span class="uzu-brand-link">Lite</span></div>
+        <nav class="uzu-nav" aria-label="Lite navigation">
+          <a href="#one" style="min-width: 100px">One</a>
+          <a href="#two" style="min-width: 100px">Two</a>
+          <span class="uzu-menu uzu-topbar-overflow-menu" data-uzu-menu data-uzu-topbar-overflow-menu>
+            <button type="button" data-uzu-menu-trigger>More</button>
+            <span data-uzu-menu-content></span>
+          </span>
+        </nav>
+        <div class="uzu-topbar-actions"><button type="button">A</button></div>
+      </header>
+    </div>
+    <section id="lite-error" class="uzu-error-page" data-uzu-error-page>
+      <p data-uzu-error-code>404</p>
+      <h1 data-uzu-error-title>Missing</h1>
+      <p data-uzu-error-message>Default message.</p>
+      <p data-uzu-error-actions>
+        <a href="/" data-uzu-error-action="primary">Home</a>
+      </p>
+    </section>
+    <pre class="uzu-code-block"><code>copy me</code><button id="lite-copy" type="button" data-uzu-code-copy data-uzu-copy-text="Copy code">Copy</button></pre>
+  </main>
+</body>
+</html>
+`;
+
+const bodyManualBrowserHtml = `<!doctype html>
+<html class="uzu-root" lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./node_modules/usuzumi/ui/usuzumi.css">
+  <script src="./node_modules/usuzumi/ui/usuzumi-lite.js"></script>
+</head>
+<body class="uzu-app" data-uzu-init="manual">
+  <main class="uzu-page">
+    <span class="uzu-menu" id="body-manual-menu" data-uzu-menu>
+      <button id="body-manual-menu-trigger" type="button" data-uzu-menu-trigger>Menu</button>
+      <span data-uzu-menu-content>
+        <button class="uzu-menu-item" type="button">First</button>
+      </span>
+    </span>
+  </main>
+</body>
+</html>
+`;
+
 function getBrowserCandidates() {
   const candidates = [
     process.env.CHROME_PATH,
@@ -140,10 +222,14 @@ export async function browserSmoke(appDir) {
   const coreOnlyHtmlPath = path.join(appDir, 'browser-core-check.html');
   const coreHighlightHtmlPath = path.join(appDir, 'browser-core-highlight-check.html');
   const visibleHighlightHtmlPath = path.join(appDir, 'browser-visible-highlight-check.html');
+  const liteManualHtmlPath = path.join(appDir, 'browser-lite-manual-check.html');
+  const bodyManualHtmlPath = path.join(appDir, 'browser-body-manual-check.html');
   writeFileSync(htmlPath, consumerBrowserHtml, 'utf8');
   writeFileSync(coreOnlyHtmlPath, coreOnlyBrowserHtml, 'utf8');
   writeFileSync(coreHighlightHtmlPath, coreWithLateHighlightBrowserHtml, 'utf8');
   writeFileSync(visibleHighlightHtmlPath, visibleHighlightBrowserHtml, 'utf8');
+  writeFileSync(liteManualHtmlPath, liteManualBrowserHtml, 'utf8');
+  writeFileSync(bodyManualHtmlPath, bodyManualBrowserHtml, 'utf8');
 
   const profile = path.join(appDir, `browser-profile-${process.pid}-${Date.now()}`);
   const activePortFile = path.join(profile, 'DevToolsActivePort');
@@ -379,6 +465,79 @@ export async function browserSmoke(appDir) {
     })()`);
     if (visibleScrolledResult.farTokens <= 0 || !visibleScrolledResult.farSignature.startsWith('engine:javascript:')) {
       throw new Error(`Visible highlight scroll state failed: ${JSON.stringify(visibleScrolledResult)}`);
+    }
+
+    await navigate(cdp, pathToFileURL(liteManualHtmlPath).href);
+    const liteManualResult = await evaluate(cdp, 'lite manual runtime smoke', `(async () => {
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const menuTrigger = document.querySelector('#lite-menu-trigger');
+      const menuContent = document.querySelector('#lite-menu [data-uzu-menu-content]');
+      const languageTrigger = document.querySelector('#lite-language-trigger');
+      const languageOption = document.querySelector('#lite-language-en');
+      const topbarMenu = document.querySelector('#lite-topbar [data-uzu-topbar-overflow-menu]');
+      const topbarMenuContent = topbarMenu.querySelector('[data-uzu-menu-content]');
+      localStorage.setItem('lite-route-language', 'zh');
+      const beforeInit = {
+        menuExpanded: menuTrigger.getAttribute('aria-expanded') || '',
+        menuHidden: menuContent.hidden,
+        hasGalleryApi: typeof window.Usuzumi.setGalleryItems === 'function',
+        hasHighlightApi: typeof window.Usuzumi.highlightCode === 'function'
+      };
+      window.Usuzumi.init();
+      await wait(160);
+      const afterInit = {
+        menuExpanded: menuTrigger.getAttribute('aria-expanded') || '',
+        menuHidden: menuContent.hidden,
+        topbarMenuItems: topbarMenuContent.querySelectorAll('.uzu-menu-item').length,
+        copyLabel: document.querySelector('#lite-copy').getAttribute('aria-label') || '',
+        routeLanguage: document.querySelector('#lite-route-language-root').getAttribute('data-language'),
+        routeSelected: document.querySelector('#lite-route-language-root .is-selected')?.dataset.uzuLanguageValue || ''
+      };
+      document.querySelector('#lite-theme').click();
+      menuTrigger.click();
+      await wait(80);
+      const menuOpenAfterClick = document.querySelector('#lite-menu').classList.contains('is-open');
+      languageTrigger.click();
+      await wait(60);
+      languageOption.click();
+      await wait(80);
+      window.Usuzumi.setErrorPage('#lite-error', { code: '500', title: 'Server error', message: 'Try again.', primaryAction: { label: 'Back home', href: '/home' } });
+      return {
+        beforeInit,
+        afterInit,
+        theme: document.documentElement.getAttribute('data-theme'),
+        menuOpen: menuOpenAfterClick,
+        language: document.querySelector('#lite-language-root').getAttribute('data-language'),
+        hash: window.location.hash,
+        errorCode: document.querySelector('#lite-error [data-uzu-error-code]').textContent.trim(),
+        errorTitle: document.querySelector('#lite-error [data-uzu-error-title]').textContent.trim(),
+        errorHref: document.querySelector('#lite-error [data-uzu-error-action="primary"]').getAttribute('href')
+      };
+    })()`);
+    if (liteManualResult.beforeInit.menuExpanded || liteManualResult.beforeInit.menuHidden || liteManualResult.beforeInit.hasGalleryApi || liteManualResult.beforeInit.hasHighlightApi || liteManualResult.afterInit.menuExpanded !== 'false' || !liteManualResult.afterInit.menuHidden || liteManualResult.afterInit.topbarMenuItems < 1 || liteManualResult.afterInit.copyLabel !== 'Copy code' || liteManualResult.afterInit.routeLanguage !== 'en' || liteManualResult.afterInit.routeSelected !== 'en' || liteManualResult.theme !== 'dark' || !liteManualResult.menuOpen || liteManualResult.language !== 'en' || liteManualResult.hash !== '#lite-en' || liteManualResult.errorCode !== '500' || liteManualResult.errorTitle !== 'Server error' || liteManualResult.errorHref !== '/home') {
+      throw new Error(`Lite manual runtime failed: ${JSON.stringify(liteManualResult)}`);
+    }
+
+    await navigate(cdp, pathToFileURL(bodyManualHtmlPath).href);
+    const bodyManualResult = await evaluate(cdp, 'body manual init smoke', `(async () => {
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      await wait(120);
+      const trigger = document.querySelector('#body-manual-menu-trigger');
+      const content = document.querySelector('#body-manual-menu [data-uzu-menu-content]');
+      const beforeInit = {
+        expanded: trigger.getAttribute('aria-expanded') || '',
+        hidden: content.hidden
+      };
+      window.Usuzumi.init();
+      await wait(80);
+      return {
+        beforeInit,
+        afterExpanded: trigger.getAttribute('aria-expanded') || '',
+        afterHidden: content.hidden
+      };
+    })()`);
+    if (bodyManualResult.beforeInit.expanded || bodyManualResult.beforeInit.hidden || bodyManualResult.afterExpanded !== 'false' || !bodyManualResult.afterHidden) {
+      throw new Error(`Body manual init failed: ${JSON.stringify(bodyManualResult)}`);
     }
     cdp.close();
     console.log('Consumer browser smoke passed.');

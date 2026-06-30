@@ -24,6 +24,12 @@ const budgets = [
     brotli: 32_000
   },
   {
+    file: 'ui/usuzumi-lite.min.js',
+    raw: 75_000,
+    gzip: 20_000,
+    brotli: 14_000
+  },
+  {
     file: 'ui/usuzumi-highlight.min.js',
     raw: 220_000,
     gzip: 75_000,

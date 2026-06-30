@@ -80,6 +80,14 @@
     return true;
   }
 
+  function ensureId(element, prefix) {
+    if (!element.id) {
+      selectCounter += 1;
+      element.id = `${prefix}-${selectCounter}`;
+    }
+    return element.id;
+  }
+
   function syncRootClass() {
     document.documentElement.classList.toggle('uzu-root', document.body && document.body.classList.contains('uzu-app'));
   }
@@ -253,6 +261,10 @@
     return ['assign', 'replace', 'none'].includes(value) ? value : 'none';
   }
 
+  function isRouteLanguageMode(root, select = null) {
+    return getLanguageUrlMode(root, select) !== 'none';
+  }
+
   function navigateLanguageUrl(url, mode) {
     if (!url || mode === 'none') return;
     if (mode === 'replace') window.location.replace(url);
@@ -275,16 +287,13 @@
   function getInitialLanguage(root, key, select = null) {
     const optionValues = select ? getLanguageOptions(select).map(getLanguageOptionValue) : [];
     const selectedOption = select ? getSelectedLanguageOption(select, '') : null;
-    const candidates = [
-      key ? storage.get(key) : '',
-      root.getAttribute('data-language'),
-      root.getAttribute('data-uzu-lang'),
-      select?.dataset.uzuLanguageDefault,
-      selectedOption ? getLanguageOptionValue(selectedOption) : '',
-      optionValues[0],
-      'zh'
-    ].map((value) => normalizeLanguage(value, '')).filter(Boolean);
-    return candidates.find((value) => !optionValues.length || optionValues.includes(value)) || candidates[0] || 'zh';
+    const storedLanguage = key ? storage.get(key) : '';
+    const routeLanguage = root.getAttribute('data-language') || root.getAttribute('data-uzu-lang');
+    const candidates = isRouteLanguageMode(root, select)
+      ? [routeLanguage, select?.dataset.uzuLanguageDefault, selectedOption ? getLanguageOptionValue(selectedOption) : '', optionValues[0], storedLanguage, 'zh']
+      : [storedLanguage, routeLanguage, select?.dataset.uzuLanguageDefault, selectedOption ? getLanguageOptionValue(selectedOption) : '', optionValues[0], 'zh'];
+    const normalizedCandidates = candidates.map((value) => normalizeLanguage(value, '')).filter(Boolean);
+    return normalizedCandidates.find((value) => !optionValues.length || optionValues.includes(value)) || normalizedCandidates[0] || 'zh';
   }
 
   function getLanguageRootStorageKey(root) {
@@ -293,7 +302,9 @@
 
   function getInitialLanguageRootLanguage(root) {
     const key = getLanguageRootStorageKey(root);
-    return normalizeLanguage((key ? storage.get(key) : '') || root.getAttribute('data-language') || root.getAttribute('data-uzu-lang'));
+    const storedLanguage = key ? storage.get(key) : '';
+    const routeLanguage = root.getAttribute('data-language') || root.getAttribute('data-uzu-lang');
+    return normalizeLanguage(isRouteLanguageMode(root) ? routeLanguage || storedLanguage : storedLanguage || routeLanguage);
   }
 
   function isNestedLanguageRoot(root, element) {

@@ -25,14 +25,6 @@
     if (timer) selectCloseTimers.set(select, timer);
   }
 
-  function ensureId(element, prefix) {
-    if (!element.id) {
-      selectCounter += 1;
-      element.id = `${prefix}-${selectCounter}`;
-    }
-    return element.id;
-  }
-
   function focusSelectOption(select, index) {
     const options = queryAll(select, '[data-uzu-select-option]');
     const trigger = select.querySelector('[data-uzu-select-trigger]');

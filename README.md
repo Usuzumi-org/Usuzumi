@@ -92,7 +92,7 @@ window.Usuzumi.init(container);
 window.Usuzumi.destroy(container);
 ```
 
-Use `usuzumi-core.js` for pages that do not need syntax highlighting. Code-heavy pages can pair it with `usuzumi-highlight.js`, and set `data-uzu-code-highlight="visible"` to defer highlighting until code blocks approach the viewport.
+Use `usuzumi-lite.js` for simple landing, navigation, and error pages. Use `usuzumi-core.js` for component pages that do not need syntax highlighting. Code-heavy pages can pair core with `usuzumi-highlight.js`, and set `data-uzu-code-highlight="visible"` to defer highlighting until code blocks approach the viewport. Add `data-uzu-init="manual"` to `html` or `body` when application code should call `window.Usuzumi.init()` itself.
 
 See [DESIGN.md](DESIGN.md) for runtime data attributes and custom events.
 
@@ -106,7 +106,7 @@ See [DESIGN.md](DESIGN.md) for runtime data attributes and custom events.
 - Responsive topbars can move trailing navigation links into a public "More" menu with `data-uzu-topbar-overflow`, while preserving current-link state.
 - Language selectors can optionally map choices to URLs for multilingual site routing.
 - Side navigation distinguishes app sidebars with `.uzu-sidebar-nav` from same-page panel indexes with `.uzu-panel-index`.
-- Optional core and syntax-highlight runtime entries for lighter pages.
+- Optional lite, core, and syntax-highlight runtime entries for lighter pages.
 - Generated CSS and JS bundles for npm and CDN consumers.
 - Type declarations for the browser API and custom events.
 
@@ -124,7 +124,7 @@ npm run build
 npm run validate
 ```
 
-Edit source partials in `ui/css/` and `ui/js/`. The public entry files in `ui/`, including the full, core, and syntax-highlight bundles, are generated, so rebuild them instead of editing them by hand.
+Edit source partials in `ui/css/` and `ui/js/`. The public entry files in `ui/`, including the full, lite, core, and syntax-highlight bundles, are generated, so rebuild them instead of editing them by hand.
 
 `npm run validate` checks generated bundle sync, source guardrails, package exports, browser behavior, and component page smoke coverage.
 

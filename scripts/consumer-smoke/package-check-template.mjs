@@ -16,6 +16,7 @@ function readPackageFile(packageRoot, relativePath) {
 await import('usuzumi');
 await import('usuzumi/usuzumi.js');
 await import('usuzumi/usuzumi-core.js');
+await import('usuzumi/usuzumi-lite.js');
 
 const previousWindow = globalThis.window;
 const previousCustomEvent = globalThis.CustomEvent;
@@ -50,6 +51,8 @@ const minJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi.min.
 const minCssEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi.min.css'));
 const coreJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-core.js'));
 const minCoreJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-core.min.js'));
+const liteJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-lite.js'));
+const minLiteJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-lite.min.js'));
 const highlightJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-highlight.js'));
 const minHighlightJsEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-highlight.min.js'));
 const signatureEntry = fileURLToPath(await import.meta.resolve('usuzumi/usuzumi-signature.css'));
@@ -64,6 +67,8 @@ assert(minCssEntry === path.join(packageRoot, 'ui', 'usuzumi.min.css'), 'Minifie
 assert(minJsEntry === path.join(packageRoot, 'ui', 'usuzumi.min.js'), 'Minified JS export resolves to an unexpected file');
 assert(coreJsEntry === path.join(packageRoot, 'ui', 'usuzumi-core.js'), 'Core JS export resolves to an unexpected file');
 assert(minCoreJsEntry === path.join(packageRoot, 'ui', 'usuzumi-core.min.js'), 'Minified core JS export resolves to an unexpected file');
+assert(liteJsEntry === path.join(packageRoot, 'ui', 'usuzumi-lite.js'), 'Lite JS export resolves to an unexpected file');
+assert(minLiteJsEntry === path.join(packageRoot, 'ui', 'usuzumi-lite.min.js'), 'Minified lite JS export resolves to an unexpected file');
 assert(highlightJsEntry === path.join(packageRoot, 'ui', 'usuzumi-highlight.js'), 'Highlight JS export resolves to an unexpected file');
 assert(minHighlightJsEntry === path.join(packageRoot, 'ui', 'usuzumi-highlight.min.js'), 'Minified highlight JS export resolves to an unexpected file');
 assert(signatureEntry === path.join(packageRoot, 'ui', 'usuzumi-signature.css'), 'Signature CSS export resolves to an unexpected file');
@@ -81,6 +86,9 @@ assert(packageJson.exports['./usuzumi.min.css'] === './ui/usuzumi.min.css', 'Mis
 assert(packageJson.exports['./usuzumi.min.js'].default === './ui/usuzumi.min.js', 'Missing usuzumi/usuzumi.min.js export');
 assert(packageJson.exports['./usuzumi-core.js'].default === './ui/usuzumi-core.js', 'Missing usuzumi/usuzumi-core.js export');
 assert(packageJson.exports['./usuzumi-core.min.js'].default === './ui/usuzumi-core.min.js', 'Missing usuzumi/usuzumi-core.min.js export');
+assert(packageJson.exports['./usuzumi-lite.js'].default === './ui/usuzumi-lite.js', 'Missing usuzumi/usuzumi-lite.js export');
+assert(packageJson.exports['./usuzumi-lite.js'].types === './ui/usuzumi-lite.d.ts', 'Lite JS export should use lite-specific types');
+assert(packageJson.exports['./usuzumi-lite.min.js'].default === './ui/usuzumi-lite.min.js', 'Missing usuzumi/usuzumi-lite.min.js export');
 assert(packageJson.exports['./usuzumi-highlight.js'].default === './ui/usuzumi-highlight.js', 'Missing usuzumi/usuzumi-highlight.js export');
 assert(packageJson.exports['./usuzumi-highlight.min.js'].default === './ui/usuzumi-highlight.min.js', 'Missing usuzumi/usuzumi-highlight.min.js export');
 assert(packageJson.exports['./usuzumi-signature.css'] === './ui/usuzumi-signature.css', 'Missing usuzumi/usuzumi-signature.css export');
@@ -166,10 +174,13 @@ assert(css.includes('.uzu-panel-index'), 'Published CSS is missing panel index a
 
 const js = readPackageFile(packageRoot, 'ui/usuzumi.js');
 const coreJs = readPackageFile(packageRoot, 'ui/usuzumi-core.js');
+const liteJs = readPackageFile(packageRoot, 'ui/usuzumi-lite.js');
+const liteDts = readPackageFile(packageRoot, 'ui/usuzumi-lite.d.ts');
 const highlightJs = readPackageFile(packageRoot, 'ui/usuzumi-highlight.js');
 const minCss = readPackageFile(packageRoot, 'ui/usuzumi.min.css');
 const minJs = readPackageFile(packageRoot, 'ui/usuzumi.min.js');
 const minCoreJs = readPackageFile(packageRoot, 'ui/usuzumi-core.min.js');
+const minLiteJs = readPackageFile(packageRoot, 'ui/usuzumi-lite.min.js');
 const minHighlightJs = readPackageFile(packageRoot, 'ui/usuzumi-highlight.min.js');
 assert(minCss.includes('@layer usuzumi'), 'Minified CSS must keep the public cascade layer');
 assert(minCss.length < css.length, 'Minified CSS should be smaller than the readable CSS bundle');
@@ -180,12 +191,30 @@ assert(coreJs.includes('data-uzu-code-highlight'), 'Core runtime is missing code
 assert(!coreJs.includes('UsuzumiHighlightEngine ='), 'Core runtime should not bundle the highlight engine');
 assert(minCoreJs.includes('window.Usuzumi'), 'Minified core runtime must expose window.Usuzumi');
 assert(minCoreJs.length < coreJs.length, 'Minified core JS should be smaller than the readable core runtime');
+assert(liteJs.includes('window.Usuzumi'), 'Lite runtime must expose window.Usuzumi');
+assert(liteJs.includes('data-uzu-topbar-overflow'), 'Lite runtime is missing topbar overflow support');
+assert(liteJs.includes('data-uzu-language-select'), 'Lite runtime is missing language selector support');
+assert(liteJs.includes('data-uzu-error-page'), 'Lite runtime is missing error page support');
+assert(liteJs.includes('data-uzu-init'), 'Lite runtime is missing manual initialization support');
+assert(!liteJs.includes('data-uzu-gallery'), 'Lite runtime should not include gallery support');
+assert(!liteJs.includes('data-uzu-heatmap'), 'Lite runtime should not include heatmap support');
+assert(!liteJs.includes('data-uzu-markdown-editor'), 'Lite runtime should not include markdown editor support');
+assert(!liteJs.includes('UsuzumiHighlightEngine'), 'Lite runtime should not include the highlight engine');
+assert(minLiteJs.includes('window.Usuzumi'), 'Minified lite runtime must expose window.Usuzumi');
+assert(minLiteJs.length < liteJs.length, 'Minified lite JS should be smaller than the readable lite runtime');
+assert(liteDts.includes('interface UsuzumiLiteApi'), 'Lite types should expose a lite-specific API interface');
+assert(liteDts.includes('var Usuzumi: UsuzumiLiteApi'), 'Lite types should expose the lite global API');
+assert(!liteDts.includes('interface Window'), 'Lite types should not redeclare Window.Usuzumi');
+assert(liteDts.includes('setErrorPage'), 'Lite types should include error page API');
+assert(!liteDts.includes('openDialog'), 'Lite types should not expose full dialog API');
+assert(!liteDts.includes('setGalleryItems'), 'Lite types should not expose gallery API');
 assert(highlightJs.includes('UsuzumiHighlightEngine'), 'Highlight runtime must expose UsuzumiHighlightEngine');
 assert(highlightJs.includes('uzu-code-highlight-engine-ready'), 'Highlight runtime must announce when the engine is available');
 assert(!highlightJs.includes('window.Usuzumi ='), 'Highlight runtime should not include the core Usuzumi API');
 assert(minHighlightJs.length < highlightJs.length, 'Minified highlight JS should be smaller than the readable highlight runtime');
 assert(js.includes('window.Usuzumi'), 'Runtime does not expose window.Usuzumi');
 assert(js.includes('destroy(root = document)'), 'Runtime is missing destroy API support');
+assert(js.includes('data-uzu-init'), 'Runtime is missing manual initialization support');
 assert(js.includes('data-uzu-tabs'), 'Runtime is missing tabs initialization support');
 assert(js.includes('data-uzu-segmented'), 'Runtime is missing segmented initialization support');
 assert(js.includes('data-uzu-pagination'), 'Runtime is missing pagination initialization support');

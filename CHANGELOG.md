@@ -6,9 +6,18 @@ All notable changes to Usuzumi are recorded here.
 
 ## Unreleased
 
+## 2.2.2 - 2026-06-30
+
 ### Added
 
 - Added responsive cover card variants, auto grids, language URL routing, and topbar current-state support for overflow navigation.
+- Added `usuzumi-lite.js` / `usuzumi-lite.min.js` for simple pages that only need lightweight navigation, theme, language, menu, copy, and error-page behavior.
+- Added `data-uzu-init="manual"` to let applications opt out of automatic runtime initialization.
+
+### Changed
+
+- Reduced default initialization work by running component initializers only when matching markup exists.
+- Converted the Usuzumi site pages to route-level languages and added page-size budgets for the component catalog.
 
 ## 2.2.1 - 2026-06-23
 

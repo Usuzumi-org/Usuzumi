@@ -1,6 +1,6 @@
 {
   "name": "usuzumi",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Drop-in CSS and JavaScript components for personal sites, docs, and product pages.",
   "keywords": [
     "ui",
@@ -37,6 +37,8 @@
     "./ui/usuzumi.min.js",
     "./ui/usuzumi-core.js",
     "./ui/usuzumi-core.min.js",
+    "./ui/usuzumi-lite.js",
+    "./ui/usuzumi-lite.min.js",
     "./ui/usuzumi-highlight.js",
     "./ui/usuzumi-highlight.min.js",
     "./ui/usuzumi-signature.css",
@@ -65,6 +67,13 @@
     },
     "./usuzumi-core.min.js": {
       "default": "./ui/usuzumi-core.min.js"
+    },
+    "./usuzumi-lite.js": {
+      "types": "./ui/usuzumi-lite.d.ts",
+      "default": "./ui/usuzumi-lite.js"
+    },
+    "./usuzumi-lite.min.js": {
+      "default": "./ui/usuzumi-lite.min.js"
     },
     "./usuzumi-highlight.js": {
       "default": "./ui/usuzumi-highlight.js"

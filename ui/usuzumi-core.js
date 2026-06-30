@@ -83,6 +83,14 @@ if (typeof window === 'undefined' || typeof document === 'undefined') return;
     return true;
   }
 
+  function ensureId(element, prefix) {
+    if (!element.id) {
+      selectCounter += 1;
+      element.id = `${prefix}-${selectCounter}`;
+    }
+    return element.id;
+  }
+
   function syncRootClass() {
     document.documentElement.classList.toggle('uzu-root', document.body && document.body.classList.contains('uzu-app'));
   }
@@ -256,6 +264,10 @@ if (typeof window === 'undefined' || typeof document === 'undefined') return;
     return ['assign', 'replace', 'none'].includes(value) ? value : 'none';
   }
 
+  function isRouteLanguageMode(root, select = null) {
+    return getLanguageUrlMode(root, select) !== 'none';
+  }
+
   function navigateLanguageUrl(url, mode) {
     if (!url || mode === 'none') return;
     if (mode === 'replace') window.location.replace(url);
@@ -278,16 +290,13 @@ if (typeof window === 'undefined' || typeof document === 'undefined') return;
   function getInitialLanguage(root, key, select = null) {
     const optionValues = select ? getLanguageOptions(select).map(getLanguageOptionValue) : [];
     const selectedOption = select ? getSelectedLanguageOption(select, '') : null;
-    const candidates = [
-      key ? storage.get(key) : '',
-      root.getAttribute('data-language'),
-      root.getAttribute('data-uzu-lang'),
-      select?.dataset.uzuLanguageDefault,
-      selectedOption ? getLanguageOptionValue(selectedOption) : '',
-      optionValues[0],
-      'zh'
-    ].map((value) => normalizeLanguage(value, '')).filter(Boolean);
-    return candidates.find((value) => !optionValues.length || optionValues.includes(value)) || candidates[0] || 'zh';
+    const storedLanguage = key ? storage.get(key) : '';
+    const routeLanguage = root.getAttribute('data-language') || root.getAttribute('data-uzu-lang');
+    const candidates = isRouteLanguageMode(root, select)
+      ? [routeLanguage, select?.dataset.uzuLanguageDefault, selectedOption ? getLanguageOptionValue(selectedOption) : '', optionValues[0], storedLanguage, 'zh']
+      : [storedLanguage, routeLanguage, select?.dataset.uzuLanguageDefault, selectedOption ? getLanguageOptionValue(selectedOption) : '', optionValues[0], 'zh'];
+    const normalizedCandidates = candidates.map((value) => normalizeLanguage(value, '')).filter(Boolean);
+    return normalizedCandidates.find((value) => !optionValues.length || optionValues.includes(value)) || normalizedCandidates[0] || 'zh';
   }
 
   function getLanguageRootStorageKey(root) {
@@ -296,7 +305,9 @@ if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
   function getInitialLanguageRootLanguage(root) {
     const key = getLanguageRootStorageKey(root);
-    return normalizeLanguage((key ? storage.get(key) : '') || root.getAttribute('data-language') || root.getAttribute('data-uzu-lang'));
+    const storedLanguage = key ? storage.get(key) : '';
+    const routeLanguage = root.getAttribute('data-language') || root.getAttribute('data-uzu-lang');
+    return normalizeLanguage(isRouteLanguageMode(root) ? routeLanguage || storedLanguage : storedLanguage || routeLanguage);
   }
 
   function isNestedLanguageRoot(root, element) {
@@ -698,14 +709,6 @@ function closeSelect(select) {
     };
     const timer = scheduleAfterAnimation([menu].filter(Boolean), finish);
     if (timer) selectCloseTimers.set(select, timer);
-  }
-
-  function ensureId(element, prefix) {
-    if (!element.id) {
-      selectCounter += 1;
-      element.id = `${prefix}-${selectCounter}`;
-    }
-    return element.id;
   }
 
   function focusSelectOption(select, index) {
@@ -6605,6 +6608,15 @@ function handleDocumentClick(event) {
     return root === document || root === document.documentElement || root === document.body;
   }
 
+  function hasInitTargets(root, selector) {
+    if (!selector) return true;
+    try {
+      return root instanceof Element && root.matches(selector) ? true : !!root.querySelector(selector);
+    } catch (_) {
+      return true;
+    }
+  }
+
   function rootContains(root, node) {
     return root === document || root === node || (root instanceof Element && root.contains(node));
   }
@@ -6718,11 +6730,61 @@ function handleDocumentClick(event) {
   function init(root = document) {
     syncRootClass();
     initGlobalListeners();
-    for (const fn of [initThemeToggles, initLanguageSelects, initSelects, initTabs, initSegmented, initPaginations, initSwitches, initForms, initSearches, initPasswords, initSteppers, initSliders, initMenus, initTopbarOverflows, initContextMenus, initMenubars, initCommands, initComboboxes, initDataGrids, initHeatmaps, initGalleries, initTrees, initDisclosures, initAccordions, initHoverCards, initPopovers, initTags, initSplitPanes, initResizables, initSidebarLayouts, initJsonViewers, initDiffViewers, initEditors, initDialogs, initToasts, initTooltips, initStepNavs, initPanelNavs, initErrorPages, initMarkdown, initCodeHighlight, initCodeCopy]) {
+    const initRegistry = [
+      [initThemeToggles, '[data-theme], [data-theme-mode], [data-uzu-theme], [data-uzu-theme-toggle]'],
+      [initLanguageSelects, '[data-language], [data-uzu-lang], [data-uzu-language-root], [data-uzu-language-select], [data-lang]'],
+      [initSelects, '[data-uzu-select]'],
+      [initTabs, '[data-uzu-tabs]'],
+      [initSegmented, '[data-uzu-segmented]'],
+      [initPaginations, '[data-uzu-pagination]'],
+      [initSwitches, '[data-uzu-switch]'],
+      [initForms, '[data-uzu-form], [data-uzu-field]'],
+      [initSearches, '[data-uzu-search]'],
+      [initPasswords, '[data-uzu-password]'],
+      [initSteppers, '[data-uzu-stepper]'],
+      [initSliders, '[data-uzu-slider], .uzu-slider'],
+      [initMenus, '[data-uzu-menu]'],
+      [initTopbarOverflows, '[data-uzu-topbar-overflow]'],
+      [initContextMenus, '[data-uzu-context-menu]'],
+      [initMenubars, '[data-uzu-menubar]'],
+      [initCommands, '[data-uzu-command]'],
+      [initComboboxes, '[data-uzu-combobox]'],
+      [initDataGrids, '[data-uzu-data-grid]'],
+      [initHeatmaps, '[data-uzu-heatmap]'],
+      [initGalleries, '[data-uzu-gallery], [data-uzu-image-viewer]'],
+      [initTrees, '[data-uzu-tree]'],
+      [initDisclosures, '[data-uzu-disclosure]'],
+      [initAccordions, '[data-uzu-accordion]'],
+      [initHoverCards, '[data-uzu-hover-card]'],
+      [initPopovers, '[data-uzu-popover]'],
+      [initTags, '[data-uzu-tag], [data-uzu-tag-list], [data-uzu-tag-add]'],
+      [initSplitPanes, '[data-uzu-split-pane]'],
+      [initResizables, '[data-uzu-resizable]'],
+      [initSidebarLayouts, '[data-uzu-sidebar-layout], [data-uzu-sidebar-toggle]'],
+      [initJsonViewers, '[data-uzu-json-viewer]'],
+      [initDiffViewers, '[data-uzu-diff-viewer]'],
+      [initEditors, '[data-uzu-inline-editor], [data-uzu-markdown-editor]'],
+      [initDialogs, '[data-uzu-dialog], [data-uzu-dialog-overlay]'],
+      [initToasts, '[data-uzu-toast], [data-uzu-toast-trigger]'],
+      [initTooltips, '[data-uzu-tooltip]'],
+      [initStepNavs, '[data-uzu-step-nav]'],
+      [initPanelNavs, '[data-uzu-panel-nav], [data-uzu-panel-index]'],
+      [initErrorPages, '[data-uzu-error-page]'],
+      [initMarkdown, '[data-uzu-markdown]'],
+      [initCodeHighlight, 'pre code, code[class*="language-"], [data-uzu-code-highlight-target]'],
+      [initCodeCopy, '[data-uzu-code-copy]']
+    ];
+    for (const [fn, selector] of initRegistry) {
+      if (!hasInitTargets(root, selector)) continue;
       try { fn(root); } catch (error) { console.error('[usuzumi]', error); }
     }
     initAutoInit(root);
     queueIndicatorRefresh(root);
+  }
+
+  function shouldAutoInit() {
+    return document.documentElement.getAttribute('data-uzu-init') !== 'manual'
+      && document.body?.getAttribute('data-uzu-init') !== 'manual';
   }
 
   window.Usuzumi = {
@@ -6771,9 +6833,13 @@ function handleDocumentClick(event) {
     destroy
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => init(), { once: true });
-  } else {
-    init();
+  if (shouldAutoInit()) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        if (shouldAutoInit()) init();
+      }, { once: true });
+    } else {
+      init();
+    }
   }
 })();

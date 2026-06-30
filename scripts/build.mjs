@@ -60,12 +60,25 @@ const jsFiles = [
   'ui/js/boot.js'
 ];
 
+const liteJsFiles = [
+  'ui/js/core.js',
+  'ui/js/control-utils.js',
+  'ui/js/disclosures.js',
+  'ui/js/menus-core.js',
+  'ui/js/topbar-overflow.js',
+  'ui/js/error-pages.js',
+  'ui/js/code-copy.js',
+  'ui/js/boot-lite.js'
+];
+
 const cssBanner = '/* Usuzumi generated CSS. Edit ui/css/*.css, then run npm run build. */';
 const minCssBanner = '/* Usuzumi generated minified CSS. Edit ui/css/*.css, then run npm run build. */';
 const jsBanner = '/* Usuzumi generated runtime. Edit ui/js/*.js, then run npm run build. */';
 const minJsBanner = '/* Usuzumi generated minified JS. Edit ui/js/*.js, then run npm run build. */';
 const coreJsBanner = '/* Usuzumi generated core runtime. Edit ui/js/*.js, then run npm run build. */';
 const minCoreJsBanner = '/* Usuzumi generated minified core runtime. Edit ui/js/*.js, then run npm run build. */';
+const liteJsBanner = '/* Usuzumi generated lite runtime. Edit ui/js/*.js, then run npm run build. */';
+const minLiteJsBanner = '/* Usuzumi generated minified lite runtime. Edit ui/js/*.js, then run npm run build. */';
 const highlightJsBanner = '/* Usuzumi generated syntax highlight engine. Edit scripts/code-highlight-engine.entry.js, then run npm run build. */';
 const minHighlightJsBanner = '/* Usuzumi generated minified syntax highlight engine. Edit scripts/code-highlight-engine.entry.js, then run npm run build. */';
 
@@ -128,11 +141,14 @@ const bundledCss = `${cssBanner}\n\n${layeredCss}\n`;
 const bundledMinCss = `${minCssBanner}\n${minifyCss(layeredCss)}\n`;
 const highlightEngineSource = `/* Usuzumi lightweight syntax highlight engine */\n${bundleHighlightEngine()}`;
 const coreJsSource = jsFiles.map((file) => `/* ${file} */\n${readText(file)}`).join('\n\n');
+const liteJsSource = liteJsFiles.map((file) => `/* ${file} */\n${readText(file)}`).join('\n\n');
 const jsSource = [highlightEngineSource, coreJsSource].join('\n\n');
 const bundledJs = `${jsBanner}\n${wrapRuntime(jsSource)}`;
 const bundledMinJs = `${minJsBanner}\n${minifyJs(bundledJs)}\n`;
 const bundledCoreJs = `${coreJsBanner}\n${wrapRuntime(coreJsSource)}`;
 const bundledMinCoreJs = `${minCoreJsBanner}\n${minifyJs(bundledCoreJs)}\n`;
+const bundledLiteJs = `${liteJsBanner}\n${wrapRuntime(liteJsSource)}`;
+const bundledMinLiteJs = `${minLiteJsBanner}\n${minifyJs(bundledLiteJs)}\n`;
 const bundledHighlightJs = `${highlightJsBanner}\n${wrapHighlightEngine(highlightEngineSource)}`;
 const bundledMinHighlightJs = `${minHighlightJsBanner}\n${minifyJs(bundledHighlightJs)}\n`;
 
@@ -142,6 +158,8 @@ const minCssPath = path.join(root, 'ui/usuzumi.min.css');
 const minJsPath = path.join(root, 'ui/usuzumi.min.js');
 const coreJsPath = path.join(root, 'ui/usuzumi-core.js');
 const minCoreJsPath = path.join(root, 'ui/usuzumi-core.min.js');
+const liteJsPath = path.join(root, 'ui/usuzumi-lite.js');
+const minLiteJsPath = path.join(root, 'ui/usuzumi-lite.min.js');
 const highlightJsPath = path.join(root, 'ui/usuzumi-highlight.js');
 const minHighlightJsPath = path.join(root, 'ui/usuzumi-highlight.min.js');
 const maxDriftDetails = 8;
@@ -158,6 +176,8 @@ if (process.argv.includes('--check')) {
     [minJsPath, bundledMinJs],
     [coreJsPath, bundledCoreJs],
     [minCoreJsPath, bundledMinCoreJs],
+    [liteJsPath, bundledLiteJs],
+    [minLiteJsPath, bundledMinLiteJs],
     [highlightJsPath, bundledHighlightJs],
     [minHighlightJsPath, bundledMinHighlightJs]
   ];
@@ -180,6 +200,8 @@ writeFileSync(minCssPath, bundledMinCss, 'utf8');
 writeFileSync(minJsPath, bundledMinJs, 'utf8');
 writeFileSync(coreJsPath, bundledCoreJs, 'utf8');
 writeFileSync(minCoreJsPath, bundledMinCoreJs, 'utf8');
+writeFileSync(liteJsPath, bundledLiteJs, 'utf8');
+writeFileSync(minLiteJsPath, bundledMinLiteJs, 'utf8');
 writeFileSync(highlightJsPath, bundledHighlightJs, 'utf8');
 writeFileSync(minHighlightJsPath, bundledMinHighlightJs, 'utf8');
-console.log('Built Usuzumi CSS, full runtime, core runtime, and highlight runtime outputs');
+console.log('Built Usuzumi CSS, full runtime, core runtime, lite runtime, and highlight runtime outputs');

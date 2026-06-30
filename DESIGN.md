@@ -21,12 +21,13 @@ Package consumers can import the stylesheet as `usuzumi/usuzumi.css` and the beh
 Performance-sensitive pages can use the split runtime entries:
 
 - `ui/usuzumi.js` / `ui/usuzumi.min.js`: full compatible runtime, including the bundled syntax highlight engine.
-- `ui/usuzumi-core.js` / `ui/usuzumi-core.min.js`: core runtime without the syntax highlight engine.
+- `ui/usuzumi-core.js` / `ui/usuzumi-core.min.js`: component runtime without the syntax highlight engine.
+- `ui/usuzumi-lite.js` / `ui/usuzumi-lite.min.js`: lightweight runtime for simple landing, navigation, and error pages. It includes theme, language selection, menus, topbar overflow, code copy, and error-page helpers, but omits heavier data, gallery, editor, overlay, and highlight behavior.
 - `ui/usuzumi-highlight.js` / `ui/usuzumi-highlight.min.js`: syntax highlight engine only; pair it with core on code-heavy pages.
 
-Maintenance validation includes a consumer smoke test: `npm run validate` packs the library, installs it into a temporary external project, verifies package exports and type/CSS/runtime files from `node_modules/usuzumi`, and opens browser pages that cover full, core-only, and core-plus-highlight runtime loading.
+Maintenance validation includes a consumer smoke test: `npm run validate` packs the library, installs it into a temporary external project, verifies package exports and type/CSS/runtime files from `node_modules/usuzumi`, and opens browser pages that cover full, core-only, core-plus-highlight, and lite runtime loading.
 
-The published `ui/usuzumi.css`, `ui/usuzumi.js`, `ui/usuzumi.min.css`, `ui/usuzumi.min.js`, `ui/usuzumi-core.js`, `ui/usuzumi-core.min.js`, `ui/usuzumi-highlight.js`, and `ui/usuzumi-highlight.min.js` files are generated from the maintainable source files. Edit source files in `ui/css/` and `ui/js/`, then run `npm run build`. The CSS bundle is wrapped in `@layer usuzumi` so project styles can override it cleanly. Do not hand-edit the generated entry files unless you are intentionally updating build output and have rebuilt from source.
+The published `ui/usuzumi.css`, `ui/usuzumi.js`, `ui/usuzumi.min.css`, `ui/usuzumi.min.js`, `ui/usuzumi-core.js`, `ui/usuzumi-core.min.js`, `ui/usuzumi-lite.js`, `ui/usuzumi-lite.min.js`, `ui/usuzumi-highlight.js`, and `ui/usuzumi-highlight.min.js` files are generated from the maintainable source files. Edit source files in `ui/css/` and `ui/js/`, then run `npm run build`. The CSS bundle is wrapped in `@layer usuzumi` so project styles can override it cleanly. Do not hand-edit the generated entry files unless you are intentionally updating build output and have rebuilt from source.
 
 - `ui/css/tokens.css`: design tokens and dark mode tokens.
 - `ui/css/fonts.css`: optional Meddon signature font face.
@@ -48,9 +49,10 @@ The published `ui/usuzumi.css`, `ui/usuzumi.js`, `ui/usuzumi.min.css`, `ui/usuzu
 - `ui/css/utilities.css`: small utilities and language visibility helpers.
 - `ui/css/forced-colors.css`: high-contrast mode visibility rules.
 - `ui/usuzumi-signature.css`: optional signature font entry for `.uzu-signature` and signature specimens.
-- `ui/js/*.js`: maintainable runtime source modules. They are concatenated into the generated full and core runtime entries.
+- `ui/js/*.js`: maintainable runtime source modules. They are concatenated into the generated full, core, lite, and highlight runtime entries.
 - `ui/usuzumi.js`: generated full runtime entry for theme toggles, language selectors, custom selects, tabs, segmented controls, pagination, switches, search, password, steppers, menus, comboboxes, data grids, heatmaps, galleries, image viewers, trees, split/resizable panels, JSON/diff viewers, Markdown editor, code/plain/inline editors, tags, disclosures, accordions, hover cards, popovers, dialogs, step navigation, panel navigation, toast dismissal, code highlighting, code copying, and limited Markdown rendering.
 - `ui/usuzumi-core.js`: generated runtime entry with the same public `window.Usuzumi` API, but without the bundled syntax highlight engine.
+- `ui/usuzumi-lite.js`: generated lightweight runtime entry for simple pages that need theme and language controls, menus, topbar overflow, code copy, and error pages.
 - `ui/usuzumi-highlight.js`: generated syntax highlight engine entry. It exposes `window.UsuzumiHighlightEngine` and dispatches `uzu-code-highlight-engine-ready` after loading.
 - `ui/usuzumi.d.ts`: TypeScript declarations for the browser API and custom events.
 
@@ -700,17 +702,18 @@ Switches use `.uzu-switch` with `data-uzu-switch`, `role="switch"`, and `aria-ch
 
 ## JavaScript Behaviors
 
-`ui/usuzumi.js` is intentionally framework-free, while `ui/usuzumi-core.js` is the recommended entry for pages that do not need built-in syntax highlighting. Keep code-heavy documentation pages on core plus the separate highlight entry, and keep lightweight landing or error pages on core only.
+`ui/usuzumi.js` is intentionally framework-free and remains the full compatible entry. Use `ui/usuzumi-lite.js` for simple landing, navigation, and error pages; use `ui/usuzumi-core.js` for component pages that do not need built-in syntax highlighting; keep code-heavy documentation pages on core plus the separate highlight entry.
 
-`npm run validate` includes a performance budget check for the generated minified CSS, full runtime, core runtime, and highlight runtime. The documentation site has a matching budget for vendored Usuzumi assets and the large component catalog HTML.
+`npm run validate` includes a performance budget check for the generated minified CSS, full runtime, core runtime, lite runtime, and highlight runtime. The documentation site has a matching budget for vendored Usuzumi assets and the large component catalog HTML.
 
-It auto-initializes in browsers, is safe to import in SSR/Node environments, and can be rerun for dynamic content:
+Runtime entries auto-initialize in browsers unless `html` or `body` carries `data-uzu-init="manual"`. Manual mode is useful when an application needs to decide when hydration should happen. Entries are safe to import in SSR/Node environments and can be rerun for dynamic content:
 
 ```js
 window.Usuzumi.init(container);
 ```
 
 Repeated `init()` calls do not rebind already-initialized controls.
+During initialization, the runtime checks for matching selectors before calling each component initializer. Pages that do not contain a component family avoid that initializer's DOM walk, while existing automatic behavior stays compatible.
 For containers that receive components after page load, add `data-uzu-auto-init` to observe inserted elements and initialize them through the same idempotent path.
 
 ### Theme Toggle

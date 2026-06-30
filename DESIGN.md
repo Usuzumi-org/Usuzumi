@@ -89,7 +89,7 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 - `.uzu-icon-button`, `.uzu-theme-toggle`, `.uzu-language-select`, `.uzu-language-trigger`, `.uzu-language-menu`, `.uzu-language-option`, `.uzu-floating-controls`
 - `.uzu-topbar`, `.uzu-topbar-leading`, `.uzu-brand-link`, `.uzu-nav`, `.uzu-topbar-actions`, `.uzu-topbar-overflow-menu`
 - `.uzu-toolbar`, `.uzu-toolbar-group`, `.uzu-breadcrumb`, `.uzu-pagination`, `.uzu-page-button`
-- `.uzu-card`, `.uzu-card-muted`, `.uzu-card-cover`, `.uzu-card-cover-media`, `.uzu-card-cover-body`, `.uzu-title-pair`, `.uzu-stat`, `.uzu-stat-label`, `.uzu-stat-value`, `.uzu-stat-note`
+- `.uzu-card`, `.uzu-card-muted`, `.uzu-card-cover`, `.uzu-card-cover-horizontal`, `.uzu-card-cover-compact`, `.uzu-card-cover-media`, `.uzu-card-cover-body`, `.uzu-title-pair`, `.uzu-stat`, `.uzu-stat-label`, `.uzu-stat-value`, `.uzu-stat-note`
 - `.uzu-list`, `.uzu-list-item`, `.uzu-list-meta`, `.uzu-list-action`, `.uzu-avatar`
 - `.uzu-form`, `.uzu-fieldset`, `.uzu-form-message`, `.uzu-form-error`
 - `.uzu-field`, `.uzu-label`, `.uzu-input`, `.uzu-textarea`, `.uzu-select`, `.uzu-input-group`, `.uzu-input-addon`, `.uzu-input-action`
@@ -100,7 +100,7 @@ All public component classes use the `uzu-` prefix. Do not rely on internal file
 - `.uzu-progress`, `.uzu-progress-bar`, `.uzu-progress-indeterminate`, `.uzu-progress-circular`, `.uzu-progress-circular-track`, `.uzu-progress-circular-fill`, `.uzu-spinner`, `.uzu-skeleton`
 - `.uzu-activity`, `.uzu-activity-dot`, `.uzu-process`, `.uzu-process-step`, `.uzu-step-nav`, `.uzu-step-nav-item`, `.uzu-step-nav-button`
 - `.uzu-disclosure`, `.uzu-disclosure-trigger`, `.uzu-disclosure-panel`, `.uzu-accordion`, `.uzu-popover-trigger`, `.uzu-hover-card`, `.uzu-hover-card-content`, `.uzu-tooltip`
-- `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-grid-2`, `.uzu-grid-3`, `.uzu-grid-4`, `.uzu-sidebar-layout`, `.uzu-sidebar-layout-controls`, `.uzu-sidebar-layout-toggle`, `.uzu-stack`, `.uzu-flex`, `.uzu-measure`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
+- `.uzu-page`, `.uzu-section`, `.uzu-section-head`, `.uzu-grid`, `.uzu-grid-auto`, `.uzu-grid-2`, `.uzu-grid-3`, `.uzu-grid-4`, `.uzu-sidebar-layout`, `.uzu-sidebar-layout-controls`, `.uzu-sidebar-layout-toggle`, `.uzu-stack`, `.uzu-flex`, `.uzu-measure`, `.uzu-spacer`, `.uzu-aspect`, `.uzu-scroll-area`, `.uzu-sidebar`, `.uzu-sidebar-section`, `.uzu-sidebar-nav`, `.uzu-hero-split`
 - `.uzu-section-centered`, `.uzu-panel`
 - `.uzu-panel-index`, `.uzu-panel-index-section`, `.uzu-panel-index-title`, `.uzu-panel-index-button`, `.uzu-panel-index-meta`
 - `.uzu-panel-nav`, `.uzu-panel-nav-section`, `.uzu-panel-nav-title`, `.uzu-panel-nav-button`, `.uzu-panel-nav-meta`
@@ -153,7 +153,7 @@ Stable global variables include:
 - Radius: `--uzu-radius-micro`, `--uzu-radius-standard`, `--uzu-radius-medium`, `--uzu-radius-large`, `--uzu-radius-pill`
 - Spacing: `--uzu-space-1`, `--uzu-space-2`, `--uzu-space-3`, `--uzu-space-4`, `--uzu-space-5`, `--uzu-space-6`, `--uzu-space-8`, `--uzu-space-10`
 - Layout, card, and form rhythm: `--uzu-page-max-width`, `--uzu-page-narrow-max-width`, `--uzu-page-padding-block-start`, `--uzu-page-padding-block-end`, `--uzu-measure-width`, `--uzu-measure-gutter`, `--uzu-topbar-margin-bottom`, `--uzu-topbar-gap`, `--uzu-topbar-actions-gap`, `--uzu-topbar-leading-gap`, `--uzu-card-title-size`, `--uzu-card-title-line`, `--uzu-card-subtitle-size`, `--uzu-card-subtitle-line`, `--uzu-card-title-gap`, `--uzu-card-block-gap`, `--uzu-field-gap`
-- Local layout primitives: `--uzu-stack-gap`, `--uzu-flex-gap`, `--uzu-aspect-ratio`, `--uzu-scroll-area-max-height`
+- Local layout primitives: `--uzu-stack-gap`, `--uzu-flex-gap`, `--uzu-grid-min-item-width`, `--uzu-grid-max-columns`, `--uzu-aspect-ratio`, `--uzu-scroll-area-max-height`
 
 Stable component variables include:
 
@@ -163,7 +163,7 @@ Stable component variables include:
 - Disclosure spacing: `--uzu-disclosure-panel-block-end-padding`
 - Form, upload, and slider sizing: `--uzu-form-gap`, `--uzu-file-upload-min-height`, `--uzu-slider-track-height`, `--uzu-slider-thumb-size`, `--uzu-slider-track`, `--uzu-slider-track-border`, `--uzu-slider-fill`, `--uzu-slider-thumb`, `--uzu-slider-thumb-border`, `--uzu-slider-step-dot`, `--uzu-slider-step-dot-active`, `--uzu-slider-step-dot-radius`
 - Menu and command sizing: `--uzu-menu-min-width`, `--uzu-menu-offset`, `--uzu-menu-content-width`, `--uzu-command-max-height`
-- Card cover sizing: `--uzu-cover-ratio`, `--uzu-cover-min-height`, `--uzu-cover-bg`, `--uzu-cover-align`, `--uzu-cover-radius`
+- Card cover sizing: `--uzu-cover-ratio`, `--uzu-cover-min-height`, `--uzu-cover-body-min-height`, `--uzu-cover-bg`, `--uzu-cover-align`, `--uzu-cover-radius`, `--uzu-cover-media-padding`, `--uzu-cover-object-fit`
 - Page error sizing: `--uzu-error-page-min-height`, `--uzu-error-page-max-width`, `--uzu-error-page-gap`, `--uzu-error-page-code-size`
 - Identity and navigation sizing: `--uzu-avatar-size`, `--uzu-sidebar-width`, `--uzu-sidebar-layout-sidebar-width`, `--uzu-sidebar-layout-gap`, `--uzu-step-nav-gap`
 - Overlay sizing: `--uzu-popover-width`, `--uzu-popover-offset`, `--uzu-hover-card-width`, `--uzu-alert-dialog-accent-color`, `--uzu-drawer-width`, `--uzu-sheet-width`
@@ -189,11 +189,16 @@ Use `--uzu-space-*` for layout primitives and project-level spacing. Component i
 | `--uzu-card-subtitle-line` | `1.55` | `.uzu-title-pair` description | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-title-gap` | `6px` | title/description rhythm | `.uzu-app`, `.uzu-scope`, local card |
 | `--uzu-card-block-gap` | `12px` | repeated card content spacing | `.uzu-app`, `.uzu-scope`, local card |
+| `--uzu-grid-min-item-width` | `240px` | `.uzu-grid-auto` minimum item width | local auto grid |
+| `--uzu-grid-max-columns` | `4` | `.uzu-grid-auto` maximum column count | local auto grid |
 | `--uzu-cover-ratio` | `16 / 9` | `.uzu-card-cover-media` aspect ratio | local cover card |
 | `--uzu-cover-min-height` | `0` | `.uzu-card-cover-media` minimum height | local cover card |
+| `--uzu-cover-body-min-height` | `0` | `.uzu-card-cover-body` minimum height | local cover card |
 | `--uzu-cover-bg` | `var(--uzu-surface-soft)` | `.uzu-card-cover-media` fallback background | local cover card |
 | `--uzu-cover-align` | `stretch` | `.uzu-card-cover-media` content alignment | local cover card |
 | `--uzu-cover-radius` | `var(--uzu-radius-micro)` | `.uzu-card-cover-media` top corner radius | local cover card |
+| `--uzu-cover-media-padding` | `0` | `.uzu-card-cover-media` inset for contained art | local cover card |
+| `--uzu-cover-object-fit` | `cover` | cover image and video fit mode | local cover card |
 | `--uzu-error-page-min-height` | `420px` | `.uzu-error-page` minimum height | local page error |
 | `--uzu-error-page-max-width` | `680px` | `.uzu-error-page` content width | local page error |
 | `--uzu-error-page-gap` | `18px` | `.uzu-error-page` vertical rhythm | local page error |
@@ -405,6 +410,8 @@ Cards are for repeated bounded objects, compact summaries, controls, static over
 
 Use `.uzu-card-cover` together with `.uzu-card` when a repeated object needs a flush media region above its body. The modifier removes the default card padding, stacks media and body vertically, and clips the top media region to the card radius. Put consumer-owned images, video, SVG, canvas, or component markup in `.uzu-card-cover-media`; put text and actions in `.uzu-card-cover-body`. Keep cover colors on `--uzu-*` tokens or `currentColor` so the composition follows theme changes.
 
+Add `.uzu-card-cover-horizontal` when a cover item should become media/body columns on wider screens and return to the vertical cover layout on narrow screens. Add `.uzu-card-cover-compact` when the body should use tighter card rhythm for dense project, tool, or article grids. For drawn covers, SVG interface art, canvas snapshots, and other code-rendered media, set `--uzu-cover-object-fit: contain` and add `--uzu-cover-media-padding`; this is the recommended `art` recipe. Use `cover` for photographic thumbnails, `contain` for complete screenshots or drawn covers, and `scale-down` when large source art should never upscale. Use `--uzu-cover-body-min-height` when rows of horizontal cards need stable text blocks.
+
 ```html
 <article class="uzu-card uzu-card-cover" style="--uzu-cover-ratio: 4 / 3">
   <div class="uzu-card-cover-media">
@@ -418,6 +425,38 @@ Use `.uzu-card-cover` together with `.uzu-card` when a repeated object needs a f
   </div>
 </article>
 ```
+
+```html
+<article class="uzu-card uzu-card-cover uzu-card-cover-horizontal uzu-card-cover-compact"
+  style="--uzu-cover-object-fit: contain; --uzu-cover-media-padding: 18px; --uzu-cover-body-min-height: 160px">
+  <div class="uzu-card-cover-media">
+    <svg viewBox="0 0 320 180" role="img" aria-label="Drawn interface cover">
+      <rect width="320" height="180" rx="18" fill="var(--uzu-surface-soft)"></rect>
+      <path d="M48 56h224M48 90h164M48 124h196" stroke="currentColor" stroke-width="10" stroke-linecap="round"></path>
+    </svg>
+  </div>
+  <div class="uzu-card-cover-body">
+    <div class="uzu-title-pair">
+      <h3>Drawn cover</h3>
+      <p>Complete artwork stays visible instead of being cropped.</p>
+    </div>
+  </div>
+</article>
+```
+
+### Layout Grids
+
+Use `.uzu-grid` for repeated local content. `.uzu-grid-2`, `.uzu-grid-3`, and `.uzu-grid-4` are fixed presets that collapse to one column on narrow screens. Use `.uzu-grid-auto` when the layout should choose the column count from available width instead of hand-written breakpoints.
+
+```html
+<div class="uzu-grid uzu-grid-auto" style="--uzu-grid-min-item-width: 240px; --uzu-grid-max-columns: 3">
+  <article class="uzu-card">One</article>
+  <article class="uzu-card">Two</article>
+  <article class="uzu-card">Three</article>
+</div>
+```
+
+`.uzu-grid-auto` uses CSS Grid only. `--uzu-grid-min-item-width` sets the smallest comfortable card width, while `--uzu-grid-max-columns` caps the number of columns so wide pages do not create over-dense rows. Keep item sizing on the grid container and let each child own its content.
 
 ### Forms
 
@@ -454,7 +493,7 @@ Sliders use `.uzu-slider` on native `input[type="range"]` so keyboard, min/max, 
 
 ### Navigation
 
-Top navigation uses `.uzu-topbar` for the row, `.uzu-brand-link` for the brand, `.uzu-nav` for links, and `.uzu-topbar-actions` for compact page controls. The nav slot grows through the center of the row, while `.uzu-topbar-actions` stays at the inline end for theme toggles and language selectors. Add `data-uzu-topbar-overflow` to keep the topbar on one row and move trailing `.uzu-nav` links into a `.uzu-menu.uzu-topbar-overflow-menu[data-uzu-topbar-overflow-menu]` when width runs out; the menu trigger copy is supplied by the consumer, and `data-uzu-topbar-overflow-min-visible` can keep a minimum number of links outside the menu. Use `.uzu-tabs` for peer sections and `.uzu-segmented` for compact mode switches.
+Top navigation uses `.uzu-topbar` for the row, `.uzu-brand-link` for the brand, `.uzu-nav` for links, and `.uzu-topbar-actions` for compact page controls. The nav slot grows through the center of the row, while `.uzu-topbar-actions` stays at the inline end for theme toggles and language selectors. Add `data-uzu-topbar-overflow` to keep the topbar on one row and move trailing `.uzu-nav` links into a `.uzu-menu.uzu-topbar-overflow-menu[data-uzu-topbar-overflow-menu]` when width runs out; the menu trigger copy is supplied by the consumer, and `data-uzu-topbar-overflow-min-visible` can keep a minimum number of links outside the menu. Links marked with `.is-current`, `aria-current="page"`, or `aria-current="location"` keep their visual and ARIA state when they move into or out of the overflow menu. Add `data-uzu-topbar-spy="hash"` when same-page hash links should update the current state from `location.hash` and visible sections during scroll. Use `.uzu-tabs` for peer sections and `.uzu-segmented` for compact mode switches.
 
 Tabs and segmented controls are static visual primitives by default. Add `data-uzu-tabs` or `data-uzu-segmented` when the runtime should manage the active state, keyboard arrow navigation, ARIA state, animated active indicators, and change events.
 
@@ -701,6 +740,8 @@ Place the inline theme boot script before the stylesheet so it can resolve the p
 ```
 
 The script writes `data-language`, `data-uzu-lang`, and `lang` on the target root. Use `data-uzu-language-target` when a selector should control a scoped container instead of the document root. A language root can also carry `data-uzu-language-key` directly; when `usuzumi.js` initializes, it restores the saved language for that root even if the page does not include a visible selector. Use that pattern for static 404, 500, maintenance, and other one-off pages that should follow the user's existing site language. Content can be marked with `data-lang="en"`, `data-lang="ja"`, or any other language value. Static markup should add `data-uzu-language-hidden` to fragments outside the initial language so deferred scripts do not reveal multiple languages on first paint.
+
+For SEO or route-based multilingual sites, add `data-uzu-language-url` to individual language options and set `data-uzu-language-url-mode="assign"` or `replace` on the select or language root. `none` is the default and preserves the existing in-page language switch. On selection, the runtime first applies the language state and dispatches `uzu-language-change`, then calls `location.assign(url)` or `location.replace(url)`. Use `assign` when the browser Back button should return to the previous language route; use `replace` for one-way canonical redirects.
 
 ### Custom Select
 

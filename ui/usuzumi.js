@@ -574,6 +574,17 @@ if (typeof window === 'undefined' || typeof document === 'undefined') return;
     return normalizeLanguage(option.dataset.uzuLanguageHtmlLang || option.getAttribute('lang') || getDefaultLanguageHtmlLang(language), getDefaultLanguageHtmlLang(language));
   }
 
+  function getLanguageUrlMode(root, select) {
+    const value = select?.dataset.uzuLanguageUrlMode || root?.dataset?.uzuLanguageUrlMode || '';
+    return ['assign', 'replace', 'none'].includes(value) ? value : 'none';
+  }
+
+  function navigateLanguageUrl(url, mode) {
+    if (!url || mode === 'none') return;
+    if (mode === 'replace') window.location.replace(url);
+    else window.location.assign(url);
+  }
+
   function getLanguageSelectHtmlLang(select, language) {
     const option = getLanguageOptions(select).find((item) => getLanguageOptionValue(item) === language);
     return option ? getLanguageOptionHtmlLang(option, language) : getDefaultLanguageHtmlLang(language);
@@ -785,6 +796,7 @@ if (typeof window === 'undefined' || typeof document === 'undefined') return;
     applyLanguage(languageRoot, language, key, getLanguageOptionHtmlLang(option, language));
     closeLanguageSelect(select, { restoreFocus: true });
     if (language !== previousLanguage) emitLanguageChange(select, languageRoot, language, option, previousLanguage, key);
+    navigateLanguageUrl(option.dataset.uzuLanguageUrl || '', getLanguageUrlMode(languageRoot, select));
   }
 
   function handleLanguageOptionKeydown(event, select, option) {
@@ -2160,6 +2172,10 @@ const topbarOverflowStates = new WeakMap();
     return Number.isFinite(value) && value > 0 ? value : 0;
   }
 
+  function getTopbarOverflowSpyMode(topbar) {
+    return topbar.dataset.uzuTopbarSpy === 'hash' ? 'hash' : '';
+  }
+
   function setTopbarOverflowMenuVisible(menu, visible) {
     const content = getTopbarOverflowContent(menu);
     const trigger = menu?.querySelector('[data-uzu-menu-trigger], .uzu-menu-trigger');
@@ -2177,7 +2193,8 @@ const topbarOverflowStates = new WeakMap();
       element,
       className: element.getAttribute('class'),
       role: element.getAttribute('role'),
-      tabindex: element.getAttribute('tabindex')
+      tabindex: element.getAttribute('tabindex'),
+      ariaCurrent: element.getAttribute('aria-current')
     };
   }
 
@@ -2188,21 +2205,106 @@ const topbarOverflowStates = new WeakMap();
     else record.element.setAttribute('role', record.role);
     if (record.tabindex === null) record.element.removeAttribute('tabindex');
     else record.element.setAttribute('tabindex', record.tabindex);
+    if (record.ariaCurrent === null) record.element.removeAttribute('aria-current');
+    else record.element.setAttribute('aria-current', record.ariaCurrent);
+  }
+
+  function getTopbarOverflowCurrentState(record) {
+    return {
+      isCurrent: record.element.classList.contains('is-current'),
+      ariaCurrent: record.element.getAttribute('aria-current')
+    };
+  }
+
+  function applyTopbarOverflowCurrentState(record, currentState) {
+    if (!currentState) return;
+    record.element.classList.toggle('is-current', currentState.isCurrent);
+    if (currentState.ariaCurrent === null) record.element.removeAttribute('aria-current');
+    else record.element.setAttribute('aria-current', currentState.ariaCurrent);
+  }
+
+  function getTopbarOverflowInitialCurrentState(record) {
+    return {
+      isCurrent: (record.className || '').split(/\s+/).includes('is-current'),
+      ariaCurrent: record.ariaCurrent
+    };
   }
 
   function prepareTopbarOverflowMenuItem(record) {
-    const classes = new Set((record.className || '').split(/\s+/).filter(Boolean));
+    const classes = new Set((record.element.getAttribute('class') || '').split(/\s+/).filter(Boolean));
     classes.add('uzu-menu-item');
     record.element.setAttribute('class', [...classes].join(' '));
     record.element.setAttribute('role', 'menuitem');
     record.element.setAttribute('tabindex', '-1');
   }
 
+  function getTopbarOverflowHash(record) {
+    const href = (record.element.getAttribute('href') || '').trim();
+    if (!href.includes('#')) return '';
+    if (href.startsWith('#')) return href;
+    try {
+      const url = new URL(href, window.location.href);
+      const current = new URL(window.location.href);
+      if (url.origin !== current.origin || url.pathname !== current.pathname || url.search !== current.search) return '';
+      return url.hash;
+    } catch (_) {
+      return '';
+    }
+  }
+
+  function getTopbarOverflowHashTarget(hash) {
+    if (!hash || hash === '#') return null;
+    try {
+      return document.getElementById(decodeURIComponent(hash.slice(1)));
+    } catch (_) {
+      return document.getElementById(hash.slice(1));
+    }
+  }
+
+  function getTopbarOverflowSpyActiveRecord(state) {
+    const hashRecords = state.records
+      .map((record) => ({ record, hash: getTopbarOverflowHash(record) }))
+      .map((item) => ({ ...item, target: getTopbarOverflowHashTarget(item.hash) }))
+      .filter((item) => item.hash && item.target);
+    const currentHash = window.location.hash;
+    if (currentHash) {
+      const matched = hashRecords.find((item) => item.hash === currentHash);
+      return matched ? matched.record : null;
+    }
+    const threshold = Math.max(48, state.topbar.getBoundingClientRect().bottom + 24);
+    let active = null;
+    hashRecords.forEach((item) => {
+      const rect = item.target.getBoundingClientRect();
+      if (rect.top <= threshold && rect.bottom > 0) active = item.record;
+    });
+    return active;
+  }
+
+  function syncTopbarOverflowSpy(state) {
+    if (state.spyMode !== 'hash') return;
+    const active = getTopbarOverflowSpyActiveRecord(state);
+    if (!active) {
+      if (window.location.hash) {
+        state.records.forEach((record) => {
+          applyTopbarOverflowCurrentState(record, getTopbarOverflowInitialCurrentState(record));
+        });
+      }
+      return;
+    }
+    state.records.forEach((record) => {
+      record.element.classList.toggle('is-current', record === active);
+      if (record === active) record.element.setAttribute('aria-current', 'location');
+      else record.element.removeAttribute('aria-current');
+    });
+  }
+
   function restoreTopbarOverflow(topbar) {
     const state = topbarOverflowStates.get(topbar);
     if (!state) return;
     state.records.forEach((record) => {
+      const currentState = getTopbarOverflowCurrentState(record);
       restoreTopbarOverflowRecord(record);
+      applyTopbarOverflowCurrentState(record, currentState);
       if (record.element.parentElement !== state.nav) {
         state.nav.insertBefore(record.element, state.menu);
       }
@@ -2239,6 +2341,7 @@ const topbarOverflowStates = new WeakMap();
     const state = topbarOverflowStates.get(topbar);
     if (!state || !topbar.isConnected) return;
     restoreTopbarOverflow(topbar);
+    syncTopbarOverflowSpy(state);
     const minVisible = Math.min(getTopbarOverflowMinVisible(topbar), state.records.length);
     if (!isTopbarOverflowing(state)) return;
     setTopbarOverflowMenuVisible(state.menu, true);
@@ -2272,7 +2375,7 @@ const topbarOverflowStates = new WeakMap();
       if (!nav || !menu || !content) return;
       if (!markInitialized(topbar, 'TopbarOverflow')) return;
       const records = getTopbarOverflowItems(nav, menu).map(captureTopbarOverflowRecord);
-      const state = { topbar, nav, menu, content, records, observer: null, resize: null, language: null, raf: 0 };
+      const state = { topbar, nav, menu, content, records, observer: null, resize: null, language: null, spy: null, raf: 0, spyMode: getTopbarOverflowSpyMode(topbar) };
       topbarOverflowStates.set(topbar, state);
       setTopbarOverflowMenuVisible(menu, false);
       if (typeof ResizeObserver !== 'undefined') {
@@ -2284,6 +2387,11 @@ const topbarOverflowStates = new WeakMap();
       window.addEventListener('resize', state.resize);
       state.language = () => queueTopbarOverflow(topbar);
       topbar.addEventListener('uzu-language-change', state.language);
+      if (state.spyMode === 'hash') {
+        state.spy = () => queueTopbarOverflow(topbar);
+        window.addEventListener('hashchange', state.spy);
+        window.addEventListener('scroll', state.spy, { passive: true });
+      }
       queueTopbarOverflow(topbar);
     });
   }
@@ -2296,6 +2404,10 @@ const topbarOverflowStates = new WeakMap();
       if (state.observer) state.observer.disconnect();
       if (state.resize) window.removeEventListener('resize', state.resize);
       if (state.language) topbar.removeEventListener('uzu-language-change', state.language);
+      if (state.spy) {
+        window.removeEventListener('hashchange', state.spy);
+        window.removeEventListener('scroll', state.spy);
+      }
       restoreTopbarOverflow(topbar);
       topbarOverflowStates.delete(topbar);
       delete topbar.dataset.uzuTopbarOverflowInitialized;

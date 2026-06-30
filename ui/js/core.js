@@ -248,6 +248,17 @@
     return normalizeLanguage(option.dataset.uzuLanguageHtmlLang || option.getAttribute('lang') || getDefaultLanguageHtmlLang(language), getDefaultLanguageHtmlLang(language));
   }
 
+  function getLanguageUrlMode(root, select) {
+    const value = select?.dataset.uzuLanguageUrlMode || root?.dataset?.uzuLanguageUrlMode || '';
+    return ['assign', 'replace', 'none'].includes(value) ? value : 'none';
+  }
+
+  function navigateLanguageUrl(url, mode) {
+    if (!url || mode === 'none') return;
+    if (mode === 'replace') window.location.replace(url);
+    else window.location.assign(url);
+  }
+
   function getLanguageSelectHtmlLang(select, language) {
     const option = getLanguageOptions(select).find((item) => getLanguageOptionValue(item) === language);
     return option ? getLanguageOptionHtmlLang(option, language) : getDefaultLanguageHtmlLang(language);
@@ -459,6 +470,7 @@
     applyLanguage(languageRoot, language, key, getLanguageOptionHtmlLang(option, language));
     closeLanguageSelect(select, { restoreFocus: true });
     if (language !== previousLanguage) emitLanguageChange(select, languageRoot, language, option, previousLanguage, key);
+    navigateLanguageUrl(option.dataset.uzuLanguageUrl || '', getLanguageUrlMode(languageRoot, select));
   }
 
   function handleLanguageOptionKeydown(event, select, option) {

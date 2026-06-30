@@ -129,6 +129,15 @@
   color: var(--uzu-fg-strong);
 }
 
+.uzu-nav :is(a, button).is-current,
+.uzu-nav :is(a, button)[aria-current="page"],
+.uzu-nav :is(a, button)[aria-current="location"] {
+  color: var(--uzu-fg-strong);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
 .uzu-nav svg {
   width: 14px;
   height: 14px;
@@ -167,14 +176,28 @@
   left: auto;
 }
 
+.uzu-topbar-overflow-menu .uzu-menu-item.is-current,
+.uzu-topbar-overflow-menu .uzu-menu-item[aria-current="page"],
+.uzu-topbar-overflow-menu .uzu-menu-item[aria-current="location"] {
+  background: var(--uzu-surface-soft);
+  color: var(--uzu-fg-strong);
+}
+
 .uzu-grid {
+  --uzu-grid-gap: 18px;
   display: grid;
   align-content: start;
-  gap: 18px;
+  gap: var(--uzu-grid-gap);
 }
 
 .uzu-grid > * {
   min-width: 0;
+}
+
+.uzu-grid-auto {
+  --uzu-grid-min-item-width: 240px;
+  --uzu-grid-max-columns: 4;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--uzu-grid-min-item-width), calc((100% - (var(--uzu-grid-gap) * (var(--uzu-grid-max-columns) - 1))) / var(--uzu-grid-max-columns)))), 1fr));
 }
 
 .uzu-grid-2 {

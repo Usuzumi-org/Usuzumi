@@ -102,7 +102,9 @@ See [DESIGN.md](DESIGN.md) for runtime data attributes and custom events.
 - Optional JavaScript behavior for common UI interactions without framework or runtime dependencies.
 - Heatmaps support compact day-value data, clickable cells, and built-in event details with `data-uzu-heatmap`.
 - Gallery and Image Viewer components support progressive image links, JSON or directory sources, and focused preview controls.
-- Responsive topbars can move trailing navigation links into a public "More" menu with `data-uzu-topbar-overflow`.
+- Cover cards and auto grids support responsive project, tool, and drawn-cover layouts without custom breakpoints.
+- Responsive topbars can move trailing navigation links into a public "More" menu with `data-uzu-topbar-overflow`, while preserving current-link state.
+- Language selectors can optionally map choices to URLs for multilingual site routing.
 - Side navigation distinguishes app sidebars with `.uzu-sidebar-nav` from same-page panel indexes with `.uzu-panel-index`.
 - Optional core and syntax-highlight runtime entries for lighter pages.
 - Generated CSS and JS bundles for npm and CDN consumers.

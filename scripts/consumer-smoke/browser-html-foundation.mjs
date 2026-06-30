@@ -31,6 +31,15 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
     </header>
     <p id="consumer-language-copy"><span data-lang="zh">Chinese copy</span><span data-lang="en" data-uzu-language-hidden>English copy</span><span data-lang="ja" data-uzu-language-hidden>Japanese copy</span></p>
     <p id="consumer-standalone-language-root" data-language="zh" data-uzu-lang="zh" data-uzu-language-key="consumer-standalone-language"><span data-lang="zh">Standalone Chinese copy</span><span data-lang="en" data-uzu-language-hidden>Standalone English copy</span></p>
+    <section id="consumer-language-url-root" data-language="zh" data-uzu-lang="zh">
+      <span class="uzu-language-select" id="consumer-language-url-select" data-uzu-language-select data-uzu-language-target="#consumer-language-url-root" data-uzu-language-url-mode="assign">
+        <button class="uzu-icon-button uzu-language-trigger" id="consumer-language-url-trigger" type="button" data-uzu-language-trigger aria-label="Language URL">L</button>
+        <span class="uzu-language-menu" data-uzu-language-menu>
+          <button class="uzu-language-option is-selected" type="button" data-uzu-language-option data-uzu-language-value="zh" data-uzu-language-html-lang="zh-CN">Chinese URL</button>
+          <button class="uzu-language-option" id="consumer-language-url-en" type="button" data-uzu-language-option data-uzu-language-value="en" data-uzu-language-html-lang="en" data-uzu-language-url="#language-url-en">English URL</button>
+        </span>
+      </span>
+    </section>
     <p id="consumer-language-dynamic-manual"></p>
     <p id="consumer-language-dynamic-auto" data-uzu-auto-init></p>
     <div id="consumer-topbar-overflow-wrap" style="width: 760px">
@@ -54,6 +63,30 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
         </div>
       </header>
     </div>
+    <div id="consumer-topbar-spy-wrap" style="width: 460px">
+      <header id="consumer-topbar-spy" class="uzu-topbar" data-uzu-topbar-overflow data-uzu-topbar-spy="hash" style="--uzu-topbar-margin-bottom: 0">
+        <div class="uzu-topbar-leading">
+          <span class="uzu-brand-link">Spy</span>
+        </div>
+        <nav class="uzu-nav" aria-label="Spy navigation">
+          <a href="#consumer-spy-one" aria-current="page">One</a>
+          <a href="#consumer-spy-two">Two</a>
+          <a href="/elsewhere#consumer-spy-three">Remote</a>
+          <a href="#consumer-spy-three">Three</a>
+          <a href="#consumer-spy-missing">Missing</a>
+          <span class="uzu-menu uzu-topbar-overflow-menu" data-uzu-menu data-uzu-topbar-overflow-menu>
+            <button class="uzu-menu-trigger" type="button" data-uzu-menu-trigger>More</button>
+            <span class="uzu-menu-content" data-uzu-menu-content></span>
+          </span>
+        </nav>
+        <div class="uzu-topbar-actions" aria-label="Spy actions">
+          <button class="uzu-icon-button" type="button" aria-label="Theme">T</button>
+        </div>
+      </header>
+    </div>
+    <section id="consumer-spy-one">Spy one</section>
+    <section id="consumer-spy-two">Spy two</section>
+    <section id="consumer-spy-three">Spy three</section>
     <button id="consumer-button" class="uzu-button" type="button">Hover target</button>
     <button id="consumer-primary" class="uzu-button uzu-button-primary" type="button">Primary</button>
     <a id="consumer-ghost" class="uzu-button uzu-button-ghost" href="#ghost">Ghost</a>
@@ -96,6 +129,25 @@ export const consumerFoundationHtml = `    <section id="consumer-page-width" cla
         </div>
       </div>
     </article>
+    <article class="uzu-card uzu-card-cover uzu-card-cover-horizontal uzu-card-cover-compact" id="consumer-card-cover-horizontal" style="width: 760px; --uzu-cover-bg: rgb(244, 250, 248); --uzu-cover-min-height: 180px; --uzu-cover-body-min-height: 180px; --uzu-cover-media-padding: 20px; --uzu-cover-object-fit: contain;">
+      <div class="uzu-card-cover-media" id="consumer-card-cover-horizontal-media">
+        <picture>
+          <img id="consumer-card-cover-horizontal-image" alt="Contained cover" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%22400%22%20height%3D%22200%22%3E%3Crect%20width%3D%22400%22%20height%3D%22200%22%20fill%3D%22%23d9f2ea%22/%3E%3Ccircle%20cx%3D%22200%22%20cy%3D%22100%22%20r%3D%2270%22%20fill%3D%22%235f897d%22/%3E%3C/svg%3E">
+        </picture>
+      </div>
+      <div class="uzu-card-cover-body" id="consumer-card-cover-horizontal-body">
+        <div class="uzu-title-pair">
+          <h3>Horizontal cover</h3>
+          <p>Compact body with contained media.</p>
+        </div>
+      </div>
+    </article>
+    <div class="uzu-grid uzu-grid-auto" id="consumer-grid-auto" style="width: 960px; --uzu-grid-min-item-width: 180px; --uzu-grid-max-columns: 3;">
+      <article class="uzu-card">One</article>
+      <article class="uzu-card">Two</article>
+      <article class="uzu-card">Three</article>
+      <article class="uzu-card">Four</article>
+    </div>
     <section class="uzu-error-page uzu-error-page-screen" id="consumer-error-page" data-uzu-error-page data-uzu-error-page-source="query" style="--uzu-error-page-max-width: 560px; --uzu-error-page-code-size: 72px">
       <p class="uzu-error-page-code" id="consumer-error-page-code" data-uzu-error-code>404</p>
       <div class="uzu-title-pair">

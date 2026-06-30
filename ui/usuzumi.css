@@ -927,9 +927,12 @@
   .uzu-card-cover {
     --uzu-cover-ratio: 16 / 9;
     --uzu-cover-min-height: 0;
+    --uzu-cover-body-min-height: 0;
     --uzu-cover-bg: var(--uzu-surface-soft);
     --uzu-cover-align: stretch;
     --uzu-cover-radius: var(--uzu-radius-micro);
+    --uzu-cover-media-padding: 0;
+    --uzu-cover-object-fit: cover;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -941,6 +944,8 @@
     place-items: var(--uzu-cover-align);
     min-height: var(--uzu-cover-min-height);
     aspect-ratio: var(--uzu-cover-ratio);
+    box-sizing: border-box;
+    padding: var(--uzu-cover-media-padding);
     overflow: hidden;
     border-start-start-radius: var(--uzu-cover-radius);
     border-start-end-radius: var(--uzu-cover-radius);
@@ -962,13 +967,46 @@
 
   .uzu-card-cover-media > :is(img, video),
   .uzu-card-cover-media > picture > img {
-    object-fit: cover;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    object-fit: var(--uzu-cover-object-fit);
   }
 
   .uzu-card-cover-body {
+    min-height: var(--uzu-cover-body-min-height);
     display: grid;
     gap: var(--uzu-card-block-gap);
     padding: 18px;
+  }
+
+  .uzu-card-cover-compact .uzu-card-cover-body {
+    padding: 14px;
+    gap: calc(var(--uzu-card-block-gap) * 0.75);
+  }
+
+  @media (min-width: 720px) {
+    .uzu-card-cover-horizontal {
+      --uzu-cover-media-width: 42%;
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .uzu-card-cover-horizontal > .uzu-card-cover-media {
+      flex: 0 0 var(--uzu-cover-media-width);
+      aspect-ratio: auto;
+      border-block-end: 0;
+      border-inline-end: 1px solid var(--uzu-border);
+      border-start-end-radius: 0;
+      border-end-start-radius: var(--uzu-cover-radius);
+    }
+
+    .uzu-card-cover-horizontal > .uzu-card-cover-body {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
   }
 
   .uzu-card-muted {
@@ -5383,6 +5421,15 @@
     color: var(--uzu-fg-strong);
   }
 
+  .uzu-nav :is(a, button).is-current,
+  .uzu-nav :is(a, button)[aria-current="page"],
+  .uzu-nav :is(a, button)[aria-current="location"] {
+    color: var(--uzu-fg-strong);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+
   .uzu-nav svg {
     width: 14px;
     height: 14px;
@@ -5421,14 +5468,28 @@
     left: auto;
   }
 
+  .uzu-topbar-overflow-menu .uzu-menu-item.is-current,
+  .uzu-topbar-overflow-menu .uzu-menu-item[aria-current="page"],
+  .uzu-topbar-overflow-menu .uzu-menu-item[aria-current="location"] {
+    background: var(--uzu-surface-soft);
+    color: var(--uzu-fg-strong);
+  }
+
   .uzu-grid {
+    --uzu-grid-gap: 18px;
     display: grid;
     align-content: start;
-    gap: 18px;
+    gap: var(--uzu-grid-gap);
   }
 
   .uzu-grid > * {
     min-width: 0;
+  }
+
+  .uzu-grid-auto {
+    --uzu-grid-min-item-width: 240px;
+    --uzu-grid-max-columns: 4;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--uzu-grid-min-item-width), calc((100% - (var(--uzu-grid-gap) * (var(--uzu-grid-max-columns) - 1))) / var(--uzu-grid-max-columns)))), 1fr));
   }
 
   .uzu-grid-2 {

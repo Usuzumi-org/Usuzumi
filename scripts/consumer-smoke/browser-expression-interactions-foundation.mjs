@@ -47,6 +47,18 @@ const standaloneLanguageHiddenStates = Array.from(standaloneLanguageRoot.querySe
   lang: element.getAttribute('data-lang'),
   hidden: element.hasAttribute('data-uzu-language-hidden')
 }));
+const languageUrlRoot = document.querySelector('#consumer-language-url-root');
+const languageUrlTrigger = document.querySelector('#consumer-language-url-trigger');
+const languageUrlEnglishOption = document.querySelector('#consumer-language-url-en');
+const hashBeforeLanguageUrl = window.location.hash;
+click(languageUrlTrigger);
+await wait(60);
+click(languageUrlEnglishOption);
+await wait(80);
+const languageUrlHashAfterSelect = window.location.hash;
+const languageUrlRootValue = languageUrlRoot.getAttribute('data-language');
+const languageUrlRootHtmlLang = languageUrlRoot.getAttribute('lang');
+history.replaceState(null, '', window.location.pathname + window.location.search + hashBeforeLanguageUrl);
 const languageManualDynamicRoot = document.querySelector('#consumer-language-dynamic-manual');
 const languageManualDynamicFragment = document.createElement('span');
 languageManualDynamicFragment.innerHTML = '<span data-lang="zh">Manual Chinese copy</span><span data-lang="en">Manual English copy</span><span data-lang="ja">Manual Japanese copy</span>';
@@ -76,6 +88,8 @@ const readTopbarOverflowState = () => ({
   menuItems: topbarOverflowMenuContent.querySelectorAll('.uzu-menu-item').length,
   menuHidden: topbarOverflowMenu.hidden,
   overflow: topbarOverflow.scrollWidth - topbarOverflow.clientWidth,
+  directCurrentText: topbarOverflowNav.querySelector(':scope > a[aria-current], :scope > a.is-current')?.textContent.trim() || '',
+  menuCurrentText: topbarOverflowMenuContent.querySelector('.uzu-menu-item[aria-current], .uzu-menu-item.is-current')?.textContent.trim() || '',
   leadingTop: Math.round(topbarOverflow.querySelector('.uzu-topbar-leading').getBoundingClientRect().top),
   actionsTop: Math.round(topbarOverflow.querySelector('.uzu-topbar-actions').getBoundingClientRect().top),
   leadingCenter: Math.round(topbarOverflow.querySelector('.uzu-topbar-leading').getBoundingClientRect().top + topbarOverflow.querySelector('.uzu-topbar-leading').getBoundingClientRect().height / 2),
@@ -95,7 +109,8 @@ const topbarOverflowMenuOpenState = {
   open: topbarOverflowMenu.classList.contains('is-open'),
   expanded: topbarOverflowMenuTrigger.getAttribute('aria-expanded'),
   firstItemRole: topbarOverflowMenuContent.querySelector('.uzu-menu-item')?.getAttribute('role') || '',
-  firstItemTabindex: topbarOverflowMenuContent.querySelector('.uzu-menu-item')?.getAttribute('tabindex') || ''
+  firstItemTabindex: topbarOverflowMenuContent.querySelector('.uzu-menu-item')?.getAttribute('tabindex') || '',
+  currentItemAria: topbarOverflowMenuContent.querySelector('.uzu-menu-item[aria-current], .uzu-menu-item.is-current')?.getAttribute('aria-current') || ''
 };
 click(topbarOverflowMenuContent.querySelector('.uzu-menu-item'));
 await wait(160);
@@ -103,8 +118,42 @@ const topbarOverflowMenuClosedAfterSelect = !topbarOverflowMenu.classList.contai
 topbarOverflowWrap.style.width = '760px';
 await wait(120);
 const topbarOverflowRestoredState = readTopbarOverflowState();
+topbarOverflowNav.querySelector('a[href="#overflow-home"]')?.removeAttribute('aria-current');
+topbarOverflowNav.querySelector('a[href="#overflow-home"]')?.classList.remove('is-current');
+topbarOverflowNav.querySelector('a[href="#overflow-components"]')?.setAttribute('aria-current', 'page');
+topbarOverflowWrap.style.width = '300px';
+await wait(120);
+const topbarOverflowDynamicCurrentState = readTopbarOverflowState();
 window.Usuzumi.destroy(topbarOverflowWrap);
 const topbarOverflowDestroyState = readTopbarOverflowState();
+const topbarSpy = document.querySelector('#consumer-topbar-spy');
+const topbarSpyWrap = document.querySelector('#consumer-topbar-spy-wrap');
+const topbarSpyMenu = topbarSpy.querySelector('[data-uzu-topbar-overflow-menu]');
+const topbarSpyMenuContent = topbarSpyMenu.querySelector('[data-uzu-menu-content]');
+history.replaceState(null, '', window.location.pathname + window.location.search + '#consumer-spy-three');
+window.dispatchEvent(new Event('hashchange'));
+await wait(140);
+const topbarSpyHashState = {
+  directCurrentText: topbarSpy.querySelector('.uzu-nav > a[aria-current], .uzu-nav > a.is-current')?.textContent.trim() || '',
+  menuCurrentText: topbarSpyMenuContent.querySelector('.uzu-menu-item[aria-current], .uzu-menu-item.is-current')?.textContent.trim() || '',
+  currentAria: topbarSpy.querySelector('.uzu-nav > a[aria-current], .uzu-nav > a.is-current, .uzu-menu-item[aria-current], .uzu-menu-item.is-current')?.getAttribute('aria-current') || ''
+};
+history.replaceState(null, '', window.location.pathname + window.location.search + '#consumer-spy-missing');
+window.dispatchEvent(new Event('hashchange'));
+await wait(140);
+const topbarSpyMissingState = {
+  firstAria: topbarSpy.querySelector('a[href="#consumer-spy-one"]')?.getAttribute('aria-current') || '',
+  missingAria: topbarSpy.querySelector('a[href="#consumer-spy-missing"]')?.getAttribute('aria-current') || '',
+  directCurrentText: topbarSpy.querySelector('.uzu-nav > a[aria-current], .uzu-nav > a.is-current')?.textContent.trim() || '',
+  menuCurrentText: topbarSpyMenuContent.querySelector('.uzu-menu-item[aria-current], .uzu-menu-item.is-current')?.textContent.trim() || ''
+};
+window.Usuzumi.destroy(topbarSpyWrap);
+const topbarSpyDestroyState = {
+  firstAria: topbarSpy.querySelector('a[href="#consumer-spy-one"]')?.getAttribute('aria-current') || '',
+  thirdAria: topbarSpy.querySelector('a[href="#consumer-spy-three"]')?.getAttribute('aria-current') || '',
+  menuItems: topbarSpyMenuContent.querySelectorAll('.uzu-menu-item').length
+};
+history.replaceState(null, '', window.location.pathname + window.location.search);
 click(selectTrigger);
 await wait(60);
 const selectOpenAnimation = getComputedStyle(selectMenu).animationName;

@@ -102,9 +102,11 @@ window.Usuzumi.destroy(container);
 - 无框架、无运行时依赖的可选 JavaScript 交互。
 - 热力图通过 `data-uzu-heatmap` 支持紧凑日期数据、可点击格子和内置事件详情。
 - Gallery 和 Image Viewer 支持渐进增强图片链接、JSON 或目录数据源，以及聚焦预览控件。
+- 封面卡片和自适应网格支持项目、工具和代码绘制封面的响应式布局，减少手写断点。
 - 面向 npm 和 CDN 使用的生成版 CSS / JS bundle。
 - 浏览器 API 和自定义事件的类型声明。
-- 响应式顶部栏可通过 `data-uzu-topbar-overflow` 把溢出的导航链接折入公共“更多”菜单。
+- 响应式顶部栏可通过 `data-uzu-topbar-overflow` 把溢出的导航链接折入公共“更多”菜单，并保留当前链接状态。
+- 语言选择器可选配置 URL 跳转策略，用于多语言站点路由。
 - 侧边导航区分普通应用侧栏 `.uzu-sidebar-nav` 和同页面板索引 `.uzu-panel-index`。
 - 可选 core 与语法高亮运行时入口，用于降低轻量页面加载成本。
 

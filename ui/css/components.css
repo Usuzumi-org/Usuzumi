@@ -289,9 +289,12 @@
 .uzu-card-cover {
   --uzu-cover-ratio: 16 / 9;
   --uzu-cover-min-height: 0;
+  --uzu-cover-body-min-height: 0;
   --uzu-cover-bg: var(--uzu-surface-soft);
   --uzu-cover-align: stretch;
   --uzu-cover-radius: var(--uzu-radius-micro);
+  --uzu-cover-media-padding: 0;
+  --uzu-cover-object-fit: cover;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -303,6 +306,8 @@
   place-items: var(--uzu-cover-align);
   min-height: var(--uzu-cover-min-height);
   aspect-ratio: var(--uzu-cover-ratio);
+  box-sizing: border-box;
+  padding: var(--uzu-cover-media-padding);
   overflow: hidden;
   border-start-start-radius: var(--uzu-cover-radius);
   border-start-end-radius: var(--uzu-cover-radius);
@@ -324,13 +329,46 @@
 
 .uzu-card-cover-media > :is(img, video),
 .uzu-card-cover-media > picture > img {
-  object-fit: cover;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: var(--uzu-cover-object-fit);
 }
 
 .uzu-card-cover-body {
+  min-height: var(--uzu-cover-body-min-height);
   display: grid;
   gap: var(--uzu-card-block-gap);
   padding: 18px;
+}
+
+.uzu-card-cover-compact .uzu-card-cover-body {
+  padding: 14px;
+  gap: calc(var(--uzu-card-block-gap) * 0.75);
+}
+
+@media (min-width: 720px) {
+  .uzu-card-cover-horizontal {
+    --uzu-cover-media-width: 42%;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .uzu-card-cover-horizontal > .uzu-card-cover-media {
+    flex: 0 0 var(--uzu-cover-media-width);
+    aspect-ratio: auto;
+    border-block-end: 0;
+    border-inline-end: 1px solid var(--uzu-border);
+    border-start-end-radius: 0;
+    border-end-start-radius: var(--uzu-cover-radius);
+  }
+
+  .uzu-card-cover-horizontal > .uzu-card-cover-body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
 }
 
 .uzu-card-muted {

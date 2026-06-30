@@ -6,6 +6,10 @@ All notable changes to Usuzumi are recorded here.
 
 ## Unreleased
 
+### Added
+
+- Added responsive cover card variants, auto grids, language URL routing, and topbar current-state support for overflow navigation.
+
 ## 2.2.1 - 2026-06-23
 
 ### Changed
